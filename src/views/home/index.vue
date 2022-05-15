@@ -1,23 +1,22 @@
 <template>
   <div class="container">
     Home...
-    <div>{{showCount}}</div>
+    <div>{{ showCount }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useStore} from '@/store'
+import { useStore } from '@/store'
 const store = useStore()
 const count = ref(0)
-const showCount = computed(()=>{
+const showCount = computed(() => {
   return store.getters['getCount']
 })
-// const addBtn = ()=>{
-//   store.commit('setCount',++count.value)
-// }
+const addBtn = () => {
+  store.commit('setCount', ++count.value)
+}
+console.log(import.meta.env, 'kkkk')
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
