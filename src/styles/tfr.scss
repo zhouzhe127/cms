@@ -1,0 +1,54 @@
+.tfr-button{
+  width:255px;
+  height:50px;
+  border-radius: 4px;
+  font-size:14px;
+  font-family: "Brown Regular";
+  padding:0 20px;
+  line-height:50px;
+}
+.tfr-button--large{
+  width:255px;
+}
+.tfr-button--primary {
+  color:#fff;
+  border:none;
+  background-color:var(--theme);
+}
+.tfr-button--primary:hover,.tfr-button--primary:focus,.tfr-button--primary:active{
+  background-color:var(--theme);
+  color:#fff;
+  border:none;
+}
+.tfr-button--plain{
+  background-color: #fff;
+  border:1px solid #ebebeb;
+  color:#000;
+}
+.tfr-button--plain:hover{
+  background-color:rgb(235,235,235);
+  border:1px solid #ebebeb;
+}
+.tfr-button--plain:focus,.tfr-button--plain:active{
+  background-color:#fff;
+  border:1px solid #ebebeb;
+}
+.tfr-button--gray{
+  background-color: #f4f4f4;
+  border:none;
+  color:#000;
+}
+.tfr-button--gray:hover,.tfr-button--gray:focus,.tfr-button--gray:active{
+  background-color: #f4f4f4;
+  border:none;
+}
+.tfr-button--error{
+  background-color: rgb(255,92,92);
+  border:none;
+  color:#fff;
+}
+.tfr-button--error:hover,.tfr-button--error:focus,.tfr-button--error:active{
+  background-color: rgb(255,92,92);
+  color:#fff;
+  border:none;
+}
