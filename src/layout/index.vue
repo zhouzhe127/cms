@@ -2,7 +2,6 @@
   <div class="common-layout">
     <el-container>
       <el-aside width="200px">Aside</el-aside>
-      <svg-icon icon-class="calendar_black" />
       <el-main>
         <router-view />
       </el-main>
