@@ -1,26 +1,39 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
-const routes: Array<RouteRecordRaw> = [
+// 不要权限
+export const constantRoutes: Array<RouteRecordRaw> = [
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/login/index.vue')
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/error/index.vue')
+  }
+]
+// 需要权限管理
+export const asyncRoutes: Array<RouteRecordRaw> = [
   {
     path: '/',
     component: () => import('@/layout/index.vue'),
     children: [
       {
-        path: 'home',
+        path: '/home',
         name: 'Home',
-        component: () => import('@/views/home/index.vue'),
+        component: () => import('@/views/home/index.vue')
       },
       {
         path: 'main',
         name: 'Main',
-        component: () => import('@/views/pagecontent/index.vue'),
-      },
-    ],
-  },
-];
+        component: () => import('@/views/pagecontent/index.vue')
+      }
+    ]
+  }
+]
 const router = createRouter({
   history: createWebHashHistory(),
-  routes,
-});
+  routes: constantRoutes
+})
 
-export default router;
+export default router

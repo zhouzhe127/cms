@@ -1,4 +1,4 @@
-import { defineConfig, configEnv, loadEnv } from 'vite'
+import { defineConfig, ConfigEnv, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -6,7 +6,9 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 // https://vitejs.dev/config/
-export default defineConfig((mode: configEnv) => {
+// @ts-ignore
+export default defineConfig((mode: ConfigEnv) => {
+  // @ts-ignore
   const env = loadEnv(mode, __dirname)
   console.log(env)
   return {
