@@ -14,7 +14,7 @@
 <style lang="scss" scoped>
 .banner_content {
   width: 100%;
-  height: 560px;
+  height: 465px;
   position: relative;
   .showitem {
     width: 100%;

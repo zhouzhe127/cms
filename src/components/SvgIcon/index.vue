@@ -1,7 +1,7 @@
 <template>
   <div v-if="external" :style="styleExternalIcon" class="svg-external-icon svg-icon" v-bind="$attrs" />
   <svg v-else :class="svgClass" aria-hidden="true" v-bind="$attrs">
-    <use :xlink:href="iconName" />
+    <use :xlink:href="iconName" :fill="color" />
   </svg>
 </template>
 
@@ -10,12 +10,15 @@ import { isExternal } from '@/utils/validate'
 import { computed } from 'vue'
 interface Props {
   iconClass?: string,
+  color?: string,
   className?: string
 }
 const props = withDefaults(defineProps<Props>(), {
   iconClass: '',
+  color: '',
   className: ''
 })
+const color = props.color
 const external = computed(() => isExternal(props.iconClass))
 const iconName = computed(() => `#icon-src-icons-svg-${props.iconClass}`)
 const styleExternalIcon = computed(() => ({

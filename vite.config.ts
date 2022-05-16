@@ -5,6 +5,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+const path = require('path')
 // https://vitejs.dev/config/
 export default defineConfig((mode: configEnv) => {
   const env = loadEnv(mode, __dirname)
@@ -22,6 +23,18 @@ export default defineConfig((mode: configEnv) => {
           replacement: resolve(__dirname, 'src')
         }
       ]
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            // 将pinia的全局库实例打包进vendor，避免和页面一起打包造成资源重复引入
+            if (id.includes(path.resolve(__dirname, '/src/store/index.ts'))) {
+              return 'vendor';
+            }
+          }
+        }
+      }
     },
     plugins: [
       vue(),

@@ -1,31 +1,21 @@
-import { InjectionKey } from 'vue'
-import { createStore, useStore as baseUseStore, Store } from 'vuex'
+import { roleStore } from './roleStore'
+import { pageconfig } from './pageconfig'
+// import { useCounterStoreForSetup } from '@/store/counterForSetup';
+// import { useCounterStoreForOption } from '@/store/counterForOptions';
 
-// 为 store state 声明类型
-export interface State {
-    count: number
+export interface IAppStore {
+  roleStore: ReturnType<typeof roleStore>
+  pageconfig: ReturnType<typeof pageconfig>
 }
 
-// 定义 injection key
-export const key: InjectionKey<Store<State>> = Symbol()
+const appStore: IAppStore = {} as IAppStore
 
-export const store = createStore<State>({
-    state: {
-        count: 2
-    },
-    mutations:{
-        setCount(state:State,count:number){
-            state.count = count
-        }
-    },
-    getters:{
-        getCount(state:State){
-            return state.count
-        }
-    }
-})
-
-// 定义自己的 `useStore` 组合式函数
-export function useStore () {
-    return baseUseStore(key)
+/**
+ * 注册app状态库
+ */
+export const registerStore = () => {
+  appStore.roleStore = roleStore()
+  appStore.pageconfig = pageconfig()
 }
+
+export default appStore
