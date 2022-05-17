@@ -5,12 +5,10 @@ export const constantRoutes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'Login',
-    hidden: true,
     component: () => import('@/views/login/index.vue')
   },
   {
     path: '/404',
-    hidden: true,
     component: () => import('@/views/error/index.vue')
   },
   {

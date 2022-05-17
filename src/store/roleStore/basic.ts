@@ -8,11 +8,11 @@ interface IRoleBasic {
 export const roleBasic = defineStore('roleBasic', () => {
   const basic = reactive<IRoleBasic>({
     name: ''
-  })
+  });
 
-  function setItem(name: string) {
+  function setItem(name:string) {
     basic.name = name
   }
 
   return { basic, setItem }
-})
+});

@@ -12,4 +12,4 @@ export const roleStore = defineStore('roleStore', () => {
   }
 
   return { basic, changeProfession }
-})
+});

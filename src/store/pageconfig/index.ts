@@ -9,8 +9,7 @@ export const pageconfig = defineStore('pageconfig', () => {
     platformState: 'pc'
   })
 
-  function setItem(type: string) {
-    console.log(type)
+  function setItem(type:string) {
     basic.platformState = type
   }
 
