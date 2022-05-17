@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ appStore.pageconfig.basic.platformState }}
     <Pagetop />
     <CmsEdit @optionClick="edit">
       <Banner />
@@ -15,6 +16,7 @@ import Banner from '@/views/pagecontent/components/Banner.vue'
 import AddModule from '@/views/pagecontent/components/AddModule.vue'
 import FootContent from '@/views/pagecontent/components/FootContent.vue'
 import CmsEdit from '@/components/CmsEdit/index.vue'
+import appStore from '@/store'
 const edit = (index: number):void => {
   console.log(index)
 }

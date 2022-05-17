@@ -2,12 +2,12 @@ import router from '@/router'
 // import NProgress from 'nprogress'
 // import 'nprogress/nprogress.css'
 import { token } from '@/utils/cookies'
-import { useUserStoreHook } from '@/stores/modules/user'
-import { usePermissionStoreHook } from '@/stores/modules/permission'
+// import { useUserStoreHook } from '@/stores/modules/user'
+// import { usePermissionStoreHook } from '@/stores/modules/permission'
 const whiteList = ['login']
 
-const userStore = useUserStoreHook()
-const permissionStore = usePermissionStoreHook()
+// const userStore = useUserStoreHook()
+// const permissionStore = usePermissionStoreHook()
 
 // NProgress.configure({ showSpinner: false })
 
@@ -18,18 +18,18 @@ router.beforeEach(async (to, from, next) => {
       next({ path: '/' })
       // NProgress.done()
     } else {
-      if (userStore.roles.length === 0) {
-        // 检查用户是否已获得权限角色
-        await userStore.getInfo()
-        const roles = userStore.roles
-        permissionStore.setRoutes(roles)
-        permissionStore.dynamicRoutes.forEach(v => {
-          router.addRoute(v)
-        })
-        next({ ...to, replace: true })
-      } else {
-        next()
-      }
+      // if (userStore.roles.length === 0) {
+      //   // 检查用户是否已获得权限角色
+      //   await userStore.getInfo()
+      //   const roles = userStore.roles
+      //   permissionStore.setRoutes(roles)
+      //   permissionStore.dynamicRoutes.forEach(v => {
+      //     router.addRoute(v)
+      //   })
+      //   next({ ...to, replace: true })
+      // } else {
+      //   next()
+      // }
     }
   } else {
     if (whiteList.indexOf(to.path) !== -1) {

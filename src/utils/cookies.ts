@@ -3,7 +3,7 @@ const storageFre = import.meta.env.VITE_APP_STORAGE_PRE
 const token = class token {
   // set token
   static setToken(token: string) {
-    Cookies.set(`${storageFre.token}.token`)
+    Cookies.set(`${storageFre.token}.token`, token)
   }
   // get token
   static getToken() {
