@@ -3,19 +3,12 @@
     <div v-for="(item, index) in tpArr" :key="index" class="sitems" :class="{active: item === select}" @click="changeType(item)">
       <svg-icon :icon-class="item" :class="{rot: item === 'mobile'}" />
     </div>
-    <!-- <div class="sitems">
-      <svg-icon icon-class="tablet" />
-    </div>
-    <div class="sitems">
-      <svg-icon icon-class="pc" />
-    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import appStore from '@/store'
-console.log(appStore)
 const tpArr:Array<string> = ['mobile', 'tablet', 'pc']
 const select = ref('mobile')
 const changeType = (type:string):void => {
