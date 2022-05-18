@@ -59,6 +59,14 @@ const requestHandler = (config: RequestConfig) => {
     url,
   }
 }
+const responseHandler = (response:any) => {
+  const res = response.data
+    if (res.status === 0 || res.status === 10) return res.data && res.data
+    if (res.status === 1) {
+      return Promise.reject()
+    }
+    return res
+}
 const request = new Request({
   baseURL: testAddress || apiAddress,
   timeout: 30000,
@@ -66,7 +74,10 @@ const request = new Request({
     // 请求拦截器
     requestInterceptors: config => requestHandler(config),
     // 响应拦截器
-    responseInterceptors: (result: RequestResponse) => errorHandler(result),
+    requestInterceptorsCatch: (result: RequestResponse) => errorHandler(result),
+    responseInterceptors: res => responseHandler(res),
+    responseInterceptorsCatch: (result: RequestResponse) => errorHandler(result),
+
   },
 })
 
