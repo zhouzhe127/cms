@@ -17,9 +17,11 @@ import AddModule from '@/views/pagecontent/components/AddModule.vue'
 import FootContent from '@/views/pagecontent/components/FootContent.vue'
 import CmsEdit from '@/components/CmsEdit/index.vue'
 import appStore from '@/store'
+import { getOrderInfo } from '@/api/test'
 const edit = (index: number):void => {
   console.log(index)
 }
+getOrderInfo()
 </script>
 
 <style lang="scss" scoped>
