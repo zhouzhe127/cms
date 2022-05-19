@@ -7,7 +7,11 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     CmsEdit: typeof import('./src/components/CmsEdit/index.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
+    ElButton: typeof import('element-plus/es')['ElButton']
     ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElForm: typeof import('element-plus/es')['ElForm']
+    ElFormItem: typeof import('element-plus/es')['ElFormItem']
+    ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Menu: typeof import('./src/components/SecondSide/menu.vue')['default']
@@ -20,6 +24,9 @@ declare module '@vue/runtime-core' {
     Sidemenu: typeof import('./src/components/SecondSide/Sidemenu.vue')['default']
     SideMenu: typeof import('./src/components/SecondSide/SideMenu.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
+    TfrButton: typeof import('./src/components/TfrButton/index.vue')['default']
+    TfrInput: typeof import('./src/components/TfrInput/index.vue')['default']
+    TfrLogo: typeof import('./src/components/TfrLogo/index.vue')['default']
   }
 }
 

@@ -33,11 +33,7 @@
   </ul>
 </template>
 
-<script>
-export default {
-  name: 'MenuItem'
-}
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 .menu-bar {

@@ -1,7 +1,7 @@
 <template>
   <div class="logo-user">
     <div class="logo">
-      <svg-icon icon-class="logo" />
+      <TfrLogo />
     </div>
     <div class="user">
       <span>title</span>
@@ -11,19 +11,13 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import TfrLogo from '@/components/TfrLogo/index.vue'
+</script>
 
 <style lang="scss" scoped>
 .logo-user {
   padding: 30px;
-  .logo {
-    width: 97px;
-    height: 60px;
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
   .user {
     margin-top: 20px;
     span {
