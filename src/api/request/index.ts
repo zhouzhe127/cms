@@ -61,11 +61,11 @@ const requestHandler = (config: RequestConfig) => {
 }
 const responseHandler = (response:any) => {
   const res = response.data
-    if (res.status === 0 || res.status === 10) return res.data && res.data
-    if (res.status === 1) {
-      return Promise.reject()
-    }
-    return res
+  if (res.status === 0 || res.status === 10) return res.data && res.data
+  if (res.status === 1) {
+    return Promise.reject()
+  }
+  return res
 }
 const request = new Request({
   baseURL: testAddress || apiAddress,
@@ -89,15 +89,15 @@ const request = new Request({
  * @returns {Promise}
  */
 export interface TSZResponse<T> {
-  statusCode: number
-  desc: string
-  result: T
+  status: number
+  msg: string
+  data?: T
 }
 // 重写返回类型
 interface TSRequestConfig<T, R> extends RequestConfig<TSZResponse<R>> {
   data?: T
 }
-const ywzRequest = <D = any, T = any>(config: TSRequestConfig<D, T>) => {
+const tszRequest = <D = any, T = any>(config: TSRequestConfig<D, T>) => {
   const { method = 'GET' } = config
   if (method === 'get' || method === 'GET') {
     config.params = config.data
@@ -113,4 +113,4 @@ export const cancelAllRequest = () => {
   return request.cancelAllRequest()
 }
 
-export default ywzRequest
+export default tszRequest
