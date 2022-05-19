@@ -10,9 +10,15 @@ declare module '@vue/runtime-core' {
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElMain: typeof import('element-plus/es')['ElMain']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    Menu: typeof import('./src/components/SecondSide/menu.vue')['default']
+    Menu_item: typeof import('./src/components/SecondSide/menu_item.vue')['default']
+    MenuItem: typeof import('./src/components/SecondSide/MenuItem.vue')['default']
     PlatformControl: typeof import('./src/components/PlatformControl/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SecondSide: typeof import('./src/components/SecondSide/index.vue')['default']
+    Sidemenu: typeof import('./src/components/SecondSide/Sidemenu.vue')['default']
+    SideMenu: typeof import('./src/components/SecondSide/SideMenu.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
   }
 }
