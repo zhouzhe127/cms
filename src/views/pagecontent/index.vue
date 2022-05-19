@@ -21,7 +21,11 @@ import { getOrderInfo } from '@/api/test'
 const edit = (index: number):void => {
   console.log(index)
 }
-getOrderInfo()
+const data = async () => {
+  const d = await getOrderInfo()
+  console.log(d)
+}
+data()
 </script>
 
 <style lang="scss" scoped>
