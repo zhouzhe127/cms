@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import SideBar from '@/layout/component/sidebar/index.vue'
 import PlatformControl from '@/components/PlatformControl/index.vue'
-import appStore from '@/store/index.js'
+import appStore from '@/store/index'
 console.log(appStore.userStore.$state.count)
 </script>
 

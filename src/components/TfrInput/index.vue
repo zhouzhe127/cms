@@ -24,14 +24,14 @@ const input = () => {
 
 <style lang="scss" scoped>
 .tfr-input {
-  ::v-deep .el-input__wrapper {
+  ::v-deep(.el-input__wrapper) {
     height: 50px;
     line-height: 50px;
     padding: 15px;
     box-shadow: rgb(27 43 39 / 25%) 0 0 0 1px inset;
     border-radius: 8px;
   }
-  ::v-deep .el-input__inner {
+  ::v-deep(.el-input__inner) {
     color: rgb(27, 43, 39);
     font-size: 14px;
     &::placeholder {

@@ -6,8 +6,11 @@ import Components from 'unplugin-vue-components/vite'
 import ElementPlus from 'unplugin-element-plus/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import OptimizationPersist from 'vite-plugin-optimize-persist'
+import PkgConfig from 'vite-plugin-package-config'
 
 const path = require('path')
+const envConfig = require('./env.config')
 // https://vitejs.dev/config/
 // @ts-ignore
 export default defineConfig((mode: ConfigEnv) => {
@@ -67,7 +70,14 @@ export default defineConfig((mode: ConfigEnv) => {
         iconDirs: [resolve(process.cwd()), 'src/icons/svg'],
         // 指定格式
         symbolId: 'icon-[dir]-[name]'
-      })
-    ]
+      }),
+      PkgConfig(),
+      OptimizationPersist()
+    ],
+    define: {
+      'process.env': {
+        VUE_APP_CONFIG: JSON.stringify(envConfig)
+      }
+    }
   }
 })

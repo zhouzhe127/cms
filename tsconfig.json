@@ -13,7 +13,10 @@
     "lib": ["esnext", "dom"],
     "skipLibCheck": true,
     "baseUrl": ".",
-    "types": ["vite-plugin-svg-icons/client"],
+    "types": ["vite-plugin-svg-icons/client", "node", "qs"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "paths": {
       "@/*": [
         "src/*"
