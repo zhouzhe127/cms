@@ -2,7 +2,6 @@
   <el-button
     v-if="buttonProps.type === 'primary'"
     :class="['tfr-btn', 'tfr-button--primary', className]"
-    :style="buttonProps.myStyle"
     v-bind="$attrs"
     @click="click"
   >
@@ -11,7 +10,6 @@
   <el-button
     v-else-if="buttonProps.type === 'gray'"
     :class="['tfr-btn', 'tfr-button--gray', className]"
-    :style="buttonProps.myStyle"
     v-bind="$attrs"
     @click="click"
   >
@@ -23,14 +21,10 @@
 interface PropsType {
   type?: string
   className?: string
-  myStyle?: Object
 }
 const buttonProps = withDefaults(defineProps<PropsType>(), {
   type: 'primary', // 默认值
-  className: '',
-  myStyle: () => {
-    return {}
-  }
+  className: ''
 })
 const buttonEmits = defineEmits(['click'])
 const click = () => {

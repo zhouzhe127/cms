@@ -8,19 +8,23 @@ declare module '@vue/runtime-core' {
     CmsEdit: typeof import('./src/components/CmsEdit/index.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
+    ElRadio: typeof import('element-plus/es')['ElRadio']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     PlatformControl: typeof import('./src/components/PlatformControl/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
     TfrButton: typeof import('./src/components/TfrButton/index.vue')['default']
+    TfrCheckbox: typeof import('./src/components/TfrCheckbox/index.vue')['default']
     TfrInput: typeof import('./src/components/TfrInput/index.vue')['default']
     TfrLogo: typeof import('./src/components/TfrLogo/index.vue')['default']
+    TfrRadio: typeof import('./src/components/TfrCheckbox/index.vue')['default']
   }
 }
 
