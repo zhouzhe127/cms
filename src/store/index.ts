@@ -1,8 +1,6 @@
 import { roleStore } from './roleStore'
 import { pageconfig } from './pageconfig'
 import { userStore } from '@/store/modules/user'
-// import { useCounterStoreForSetup } from '@/store/counterForSetup';
-// import { useCounterStoreForOption } from '@/store/counterForOptions';
 
 export interface IAppStore {
   roleStore: ReturnType<typeof roleStore>
