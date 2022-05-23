@@ -8,6 +8,11 @@ export const constantRoutes: Array<RouteRecordRaw> = [
     component: () => import('@/views/login/index.vue')
   },
   {
+    path: '/reset',
+    name: 'Reset',
+    component: () => import('@/views/login/reset.vue')
+  },
+  {
     path: '/404',
     component: () => import('@/views/error/index.vue')
   },
