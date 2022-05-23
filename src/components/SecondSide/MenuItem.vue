@@ -2,17 +2,17 @@
   <div>
     <div class="menu_item">
       <div class="itemlist">
-        <div class="hidden">
-          <svg-icon icon-class="delete_red" class="sicon" />
+        <div class="hidden" @click="leftClick">
+          <svg-icon :icon-class="prop.leftIcon" class="sicon" />
+        </div>
+        <div @change="centerIconClick">
+          <svg-icon :icon-class="prop.centerIcon" class="sicon" />
         </div>
         <div>
-          <svg-icon icon-class="home" class="sicon" />
+          {{ prop.title }}
         </div>
-        <div>
-          New in
-        </div>
-        <div class="hidden">
-          <svg-icon icon-class="tool_gray" class="sicon" />
+        <div class="hidden" @click="rightClick">
+          <svg-icon :icon-class="prop.rightIcon" class="sicon" />
         </div>
       </div>
     </div>
@@ -20,6 +20,28 @@
 </template>
 
 <script setup lang="ts">
+interface Props {
+  title?: string,
+  leftIcon?: string,
+  rightIcon?: string,
+  centerIcon?: string
+}
+const prop = withDefaults(defineProps<Props>(), {
+  title: '--',
+  leftIcon: 'delete_red',
+  rightIcon: 'tool_gray',
+  centerIcon: 'home',
+})
+const emit = defineEmits(['leftClick', 'rightClick', 'centerIconClick'])
+const leftClick = () => {
+  emit('leftClick')
+}
+const rightClick = () => {
+  emit('rightClick')
+}
+const centerIconClick = () => {
+  emit('centerIconClick')
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,8 +1,8 @@
 <template>
   <div class="menu">
     <div class="menu_header">
-      <span>NAVIGATION</span>
-      <svg-icon icon-class="add_black" class="add" color="black" />
+      <span>{{ props.title }}</span>
+      <svg-icon icon-class="add_black" class="add" color="black" @click="addClick" />
     </div>
     <div class="menu_container">
       <slot />
@@ -10,7 +10,17 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="SideMenu">
+interface Props {
+  title?: string,
+}
+const props = withDefaults(defineProps<Props>(), {
+  title: '--',
+})
+const emit = defineEmits(['addClick'])
+const addClick = () => {
+  emit('addClick')
+}
 </script>
 
 <style lang="scss" scoped>
