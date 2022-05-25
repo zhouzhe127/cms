@@ -45,15 +45,9 @@ export const constantRoutes: Array<RouteRecordRaw> = [
         meta: { title: 'Update', icon: '' }
       },
       {
-        path: '/siteBuilder',
+        path: 'siteBuilder',
         name: 'siteBuilder',
-        component: () => import('@/views/home/index.vue'),
-        meta: { title: 'Site Builder', icon: 'siteBuilder' }
-      },
-      {
-        path: 'main',
-        name: 'Main',
-        component: () => import('@/views/pagecontent/index.vue')
+        component: () => import('@/views/homePage/index.vue')
       }
     ]
   }
@@ -72,7 +66,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
       {
         path: 'main',
         name: 'Main',
-        component: () => import('@/views/pagecontent/index.vue')
+        component: () => import('@/views/homePage/index.vue')
       }
     ]
   }

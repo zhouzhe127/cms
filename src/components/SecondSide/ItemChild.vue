@@ -5,6 +5,9 @@
         <div class="hidden" @click="leftClick">
           <svg-icon :icon-class="prop.leftIcon" class="sicon" />
         </div>
+        <div class="nextmi" @change="centerIconClick">
+          <svg-icon icon-class="return_right" class="sicon" color="rgba(27, 43, 39, .5)" />
+        </div>
         <div @change="centerIconClick">
           <svg-icon :icon-class="prop.centerIcon" class="sicon" />
         </div>
@@ -16,7 +19,6 @@
         </div>
       </div>
     </div>
-    <slot />
   </div>
 </template>
 
@@ -31,7 +33,7 @@ const prop = withDefaults(defineProps<Props>(), {
   title: '--',
   leftIcon: 'delete_red',
   rightIcon: 'tool_gray',
-  centerIcon: 'home',
+  centerIcon: 'scratchable',
 })
 const emit = defineEmits(['leftClick', 'rightClick', 'centerIconClick'])
 const leftClick = () => {
@@ -54,12 +56,15 @@ const centerIconClick = () => {
     line-height: 20px;
     border-radius: 8px;
     display: grid;
-    grid-template-columns: 20px 20px 1fr 20px;
+    grid-template-columns: 20px 35px 20px 1fr 20px;
     grid-gap: 10px;
     align-items: center;
     cursor: pointer;
     .sicon {
       font-size: 24px;
+    }
+    .nextmi {
+      padding-left: 15px;
     }
     .hidden {
       opacity: 0;
