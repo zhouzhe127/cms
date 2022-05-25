@@ -26,22 +26,30 @@ import MarketingMenu from '@/components/MaketingMenu/index.vue'
 import { shallowRef } from 'vue'
 import { useRoute } from 'vue-router'
 const route = useRoute()
+const routeName:any = route.name
 const currentComponent = shallowRef()
 const routeMap = new Map([
   ['siteBuilder', SiteBuilderMenu],
   ['marketing', MarketingMenu]
 ])
-currentComponent.value = routeMap.get(route.name)
+currentComponent.value = routeMap.get(routeName)
 </script>
 
 <style lang="scss" scoped>
 .sub-menu-bar {
-  padding: 20px;
+  //padding: 20px;
   .back {
     svg {
       font-size: 20px;
       margin-right: 10px;
     }
+    padding: 10px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+  }
+  .fun-menu {
+    padding: 20px;
   }
 }
 </style>
