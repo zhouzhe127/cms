@@ -24,6 +24,7 @@ declare module '@vue/runtime-core' {
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    ItemChild: typeof import('./src/components/SecondSide/ItemChild.vue')['default']
     MaketingMenu: typeof import('./src/components/MaketingMenu/index.vue')['default']
     Menu: typeof import('./src/components/SecondSide/menu.vue')['default']
     Menu_item: typeof import('./src/components/SecondSide/menu_item.vue')['default']
