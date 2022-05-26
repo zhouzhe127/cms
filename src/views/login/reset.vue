@@ -194,7 +194,9 @@ const resetConfirm = async (formEl: FormInstance | undefined) => {
 <style lang="scss" scoped>
 .reset-page {
   height: 100%;
+  height: 100%;
   display: flex;
+  overflow: hidden;
 }
 .logo {
   position: fixed;

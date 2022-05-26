@@ -7,24 +7,18 @@
       </router-link>
     </div>
     <div class="fun-menu">
-      <component :is="currentComponent" />
+      <component :is="currentMenuComponent" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import SiteBuilderMenu from '@/components/SiteBuilderMenu/index.vue'
-import MarketingMenu from '@/components/MaketingMenu/index.vue'
-import { shallowRef } from 'vue'
-import { useRoute } from 'vue-router'
-const route = useRoute()
-const routeName:any = route.name
-const currentComponent = shallowRef()
-const routeMap = new Map([
-  ['siteBuilder', SiteBuilderMenu],
-  ['marketing', MarketingMenu]
-])
-currentComponent.value = routeMap.get(routeName)
+import {menuStore} from "@/store/modules/menu";
+import { storeToRefs } from "pinia";
+const useMenuStore = menuStore()
+const {currentMenuComponent} = storeToRefs(menuStore())
+//const currentComponent = shallowRef(useMenuStore.currentMenuComponent)
+useMenuStore.setCurrentMenuComponent()
 </script>
 
 <style lang="scss" scoped>

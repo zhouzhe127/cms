@@ -1,11 +1,11 @@
 <template>
   <div class="marketing-menu-bar">
     <ul>
-      <li v-for="(menuItem, index) in menuList">
+      <li v-for="(menuItem, index) in marketingMenuList">
         <div class="menu-title">
           {{ menuItem.name }}
           <svg-icon
-            icon-class="back"
+            icon-class="down"
             :class="[menuItem.expand ? 'expand' : '']"
             @click="expandToggle(menuItem.expand, index)"
           />
@@ -37,17 +37,14 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import appStore from '@/store/index'
+import { storeToRefs } from 'pinia'
 import TfrDialog from '@/components/TfrDialog/index.vue'
+import {menuStore} from '@/store/modules/menu'
+const useMenuStore = menuStore()
 const addVisible = ref(false)
-const { getMenuList } = appStore.menuMarketingStore
-const menuList = reactive(getMenuList)
-console.log(menuList, appStore.menuMarketingStore.getMenuList)
+const { marketingMenuList } = storeToRefs(menuStore())
 const expandToggle = (expand:boolean, index:number) => {
-  menuList[index].expand = !expand
-  console.log(menuList, 'menuList')
-  // setMenuList(menuList)
-  console.log(expand, index)
+    marketingMenuList.value[index].expand = !expand
 }
 const addHandle = (type: string) => {
   console.log(type)
@@ -73,12 +70,11 @@ const closeAddDialog = () => {
     border-bottom: 1px solid $theme;
     > svg {
       font-size: 20px;
-      transform: rotate(-90deg);
       cursor: pointer;
     }
     .expand {
       margin-top: 12px;
-      transform: rotate(90deg);
+      transform: rotate(180deg);
     }
   }
   .menu-content {

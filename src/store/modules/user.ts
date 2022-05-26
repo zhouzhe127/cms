@@ -22,9 +22,7 @@ export const userStore = defineStore('user', {
    */
   state: () => {
     return {
-      count: 100,
-      foo: 'bar',
-      age: 18
+      count: 1
     }
   },
   /**
@@ -35,5 +33,9 @@ export const userStore = defineStore('user', {
    * 类似组件的 methods, 封装业务逻辑, 修改state
    * 注意: 里面的函数不能定义成箭头函数(函数体中会用到this)
    */
-  actions: {}
+  actions: {
+    addCount() {
+      this.count++
+    }
+  }
 })

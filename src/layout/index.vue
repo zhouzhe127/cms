@@ -1,7 +1,7 @@
 <template>
-  <div class="common-layout">
+  <div v-if="device !== 'mobile'" class="common-layout">
     <el-container>
-      <el-aside :width="`${sideWidth}px`">
+      <el-aside :width="`${menuWidth}px`">
         <SideBar />
       </el-aside>
       <el-main>
@@ -12,29 +12,32 @@
       </el-main>
     </el-container>
   </div>
+  <div
+    v-else
+    class="common-layout"
+    :style="{ paddingTop: showMobileMenuItem ? '340px' : '80px' }"
+  >
+    <MobileSideBar />
+    <el-main>
+      <router-view />
+    </el-main>
+  </div>
 </template>
 
 <script setup lang="ts">
 import SideBar from '@/layout/component/sidebar/index.vue'
+import MobileSideBar from '@/layout/component/sidebar/mobile.vue'
 import PlatformControl from '@/components/PlatformControl/index.vue'
-import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import appStore from '@/store/index'
-const route = useRoute()
-const routeName:any = route.name
-const sideWidth:any = ref()
-const sideWidthMap = new Map([
-  ['siteBuilder', 320],
-  ['marketing', 576]
-])
-sideWidth.value = route.name ? sideWidthMap.get(routeName) : 213
-watch(
-  () => route.name,
-  name => {
-    const routeName:any = name
-    sideWidth.value = name ? sideWidthMap.get(routeName) : 213
-  }
-)
+import { menuStore } from '@/store/modules/menu'
+import { appStore } from '@/store/modules/app'
+import { storeToRefs } from 'pinia'
+const useMenuStore = menuStore()
+// 通过storeToRefs转换为响应式对象解构可正常使用
+const { menuWidth } = storeToRefs(menuStore())
+const { device, showMobileMenuItem } = storeToRefs(appStore())
+// useUserStore.setMenuWidth(routeName)
+useMenuStore.setMenuWidth()
+console.log(device, showMobileMenuItem)
 </script>
 
 <style lang="scss" scoped>
