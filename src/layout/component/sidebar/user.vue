@@ -6,11 +6,7 @@
   </div>
 </template>
 
-<script>
-export default {
-name: "user"
-}
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 .user {
