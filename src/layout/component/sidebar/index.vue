@@ -1,12 +1,10 @@
 <template>
-  <div class="sidebar-container">
-    <div class="logo-user">
-      <TfrLogo />
-      <User />
-    </div>
-    <MenuItem v-if="route.name === 'home'" />
-    <SubMenuItem v-else />
+  <div class="logo-user">
+    <TfrLogo />
+    <User />
   </div>
+  <MenuItem v-if="route.name === 'home'" />
+  <SubMenuItem v-else />
 </template>
 
 <script setup lang="ts">

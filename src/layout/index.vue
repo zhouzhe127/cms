@@ -1,11 +1,13 @@
 <template>
-  <div v-if="device !== 'mobile'" class="common-layout">
-    <el-container>
-      <el-aside :width="`${menuWidth}px`">
-        <SideBar />
-      </el-aside>
-      <el-main>
+  <div class="common-layout" v-if="device !== 'mobile'">
+    <el-aside :width="`${menuWidth}px`">
+      <SideBar />
+    </el-aside>
+    <el-container :style="{ paddingLeft: menuWidth + 'px' }">
+      <el-header>
         <PlatformControl />
+      </el-header>
+      <el-main>
         <div class="main_content">
           <router-view />
         </div>
@@ -42,12 +44,18 @@ console.log(device, showMobileMenuItem)
 
 <style lang="scss" scoped>
 .common-layout {
-  min-height: 100%;
   background-color: #f8f8f8;
-  .main_content {
-    background-color: #ffffff;
+  min-height: 100%;
+  .el-aside {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
   }
   .el-main {
+    background-color: #ffffff;
     padding-top: 0;
   }
 }

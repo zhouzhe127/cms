@@ -41,8 +41,9 @@ export const constantRoutes: Array<RouteRecordRaw> = [
       {
         path: '/marketing',
         name: 'marketing',
-        component: () => import('@/views/home/index.vue'),
-        meta: { title: 'Update', icon: '' }
+        component: () => import('@/views/marketing/index.vue'),
+        meta: { title: 'Update', icon: '' },
+        children: []
       },
       {
         path: 'siteBuilder',
