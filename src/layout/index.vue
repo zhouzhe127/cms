@@ -1,50 +1,61 @@
 <template>
-  <div class="common-layout">
-    <el-container>
-      <el-aside :width="`${sideWidth}px`">
-        <SideBar />
-      </el-aside>
-      <el-main>
+  <div class="common-layout" v-if="device !== 'mobile'">
+    <el-aside :width="`${menuWidth}px`">
+      <SideBar />
+    </el-aside>
+    <el-container :style="{ paddingLeft: menuWidth + 'px' }">
+      <el-header>
         <PlatformControl />
+      </el-header>
+      <el-main>
         <div class="main_content">
           <router-view />
         </div>
       </el-main>
     </el-container>
   </div>
+  <div
+    v-else
+    class="common-layout"
+    :style="{ paddingTop: showMobileMenuItem ? '340px' : '80px' }"
+  >
+    <MobileSideBar />
+    <el-main>
+      <router-view />
+    </el-main>
+  </div>
 </template>
 
 <script setup lang="ts">
 import SideBar from '@/layout/component/sidebar/index.vue'
+import MobileSideBar from '@/layout/component/sidebar/mobile.vue'
 import PlatformControl from '@/components/PlatformControl/index.vue'
-import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import appStore from '@/store/index'
-const route = useRoute()
-const sideWidth = ref()
-const sideWidthMap = new Map([
-  ['siteBuilder', 320],
-  ['marketing', 576]
-])
-console.log('layout', route.name)
-sideWidth.value = sideWidthMap.get(route.name) || 213
-watch(
-  () => route.name,
-  name => {
-    sideWidth.value = sideWidthMap.get(name) || 213
-  }
-)
-console.log(appStore.userStore.$state.count)
+import { menuStore } from '@/store/modules/menu'
+import { appStore } from '@/store/modules/app'
+import { storeToRefs } from 'pinia'
+const useMenuStore = menuStore()
+// 通过storeToRefs转换为响应式对象解构可正常使用
+const { menuWidth } = storeToRefs(menuStore())
+const { device, showMobileMenuItem } = storeToRefs(appStore())
+// useUserStore.setMenuWidth(routeName)
+useMenuStore.setMenuWidth()
+console.log(device, showMobileMenuItem)
 </script>
 
 <style lang="scss" scoped>
 .common-layout {
-  min-height: 100%;
   background-color: #f8f8f8;
-  .main_content {
-    background-color: #ffffff;
+  min-height: 100%;
+  .el-aside {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
   }
   .el-main {
+    background-color: #ffffff;
     padding-top: 0;
   }
 }

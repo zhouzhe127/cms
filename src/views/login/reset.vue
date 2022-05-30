@@ -98,16 +98,15 @@ import { FormInstance, FormRules } from 'element-plus'
 const route = useRoute()
 const router = useRouter()
 const { token = '', official_id = '' } = route.query
-const step = ref(route.query.step || '1')
+const step:any = ref(route.query.step || '1')
 const passwordType = ref('password')
 const confirmPasswordType = ref('password')
-console.log(step, token, official_id)
 const sendFormRef = ref<FormInstance>()
 const resetFormRef = ref<FormInstance>()
 watch(
   () => route.query,
   query => {
-    step.value = query.step
+    step.value = query ? query.step : '1'
   }
 )
 const sendForm = reactive({
@@ -195,7 +194,9 @@ const resetConfirm = async (formEl: FormInstance | undefined) => {
 <style lang="scss" scoped>
 .reset-page {
   height: 100%;
+  height: 100%;
   display: flex;
+  overflow: hidden;
 }
 .logo {
   position: fixed;

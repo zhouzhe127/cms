@@ -1,22 +1,23 @@
 <template>
-  <div class="sidebar-container">
-    <LogoUser />
-    <div v-if="route.name === 'home'">
-      <MenuItem />
-    </div>
-    <div v-else>
-      <SubMenuItem />
-    </div>
+  <div class="logo-user">
+    <TfrLogo />
+    <User />
   </div>
+  <MenuItem v-if="route.name === 'home'" />
+  <SubMenuItem v-else />
 </template>
 
 <script setup lang="ts">
-import LogoUser from './logoUser.vue'
+import TfrLogo from '@/components/TfrLogo/index.vue'
+import User from './user.vue'
 import MenuItem from './menuItem.vue'
 import SubMenuItem from './subMenuItem.vue'
 import { useRoute } from 'vue-router'
 const route = useRoute()
-console.log(route.name)
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.logo-user {
+  padding: 30px;
+}
+</style>

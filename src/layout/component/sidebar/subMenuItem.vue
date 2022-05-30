@@ -1,39 +1,35 @@
 <template>
-  <div class="sub-menu-bar">
-    <div class="back">
-      <router-link to="/home">
-        <svg-icon icon-class="back" />
-        <span>Dashboard</span>
-      </router-link>
-    </div>
-    <div class="fun-menu">
-      <component :is="currentComponent" />
-    </div>
+  <div class="back">
+    <router-link to="/home">
+      <svg-icon icon-class="back" />
+      <span>{{ device === 'mobile' ? 'Back' : 'Dashboard' }}</span>
+    </router-link>
   </div>
+  <el-scrollbar style="padding: 20px">
+    <component :is="currentMenuComponent" />
+  </el-scrollbar>
 </template>
 
 <script setup lang="ts">
-import SiteBuilderMenu from '@/components/SiteBuilderMenu/index.vue'
-import MarketingMenu from '@/components/MaketingMenu/index.vue'
-import { shallowRef } from 'vue'
-import { useRoute } from 'vue-router'
-const route = useRoute()
-const currentComponent = shallowRef()
-const routeMap = new Map([
-  ['siteBuilder', SiteBuilderMenu],
-  ['marketing', MarketingMenu]
-])
-currentComponent.value = routeMap.get(route.name)
+import { menuStore } from '@/store/modules/menu'
+import { appStore } from '@/store/modules/app'
+import { storeToRefs } from 'pinia'
+const useMenuStore = menuStore()
+const { currentMenuComponent } = storeToRefs(menuStore())
+const { device } = storeToRefs(appStore())
+// const currentComponent = shallowRef(useMenuStore.currentMenuComponent)
+useMenuStore.setCurrentMenuComponent()
 </script>
 
 <style lang="scss" scoped>
-.sub-menu-bar {
-  padding: 20px;
-  .back {
-    svg {
-      font-size: 20px;
-      margin-right: 10px;
-    }
+.back {
+  svg {
+    font-size: 20px;
+    margin-right: 10px;
   }
+  padding: 10px 20px;
+  height: 60px;
+  display: flex;
+  align-items: center;
 }
 </style>

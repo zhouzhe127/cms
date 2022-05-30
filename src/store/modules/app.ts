@@ -6,6 +6,7 @@
  *    4. 使用容器中的action
  */
 import { defineStore } from 'pinia'
+import getDevice from '@/utils/device'
 
 /**
  * 1. 定义容器并导出
@@ -13,7 +14,7 @@ import { defineStore } from 'pinia'
  * 参数二: 选项对象
  * 返回值: 函数, 调用的时候要空参调用, 返回容器实例
  */
-export const userStore = defineStore('user', {
+export const appStore = defineStore('app', {
   /**
    * 类似组件的 data, 用于存储全局的的状态
    * 注意:
@@ -22,7 +23,8 @@ export const userStore = defineStore('user', {
    */
   state: () => {
     return {
-      count: 1
+      device: getDevice(), // desktop ipad mobile
+      showMobileMenuItem: false
     }
   },
   /**
@@ -33,9 +35,5 @@ export const userStore = defineStore('user', {
    * 类似组件的 methods, 封装业务逻辑, 修改state
    * 注意: 里面的函数不能定义成箭头函数(函数体中会用到this)
    */
-  actions: {
-    addCount() {
-      this.count++
-    }
-  }
+  actions: {}
 })
