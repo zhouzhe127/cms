@@ -29,6 +29,7 @@ declare module '@vue/runtime-core' {
     Menu: typeof import('./src/components/SecondSide/menu.vue')['default']
     Menu_item: typeof import('./src/components/SecondSide/menu_item.vue')['default']
     MenuItem: typeof import('./src/components/SecondSide/MenuItem.vue')['default']
+    PageSelectWin: typeof import('./src/components/PageSelectWin/index.vue')['default']
     PlatformControl: typeof import('./src/components/PlatformControl/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
