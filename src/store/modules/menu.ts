@@ -64,7 +64,8 @@ export const menuStore = defineStore('menu', {
       const routeMap = new Map<string, number>([
         ['home', 213],
         ['siteBuilder', 320],
-        ['marketing', 576]
+        ['marketing', 576],
+        ['promotion', 576]
       ])
       const menuWidth: any = routeMap.has(routeName)
         ? routeMap.get(routeName)
@@ -89,7 +90,8 @@ export const menuStore = defineStore('menu', {
       const routeName: any = route.name
       const routeMap = new Map<string, any>([
         ['siteBuilder', SiteBuilderMenu],
-        ['marketing', MarketingMenu]
+        ['marketing', MarketingMenu],
+        ['promotion', MarketingMenu]
       ])
       console.log(routeMap.get(routeName), 'routerName')
       this.currentMenuComponent = routeMap.get(routeName)

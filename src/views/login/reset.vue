@@ -98,7 +98,7 @@ import { FormInstance, FormRules } from 'element-plus'
 const route = useRoute()
 const router = useRouter()
 const { token = '', official_id = '' } = route.query
-const step:any = ref(route.query.step || '1')
+const step: any = ref(route.query.step || '1')
 const passwordType = ref('password')
 const confirmPasswordType = ref('password')
 const sendFormRef = ref<FormInstance>()

@@ -26,6 +26,7 @@ declare module '@vue/runtime-core' {
     ElMenuItemGroup: typeof import('element-plus/es')['ElMenuItemGroup']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
+    ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
@@ -38,12 +39,14 @@ declare module '@vue/runtime-core' {
     SecondSide: typeof import('./src/components/SecondSide/index.vue')['default']
     SideMenu: typeof import('./src/components/SecondSide/SideMenu.vue')['default']
     SiteBuilderMenu: typeof import('./src/components/SiteBuilderMenu/index.vue')['default']
+    StickyFlow: typeof import('./src/components/StickyFlow/index.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
     TfrButton: typeof import('./src/components/TfrButton/index.vue')['default']
     TfrCheckbox: typeof import('./src/components/TfrCheckbox/index.vue')['default']
     TfrDialog: typeof import('./src/components/TfrDialog/index.vue')['default']
     TfrInput: typeof import('./src/components/TfrInput/index.vue')['default']
     TfrLogo: typeof import('./src/components/TfrLogo/index.vue')['default']
+    TfrSwitch: typeof import('./src/components/TfrSwitch/index.vue')['default']
   }
 }
 

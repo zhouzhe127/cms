@@ -39,15 +39,26 @@ export const constantRoutes: Array<RouteRecordRaw> = [
         meta: { title: 'Analytics', icon: 'analytics' }
       },
       {
+        path: '/siteBuilder',
+        name: 'siteBuilder',
+        component: () => import('@/views/homePage/index.vue')
+      },
+      {
         path: '/marketing',
         name: 'marketing',
         component: () => import('@/views/marketing/index.vue'),
-        meta: { title: 'Update', icon: '' },
-        children: []
+        meta: { title: 'Update', icon: 'marketing' },
+        children: [
+          {
+            path: 'promotion/:type/:target',
+            name: 'promotion',
+            component: () => import('@/views/marketing/promotion/index.vue')
+          }
+        ]
       },
       {
-        path: 'siteBuilder',
-        name: 'siteBuilder',
+        path: '/settings',
+        name: 'settings',
         component: () => import('@/views/homePage/index.vue')
       }
     ]

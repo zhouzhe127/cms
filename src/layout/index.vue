@@ -4,7 +4,7 @@
       <SideBar />
     </el-aside>
     <el-container :style="{ paddingLeft: menuWidth + 'px' }">
-      <el-header>
+      <el-header :style="{ left: menuWidth + 'px' }">
         <PlatformControl />
       </el-header>
       <el-main>
@@ -54,9 +54,18 @@ console.log(device, showMobileMenuItem)
     display: flex;
     flex-direction: column;
   }
+  .el-header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: #f8f8f8;
+    z-index: 2000;
+  }
   .el-main {
     background-color: #ffffff;
-    padding-top: 0;
+    padding: 0;
+    padding-top: 60px;
+    overflow: unset;
   }
 }
 </style>
