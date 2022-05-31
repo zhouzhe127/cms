@@ -33,6 +33,7 @@ declare module '@vue/runtime-core' {
     ItemChild: typeof import('./src/components/SecondSide/ItemChild.vue')['default']
     MaketingMenu: typeof import('./src/components/MaketingMenu/index.vue')['default']
     MenuItem: typeof import('./src/components/SecondSide/MenuItem.vue')['default']
+    PageSelectWin: typeof import('./src/components/PageSelectWin/index.vue')['default']
     PlatformControl: typeof import('./src/components/PlatformControl/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
