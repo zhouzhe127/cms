@@ -4,7 +4,7 @@
     <svg-icon
       v-if="tagProps.closeable"
       icon-class="close"
-      @click="handleClose(tag)"
+      @click="handleClose"
     />
   </sapn>
 </template>
