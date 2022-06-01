@@ -1,9 +1,11 @@
 <template>
   <div class="menu">
-    <div class="menu_header">
-      <span>{{ props.title }}</span>
-      <svg-icon icon-class="add_black" class="add" color="black" @click="addClick" />
-    </div>
+    <Affix :offset="232">
+      <div class="menu_header">
+        <span>{{ props.title }}</span>
+        <svg-icon icon-class="add_black" class="add" color="black" @click="addClick" />
+      </div>
+    </Affix>
     <div class="menu_container">
       <slot />
     </div>
@@ -11,6 +13,7 @@
 </template>
 
 <script setup lang="ts" name="SideMenu">
+import Affix from '@/components/Affix/index.vue'
 interface Props {
   title?: string,
 }

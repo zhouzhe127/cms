@@ -1,6 +1,8 @@
 <template>
   <div class="side_container">
-    <slot />
+    <el-scrollbar>
+      <slot />
+    </el-scrollbar>
   </div>
 </template>
 
@@ -10,7 +12,6 @@
 <style lang="scss" scoped>
 .side_container {
   width: 100%;
-  height: 500px;
   overflow: auto;
   padding-top: 50px;
 }

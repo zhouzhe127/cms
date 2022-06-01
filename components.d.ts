@@ -5,6 +5,7 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Affix: typeof import('./src/components/Affix/index.vue')['default']
     CmsEdit: typeof import('./src/components/CmsEdit/index.vue')['default']
     Default: typeof import('./src/components/Default/index.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
@@ -29,6 +30,7 @@ declare module '@vue/runtime-core' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    Index1: typeof import('./src/components/Affix/index1.vue')['default']
     ItemChild: typeof import('./src/components/SecondSide/ItemChild.vue')['default']
     MaketingMenu: typeof import('./src/components/MaketingMenu/index.vue')['default']
     MenuItem: typeof import('./src/components/SecondSide/MenuItem.vue')['default']
@@ -45,6 +47,7 @@ declare module '@vue/runtime-core' {
     TfrDialog: typeof import('./src/components/TfrDialog/index.vue')['default']
     TfrInput: typeof import('./src/components/TfrInput/index.vue')['default']
     TfrLogo: typeof import('./src/components/TfrLogo/index.vue')['default']
+    Ts: typeof import('./src/components/Affix/ts.vue')['default']
   }
 }
 
