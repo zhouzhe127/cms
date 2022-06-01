@@ -24,11 +24,14 @@ declare module '@vue/runtime-core' {
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElMenuItemGroup: typeof import('element-plus/es')['ElMenuItemGroup']
+    ElRadio: typeof import('element-plus/es')['ElRadio']
+    ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    ElTag: typeof import('element-plus/es')['ElTag']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     ItemChild: typeof import('./src/components/SecondSide/ItemChild.vue')['default']
     MaketingMenu: typeof import('./src/components/MaketingMenu/index.vue')['default']
@@ -47,7 +50,10 @@ declare module '@vue/runtime-core' {
     TfrDialog: typeof import('./src/components/TfrDialog/index.vue')['default']
     TfrInput: typeof import('./src/components/TfrInput/index.vue')['default']
     TfrLogo: typeof import('./src/components/TfrLogo/index.vue')['default']
+    TfrRadio: typeof import('./src/components/TfrRadio/index.vue')['default']
+    TfrRadioGroup: typeof import('./src/components/TfrRadioGroup/index.vue')['default']
     TfrSwitch: typeof import('./src/components/TfrSwitch/index.vue')['default']
+    TfrTag: typeof import('./src/components/TfrTag/index.vue')['default']
   }
 }
 

@@ -1,7 +1,10 @@
 <template>
   <div class="marketing-menu-bar">
     <ul>
-      <li v-for="(menuItem, index) in marketingMenuList">
+      <li
+        v-for="(menuItem, index) in marketingMenuList"
+        :key="'marketingMenu' + index"
+      >
         <div class="menu-title">
           {{ menuItem.name }}
           <svg-icon
@@ -23,6 +26,7 @@
       width="210px"
       class="marketing-add-dialog"
       :is-close="false"
+      :append-to-body="true"
     >
       <div class="type-list">
         <ul>
@@ -57,16 +61,16 @@ const addHandle = (type: string) => {
   console.log(type)
   addVisible.value = true
 }
-const closeAddDialog = () => {
-  addVisible.value = false
-}
+// const closeAddDialog = () => {
+//   addVisible.value = false
+// }
 const jumpTo = (path: string) => {
   router.push({ path })
   addVisible.value = false
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .marketing-menu-bar {
   > ul li + li {
     margin-top: 10px;
@@ -101,27 +105,29 @@ const jumpTo = (path: string) => {
       }
     }
   }
-  .marketing-add-dialog {
-    .type-list {
-      ul {
+}
+</style>
+<style lang="scss">
+.marketing-add-dialog {
+  .type-list {
+    ul {
+      display: flex;
+      justify-content: space-between;
+      li {
+        padding: 10px;
+        font-size: 12px;
+        cursor: pointer;
+        opacity: 0.5;
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
-        li {
-          padding: 10px;
-          font-size: 12px;
-          cursor: pointer;
-          opacity: 0.5;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          align-items: center;
-          .svg-icon {
-            font-size: 30px;
-            margin-bottom: 10px;
-          }
-          &:hover {
-            opacity: 1;
-          }
+        align-items: center;
+        .svg-icon {
+          font-size: 30px;
+          margin-bottom: 10px;
+        }
+        &:hover {
+          opacity: 1;
         }
       }
     }
