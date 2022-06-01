@@ -5,12 +5,13 @@
       <span>{{ device === 'mobile' ? 'Back' : 'Dashboard' }}</span>
     </router-link>
   </div>
-  <el-scrollbar style="padding: 20px">
+  <el-scrollbar ref="scrollRoot" style="padding: 20px">
     <component :is="currentMenuComponent" />
   </el-scrollbar>
 </template>
 
 <script setup lang="ts">
+import { provide, ref } from 'vue'
 import { menuStore } from '@/store/modules/menu'
 import { appStore } from '@/store/modules/app'
 import { storeToRefs } from 'pinia'
@@ -19,6 +20,11 @@ const { currentMenuComponent } = storeToRefs(menuStore())
 const { device } = storeToRefs(appStore())
 // const currentComponent = shallowRef(useMenuStore.currentMenuComponent)
 useMenuStore.setCurrentMenuComponent()
+const scrollRoot = ref(null)
+provide('scrollRef', scrollRoot)
+// const scroll = () => {
+//   console.log(111)
+// }
 </script>
 
 <style lang="scss" scoped>
