@@ -18,15 +18,20 @@
         </div>
       </li>
     </ul>
-    <TfrDialog v-model="addVisible" width="210px" class="marketing-add-dialog" :is-close="false">
+    <TfrDialog
+      v-model="addVisible"
+      width="210px"
+      class="marketing-add-dialog"
+      :is-close="false"
+    >
       <div class="type-list">
         <ul>
-          <li>
-            <svg-icon icon-class="promo"/>
+          <li @click="jumpTo('/marketing/promotion/promo/add')">
+            <svg-icon icon-class="promo" />
             <span>PROMO</span>
           </li>
-          <li>
-            <svg-icon icon-class="discount"/>
+          <li @click="jumpTo('/marketing/promotion/discount/add')">
+            <svg-icon icon-class="discount" />
             <span>DISCOUNT</span>
           </li>
         </ul>
@@ -38,27 +43,32 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
 import TfrDialog from '@/components/TfrDialog/index.vue'
-import {menuStore} from '@/store/modules/menu'
+import { menuStore } from '@/store/modules/menu'
+const router = useRouter()
 const useMenuStore = menuStore()
 const addVisible = ref(false)
 const { marketingMenuList } = storeToRefs(menuStore())
-const expandToggle = (expand:boolean, index:number) => {
-    marketingMenuList.value[index].expand = !expand
+const expandToggle = (expand: boolean, index: number) => {
+  marketingMenuList.value[index].expand = !expand
 }
 const addHandle = (type: string) => {
   console.log(type)
   addVisible.value = true
 }
 const closeAddDialog = () => {
-  console.log('kkkk')
+  addVisible.value = false
+}
+const jumpTo = (path: string) => {
+  router.push({ path })
   addVisible.value = false
 }
 </script>
 
 <style lang="scss">
 .marketing-menu-bar {
-  >ul li + li {
+  > ul li + li {
     margin-top: 10px;
   }
   .menu-title {
@@ -91,30 +101,29 @@ const closeAddDialog = () => {
       }
     }
   }
-  .marketing-add-dialog{
-    .type-list{
-      ul{
+  .marketing-add-dialog {
+    .type-list {
+      ul {
         display: flex;
         justify-content: space-between;
-        li{
+        li {
+          padding: 10px;
+          font-size: 12px;
+          cursor: pointer;
+          opacity: 0.5;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           align-items: center;
-          padding:10px;
-          font-size:12px;
-          cursor: pointer;
-          opacity: 0.5;
-          .svg-icon{
-            font-size:30px;
+          .svg-icon {
+            font-size: 30px;
             margin-bottom: 10px;
           }
-          &:hover{
+          &:hover {
             opacity: 1;
           }
         }
       }
-
     }
   }
 }

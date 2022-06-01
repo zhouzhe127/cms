@@ -20,13 +20,13 @@
     </li>
     <li>
       <router-link to="/marketing">
-        <svg-icon icon-class="update" />
+        <svg-icon icon-class="marketing" />
         <span class="title">Marketing</span>
       </router-link>
     </li>
     <li>
-      <router-link to="/home">
-        <svg-icon icon-class="update" />
+      <router-link to="/settings">
+        <svg-icon icon-class="setting" />
         <span class="title">Settings</span>
       </router-link>
     </li>
