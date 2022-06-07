@@ -29,6 +29,7 @@
   ::v-deep(.el-switch__action) {
     top: 3px;
     left: 26px;
+    margin-left: auto;
   }
 }
 </style>

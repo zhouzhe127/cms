@@ -44,7 +44,7 @@ console.log(device, showMobileMenuItem)
 
 <style lang="scss" scoped>
 .common-layout {
-  background-color: #f8f8f8;
+  background-color: $bg;
   min-height: 100%;
   .el-aside {
     position: fixed;
