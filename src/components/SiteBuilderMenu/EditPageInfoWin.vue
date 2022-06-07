@@ -1,6 +1,6 @@
 <template>
-  <div class="editwin">
-    <TfrDialog v-bind="$attrs" width="728px" append-to-body @before-close="cancelHandle">
+  <div>
+    <TfrDialog class="editpageinfowin" v-bind="$attrs" width="728px" append-to-body @before-close="cancelHandle">
       <div class="editpage">
         <el-container>
           <el-aside width="160px">
@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onUnmounted } from 'vue'
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import InfoForm from '@/components/SiteBuilderMenu/components/InfoForm.vue'
 import SeoForm from '@/components/SiteBuilderMenu/components/SeoForm.vue'
@@ -77,8 +77,10 @@ const clickTab = (index:number) => {
 const Emits = defineEmits(['update:modelValue'])
 const cancelHandle = () => {
   Emits('update:modelValue', false)
-
 }
+onUnmounted(() => {
+  selectd.value = 0
+})
 </script>
 
 <style lang="scss" scoped>
@@ -158,7 +160,7 @@ const cancelHandle = () => {
     }
   }
 }
-::v-global(.el-dialog) {
+::v-global(.editpageinfowin) {
   padding: initial !important;
 }
 </style>
