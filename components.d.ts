@@ -38,6 +38,7 @@ declare module '@vue/runtime-core' {
     ItemChild: typeof import('./src/components/SecondSide/ItemChild.vue')['default']
     MaketingMenu: typeof import('./src/components/MaketingMenu/index.vue')['default']
     MenuItem: typeof import('./src/components/SecondSide/MenuItem.vue')['default']
+    MessageBox: typeof import('./src/components/TfrMessageBox/MessageBox.vue')['default']
     PageSelectWin: typeof import('./src/components/PageSelectWin/index.vue')['default']
     PlatformControl: typeof import('./src/components/PlatformControl/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -54,6 +55,7 @@ declare module '@vue/runtime-core' {
     TfrLogo: typeof import('./src/components/TfrLogo/index.vue')['default']
     TfrRadio: typeof import('./src/components/TfrRadio/index.vue')['default']
     TfrRadioGroup: typeof import('./src/components/TfrRadioGroup/index.vue')['default']
+    TfrMessageBox: typeof import('./src/components/TfrMessageBox/tfrMessageBox.vue')['default']
     TfrSwitch: typeof import('./src/components/TfrSwitch/index.vue')['default']
     TfrTag: typeof import('./src/components/TfrTag/index.vue')['default']
   }

@@ -24,4 +24,9 @@ const addPage = () => {
 }
 </script>
 
-<style scoped></style>
+<style>
+.confirm-title-con {
+  --framer-font-family: 'Brown Bold', serif;
+  font-weight: 600;
+}
+</style>
