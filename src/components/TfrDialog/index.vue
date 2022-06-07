@@ -27,9 +27,11 @@ const dialogProps = withDefaults(defineProps<PropsType>(), {
   isClose:true
 })
 customClass.value = `${customClass.value} ${dialogProps.class} ${ dialogProps.headerLess ? 'dialog-header-less':''}`
-const dialogEmits = defineEmits(['beforeClose'])
+const dialogEmits = defineEmits(['beforeClose', 'update:modelValue'])
 const closeHandle = () => {
   dialogEmits('beforeClose')
+  dialogEmits('update:modelValue', false)
+
 }
 </script>
 

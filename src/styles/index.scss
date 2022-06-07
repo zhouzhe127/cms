@@ -3,7 +3,7 @@
 //@import "./transition.scss";
 //@import "./element-ui.scss";
 //@import "./sidebar.scss";
-//@import "./tfr.scss";
+@import "./tfr-form.scss";
 @font-face {
   font-family: "San Francisco";
   font-style: normal;
@@ -536,36 +536,3 @@ div:focus {
 //  }
 //}
 //
-//.tfr-form {
-//  .el-form-item__label{
-//    color: black;
-//    font-weight: 500;
-//    position: relative;
-//  }
-//  .el-form-item__error{
-//    margin-left: 36px;
-//  }
-//  .is-required{
-//    .el-form-item__label{
-//      color: black;
-//      font-weight: 500;
-//      &::before{
-//        position: absolute;
-//        right: -17px;
-//        top: 1px;
-//        display: inline-block;
-//      }
-//    }
-//  }
-//}
-//
-//.tfr-form-required {
-//  .is-error {
-//    .el-form-item__label {
-//      color: #F56C6C;
-//    }
-//    .el-input__inner {
-//      border-color: #F56C6C !important;
-//    }
-//  }
-//}
