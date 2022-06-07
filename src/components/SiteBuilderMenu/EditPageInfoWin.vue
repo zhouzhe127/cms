@@ -1,6 +1,6 @@
 <template>
   <div class="editwin">
-    <TfrDialog v-bind="$attrs" width="728px" append-to-body>
+    <TfrDialog v-bind="$attrs" width="728px" append-to-body @before-close="cancelHandle">
       <div class="editpage">
         <el-container>
           <el-aside width="160px">

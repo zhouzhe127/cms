@@ -46,6 +46,7 @@ declare module '@vue/runtime-core' {
     MaketingMenu: typeof import('./src/components/MaketingMenu/index.vue')['default']
     MenuItem: typeof import('./src/components/SecondSide/MenuItem.vue')['default']
     MessageBox: typeof import('./src/components/TfrMessageBox/MessageBox.vue')['default']
+    Navigation: typeof import('./src/components/SiteBuilderMenu/Navigation.vue')['default']
     PageSelectWin: typeof import('./src/components/PageSelectWin/index.vue')['default']
     PlatformControl: typeof import('./src/components/PlatformControl/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
