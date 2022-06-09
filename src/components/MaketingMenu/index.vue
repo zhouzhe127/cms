@@ -45,13 +45,12 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import { menuStore } from '@/store/modules/menu'
 const router = useRouter()
-const useMenuStore = menuStore()
 const addVisible = ref(false)
 const { marketingMenuList } = storeToRefs(menuStore())
 const expandToggle = (expand: boolean, index: number) => {

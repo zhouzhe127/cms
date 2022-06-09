@@ -2,10 +2,14 @@
   <div class="back">
     <router-link to="/home">
       <svg-icon icon-class="back" />
-      <span>{{ device === 'mobile' ? 'Back' : 'Dashboard' }}</span>
+      <span>{{ device !== 'mobile' ? 'Dashboard' : 'Back' }} </span>
     </router-link>
   </div>
-  <el-scrollbar ref="scrollRoot" style="padding: 20px">
+  <el-scrollbar
+    v-if="device != 'mobile' || showMobileSubMenu"
+    ref="scrollRoot"
+    style="padding: 20px"
+  >
     <component :is="currentMenuComponent" />
   </el-scrollbar>
 </template>
@@ -16,10 +20,11 @@ import { menuStore } from '@/store/modules/menu'
 import { appStore } from '@/store/modules/app'
 import { storeToRefs } from 'pinia'
 const useMenuStore = menuStore()
-const { currentMenuComponent } = storeToRefs(menuStore())
+const { currentMenuComponent, showMobileSubMenu } = storeToRefs(menuStore())
 const { device } = storeToRefs(appStore())
 // const currentComponent = shallowRef(useMenuStore.currentMenuComponent)
 useMenuStore.setCurrentMenuComponent()
+useMenuStore.setShowMobileSubMenu()
 const scrollRoot = ref(null)
 provide('scrollRef', scrollRoot)
 // const scroll = () => {

@@ -15,18 +15,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import TfrLogo from '@/components/TfrLogo/index.vue'
 import MenuItem from './menuItem.vue'
 import User from './user.vue'
 import SubMenuItem from './subMenuItem.vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { appStore } from '@/store/modules/app'
 import { storeToRefs } from 'pinia'
 const route = useRoute()
+const router = useRouter()
 const { showMobileMenuItem } = storeToRefs(appStore())
 const showMenuItemHandle = () => {
-  showMobileMenuItem.value = !showMobileMenuItem.value
+  if (route.name === 'home') {
+    showMobileMenuItem.value = !showMobileMenuItem.value
+  } else {
+    router.push({ path: '/home' })
+  }
 }
 </script>
 
@@ -36,6 +40,8 @@ const showMenuItemHandle = () => {
   top: 0;
   left: 0;
   right: 0;
+  z-index: 2000;
+  background-color: $bg;
   .header {
     width: 100%;
     padding: 20px;

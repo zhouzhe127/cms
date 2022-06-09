@@ -1,12 +1,12 @@
 <template>
-  <sapn class="tfr-tag">
+  <span class="tfr-tag">
     <slot></slot>
     <svg-icon
       v-if="tagProps.closeable"
       icon-class="close"
       @click="handleClose"
     />
-  </sapn>
+  </span>
 </template>
 
 <script setup lang="ts">
