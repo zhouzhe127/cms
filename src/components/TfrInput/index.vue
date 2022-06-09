@@ -31,6 +31,11 @@ const input = () => {
     box-shadow: rgb(27 43 39 / 25%) 0 0 0 1px inset;
     border-radius: 8px;
   }
+  ::v-deep(.el-textarea__inner) {
+    padding: 15px;
+    box-shadow: rgb(27 43 39 / 25%) 0 0 0 1px inset;
+    border-radius: 8px;
+  }
   ::v-deep(.el-input__inner) {
     color: rgb(27, 43, 39);
     font-size: 14px;

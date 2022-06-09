@@ -133,6 +133,7 @@
     }
     if (getScrollRef) {
       const scoll = getScrollRef.value
+      console.log('---', scoll)
       scoll.$.emitsOptions.scroll = handleScroll
       // getScrollRef.scroll = handleScroll
     }

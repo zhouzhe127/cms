@@ -1,27 +1,46 @@
 <template>
   <div>
     <second-side>
-      <SideMenu title="NAVIGATION" @add-click="addPage">
-        <MenuItem v-for="(item, index) in [1,2,3,4,5,6,7,8,32,11,23,34]" :key="index" title="ss-2022">
-          <ItemChild title="mnns" />
-        </MenuItem>
-      </SideMenu>
+      <Navigation />
     </second-side>
-    <PageSelectWin v-model="showPageWin" />
+    <div class="footbox">
+      <div class="clearset" @click="clearBin">
+        <SvgIcon icon-class="delete_fill" class="clearicon" />
+        <span class="text">CLEAR BIN</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import SecondSide from '@/components/SecondSide/index.vue'
-import MenuItem from '@/components/SecondSide/MenuItem.vue'
-import SideMenu from '@/components/SecondSide/SideMenu.vue'
-import ItemChild from '@/components/SecondSide/ItemChild.vue'
-import PageSelectWin from '@/components/PageSelectWin/index.vue'
-const showPageWin = ref(false)
-const addPage = () => {
-  showPageWin.value = true
-}
+import Navigation from '@/components/SiteBuilderMenu/Navigation.vue'
+const clearBin = () => {}
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.confirm-title-con {
+  --framer-font-family: 'Brown Bold', serif;
+  font-weight: 600;
+}
+.footbox {
+  margin: 30px auto;
+  width: 90px;
+  .clearset {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: $theme;
+    opacity: .5;
+    cursor: pointer;
+    .clearicon {
+      font-size: 30px;
+    }
+    .text {
+      display: block;
+      margin-top: 10px;
+    }
+  }
+}
+</style>

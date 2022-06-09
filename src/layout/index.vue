@@ -3,7 +3,7 @@
     <el-aside :width="`${menuWidth}px`">
       <SideBar />
     </el-aside>
-    <el-container :style="{ paddingLeft: menuWidth + 'px' }">
+    <el-container :style="{ paddingLeft: menuWidth + 'px', height: '100%' }">
       <el-header :style="{ left: menuWidth + 'px' }">
         <PlatformControl />
       </el-header>
@@ -43,7 +43,7 @@ console.log(device, showMobileMenuItem)
 <style lang="scss" scoped>
 .common-layout {
   background-color: $bg;
-  min-height: 100%;
+  height: 100%;
   .el-aside {
     position: fixed;
     top: 0;
@@ -64,6 +64,9 @@ console.log(device, showMobileMenuItem)
     padding: 0;
     padding-top: 60px;
     overflow: unset;
+  }
+  .main_content {
+    height: 100%;
   }
 }
 </style>

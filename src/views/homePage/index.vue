@@ -1,13 +1,13 @@
 <template>
-  <div>
-    {{ appStore.pageconfig.basic.platformState }}
+  <!-- <div>
     <Pagetop />
     <CmsEdit @optionClick="edit">
       <Banner />
     </CmsEdit>
     <AddModule />
     <FootContent />
-  </div>
+  </div> -->
+  <Empty />
 </template>
 
 <script setup lang="ts">
@@ -15,6 +15,7 @@ import Pagetop from '@/views/homePage/components/Pagetop.vue'
 import Banner from '@/views/homePage/components/Banner.vue'
 import AddModule from '@/views/homePage/components/AddModule.vue'
 import FootContent from '@/views/homePage/components/FootContent.vue'
+import Empty from '@/views/homePage/components/Empty.vue'
 import CmsEdit from '@/components/CmsEdit/index.vue'
 import appStore from '@/store'
 import { getOrderInfo } from '@/api/test'
