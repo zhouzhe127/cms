@@ -1,9 +1,9 @@
 <template>
   <div class="back">
-    <router-link to="/home">
+    <div @click="backHandle">
       <svg-icon icon-class="back" />
       <span>{{ device !== 'mobile' ? 'Dashboard' : 'Back' }} </span>
-    </router-link>
+    </div>
   </div>
   <el-scrollbar
     v-if="device != 'mobile' || showMobileSubMenu"
@@ -16,11 +16,13 @@
 
 <script setup lang="ts">
 import { provide, ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { menuStore } from '@/store/modules/menu'
 import { appStore } from '@/store/modules/app'
 import { storeToRefs } from 'pinia'
 const useMenuStore = menuStore()
-const { currentMenuComponent, showMobileSubMenu } = storeToRefs(menuStore())
+const { currentMenuComponent, showMobileSubMenu, outSideMenuRouteName } =
+  storeToRefs(menuStore())
 const { device } = storeToRefs(appStore())
 // const currentComponent = shallowRef(useMenuStore.currentMenuComponent)
 useMenuStore.setCurrentMenuComponent()
@@ -30,6 +32,19 @@ provide('scrollRef', scrollRoot)
 // const scroll = () => {
 //   console.log(111)
 // }
+const router = useRouter()
+const route = useRoute()
+const backHandle = () => {
+  if (device.value === 'mobile') {
+    if (outSideMenuRouteName.value.includes(route.name)) {
+      router.go(-1)
+    } else {
+      router.push({ path: '/home' })
+    }
+  } else {
+    router.push({ path: '/home' })
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -5,6 +5,7 @@
  *    3. 修改容器中的state
  *    4. 使用容器中的action
  */
+import { markRaw } from 'vue'
 import { defineStore } from 'pinia'
 import { watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -48,10 +49,16 @@ export const menuStore = defineStore('menu', {
           list: []
         }
       ], // marketing 二级菜单数据
-      currentMenuComponent: Default, // 二级菜单组件
+      currentMenuComponent: markRaw(Default), // 二级菜单组件
       showMobileMenuItem: true, // 手机端是否展示一级菜单
       showMobileSubMenu: true, // 手机端是否展示二级菜单
-      mobileMainPaddingTop: 80 // 手机端主要区域底部内边距
+      mobileMainPaddingTop: 80, // 手机端主要区域底部内边距
+      outSideMenuRouteName: ['promotion'],
+      submenuComponent: new Map<string, any>([
+        ['siteBuilder', markRaw(SiteBuilderMenu)],
+        ['marketing', markRaw(MarketingMenu)],
+        ['promotion', markRaw(MarketingMenu)]
+      ])
     }
   },
   /**
@@ -93,17 +100,12 @@ export const menuStore = defineStore('menu', {
     setCurrentMenuComponent() {
       const route = useRoute()
       const routeName: any = route.name
-      const routeMap = new Map<string, any>([
-        ['siteBuilder', SiteBuilderMenu],
-        ['marketing', MarketingMenu],
-        ['promotion', MarketingMenu]
-      ])
-      this.currentMenuComponent = routeMap.get(routeName)
+      this.currentMenuComponent = this.submenuComponent.get(routeName)
       watch(
         () => route.name,
         name => {
           const routeName: any = name
-          this.currentMenuComponent = routeMap.get(routeName)
+          this.currentMenuComponent = this.submenuComponent.get(routeName)
         }
       )
     },
@@ -113,23 +115,27 @@ export const menuStore = defineStore('menu', {
     },
     // 设置且监听是否显示二级菜单，用于移动端
     setShowMobileSubMenu() {
-      const routesName = ['promotion']
       const route = useRoute()
       const routeName: any = route.name
-      this.showMobileSubMenu = routesName.includes(routeName)
+      this.showMobileSubMenu = !this.outSideMenuRouteName.includes(routeName)
       watch(
         () => route.name,
         name => {
           const routeName: any = name
-          this.showMobileSubMenu = !routesName.includes(routeName)
+          this.showMobileSubMenu =
+            !this.outSideMenuRouteName.includes(routeName)
         }
       )
     },
-    computedMobileMainPaddingTop(routerName: string) {
+    computedMobileMainPaddingTop(routeName: string) {
       if (routeName === 'home') {
         this.mobileMainPaddingTop = this.showMobileMenuItem ? 340 : 80
       } else {
-        this.mobileMainPaddingTop = this.showMobileSubMenu ? 340 : 140
+        this.mobileMainPaddingTop = !this.outSideMenuRouteName.includes(
+          routeName
+        )
+          ? 340
+          : 140
       }
     },
     // 设置手机端主要区域底部内边距

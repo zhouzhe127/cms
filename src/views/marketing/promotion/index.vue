@@ -9,6 +9,7 @@
     >
       <StickFlow
         :title="type === 'promo' ? 'PROMO CODE' : 'AUTOMATIC DISCOUNT'"
+        :top="offsetTop"
       >
         <template #right><TfrSwitch v-model="promoForm.disabled" /></template>
       </StickFlow>
@@ -34,7 +35,7 @@
         />
         <p class="subtitle">Description is for internal reference only.</p>
       </el-form-item>
-      <StickFlow title="TERMS&CONDITIONS" />
+      <StickFlow title="TERMS&CONDITIONS" :top="offsetTop" />
       <el-form-item label="Effective region">
         <div class="region-list">
           <TfrTag
@@ -149,7 +150,7 @@
   </div>
   <TfrDialog
     v-model="regionVisible"
-    width="728px"
+    :width="dialogWidth"
     class="region-dialog"
     :append-to-body="true"
     :headerLess="false"
@@ -172,7 +173,7 @@
   </TfrDialog>
   <TfrDialog
     v-model="targetVisible"
-    width="728px"
+    :width="dialogWidth"
     class="target-dialog"
     :append-to-body="true"
     :headerLess="false"
@@ -217,7 +218,7 @@
   </TfrDialog>
   <TfrDialog
     v-model="applyLimitVisible"
-    width="728px"
+    :width="dialogWidth"
     class="apply-limit-dialog"
     :append-to-body="true"
     :headerLess="true"
@@ -259,6 +260,7 @@ import DatePickerRange from '@/components/DatePickerRange/index.vue'
 import moment from 'moment'
 import { storeToRefs } from 'pinia'
 import { menuStore } from '@/store/modules/menu'
+import { appStore } from '@/store/modules/app'
 import type { FormInstance, FormRules } from 'element-plus'
 const promoFormRef = ref<FormInstance>()
 const datePickerRangeRef = ref()
@@ -268,6 +270,9 @@ console.log('route', type, target)
 const { menuWidth } = storeToRefs(menuStore())
 const componentKey = ref(1)
 const reload = inject('reload')
+const { device } = storeToRefs(appStore())
+const offsetTop = ref(device.value === 'mobile' ? 140 : 60)
+const dialogWidth = ref(device.value === 'mobile' ? '100%' : '728px')
 
 watch(
   () => route.params,
@@ -562,6 +567,8 @@ const saveHandle = async () => {
     right: 0;
     bottom: 0;
     border-top: 1px solid rgba(27, 43, 39, 0.1);
+    display: flex;
+    justify-content: space-between;
     .el-button {
       width: 339px;
       & + .el-button {
@@ -600,6 +607,9 @@ const saveHandle = async () => {
     .select-inline {
       display: flex;
       justify-content: space-between;
+      .el-select + .el-select {
+        margin-left: 10px;
+      }
     }
     .target-list {
       padding-top: 20px;
@@ -620,6 +630,8 @@ const saveHandle = async () => {
     right: 0;
     bottom: 0;
     border-top: 1px solid rgba(27, 43, 39, 0.1);
+    display: flex;
+    justify-content: space-between;
     .el-button {
       width: 339px;
       & + .el-button {
@@ -641,6 +653,8 @@ const saveHandle = async () => {
     right: 0;
     bottom: 0;
     border-top: 1px solid rgba(27, 43, 39, 0.1);
+    display: flex;
+    justify-content: space-between;
     .el-button {
       width: 339px;
       & + .el-button {

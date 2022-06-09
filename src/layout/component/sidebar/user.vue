@@ -10,7 +10,7 @@
     <transition name="fade">
       <div class="confirm-con" v-show="isConfirmLogout">
         <span>Sign out?</span>
-        <span class="btn" @click="isConfirmLogout = false">TES</span>
+        <span class="btn" @click="isConfirmLogout = false">YES</span>
         <span class="btn" @click="isConfirmLogout = false">NO</span>
       </div>
     </transition>
@@ -30,6 +30,7 @@ const onLogout = () => {
   margin-top: 20px;
   position: relative;
   height: 20px;
+  padding: 0 20px;
 }
 .user {
   display: flex;

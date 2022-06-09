@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-container">
+  <div class="menu-container" :style="menuContainerStyle">
     <div class="header">
       <TfrLogo />
       <svg-icon icon-class="down" @click="showMenuItemHandle" />
@@ -15,21 +15,37 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, watch } from 'vue'
 import TfrLogo from '@/components/TfrLogo/index.vue'
 import MenuItem from './menuItem.vue'
 import User from './user.vue'
 import SubMenuItem from './subMenuItem.vue'
 import { useRoute, useRouter } from 'vue-router'
-import { appStore } from '@/store/modules/app'
+import { menuStore } from '@/store/modules/menu'
 import { storeToRefs } from 'pinia'
 const route = useRoute()
 const router = useRouter()
-const { showMobileMenuItem } = storeToRefs(appStore())
+const { showMobileMenuItem, outSideMenuRouteName } = storeToRefs(menuStore())
+const menuContainerStyle = ref(null)
 const showMenuItemHandle = () => {
   if (route.name === 'home') {
     showMobileMenuItem.value = !showMobileMenuItem.value
   } else {
     router.push({ path: '/home' })
+  }
+}
+onMounted(() => {
+  computeMenuContainerStyle(route.name)
+  watch(
+    () => route.name,
+    name => {
+      computeMenuContainerStyle(name)
+    }
+  )
+})
+const computeMenuContainerStyle = (routerName: string) => {
+  menuContainerStyle.value = {
+    bottom: outSideMenuRouteName.value.includes(routerName) ? 'auto' : 0
   }
 }
 </script>
@@ -40,6 +56,7 @@ const showMenuItemHandle = () => {
   top: 0;
   left: 0;
   right: 0;
+  bottom: 0;
   z-index: 2000;
   background-color: $bg;
   .header {

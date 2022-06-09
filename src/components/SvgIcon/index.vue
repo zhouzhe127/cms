@@ -1,5 +1,10 @@
 <template>
-  <div v-if="external" :style="styleExternalIcon" class="svg-external-icon svg-icon" v-bind="$attrs" />
+  <div
+    v-if="external"
+    :style="styleExternalIcon"
+    class="svg-external-icon svg-icon"
+    v-bind="$attrs"
+  ></div>
   <svg v-else :class="svgClass" aria-hidden="true" v-bind="$attrs">
     <use :xlink:href="iconName" :fill="color" />
   </svg>
@@ -9,8 +14,8 @@
 import { isExternal } from '@/utils/validate'
 import { computed } from 'vue'
 interface Props {
-  iconClass?: string,
-  color?: string,
+  iconClass?: string
+  color?: string
   className?: string
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -25,7 +30,9 @@ const styleExternalIcon = computed(() => ({
   mask: `url(${props.iconClass}) no-repeat 50% 50%`,
   '-webkit-mask': `url(${props.iconClass}) no-repeat 50% 50%`
 }))
-const svgClass = computed(() => props.className ? 'svg-icon ' + props.className : 'svg-icon')
+const svgClass = computed(() =>
+  props.className ? 'svg-icon ' + props.className : 'svg-icon'
+)
 // export default {
 //   name: 'SvgIcon',
 //   props: {
@@ -66,14 +73,14 @@ const svgClass = computed(() => props.className ? 'svg-icon ' + props.className 
 .svg-icon {
   width: 1em;
   height: 1em;
-  vertical-align: -0.15em;
+  vertical-align: -0.25em;
   fill: currentColor;
   overflow: hidden;
 }
 
 .svg-external-icon {
   background-color: currentColor;
-  mask-size: cover!important;
+  mask-size: cover !important;
   display: inline-block;
 }
 </style>

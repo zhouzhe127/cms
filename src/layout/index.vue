@@ -26,18 +26,18 @@
 import SideBar from '@/layout/component/sidebar/index.vue'
 import MobileSideBar from '@/layout/component/sidebar/mobile.vue'
 import PlatformControl from '@/components/PlatformControl/index.vue'
+import { appStore } from '@/store/modules/app'
 import { menuStore } from '@/store/modules/menu'
 import { storeToRefs } from 'pinia'
 const useMenuStore = menuStore()
 // 通过storeToRefs转换为响应式对象解构可正常使用
 const { menuWidth } = storeToRefs(menuStore())
-const { device, showMobileMenuItem, mobileMainPaddingTop } = storeToRefs(
-  menuStore()
-)
+const { mobileMainPaddingTop } = storeToRefs(menuStore())
+const { device } = storeToRefs(appStore())
 // useUserStore.setMenuWidth(routeName)
 useMenuStore.setMenuWidth()
-device === 'mobile' && useMenuStore.setMobileMainPaddingTop()
-console.log(device, showMobileMenuItem)
+
+device.value === 'mobile' && useMenuStore.setMobileMainPaddingTop()
 </script>
 
 <style lang="scss" scoped>
@@ -51,6 +51,7 @@ console.log(device, showMobileMenuItem)
     bottom: 0;
     display: flex;
     flex-direction: column;
+    background-color: $bg;
   }
   .el-header {
     position: fixed;
