@@ -1,0 +1,9 @@
+enum PAGE_SELECT {
+  PAGE = 'PAGE',
+  ARTICLE = 'ARTICLE',
+  PLP = 'PLP',
+  LINK = 'LINK',
+  CLIP = 'CLIP',
+  FOLDER = 'FOLDER',
+  SMART = 'SMART'
+}

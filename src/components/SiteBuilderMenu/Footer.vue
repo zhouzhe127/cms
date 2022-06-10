@@ -1,7 +1,7 @@
 <template>
   <div>
-    <SideMenu title="NAVIGATION" @add-click="addPage">
-      <MenuItem v-for="(item, index) in [1,2,3,4,5,6,7,8,32,11,]" :key="index" title="ss-2022" @left-click="deleteItem" @right-click="chickEditWin">
+    <SideMenu title="FOOTER" @add-click="addPage">
+      <MenuItem v-for="(item, index) in [1,2,3,4,5,6,7,8,32,11,23,34]" :key="index" title="ss-2022" @left-click="deleteItem" @right-click="chickEditWin">
         <ItemChild title="mnns" />
       </MenuItem>
     </SideMenu>

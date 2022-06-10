@@ -1,7 +1,11 @@
 <template>
   <div>
     <second-side>
-      <Navigation />
+      <div class="scroll-affix-con">
+        <Navigation />
+        <Footer />
+        <Navigation />
+      </div>
     </second-side>
     <div class="footbox">
       <div class="clearset" @click="clearBin">
@@ -15,6 +19,7 @@
 <script setup lang="ts">
 import SecondSide from '@/components/SecondSide/index.vue'
 import Navigation from '@/components/SiteBuilderMenu/Navigation.vue'
+import Footer from '@/components/SiteBuilderMenu/Footer.vue'
 const clearBin = () => {}
 </script>
 
