@@ -54,7 +54,7 @@ export const menuStore = defineStore('menu', {
       showMobileSubMenu: true, // 手机端是否展示二级菜单
       mobileMainPaddingTop: 80, // 手机端主要区域底部内边距
       outSideMenuRouteName: ['promotion'],
-      submenuComponent: new Map<string, any>([
+      submenuComponent: new Map<any, any>([
         ['siteBuilder', markRaw(SiteBuilderMenu)],
         ['marketing', markRaw(MarketingMenu)],
         ['promotion', markRaw(MarketingMenu)]

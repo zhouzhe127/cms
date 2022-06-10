@@ -4,7 +4,7 @@
       <div class="panel-header">
         <div class="prev-month">
           <svg-icon
-            v-if="!isDisabled()"
+            v-if="!isDisabled('')"
             icon-class="arrow_up"
             @click="preMonthHandle"
           />
@@ -44,14 +44,18 @@
                 tmpYear === endYear &&
                 tmpMonth === endMonth &&
                 item.value === endDay,
-              selected: selected(tmpYear, parseInt(tmpMonth) + 1, item.value),
+              selected: selected(
+                tmpYear,
+                parseInt(tmpMonth) + 1,
+                item.value || ''
+              ),
               selectedOneday:
                 item.value &&
                 endYear === startYear &&
                 endMonth === startMonth &&
                 item.value === startDay &&
                 item.value === endDay,
-              disabled: isDisabled(item.value)
+              disabled: isDisabled(item.value || '')
             }"
             @click="selectDate(item)"
             v-text="item.value"
@@ -98,6 +102,13 @@ interface PropsType {
   zt?: string
 }
 
+interface DateList {
+  previousMonth?: boolean
+  currentMonth?: boolean
+  value?: number | string
+  nextMonth?: boolean
+}
+
 const datePickerRangeProps = withDefaults(defineProps<PropsType>(), {
   startDate: '', // 默认值
   endDate: '',
@@ -133,12 +144,12 @@ const formatMonth = (value: number) => {
 }
 
 const currentDay = ref(new Date().getDate()) // 当前日
-const startDay = ref('') // 开始的日
-const endDay = ref('') // 结束日
-const startMonth = ref('') // 开始月
-const endMonth = ref('') // 结束月
-const startYear = ref('') // 开始年
-const endYear = ref('') // 结束年
+const startDay = ref() // 开始的日
+const endDay = ref() // 结束日
+const startMonth = ref() // 开始月
+const endMonth = ref() // 结束月
+const startYear = ref() // 开始年
+const endYear = ref() // 结束年
 const year = ref(new Date().getFullYear()) // 当前年
 const month = ref(new Date().getMonth()) // 当前月
 const day = ref(new Date().getDate()) // 系统时间日
@@ -214,12 +225,15 @@ const dateList = computed(() => {
     0
   ).getDate()
   // 先将当月的日期塞入dateList
-  let dateList = Array.from({ length: currentMonthLength }, (val, index) => {
-    return {
-      currentMonth: true,
-      value: index + 1
+  let dateList: Array<DateList> = Array.from(
+    { length: currentMonthLength },
+    (val, index) => {
+      return {
+        currentMonth: true,
+        value: index + 1
+      }
     }
-  })
+  )
   // 获取当月1号的星期是为了确定在1号前需要插多少天
   const startDay = new Date(tmpYear.value, tmpMonth.value, 1).getDay()
   // 确认上个月一共多少天
@@ -229,13 +243,13 @@ const dateList = computed(() => {
   //   0
   // ).getDate()
   // 在1号前插入上个月日期
+  const preDateList: Array<DateList> = []
   for (let i = 0, len = startDay; i < len; i++) {
-    dateList = [
-      { previousMonth: true, value: '' } // previousMonthLength - i
-    ].concat(dateList)
+    preDateList.push({ previousMonth: true, value: '' })
   }
+  dateList = preDateList.concat(dateList)
   // 补全剩余位置,总的42条
-  const currentDateListLength = dateList.length
+  const currentDateListLength: number = dateList.length
   for (
     let i = currentDateListLength, item = 1;
     i < maxItem.value;
@@ -281,7 +295,7 @@ onMounted(() => {
   }
 })
 
-const isDisabled = (currentDay = '') => {
+const isDisabled = (currentDay: string | number) => {
   if (!currentDay) {
     return tmpYear.value <= year.value && tmpMonth.value <= month.value
   }
@@ -294,7 +308,7 @@ const isDisabled = (currentDay = '') => {
   )
 }
 
-const selectDate = item => {
+const selectDate = (item: DateList) => {
   if (!item.value) return
   if (isDisabled(item.value)) return
   const isStartDate = validateStartDate() // 是否为空
@@ -307,8 +321,8 @@ const selectDate = item => {
     endYear.value = ''
     endMonth.value = ''
     endDay.value = ''
-    const month = parseInt(tmpMonth.value) + 1
-    const day = parseInt(item.value)
+    const month = tmpMonth.value + 1
+    const day = item.value
     startDate.value =
       tmpYear.value +
       '-' +
@@ -320,11 +334,11 @@ const selectDate = item => {
   // 开始时间不为空 -> 设置结束时间
   if (!isStartDate && isEndDate) {
     const selectedStartYear = startYear.value
-    let selectedStartMonth = parseInt(startMonth.value) + 1
-    let selectedStartDay = startDay.value
+    let selectedStartMonth: string | number = startMonth.value + 1
+    let selectedStartDay: string | number = startDay.value
     const selectedCurrentYear = tmpYear.value
-    let selectedCurrentMonth = parseInt(tmpMonth.value) + 1
-    let selectedCurrentDay = item.value
+    let selectedCurrentMonth: string | number = tmpMonth.value + 1
+    let selectedCurrentDay: string | number = item.value
     selectedStartMonth =
       selectedStartMonth < 10 ? '0' + selectedStartMonth : selectedStartMonth
     selectedStartDay =
@@ -349,8 +363,8 @@ const selectDate = item => {
       endYear.value = tmpYear.value
       endMonth.value = tmpMonth.value
       endDay.value = item.value
-      const month = parseInt(tmpMonth.value) + 1
-      const day = parseInt(item.value)
+      const month = tmpMonth.value + 1
+      const day = item.value
       endDate.value =
         tmpYear.value +
         '-' +
@@ -364,7 +378,7 @@ const selectDate = item => {
       endYear.value = ''
       endMonth.value = ''
       endDay.value = ''
-      const month = parseInt(tmpMonth.value) + 1
+      const month = tmpMonth.value + 1
       startDate.value =
         tmpYear.value +
         '-' +
@@ -375,13 +389,17 @@ const selectDate = item => {
     }
   }
 }
-const selected = (currentYear, currentMonth, currentDay) => {
+const selected = (
+  currentYear: number,
+  currentMonth: number | string,
+  currentDay: number | string
+) => {
   const selectedStartYear = startYear.value
   const selectedEndYear = endYear.value
-  let selectedStartMonth = parseInt(startMonth.value) + 1
-  let selectedEndMonth = parseInt(endMonth.value) + 1
-  let selectedStartDay = startDay.value
-  let selectedEndDay = endDay.value
+  let selectedStartMonth: string | number = startMonth.value + 1
+  let selectedEndMonth: string | number = endMonth.value + 1
+  let selectedStartDay: string | number = startDay.value
+  let selectedEndDay: string | number = endDay.value
   if (
     !selectedStartYear ||
     !selectedEndYear ||
@@ -396,15 +414,14 @@ const selected = (currentYear, currentMonth, currentDay) => {
     return false
   }
   currentMonth = currentMonth < 10 ? '0' + currentMonth : currentMonth
-  currentDay = parseInt(currentDay) < 10 ? '0' + currentDay : currentDay
+  currentDay = currentDay < 10 ? '0' + currentDay : currentDay
   selectedStartMonth =
     selectedStartMonth < 10 ? '0' + selectedStartMonth : selectedStartMonth
   selectedEndMonth =
     selectedEndMonth < 10 ? '0' + selectedEndMonth : selectedEndMonth
   selectedStartDay =
-    parseInt(selectedStartDay) < 10 ? '0' + selectedStartDay : selectedStartDay
-  selectedEndDay =
-    parseInt(selectedEndDay) < 10 ? '0' + selectedEndDay : selectedEndDay
+    selectedStartDay < 10 ? '0' + selectedStartDay : selectedStartDay
+  selectedEndDay = selectedEndDay < 10 ? '0' + selectedEndDay : selectedEndDay
   const currentTime = new Date(
     currentYear + '-' + currentMonth + '-' + currentDay
   ).getTime()

@@ -36,7 +36,8 @@ const router = useRouter()
 const route = useRoute()
 const backHandle = () => {
   if (device.value === 'mobile') {
-    if (outSideMenuRouteName.value.includes(route.name)) {
+    const routeName: any = route.name
+    if (outSideMenuRouteName.value.includes(routeName)) {
       router.go(-1)
     } else {
       router.push({ path: '/home' })

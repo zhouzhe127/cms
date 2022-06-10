@@ -269,7 +269,7 @@ const { type, target } = route.params
 console.log('route', type, target)
 const { menuWidth } = storeToRefs(menuStore())
 const componentKey = ref(1)
-const reload = inject('reload')
+const reload: any = inject('reload')
 const { device } = storeToRefs(appStore())
 const offsetTop = ref(device.value === 'mobile' ? 140 : 60)
 const dialogWidth = ref(device.value === 'mobile' ? '100%' : '728px')
@@ -363,7 +363,7 @@ const closeApplyLimitDialogHandle = () => {
 }
 const saveHandle = async () => {
   console.log(datePickerRangeRef.value.timeRef, 'kkkk')
-  datePickerRangeRef.value.timeRef.validate((valid, fields) => {
+  datePickerRangeRef.value.timeRef.validate((valid: Boolean) => {
     console.log(valid)
   })
   const dateFormat = moment('2022-07-02').format('YYYY-MM-DD')

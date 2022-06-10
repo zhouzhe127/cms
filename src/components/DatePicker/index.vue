@@ -4,7 +4,7 @@
       <div class="panel-header">
         <div class="prev-month">
           <svg-icon
-            v-if="!isDisabled()"
+            v-if="!isDisabled('')"
             icon-class="arrow_up"
             @click="preMonthHandle"
           />
@@ -32,10 +32,10 @@
               nextMonth: item.nextMonth,
               currentDate:
                 day === item.value && month === tmpMonth && year === tmpYear,
-              selected: selected(item.value),
-              disabled: isDisabled(item.value)
+              selected: selected(item.value || ''),
+              disabled: isDisabled(item.value || '')
             }"
-            @click="selectDate(item.value)"
+            @click="selectDate(item.value || '')"
             v-text="item.value"
           ></li>
         </ul>
@@ -65,12 +65,12 @@
         </el-form-item>
       </el-form>
     </div>
-    <el-button
-      v-if="datePickerProps.hasSubmit"
-      class="theme-btn"
-      @click="setHandle"
-      >SET EXPIRATION</el-button
-    >
+    <!--    <el-button-->
+    <!--      v-if="datePickerProps.hasSubmit"-->
+    <!--      class="theme-btn"-->
+    <!--      @click="setHandle"-->
+    <!--      >SET EXPIRATION</el-button-->
+    <!--    >-->
   </div>
 </template>
 
@@ -88,6 +88,13 @@ interface PropsType {
   hasSubmit?: boolean
 }
 
+interface DateList {
+  previousMonth?: boolean
+  currentMonth?: boolean
+  value?: number | string
+  nextMonth?: boolean
+}
+
 const datePickerProps = withDefaults(defineProps<PropsType>(), {
   time: '', // 默认值
   width: 330,
@@ -99,9 +106,9 @@ const month = ref(new Date().getMonth()) // 系统时间月
 const year = ref(new Date().getFullYear()) // 系统时间年
 const tmpMonth = ref(new Date().getMonth()) // 变化的时间年
 const tmpYear = ref(new Date().getFullYear()) // 变化的时间月
-const selectedYear = ref('') // 选中的时间年
-const selectedMonth = ref('') // 选中的时间月
-const selectedDay = ref('') // 选中的时间天
+const selectedYear = ref() // 选中的时间年
+const selectedMonth = ref() // 选中的时间月
+const selectedDay = ref() // 选中的时间天
 const weekList = ref([
   { label: 'Sun', value: 0 },
   { label: 'Mon', value: 1 },
@@ -191,12 +198,18 @@ const dateList = computed(() => {
     0
   ).getDate()
   // 先将当月的日期塞入dateList
-  let dateList = Array.from({ length: currentMonthLength }, (val, index) => {
-    return {
-      currentMonth: true,
-      value: index + 1
+
+  const dateList: DateList[] = Array.from(
+    { length: currentMonthLength },
+    (val, index) => {
+      return {
+        previousMonth: false,
+        currentMonth: true,
+        value: index + 1,
+        nextMonth: false
+      }
     }
-  })
+  )
   // 获取当月1号的星期是为了确定在1号前需要插多少天
   const startDay = new Date(tmpYear.value, tmpMonth.value, 1).getDay()
   // 确认上个月一共多少天
@@ -206,16 +219,26 @@ const dateList = computed(() => {
   //   0
   // ).getDate()
   // 在1号前插入上个月日期
+  const preDateList: DateList[] = []
   for (let i = 0, len = startDay; i < len; i++) {
-    dateList = [
-      { previousMonth: true, value: '' } // previousMonthLength - i
-    ].concat(dateList)
+    preDateList.push({
+      previousMonth: true,
+      currentMonth: false,
+      value: '',
+      nextMonth: false
+    }) // previousMonthLength - i
   }
+  dateList.concat(preDateList)
   // 补全剩余位置,总的35条
-  const currentDateListLength = dateList.length
+  const currentDateListLength: number = dateList.length
   const maxItem = 35
   for (let i = currentDateListLength, item = 1; i < maxItem; i++, item++) {
-    dateList[dateList.length] = { nextMonth: true, value: '' } // item
+    dateList[dateList.length] = {
+      previousMonth: false,
+      currentMonth: false,
+      value: '',
+      nextMonth: true
+    } // item
   }
   return dateList
 })
@@ -250,7 +273,7 @@ onMounted(() => {
     selectedDay.value = day
   }
 })
-const formatMonth = (value: string) => {
+const formatMonth = (value: number) => {
   const currentMonthItem = monthList.value.find(item => item.value === value)
   return currentMonthItem && currentMonthItem['label']
 }
@@ -270,7 +293,7 @@ const preMonthHandle = () => {
     tmpMonth.value -= 1
   }
 }
-const isDisabled = (currentDay = '') => {
+const isDisabled = (currentDay: string | number) => {
   if (!currentDay) {
     return tmpYear.value <= year.value && tmpMonth.value <= month.value
   }
@@ -283,13 +306,13 @@ const isDisabled = (currentDay = '') => {
   )
 }
 
-const selectDate = currentDay => {
+const selectDate = (currentDay: string | number) => {
   if (isDisabled(currentDay)) return
   selectedYear.value = tmpYear.value
   selectedMonth.value = tmpMonth.value
   selectedDay.value = currentDay
 }
-const selected = currentDay => {
+const selected = (currentDay: string | number) => {
   return (
     tmpYear.value === selectedYear.value &&
     tmpMonth.value === selectedMonth.value &&
@@ -297,79 +320,79 @@ const selected = currentDay => {
   )
 }
 // 根据时区计算出时间偏移量
-const getTimeZoneCode = tz => {
-  // 当前时区的偏移量
-  const offset = momentTimezone.tz.zone(tz).utcOffset(Date.now()) / 60
-  let mark = ''
-  if (offset > 0) {
-    mark = '-'
-  } else if (offset < 0) {
-    mark = '+'
-  }
-
-  let val = ''
-  const offsetVal = Math.abs(offset)
-  if (offsetVal < 10 && offsetVal > 0) {
-    val = `0${offsetVal}`
-  } else if (offsetVal > 9) {
-    val = `${offsetVal}`
-  }
-  return `GMT${mark}${val}`
-}
-const setHandle = () => {
-  try {
-    if (!selectedYear.value || !selectedMonth.value || !selectedDay.value) {
-      this.$message({
-        type: 'warning',
-        message: 'Please choose a date!'
-      })
-      return
-    }
-    // if (!timeZone) {
-    //   this.$message({
-    //     type: 'warning',
-    //     message: 'Please choose a time zone!',
-    //   })
-    //   return
-    // }
-    // if (!timePoint) {
-    //   this.$message({
-    //     type: 'warning',
-    //     message: 'Please choose a time!',
-    //   })
-    //   return
-    // }
-
-    this.$refs.timeForm.validate(valid => {
-      if (valid) {
-        const dateFormat = this.$moment(
-          `${selectedYear.value}-${selectedMonth.value + 1}-${
-            selectedDay.value
-          }`
-        ).format('YYYY-MM-DD')
-        const { timeZone, timePoint } = this.timeForm
-        const time_zone = timeZoneData.value.find(
-          item => item.value === timeZone
-        )
-        const set_time = new Date(
-          `${dateFormat.replace(/-/g, '/')} ${timePoint} ${getTimeZoneCode(
-            time_zone.value
-          )}`
-        ).valueOf()
-        if (!this.hasSubmit) {
-          return [set_time, time_zone.params]
-        }
-        this.$emit('setTime', set_time, time_zone.params)
-      } else {
-        if (!this.hasSubmit) {
-          return []
-        }
-      }
-    })
-  } catch (e) {
-    console.log(e)
-  }
-}
+// const getTimeZoneCode = tz => {
+//   // 当前时区的偏移量
+//   const offset = momentTimezone.tz.zone(tz).utcOffset(Date.now()) / 60
+//   let mark = ''
+//   if (offset > 0) {
+//     mark = '-'
+//   } else if (offset < 0) {
+//     mark = '+'
+//   }
+//
+//   let val = ''
+//   const offsetVal = Math.abs(offset)
+//   if (offsetVal < 10 && offsetVal > 0) {
+//     val = `0${offsetVal}`
+//   } else if (offsetVal > 9) {
+//     val = `${offsetVal}`
+//   }
+//   return `GMT${mark}${val}`
+// }
+// const setHandle = () => {
+//   try {
+//     if (!selectedYear.value || !selectedMonth.value || !selectedDay.value) {
+//       this.$message({
+//         type: 'warning',
+//         message: 'Please choose a date!'
+//       })
+//       return
+//     }
+//     // if (!timeZone) {
+//     //   this.$message({
+//     //     type: 'warning',
+//     //     message: 'Please choose a time zone!',
+//     //   })
+//     //   return
+//     // }
+//     // if (!timePoint) {
+//     //   this.$message({
+//     //     type: 'warning',
+//     //     message: 'Please choose a time!',
+//     //   })
+//     //   return
+//     // }
+//
+//     this.$refs.timeForm.validate(valid => {
+//       if (valid) {
+//         const dateFormat = this.$moment(
+//           `${selectedYear.value}-${selectedMonth.value + 1}-${
+//             selectedDay.value
+//           }`
+//         ).format('YYYY-MM-DD')
+//         const { timeZone, timePoint } = this.timeForm
+//         const time_zone = timeZoneData.value.find(
+//           item => item.value === timeZone
+//         )
+//         const set_time = new Date(
+//           `${dateFormat.replace(/-/g, '/')} ${timePoint} ${getTimeZoneCode(
+//             time_zone.value
+//           )}`
+//         ).valueOf()
+//         if (!this.hasSubmit) {
+//           return [set_time, time_zone.params]
+//         }
+//         this.$emit('setTime', set_time, time_zone.params)
+//       } else {
+//         if (!this.hasSubmit) {
+//           return []
+//         }
+//       }
+//     })
+//   } catch (e) {
+//     console.log(e)
+//   }
+// }
 defineExpose({
   timeRef
 })

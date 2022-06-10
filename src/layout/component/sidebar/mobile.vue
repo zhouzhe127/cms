@@ -26,7 +26,7 @@ import { storeToRefs } from 'pinia'
 const route = useRoute()
 const router = useRouter()
 const { showMobileMenuItem, outSideMenuRouteName } = storeToRefs(menuStore())
-const menuContainerStyle = ref(null)
+const menuContainerStyle = ref({})
 const showMenuItemHandle = () => {
   if (route.name === 'home') {
     showMobileMenuItem.value = !showMobileMenuItem.value
@@ -43,7 +43,7 @@ onMounted(() => {
     }
   )
 })
-const computeMenuContainerStyle = (routerName: string) => {
+const computeMenuContainerStyle = (routerName: any) => {
   menuContainerStyle.value = {
     bottom: outSideMenuRouteName.value.includes(routerName) ? 'auto' : 0
   }
