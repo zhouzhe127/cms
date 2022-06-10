@@ -23,8 +23,7 @@ export const appStore = defineStore('app', {
    */
   state: () => {
     return {
-      device: getDevice(), // desktop ipad mobile
-      showMobileMenuItem: false
+      device: getDevice() // desktop ipad mobile
     }
   },
   /**

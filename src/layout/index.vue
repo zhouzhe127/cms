@@ -14,13 +14,9 @@
       </el-main>
     </el-container>
   </div>
-  <div
-    v-else
-    class="common-layout"
-    :style="{ paddingTop: showMobileMenuItem ? '340px' : '80px' }"
-  >
+  <div v-else class="common-layout">
     <MobileSideBar />
-    <el-main>
+    <el-main :style="{ paddingTop: mobileMainPaddingTop + 'px' }">
       <router-view />
     </el-main>
   </div>
@@ -30,16 +26,18 @@
 import SideBar from '@/layout/component/sidebar/index.vue'
 import MobileSideBar from '@/layout/component/sidebar/mobile.vue'
 import PlatformControl from '@/components/PlatformControl/index.vue'
-import { menuStore } from '@/store/modules/menu'
 import { appStore } from '@/store/modules/app'
+import { menuStore } from '@/store/modules/menu'
 import { storeToRefs } from 'pinia'
 const useMenuStore = menuStore()
 // 通过storeToRefs转换为响应式对象解构可正常使用
 const { menuWidth } = storeToRefs(menuStore())
-const { device, showMobileMenuItem } = storeToRefs(appStore())
+const { mobileMainPaddingTop } = storeToRefs(menuStore())
+const { device } = storeToRefs(appStore())
 // useUserStore.setMenuWidth(routeName)
 useMenuStore.setMenuWidth()
-console.log(device, showMobileMenuItem)
+
+device.value === 'mobile' && useMenuStore.setMobileMainPaddingTop()
 </script>
 
 <style lang="scss" scoped>
@@ -53,6 +51,7 @@ console.log(device, showMobileMenuItem)
     bottom: 0;
     display: flex;
     flex-direction: column;
+    background-color: $bg;
   }
   .el-header {
     position: fixed;
