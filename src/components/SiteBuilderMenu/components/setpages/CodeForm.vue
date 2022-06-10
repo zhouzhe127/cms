@@ -7,7 +7,7 @@
     <div class="formcontant tfr-form">
       <el-form ref="ruleFormNode" :model="ruleForm" label-width="80px" label-position="top" class="tfr-form-required">
         <el-form-item label="Code" prop="codeText">
-          <tfr-input v-model="ruleForm.codeText" width="100%" />
+          <tfr-editor v-model="ruleForm.codeText" />
         </el-form-item>
       </el-form>
     </div>
@@ -16,6 +16,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
+import TfrEditor from '@/components/TfrEditor/index.vue'
 const ruleForm = reactive({
   codeText: '',
 })

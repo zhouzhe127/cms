@@ -1,13 +1,16 @@
 <template>
   <div>
-    <TfrDialog class="editpageinfowin" v-bind="$attrs" width="728px" append-to-body @before-close="cancelHandle">
+    <TfrDialog class="editpageinfowin" v-bind="$attrs" :width="props.width" append-to-body @before-close="cancelHandle">
       <div class="editpage">
         <el-container>
-          <el-aside width="160px">
+          <el-aside :width="props.asideWidth">
             <div class="aside_box">
-              <div class="aside_ti">PAGE SETTINGS</div>
+              <div class="aside_ti">{{ props.title }}</div>
               <ul class="tablist">
-                <li v-for="(item, index) in sideArr" :key="index" :class="{ active: selectd === index }" @click="clickTab(index)">
+                <div v-if="props.hasSearch" class="inputbox">
+                  <edge-input v-model="searchText" placeholder="SEARCH" @input="inputSearch" @clear="inputSearch" />
+                </div>
+                <li v-for="(item, index) in cacheAside" :key="index" :class="{ active: selectd === index }" @click="clickTab(index)">
                   <div class="liitem">
                     <svg-icon  :icon-class="item.icon" class="svg_side" />
                     <span>{{ item.title }}</span>
@@ -19,12 +22,12 @@
           <el-main class="main_container">
             <el-container style="height:100%;">
               <el-main>
-                <component :is='sideArr[selectd].component' />
+                <component v-if="cacheAside[selectd]" :is='cacheAside[selectd].component' />
               </el-main>
               <el-footer>
                 <div class="footerbox">
-                  <div class="btn" @click="cancelHandle">CANCEL</div>
-                  <div class="btn black">SAVE</div>
+                  <div class="btn" @click="cancelHandle">{{ props.leftbtn }}</div>
+                  <div class="btn black">{{ props.rightbtn }}</div>
                 </div>
               </el-footer>
             </el-container>
@@ -38,41 +41,46 @@
 <script setup lang="ts">
 import { ref, onUnmounted } from 'vue'
 import TfrDialog from '@/components/TfrDialog/index.vue'
-import InfoForm from '@/components/SiteBuilderMenu/components/InfoForm.vue'
-import SeoForm from '@/components/SiteBuilderMenu/components/SeoForm.vue'
-import ImageForm from '@/components/SiteBuilderMenu/components/ImageForm.vue'
-import CodeForm from '@/components/SiteBuilderMenu/components/CodeForm.vue'
-import TagForm from '@/components/SiteBuilderMenu/components/TagForm.vue'
-const sideArr = [
-  {
-    icon: 'fillsigh',
-    title: 'Info',
-    component: InfoForm
-  },
-  {
-    icon: 'searchseo',
-    title: 'SEO',
-    component: SeoForm
-  },
-  {
-    icon: 'fillImage',
-    title: 'Image',
-    component: ImageForm
-  },
-  {
-    icon: 'codeicon',
-    title: 'Code',
-    component: CodeForm
-  },
-  {
-    icon: 'tagtitle',
-    title: 'Tag',
-    component: TagForm
-  }
-]
+import EdgeInput from '@/components/TfrInput/EdgeInput.vue'
+interface Props {
+  sideArr?: Array<{
+    icon?: string,
+    title?: string,
+    component?: any
+  }>,
+  width?: string,
+  asideWidth?: string,
+  hasSearch?: boolean,
+  title?: string,
+  leftbtn?: string,
+  rightbtn?: string
+}
+const props = withDefaults(defineProps<Props>(), {
+  width: '728px',
+  title: '--',
+  asideWidth: '160px',
+  hasSearch: false,
+  leftbtn: 'CANCEL',
+  rightbtn: 'SAVE',
+  sideArr: () => ([])
+})
+const cacheAside = ref<any>([])
+cacheAside.value = [...props.sideArr]
 const selectd = ref(0)
 const clickTab = (index:number) => {
   selectd.value = index
+}
+const searchText = ref('')
+const inputSearch = (e: string) => {
+  searchText.value = e
+  if (e) {
+    cacheAside.value = props.sideArr.filter(v => {
+      return v.title?.toLocaleLowerCase()?.indexOf(e.toLocaleLowerCase()) !== -1
+    })
+    selectd.value = 0
+  } else {
+    cacheAside.value = props.sideArr
+  }
 }
 const Emits = defineEmits(['update:modelValue'])
 const cancelHandle = () => {
@@ -88,13 +96,15 @@ onUnmounted(() => {
   color: black;
   .aside_box {
     background-color: #F8F8F8;
-    text-align: center;
     padding-bottom: 30px;
     height: 730px;
     .aside_ti {
-      padding: 30px 0;
+      padding: 30px 20px;
     }
     .tablist {
+      .inputbox {
+        padding: 20px;
+      }
       li {
         padding: 0 20px;
         height: 40px;
@@ -107,20 +117,20 @@ onUnmounted(() => {
           width: 100%;
           height: 100%;
           display: flex;
-          justify-content: center;
+          padding-left: 10px;
           align-items: center;
           border-radius: 8px;
           .svg_side {
-            margin-right: 8px;
+            margin-right: 8%;
             font-size: 20px;
           }
           span {
             display: block;
-            width: 50px;
             text-align: left;
           }
         }
         &:hover {
+          opacity: 1;
           .liitem {
             background-color: #ffffff;
           }
@@ -128,6 +138,9 @@ onUnmounted(() => {
       }
       .active {
         opacity: 1;
+        .liitem {
+          background-color: #ffffff;
+        }
       }
     }
   }
@@ -143,6 +156,7 @@ onUnmounted(() => {
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-gap: 10px;
+      line-height: 50px;
       .btn {
         width: 100%;
         height: 50px;
@@ -163,5 +177,11 @@ onUnmounted(() => {
 }
 ::v-global(.editpageinfowin) {
   padding: initial !important;
+}
+.editpageinfowin::v-global(.el-dialog__footer) {
+  margin-top: initial !important;
+}
+.main_container::v-global(.el-footer) {
+  height: auto;
 }
 </style>

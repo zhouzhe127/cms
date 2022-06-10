@@ -83,6 +83,7 @@
       styles.width = `${elementOffset.width}px`
       prop.onAffix(`${elementOffset.width}px`)
     })
+    return true
   }
   const getOffset = (element:Element|null) => {
     const rect = element?.getBoundingClientRect() // 返回元素的大小以及相对于视口的位置

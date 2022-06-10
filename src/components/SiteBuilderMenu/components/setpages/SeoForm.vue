@@ -29,7 +29,8 @@
           </el-form-item>
           <p class="mkdu">The unique location slug for this page.</p>
           <el-form-item label="Meta Description" prop="metaDes">
-            <tfr-input v-model="ruleForm.metaDes" width="100%" />
+            <!-- <tfr-input v-model="ruleForm.metaDes" width="100%" /> -->
+            <tfr-editor v-model="ruleForm.metaDes" height="150px" />
           </el-form-item>
           <div class="navrid">
             <span>Hide From Navigation</span>
@@ -47,6 +48,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
+import TfrEditor from '@/components/TfrEditor/index.vue'
 const ruleForm = reactive({
   metaTitle: '',
   slug: '',
