@@ -6,7 +6,7 @@
       </MenuItem>
     </SideMenu>
     <PageSelectWin v-model="showPageWin" />
-    <EditPageInfoWin v-model="showEdit" />
+    <EditPageInfoWin v-model="showEdit" :side-arr="moduleArr"  title="EDIT LINK"/>
   </div>
 </template>
 
@@ -18,6 +18,7 @@ import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
 import PageSelectWin from '@/components/PageSelectWin/index.vue'
 import EditPageInfoWin from '@/components/SiteBuilderMenu/EditPageInfoWin.vue'
+import moduleArr from './siteModulesPage'
 const showPageWin = ref(false)
 const showEdit = ref(false)
 const addPage = () => {

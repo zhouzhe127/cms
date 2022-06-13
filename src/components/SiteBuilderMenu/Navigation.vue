@@ -28,7 +28,7 @@ const addPage = () => {
   showPageWin.value = true
 }
 const chickEditWin = () => {
-  showModules.value = true
+  showEdit.value = true
 }
 const deleteItem = () => {
   tfrMessage.confirm('wqqqqqq')
