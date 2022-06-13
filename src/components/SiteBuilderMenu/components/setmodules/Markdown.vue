@@ -1,0 +1,39 @@
+<template>
+  <div class="container">
+    <CmsEdit :options="['edit_cms', 'add_white']">
+      <div class="markdown">
+        <div class="title">LOREM IPSUM</div>
+        <div class="doc">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+      </div>
+    </CmsEdit>
+  </div>
+</template>
+
+<script setup lang="ts">
+import CmsEdit from '@/components/CmsEdit/index.vue'
+</script>
+
+<style lang="scss" scoped>
+.container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .markdown {
+    width: 406px;
+    border: 1px black dashed;
+    padding: 20px 16px;
+    .title {
+      font-size: 28px;
+      font-family: "Brown Bold Italic", serif;
+    }
+    .doc {
+      margin-top: 30px;
+      line-height: 18px;
+      font-family: "Brown Light Italic", serif;
+    }
+  }
+}
+</style>

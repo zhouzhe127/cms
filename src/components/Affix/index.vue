@@ -61,7 +61,7 @@ import { ref, reactive, onMounted, computed, nextTick, inject, onBeforeUnmount, 
         styles.top = `${offset}px`
         styles.left = `${childrenOffset.left}px`
         styles.width = `${childrenOffset.width}px`
-        prop.onAffix(affixed) 
+        prop.onAffix(affixed)
       }
       // 非滚动范围内的赋值处理
       if (!prop.isScrollView && scrollTop > elementOffset.top) {
@@ -69,10 +69,9 @@ import { ref, reactive, onMounted, computed, nextTick, inject, onBeforeUnmount, 
         styles.top = `${offset}px`
         styles.left = `${elementOffset.left}px`
         styles.width = `${childrenOffset.width}px`
-        prop.onAffix(affixed) 
+        prop.onAffix(affixed)
       }
     }
-   
     // 还原逻辑
     if (affixed.value) {
       // 向上推一下逻辑
@@ -138,16 +137,13 @@ import { ref, reactive, onMounted, computed, nextTick, inject, onBeforeUnmount, 
   const getParentRef = inject<Ref>('getRef')
   const getScrollRef = inject<any>('scrollRef')
   let  addEventHandleScroll: any;
-  
   onMounted(() => {
     const currentInstance = getCurrentInstance()?.refs.root as HTMLElement
-    
-    addEventHandleScroll = (target: any, curElement: any = currentInstance) => { 
-      handleScroll(target, curElement) 
+    addEventHandleScroll = (target: any, curElement: any = currentInstance) => {
+      handleScroll(target, curElement)
     }
     affixedClientHeight.value = root.value?.children[0].clientHeight || 0
     wrapStyle.height = `${affixedClientHeight.value}px`
-    
     if (getParentRef) {
       const drawerContent = getParentRef.value
       drawerContent.addEventListener('scroll', addEventHandleScroll)

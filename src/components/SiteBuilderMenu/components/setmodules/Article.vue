@@ -1,13 +1,50 @@
 <template>
-  <div>
-    11111
+  <div class="article_box">
+    <CmsEdit :options="['edit_cms', 'add_white']">
+      <div class="article_com">
+        <div class="imgcontant"></div>
+        <ul class="info">
+          <li>GASAHNX</li>
+          <li class="nuem">GASAHNX</li>
+          <li class="lint">GASAHNX</li>
+          <li>GASAHNX</li>
+        </ul>
+      </div>
+    </CmsEdit>
   </div>
 </template>
 
 <script setup lang="ts">
-
+import CmsEdit from '@/components/CmsEdit/index.vue'
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.article_box {
+  padding-top: 80px;
+  display: flex;
+  justify-content: center;
+  .article_com {
+    width: 328px;
+    height: 508px;
+    border: 1px dashed black;
+    .imgcontant {
+      height: 328px;
+      border-bottom: 1px dashed black;
+    }
+    .info {
+      padding-top: 20px;
+      padding-left: 28px;
+      li {
+        padding: 5px 0;
+        line-height: 1.3;
+      }
+      .nuem{
+        font-size: 24px;
+      }
+      .lint {
+        font-family: "Brown Light", serif;
+      }
+    }
+  }
+}
 </style>
