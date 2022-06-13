@@ -3,7 +3,7 @@
     <second-side>
       <div class="scroll-affix-con">
         <Navigation />
-        <Footer />
+        <FooterNavigation />
         <Navigation />
       </div>
     </second-side>
@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import SecondSide from '@/components/SecondSide/index.vue'
 import Navigation from '@/components/SiteBuilderMenu/Navigation.vue'
-import Footer from '@/components/SiteBuilderMenu/Footer.vue'
+import FooterNavigation from '@/components/SiteBuilderMenu/components/footerNavigation/index.vue'
 const clearBin = () => {}
 </script>
 

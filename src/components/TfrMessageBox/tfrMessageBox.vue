@@ -5,6 +5,7 @@
       v-model="curVisible"
       :width="props.width"
       :isClose="true"
+      @before-close="onCancel"
     >
       <div class="body">
         <header>
