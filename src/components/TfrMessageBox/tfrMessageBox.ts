@@ -154,9 +154,9 @@ function messageBoxFactory(boxType: typeof MESSAGE_BOX_VARIANTS[number]) {
     let title: string
     if (isObject(titleOrOpts)) {
       options = titleOrOpts
-      title = ''
+      title = 'DELETE?'
     } else if (isUndefined(titleOrOpts)) {
-      title = ''
+      title = 'DELETE?'
     } else {
       title = titleOrOpts
     }

@@ -1,5 +1,8 @@
 import Article from '@/components/SiteBuilderMenu/components/setmodules/Article.vue'
 import External from '@/components/SiteBuilderMenu/components/footerNavigation/setpages/External.vue'
+import Code from '@/components/SiteBuilderMenu/components/footerNavigation/setpages/Code.vue'
+import Email from '@/components/SiteBuilderMenu/components/footerNavigation/setpages/Email.vue'
+import Internal from '@/components/SiteBuilderMenu/components/footerNavigation/setpages/Internal.vue'
 
 export default [
   {
@@ -10,17 +13,17 @@ export default [
   {
     icon: 'internal',
     title: 'Internal',
-    component: Article
+    component: Internal
   },
   {
     icon: 'codeicon',
     title: 'Code',
-    component: Article
+    component: Code
   },
   {
     icon: 'mail_fill',
     title: 'Email',
-    component: Article
+    component: Email 
   },
   {
     icon: 'download',
