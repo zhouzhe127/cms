@@ -15,6 +15,14 @@
   >
     <slot></slot>
   </el-button>
+  <el-button
+    v-else-if="buttonProps.type === 'danger'"
+    :class="['tfr-btn', 'tfr-button--danger', className]"
+    v-bind="$attrs"
+    @click="click"
+  >
+    <slot></slot>
+  </el-button>
 </template>
 
 <script setup lang="ts">
@@ -65,5 +73,17 @@ const click = () => {
   background-color: #f4f4f4;
   border: none;
   color: $theme;
+}
+.tfr-button--danger {
+  background-color: #fd7e7e;
+  border: none;
+  color: #fff;
+}
+.tfr-button--danger:hover,
+.tfr-button--danger:focus,
+.tfr-button--danger:active {
+  background-color: #fd7e7e;
+  border: none;
+  color: #fff;
 }
 </style>
