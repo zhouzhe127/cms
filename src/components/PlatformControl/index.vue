@@ -19,7 +19,7 @@ const tpArr: Array<string> = ['mobile', 'tablet', 'pc']
 const select = ref('mobile')
 const changeType = (type: string): void => {
   select.value = type
-  appStore.pageconfig.setItem(type)
+  appStore.setBuilder.setItem(type)
 }
 </script>
 

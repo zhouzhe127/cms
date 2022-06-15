@@ -3,33 +3,9 @@
     <TfrDialog v-bind="$attrs" width="336px" append-to-body class="page-add-dialog" :is-close="false">
       <div class="type-list">
         <ul>
-          <li>
-            <svg-icon icon-class="tablet"/>
-            <span>PAGE</span>
-          </li>
-          <li>
-            <svg-icon icon-class="article"/>
-            <span>ARTICLE</span>
-          </li>
-          <li>
-            <svg-icon icon-class="scratchable"/>
-            <span>PLP</span>
-          </li>
-          <li>
-            <svg-icon icon-class="link"/>
-            <span>LINK</span>
-          </li>
-          <li>
-            <svg-icon icon-class="clip"/>
-            <span>CLIP</span>
-          </li>
-          <li>
-            <svg-icon icon-class="folder"/>
-            <span>FOLDER</span>
-          </li>
-          <li>
-            <svg-icon icon-class="smart"/>
-            <span>SMART</span>
+          <li v-for="(item, index) in listArr" :key="index" @click="addpage">
+            <svg-icon :icon-class="item.icon"/>
+            <span>{{ item.title }}</span>
           </li>
         </ul>
       </div>
@@ -40,25 +16,46 @@
 <script setup lang="ts">
 // import { computed } from 'vue'
 import TfrDialog from '@/components/TfrDialog/index.vue'
-// interface Props {
-//   visible?: boolean,
-// }
-// const prop = withDefaults(defineProps<Props>(), {
-//   visible: false
-// })
-// const emit = defineEmits(['update:visible'])
-// const creatWin = computed({
-//   get: () => {
-//     console.log(111)
-//     return prop.visible
-//   },
-//   set: (value) => {
-//     emit('update:visible', value)
-//   }
-// })
-// const closeWin = () => {
-//   creatWin.value = false
-// }
+import store from '@/store'
+const addSidebar = store.setBuilder.addSidebar
+const listArr = [
+  {
+    title: 'PAGE',
+    icon: 'tablet'
+  },
+  {
+    title: 'ARTICLE',
+    icon: 'article'
+  },
+  {
+    title: 'PLP',
+    icon: 'scratchable'
+  },
+  {
+    title: 'LINK',
+    icon: 'link'
+  },
+  {
+    title: 'CLIP',
+    icon: 'clip'
+  },
+  {
+    title: 'FOLDER',
+    icon: 'folder'
+  },
+  {
+    title: 'SMART',
+    icon: 'smart'
+  }
+]
+const emit = defineEmits(['update:modelValue'])
+const addpage = () => {
+  addSidebar({
+    title: 'New Custom',
+    icon: 'check_box'
+  })
+  emit('update:modelValue', false)
+}
 </script>
 
 <style lang="scss" scoped>

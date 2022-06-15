@@ -1,7 +1,7 @@
 <template>
   <div>
     <SideMenu title="NAVIGATION" @add-click="addPage">
-      <MenuItem v-for="(item, index) in [1,2,3,4,5,6,7,8,32,11]" :key="index" title="ss-2022" @left-click="deleteItem" @right-click="chickEditWin">
+      <MenuItem v-for="(item, index) in sidearr" :key="index" :title="item.title" :center-icon="item.icon" @left-click="deleteItem" @right-click="chickEditWin">
         <ItemChild title="mnns" />
       </MenuItem>
     </SideMenu>
@@ -21,6 +21,9 @@ import PageSelectWin from '@/components/PageSelectWin/index.vue'
 import HasSidebarWin from '@/components/TfrDialog/HasSidebarWin.vue'
 import sideArr from '@/components/SiteBuilderMenu/setPage'
 import modulesArr from '@/components/SiteBuilderMenu/setModules'
+import store from '@/store'
+const sidearr = store.setBuilder.Sidestate.sidebarArr
+console.log(sidearr)
 const showPageWin = ref(false)
 const showEdit = ref(false)
 const showModules = ref(false)

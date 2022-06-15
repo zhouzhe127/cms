@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TfrDialog class="editpageinfowin" v-bind="$attrs" :width="props.width" append-to-body @close="close">
+    <TfrDialog class="editpageinfowin" v-bind="$attrs" :width="props.width" append-to-body @beforeClose="close" @close="close">
       <div class="editpage">
         <el-container>
           <el-aside :width="props.asideWidth">
