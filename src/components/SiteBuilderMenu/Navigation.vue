@@ -6,8 +6,6 @@
       </MenuItem>
     </SideMenu>
     <PageSelectWin v-model="showPageWin" />
-    <HasSidebarWin v-model="showEdit" title="PAGE SETTINGS" :side-arr="sideArr" />
-    <HasSidebarWin v-model="showModules" :has-search="true" title="CONTENT MODULES" aside-width="240px" rightbtn="APPLY" :side-arr="modulesArr" />
   </div>
 </template>
 
@@ -18,20 +16,18 @@ import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
 import PageSelectWin from '@/components/PageSelectWin/index.vue'
-import HasSidebarWin from '@/components/TfrDialog/HasSidebarWin.vue'
-import sideArr from '@/components/SiteBuilderMenu/setPage'
-import modulesArr from '@/components/SiteBuilderMenu/setModules'
+import { useRoute, useRouter } from 'vue-router'
 import store from '@/store'
+const router = useRouter()
 const sidearr = store.setBuilder.Sidestate.sidebarArr
-console.log(sidearr)
 const showPageWin = ref(false)
-const showEdit = ref(false)
-const showModules = ref(false)
 const addPage = () => {
   showPageWin.value = true
 }
 const chickEditWin = () => {
-  showEdit.value = true
+  router.push({
+    path: '/siteBuilder/editpage'
+  })
 }
 const deleteItem = () => {
   tfrMessage.confirm('wqqqqqq')

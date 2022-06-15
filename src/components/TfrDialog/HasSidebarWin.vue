@@ -89,12 +89,13 @@ const inputSearch = (e: string) => {
     cacheAside.value = props.sideArr
   }
 }
-const Emits = defineEmits(['update:modelValue'])
+const Emits = defineEmits(['update:modelValue', 'close'])
 const cancelHandle = () => {
   close()
 }
 const close = () => {
   Emits('update:modelValue', false)
+  Emits('close')
 }
 const clickRightBtn = async () => {
   rightBtnLoading.value = true
