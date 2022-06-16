@@ -1,4 +1,4 @@
-enum PAGE_SELECT {
+export enum PAGE_SELECT {
   PAGE = 'PAGE',
   ARTICLE = 'ARTICLE',
   PLP = 'PLP',
@@ -6,4 +6,14 @@ enum PAGE_SELECT {
   CLIP = 'CLIP',
   FOLDER = 'FOLDER',
   SMART = 'SMART'
+}
+
+export const PAGE_ICONS = {
+  [PAGE_SELECT.PAGE]: 'tablet',
+  [PAGE_SELECT.ARTICLE]: 'article',
+  [PAGE_SELECT.PLP]: 'scratchable',
+  [PAGE_SELECT.LINK]: 'link',
+  [PAGE_SELECT.CLIP]: 'clip',
+  [PAGE_SELECT.FOLDER]: 'folder',
+  [PAGE_SELECT.SMART]: 'smart'
 }

@@ -1,39 +1,14 @@
 <template>
   <div class="link-show-con">
     <header>
-      <div class="title">
-        FAQ
-      </div>
+      <div class="title">FAQ</div>
       <svg-icon icon-class="link" />
     </header>
     <div class="show-con">intercom('show');</div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref, watch } from 'vue'
-import tfrMessage from '@/components/TfrMessageBox'
-
-const emit = defineEmits(['cancel'])
-
-interface IProps {
-  visible: boolean
-  width: string
-}
-
-const props = withDefaults(defineProps<IProps>(), {
-  visible: true
-})
-const editVisible = ref(props.visible)
-
-watch(() => props.visible, () => {
-  editVisible.value = props.visible
-})
-
-const onCancel = () => {
-  emit('cancel')
-}
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 .link-show-con {

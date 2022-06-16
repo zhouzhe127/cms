@@ -13,6 +13,7 @@
         <span class="text">CLEAR BIN</span>
       </div>
     </div>
+    <ClearBinDialog v-model="visibleClearDialog" @confirm="visibleClearDialog = false" @cancel="visibleClearDialog = false"/>
   </div>
 </template>
 
@@ -20,7 +21,14 @@
 import SecondSide from '@/components/SecondSide/index.vue'
 import Navigation from '@/components/SiteBuilderMenu/Navigation.vue'
 import FooterNavigation from '@/components/SiteBuilderMenu/components/footerNavigation/index.vue'
-const clearBin = () => {}
+import ClearBinDialog from './ClearBinDialog.vue'
+import { ref } from 'vue'
+
+const visibleClearDialog = ref(false)
+
+const clearBin = () => {
+  visibleClearDialog.value = true
+}
 </script>
 
 <style lang="scss" scoped>

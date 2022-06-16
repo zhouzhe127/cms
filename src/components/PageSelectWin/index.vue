@@ -3,7 +3,7 @@
     <TfrDialog v-bind="$attrs" width="336px" append-to-body class="page-add-dialog" :is-close="false">
       <div class="type-list">
         <ul>
-          <li v-for="(item, index) in listArr" :key="index" @click="addpage">
+          <li v-for="(item, index) in listArr" :key="index" @click="addpage(item)">
             <svg-icon :icon-class="item.icon"/>
             <span>{{ item.title }}</span>
           </li>
@@ -17,43 +17,44 @@
 // import { computed } from 'vue'
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import store from '@/store'
-console.log(store.setBuilder)
+import { PAGE_ICONS, PAGE_SELECT } from './index.type';
+import { SideItem } from '@/components/SiteBuilderMenu/type/index'
 const addSidebar = store.setBuilder.sideState.addSidebar
 const listArr = [
   {
-    title: 'PAGE',
-    icon: 'tablet'
+    title: PAGE_SELECT.PAGE,
+    icon: PAGE_ICONS[PAGE_SELECT.PAGE]
   },
   {
-    title: 'ARTICLE',
-    icon: 'article'
+    title: PAGE_SELECT.ARTICLE,
+    icon: PAGE_ICONS[PAGE_SELECT.ARTICLE]
   },
   {
-    title: 'PLP',
-    icon: 'scratchable'
+    title: PAGE_SELECT.PLP,
+    icon: PAGE_ICONS[PAGE_SELECT.PLP]
   },
   {
-    title: 'LINK',
-    icon: 'link'
+    title: PAGE_SELECT.LINK,
+    icon: PAGE_ICONS[PAGE_SELECT.LINK]
   },
   {
-    title: 'CLIP',
-    icon: 'clip'
+    title: PAGE_SELECT.CLIP,
+    icon: PAGE_ICONS[PAGE_SELECT.CLIP]
   },
   {
-    title: 'FOLDER',
-    icon: 'folder'
+    title: PAGE_SELECT.FOLDER,
+    icon: PAGE_ICONS[PAGE_SELECT.FOLDER]
   },
   {
-    title: 'SMART',
-    icon: 'smart'
+    title: PAGE_SELECT.SMART,
+    icon: PAGE_ICONS[PAGE_SELECT.SMART]
   }
 ]
 const emit = defineEmits(['update:modelValue'])
-const addpage = () => {
+const addpage = (item: SideItem) => {
   addSidebar({
     title: 'New Custom',
-    icon: 'check_box'
+    icon: item.icon
   })
   emit('update:modelValue', false)
 }
