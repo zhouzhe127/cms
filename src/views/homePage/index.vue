@@ -1,12 +1,12 @@
 <template>
-  <!-- <div>
+  <div>
     <Pagetop />
     <CmsEdit @optionClick="edit">
       <Banner />
     </CmsEdit>
     <AddModule />
     <FootContent />
-  </div> -->
+  </div>
   <Empty />
   <router-view />
 </template>
