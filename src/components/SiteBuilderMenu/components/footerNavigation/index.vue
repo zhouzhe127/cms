@@ -12,7 +12,7 @@
       </MenuItem>
     </SideMenu>
     <PageSelectWin v-model="showPageWin" />
-    <EditDialog :visible="showLinkEdit" width="375px" @confirm="onEdit" @cancel="onCancel"/>
+    <EditDialog :visible="linkConEdit" width="375px" @confirm="onEdit" @cancel="onCancel" @delete="onCancel"/>
     <EditPageInfoWin
       v-model="showEdit"
       :side-arr="moduleArr"
@@ -33,18 +33,21 @@ import EditDialog from './EditDialog.vue'
 import moduleArr from './siteModulesPage'
 const showPageWin = ref(false)
 const showEdit = ref(false)
-const showLinkEdit = ref(false)
+const linkConEdit = ref(false)
 const addPage = () => {
   showPageWin.value = true
 }
 const chickEditWin = () => {
-  showLinkEdit.value = true
+  linkConEdit.value = true
 }
 const deleteItem = () => {
   tfrMessage.confirm('wqqqqqq')
 }
 const onCancel = () => {
-  tfrMessage.confirm('wqqqqqq')
+  linkConEdit.value = false
+}
+const onEdit = () => {
+  showEdit.value = true
 }
 </script>
 
