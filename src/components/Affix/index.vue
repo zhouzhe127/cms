@@ -7,18 +7,23 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, reactive, onMounted, computed, nextTick, inject, onBeforeUnmount } from 'vue'
+import { useElementBounding } from '@vueuse/core';
+import { ref, reactive, onMounted, computed, nextTick, inject, onBeforeUnmount, Ref, getCurrentInstance } from 'vue'
   interface Props {
-    offset?: number,
+    offset?: number, // 设置的固定值
     onAffix?: Function,
-    boundary?: string,
-    myStyle?: object
+    boundary?: string, // 自动计算的元素的类名，取其top来进行自动的offset计算
+    myStyle?: object,
+    isScrollView?: boolean, // 是否为el-scroll元素
+    paddingTop?: number // 传入的向上对齐边界值
   }
   const prop = withDefaults(defineProps<Props>(), {
     offset: 0,
     onAffix: () => {},
     boundary: '',
-    myStyle: () => ({})
+    myStyle: () => ({}),
+    isScrollView: false,
+    paddingTop: 20
   })
   const affixed = ref(false)
   const affixedClientHeight = ref<number>(0)
@@ -30,72 +35,89 @@
   const wrapStyle = reactive({
     height: '0'
   })
-  const root = ref<Element | null>(null)
+  const root = ref<HTMLElement | null>(null)
   const offsets = computed(() => {
-    if (prop.boundary) {
-      return 0
-    }
     return prop.offset
   })
-  const handleScroll = (target?:any) => {
-    const scrollTop = (target.scrollTop || getScroll(window, true)) + offsets.value// handle setting offset
-    const elementOffset = getOffset(root.value)
-    if (!affixed.value && scrollTop > elementOffset.top) {
-      affixed.value = true
-      styles.top = `${offsets.value}px`
-      styles.left = `${elementOffset.left}px`
-      styles.width = `${elementOffset.width}px`
-      prop.onAffix(affixed)
-    }
-    // if setting boundary
-    if (prop.boundary && scrollTop > elementOffset.top) {
-      const el = document.getElementById(prop.boundary.slice(1))
-      if (el) {
-        const boundaryOffset = getOffset(el)
-        if ((scrollTop + offsets.value) > boundaryOffset.top) {
-          const top = scrollTop - boundaryOffset.top
-          styles.top = `-${top}px`
-        }
+  let offset: number;
+  const handleScroll = (target: any, element: HTMLElement) => {
+    if (!offset) {
+      if (prop.boundary) {
+        const element = document.querySelector(`${prop.boundary}`)
+        offset = (getOffset(<HTMLElement>element).top || offsets.value) - prop.paddingTop;
+      } else {
+        offset = offsets.value
       }
     }
-    if (affixed && scrollTop <= elementOffset.top) {
-      affixed.value = false
-      styles.top = ''
-      styles.left = ''
-      styles.width = ''
-      prop.onAffix(affixed)
-    }
-    if (affixed && prop.boundary) {
-      const el = document.getElementById(prop.boundary.slice(1))
-      if (el) {
-        const boundaryOffset = getOffset(el)
-        if ((scrollTop + offsets.value) <= boundaryOffset.top) {
-          styles.top = '0'
-        }
+    const scrollTop = (target.scrollTop || getScroll(window, true)) + offset // handle setting offset
+    const elementOffset = getOffset(element)
+    const parentOffset = getOffset(element?.parentElement)
+    const childrenOffset = getOffset(<HTMLElement>element?.firstElementChild)
+
+    // false走赋值
+    if (!affixed.value) {
+      if (prop.isScrollView && parentOffset.top <= offset + elementOffset.height) {
+        affixed.value = true
+        styles.top = `${offset}px`
+        styles.left = `${childrenOffset.left}px`
+        styles.width = `${childrenOffset.width}px`
+        prop.onAffix(affixed)
+      }
+      // 非滚动范围内的赋值处理
+      if (!prop.isScrollView && scrollTop > elementOffset.top) {
+        affixed.value = true
+        styles.top = `${offset}px`
+        styles.left = `${elementOffset.left}px`
+        styles.width = `${childrenOffset.width}px`
+        prop.onAffix(affixed)
       }
     }
+    // 还原逻辑
+    if (affixed.value) {
+      // 向上推一下逻辑
+      if (prop.isScrollView && parentOffset.bottom  > 0 && parentOffset.bottom <= offset + elementOffset.height) {
+        styles.top = `${parentOffset.bottom - elementOffset.height}px`
+      }
+      // scroll还原
+      if (prop.isScrollView && (parentOffset.top > offset || parentOffset.bottom < offset)) {
+        affixed.value = false
+        styles.top = ''
+        styles.left = ''
+        styles.width = ''
+        prop.onAffix(affixed)
+      }
+      // 非滚动范围的赋值还原
+      if (!prop.isScrollView && scrollTop <= offset) {
+        affixed.value = false
+        styles.top = ''
+        styles.left = ''
+        styles.width = ''
+        prop.onAffix(affixed)
+      }
+    }
+
     if (document.documentElement.scrollTop === 0) {
       styles.width = `${elementOffset.width}px`
-      // this.$set(styles, 'width', `${elementOffset.width}px`)
       prop.onAffix(`${elementOffset.width}px`)
     }
     nextTick(() => {
       styles.width = `${elementOffset.width}px`
       prop.onAffix(`${elementOffset.width}px`)
     })
+    return true
   }
-  const getOffset = (element:Element|null) => {
-    const rect = element?.getBoundingClientRect() // 返回元素的大小以及相对于视口的位置
+  const getOffset = (element: HTMLElement | null) => {
     const body = document.body
-    const clientTop = element?.clientTop || body.clientTop || 0
-    const clientLeft = element?.clientLeft || body.clientLeft || 0
-    // const clientHeight = element.clientHeight || 0;
-    const scrollTop = getScroll(window, true)
-    const scrollLeft = getScroll(window)
+    const curElementBounding = useElementBounding(element || body)
+    const clientTop = curElementBounding.top.value || 0
+    const clientLeft = curElementBounding.left.value || 0
     return {
-      top: rect?.bottom + scrollTop - clientTop - affixedClientHeight.value,
-      left: rect?.left + scrollLeft - clientLeft,
-      width: rect?.width
+      top: clientTop,
+      left: clientLeft,
+      width: curElementBounding?.width.value,
+      height: curElementBounding?.height.value,
+      bottom: curElementBounding?.bottom.value,
+      y: curElementBounding.y.value
     }
   }
   const getScroll = (w:any, top?:any) => {
@@ -112,46 +134,45 @@
     }
     return ret
   }
-  const getParentRef = inject<Function>('getRef')
+  const getParentRef = inject<Ref>('getRef')
   const getScrollRef = inject<any>('scrollRef')
+  let  addEventHandleScroll: any;
   onMounted(() => {
+    const currentInstance = getCurrentInstance()?.refs.root as HTMLElement
+    addEventHandleScroll = (target: any, curElement: any = currentInstance) => {
+      handleScroll(target, curElement)
+    }
     affixedClientHeight.value = root.value?.children[0].clientHeight || 0
     wrapStyle.height = `${affixedClientHeight.value}px`
-    window.addEventListener('scroll', handleScroll)
-    window.addEventListener('resize', handleScroll)
-    window.addEventListener('orientationchange', function(e) {
-      handleScroll()
-    }, false)
     if (getParentRef) {
-      const rootRef = getParentRef()
-      const drawerContent = rootRef.$refs.drawerContent
-      drawerContent.addEventListener('scroll', handleScroll)
-      drawerContent.addEventListener('resize', handleScroll)
-      drawerContent.addEventListener('orientationchange', function() {
-        handleScroll()
-      }, false)
+      const drawerContent = getParentRef.value
+      drawerContent.addEventListener('scroll', addEventHandleScroll)
+      drawerContent.addEventListener('resize', addEventHandleScroll)
+      drawerContent.addEventListener('orientationchange', addEventHandleScroll, false)
     }
     if (getScrollRef) {
       const scoll = getScrollRef.value
-      console.log('---', scoll)
-      scoll.$.emitsOptions.scroll = handleScroll
-      // getScrollRef.scroll = handleScroll
+      const baseFunc = scoll.$.emitsOptions.scroll
+      scoll.$.emitsOptions.scroll = (target: any) => {
+        baseFunc(target, currentInstance)
+        addEventHandleScroll(target, currentInstance)
+      }
+    }
+    if (!getScrollRef && !getParentRef){
+      window.addEventListener('scroll', addEventHandleScroll)
+      window.addEventListener('resize', addEventHandleScroll)
+      window.addEventListener('orientationchange', addEventHandleScroll, false)
     }
   })
   onBeforeUnmount(() => {
-    window.removeEventListener('scroll', handleScroll)
-    window.removeEventListener('resize', handleScroll)
-    window.removeEventListener('orientationchange', function(e) {
-      handleScroll()
-    }, false)
+    window.removeEventListener('scroll', addEventHandleScroll)
+    window.removeEventListener('resize', addEventHandleScroll)
+    window.removeEventListener('orientationchange', addEventHandleScroll, false)
     if (getParentRef) {
-      const rootRef = getParentRef()
-      const drawerContent = rootRef.$refs.drawerContent
-      drawerContent && drawerContent.removeEventListener('scroll', handleScroll)
-      drawerContent && drawerContent.removeEventListener('resize', handleScroll)
-      drawerContent && drawerContent.removeEventListener('orientationchange', function() {
-        handleScroll()
-      }, false)
+      const drawerContent = getParentRef.value
+      drawerContent && drawerContent.removeEventListener('scroll', addEventHandleScroll)
+      drawerContent && drawerContent.removeEventListener('resize', addEventHandleScroll)
+      drawerContent && drawerContent.removeEventListener('orientationchange', addEventHandleScroll, false)
     }
   })
 </script>

@@ -1,7 +1,11 @@
 <template>
   <div>
     <second-side>
-      <Navigation />
+      <div class="scroll-affix-con">
+        <Navigation />
+        <FooterNavigation />
+        <Navigation />
+      </div>
     </second-side>
     <div class="footbox">
       <div class="clearset" @click="clearBin">
@@ -9,13 +13,22 @@
         <span class="text">CLEAR BIN</span>
       </div>
     </div>
+    <ClearBinDialog v-model="visibleClearDialog" @confirm="visibleClearDialog = false" @cancel="visibleClearDialog = false"/>
   </div>
 </template>
 
 <script setup lang="ts">
 import SecondSide from '@/components/SecondSide/index.vue'
 import Navigation from '@/components/SiteBuilderMenu/Navigation.vue'
-const clearBin = () => {}
+import FooterNavigation from '@/components/SiteBuilderMenu/components/footerNavigation/index.vue'
+import ClearBinDialog from './ClearBinDialog.vue'
+import { ref } from 'vue'
+
+const visibleClearDialog = ref(false)
+
+const clearBin = () => {
+  visibleClearDialog.value = true
+}
 </script>
 
 <style lang="scss" scoped>

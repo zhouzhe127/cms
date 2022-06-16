@@ -1,12 +1,10 @@
 <template>
   <div>
     <SideMenu title="NAVIGATION" @add-click="addPage">
-      <MenuItem v-for="(item, index) in [1,2,3,4,5,6,7,8,32,11,23,34]" :key="index" title="ss-2022" @left-click="deleteItem" @right-click="chickEditWin">
+      <MenuItem v-for="(item, index) in sidearr" :key="index" :title="item.title" :center-icon="item.icon" @left-click="deleteItem" @right-click="chickEditWin">
         <ItemChild title="mnns" />
       </MenuItem>
     </SideMenu>
-    <PageSelectWin v-model="showPageWin" />
-    <EditPageInfoWin v-model="showEdit" />
   </div>
 </template>
 
@@ -16,15 +14,19 @@ import tfrMessage from '@/components/TfrMessageBox'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
-import PageSelectWin from '@/components/PageSelectWin/index.vue'
-import EditPageInfoWin from '@/components/SiteBuilderMenu/EditPageInfoWin.vue'
-const showPageWin = ref(false)
-const showEdit = ref(false)
+import { useRoute, useRouter } from 'vue-router'
+import store from '@/store'
+const router = useRouter()
+const sidearr = store.setBuilder.sideState.Sidestate.sidebarArr
 const addPage = () => {
-  showPageWin.value = true
+  router.push({
+    path: '/siteBuilder/selectPage'
+  })
 }
 const chickEditWin = () => {
-  showEdit.value = true
+  router.push({
+    path: '/siteBuilder/editPage'
+  })
 }
 const deleteItem = () => {
   tfrMessage.confirm('wqqqqqq')

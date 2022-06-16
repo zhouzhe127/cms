@@ -66,11 +66,7 @@ import TfrButton from '@/components/TfrButton/index.vue'
 import { getMediaExt } from '@/utils/getMediaExt'
 import uploadHandle from './upload'
 import { computed } from 'vue'
-import {
-  UploadRequestOptions,
-  UploadProgressEvent,
-  UploadFile
-} from 'element-plus'
+import { UploadRequestOptions, UploadFile } from 'element-plus'
 
 interface PictureItem {
   [propName: string]: any

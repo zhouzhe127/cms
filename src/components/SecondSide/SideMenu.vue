@@ -1,6 +1,6 @@
 <template>
   <div class="menu">
-    <Affix :offset="232">
+    <Affix :offset="232" :boundary="'.scroll-affix-con'" :is-scroll-view="true">
       <div class="menu_header">
         <span>{{ props.title }}</span>
         <svg-icon icon-class="add_black" class="add" color="black" @click="addClick" />

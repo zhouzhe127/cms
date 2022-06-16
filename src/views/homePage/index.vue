@@ -8,6 +8,7 @@
     <FootContent />
   </div> -->
   <Empty />
+  <router-view />
 </template>
 
 <script setup lang="ts">

@@ -18,3 +18,4 @@ tests/**/coverage/
 ./config.tmpl.js
 .history
 .env.local
+components.d.ts

@@ -102,12 +102,16 @@ export const menuStore = defineStore('menu', {
     setCurrentMenuComponent() {
       const route = useRoute()
       const routeName: any = route.name
-      this.currentMenuComponent = this.submenuComponent.get(routeName)
+      this.currentMenuComponent = this.submenuComponent.get(
+        routeName.split('_')[0]
+      )
       watch(
         () => route.name,
         name => {
           const routeName: any = name
-          this.currentMenuComponent = this.submenuComponent.get(routeName)
+          this.currentMenuComponent = this.submenuComponent.get(
+            routeName.split('_')[0]
+          )
         }
       )
     },

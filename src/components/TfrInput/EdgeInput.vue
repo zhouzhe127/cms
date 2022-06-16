@@ -19,12 +19,13 @@ const inputProps = withDefaults(defineProps<PropsType>(), {
   width: '100%' // 默认值
 })
 // eslint-disable-next-line no-undef
-const inputEmits = defineEmits(['input', 'change', "update:modelValue"])
-const input = () => {
-  inputEmits('input')
+const inputEmits = defineEmits(['input', 'change', "update:modelValue", 'clear'])
+const input = (e: any) => {
+  inputEmits('input', e)
 }
 const clearClick = () => {
   inputEmits("update:modelValue", '')
+  inputEmits("clear")
 }
 </script>
 
@@ -35,7 +36,8 @@ const clearClick = () => {
   .clear {
     position: absolute;
     right: 10px;
-    top: 8px;
+    top: 15px;
+    line-height: initial;
     cursor: pointer;
   }
 }
@@ -47,6 +49,7 @@ const clearClick = () => {
     box-shadow: none;
     border-radius: initial;
     border-bottom: 1px black solid;
+    background-color: initial;
   }
   ::v-deep(.el-input__inner) {
     color: rgb(27, 43, 39);

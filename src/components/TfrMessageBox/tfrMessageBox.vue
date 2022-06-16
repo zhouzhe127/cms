@@ -5,6 +5,7 @@
       v-model="curVisible"
       :width="props.width"
       :isClose="true"
+      @before-close="onCancel"
     >
       <div class="body">
         <header>
@@ -30,13 +31,9 @@
 
       <template #footer>
         <footer>
-          <div v-if="!showCancelBtn" class="btn cancel" @click="onCancel">
-            {{ props.cancelButtonText }}
-          </div>
+          <TfrButton type="gray" :class="'btn'" @click="onCancel">{{ props.cancelButtonText }}</TfrButton>
           <div style="width: 10px"></div>
-          <div class="btn confirm" @click="onDelete">
-            {{ props.confirmButtonText }}
-          </div>
+          <TfrButton type="danger" :class="'btn'" @click="onDelete">{{ props.confirmButtonText }}</TfrButton>
         </footer>
       </template>
     </TfrDialog>
@@ -44,8 +41,9 @@
 </template>
 
 <script lang="ts" setup>
-import TfrDialog from '@/components/TfrDialog/index.vue'
 import { defineEmits, onMounted, ref, nextTick } from 'vue'
+import TfrDialog from '@/components/TfrDialog/index.vue'
+import TfrButton from '@/components/TfrButton/index.vue'
 import { MESSAGE_BOX_VARIANTS } from './tfrMessageBox'
 const emit = defineEmits(['action', 'vanish'])
 
@@ -149,7 +147,6 @@ footer {
     --framer-text-decoration: none;
     cursor: pointer;
     &.confirm {
-      background: rgb(236, 133, 130);
       color: #fff;
     }
   }
