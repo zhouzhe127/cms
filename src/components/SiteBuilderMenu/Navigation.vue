@@ -19,7 +19,7 @@ import PageSelectWin from '@/components/PageSelectWin/index.vue'
 import { useRoute, useRouter } from 'vue-router'
 import store from '@/store'
 const router = useRouter()
-const sidearr = store.setBuilder.Sidestate.sidebarArr
+const sidearr = store.setBuilder.sideState.Sidestate.sidebarArr
 const showPageWin = ref(false)
 const addPage = () => {
   showPageWin.value = true

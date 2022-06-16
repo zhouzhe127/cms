@@ -17,7 +17,8 @@
 // import { computed } from 'vue'
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import store from '@/store'
-const addSidebar = store.setBuilder.addSidebar
+console.log(store.setBuilder)
+const addSidebar = store.setBuilder.sideState.addSidebar
 const listArr = [
   {
     title: 'PAGE',

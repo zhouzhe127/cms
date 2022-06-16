@@ -1,7 +1,7 @@
 import { setBuilder } from './setBuilder'
 
 export interface IAppStore {
-  setBuilder: ReturnType<typeof setBuilder> | any
+  setBuilder: ReturnType<typeof setBuilder>
 }
 const appStore: IAppStore = {} as IAppStore
 

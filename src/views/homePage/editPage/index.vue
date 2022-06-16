@@ -7,18 +7,8 @@
 <script setup lang="ts">
 import HasSidebarWin from '@/components/TfrDialog/HasSidebarWin.vue'
 import sideArr from '@/views/homePage/editPage/setPage'
-import comwin from '@/views/homePage/comwin'
-const {showWin, closeWin} = comwin()
-// import { onMounted, ref } from 'vue'
-// import { useRoute, useRouter } from 'vue-router'
-// const router = useRouter()
-// const showWin = ref(false)
-// const closeWin = () => {
-//   router.back()
-// }
-// onMounted(() => {
-//   showWin.value = true
-// })
+import generalwin from '@/views/homePage/generalwin'
+const {showWin, closeWin} = generalwin()
 </script>
 
 <style lang="scss" scoped>

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { reactive } from 'vue'
 import { sidebar } from './sidebar'
 interface Basic {
-  platformState: string
+  platformState: string,
 }
 
 export const setBuilder = defineStore('setBuilder', () => {
@@ -15,5 +15,5 @@ export const setBuilder = defineStore('setBuilder', () => {
     basic.platformState = type
   }
 
-  return { basic, setItem, ...sideState }
+  return { basic, setItem, sideState }
 })
