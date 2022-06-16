@@ -5,7 +5,6 @@
         <ItemChild title="mnns" />
       </MenuItem>
     </SideMenu>
-    <PageSelectWin v-model="showPageWin" />
   </div>
 </template>
 
@@ -20,9 +19,10 @@ import { useRoute, useRouter } from 'vue-router'
 import store from '@/store'
 const router = useRouter()
 const sidearr = store.setBuilder.sideState.Sidestate.sidebarArr
-const showPageWin = ref(false)
 const addPage = () => {
-  showPageWin.value = true
+  router.push({
+    path: '/siteBuilder/selectpage'
+  })
 }
 const chickEditWin = () => {
   router.push({

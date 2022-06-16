@@ -11,7 +11,6 @@
         <ItemChild title="mnns" />
       </MenuItem>
     </SideMenu>
-    <PageSelectWin v-model="showPageWin" />
     <EditDialog :visible="linkConEdit" width="375px" @confirm="onEdit" @cancel="onCancel" @delete="onCancel"/>
     <EditPageInfoWin
       v-model="showEdit"
@@ -27,15 +26,17 @@ import tfrMessage from '@/components/TfrMessageBox'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
-import PageSelectWin from '@/components/PageSelectWin/index.vue'
 import EditPageInfoWin from '@/components/SiteBuilderMenu/EditPageInfoWin.vue'
 import EditDialog from './EditDialog.vue'
 import moduleArr from './siteModulesPage'
-const showPageWin = ref(false)
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const showEdit = ref(false)
 const linkConEdit = ref(false)
 const addPage = () => {
-  showPageWin.value = true
+  router.push({
+    path: '/siteBuilder/selectpage'
+  })
 }
 const chickEditWin = () => {
   linkConEdit.value = true

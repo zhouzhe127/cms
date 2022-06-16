@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TfrDialog v-bind="$attrs" width="336px" append-to-body class="page-add-dialog" :is-close="false">
+    <TfrDialog v-model="showWin" width="336px" append-to-body class="page-add-dialog" :is-close="false" @close="closeWin">
       <div class="type-list">
         <ul>
           <li v-for="(item, index) in listArr" :key="index" @click="addpage(item)">
@@ -19,6 +19,8 @@ import TfrDialog from '@/components/TfrDialog/index.vue'
 import store from '@/store'
 import { PAGE_ICONS, PAGE_SELECT } from './index.type';
 import { SideItem } from '@/components/SiteBuilderMenu/type/index'
+import generalwin from '@/views/homePage/generalwin'
+const {showWin, closeWin} = generalwin()
 const addSidebar = store.setBuilder.sideState.addSidebar
 const listArr = [
   {

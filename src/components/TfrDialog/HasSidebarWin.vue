@@ -99,7 +99,7 @@ const close = () => {
 }
 const clickRightBtn = async () => {
   rightBtnLoading.value = true
-  await modulsNode.value.confirm()
+  if (modulsNode.value.confirm) await modulsNode.value.confirm()
   rightBtnLoading.value = false
 }
 onUnmounted(() => {

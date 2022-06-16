@@ -53,6 +53,11 @@ export const constantRoutes: Array<RouteRecordRaw> = [
             name: 'siteBuilder',
             component: () => import('@/views/homePage/editPage/index.vue'),
           },
+          {
+            path: 'selectpage',
+            name: 'siteBuilder',
+            component: () => import('@/views/homePage/selectPage/index.vue'),
+          },
         ]
       },
       {
