@@ -23,7 +23,9 @@ export const appStore = defineStore('app', {
    */
   state: () => {
     return {
-      device: getDevice() // desktop ipad mobile
+      device: getDevice(), // desktop ipad mobile
+      token:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMCwidXNlcm5hbWUiOiJ0ZnIiLCJzY29wZSI6IiIsImV4dHJhIjoiIiwiZXhwIjoxNjU1MzU0ODk0LCJpYXQiOjE2NTUyNjg0OTQsImlzcyI6InRmciIsIm5iZiI6MTY1NTI2ODQ5NH0.2QSKl7PG84lXGFgQiXjfL-GM3_WDXInNaDqemqvpdzs'
     }
   },
   /**

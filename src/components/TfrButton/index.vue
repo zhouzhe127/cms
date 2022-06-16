@@ -42,6 +42,20 @@ const click = () => {
   border-radius: 0;
   cursor: pointer;
   padding: 12px 10px;
+  &.is-plain {
+    background-color: transparent;
+    border: 1px solid $theme;
+    border-radius: 8px;
+    color: $theme;
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: transparent;
+      border: 1px solid $theme;
+      border-radius: 8px;
+      color: $theme;
+    }
+  }
 }
 .tfr-button--primary {
   color: #fff;

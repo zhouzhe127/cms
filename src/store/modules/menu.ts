@@ -54,10 +54,18 @@ export const menuStore = defineStore('menu', {
       showMobileSubMenu: true, // 手机端是否展示二级菜单
       mobileMainPaddingTop: 80, // 手机端主要区域底部内边距
       outSideMenuRouteName: ['promotion'],
+      menuWidthMap: new Map<string, number>([
+        ['home', 213],
+        ['siteBuilder', 320],
+        ['marketing', 576],
+        ['promotion', 576],
+        ['giftCard', 576]
+      ]),
       submenuComponent: new Map<any, any>([
         ['siteBuilder', markRaw(SiteBuilderMenu)],
         ['marketing', markRaw(MarketingMenu)],
-        ['promotion', markRaw(MarketingMenu)]
+        ['promotion', markRaw(MarketingMenu)],
+        ['giftCard', markRaw(MarketingMenu)]
       ])
     }
   },
@@ -72,14 +80,8 @@ export const menuStore = defineStore('menu', {
   actions: {
     // 获取菜单宽度
     getMenuWidth(routeName: any) {
-      const routeMap = new Map<string, number>([
-        ['home', 213],
-        ['siteBuilder', 320],
-        ['marketing', 576],
-        ['promotion', 576]
-      ])
-      const menuWidth: any = routeMap.has(routeName)
-        ? routeMap.get(routeName)
+      const menuWidth: any = this.menuWidthMap.has(routeName)
+        ? this.menuWidthMap.get(routeName)
         : 213
       return menuWidth
     },

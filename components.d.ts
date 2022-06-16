@@ -27,11 +27,13 @@ declare module '@vue/runtime-core' {
     ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElOption: typeof import('element-plus/es')['ElOption']
+    ElProgress: typeof import('element-plus/es')['ElProgress']
     ElRadio: typeof import('element-plus/es')['ElRadio']
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     ImageForm: typeof import('./src/components/SiteBuilderMenu/components/ImageForm.vue')['default']
     InfoForm: typeof import('./src/components/SiteBuilderMenu/components/InfoForm.vue')['default']
@@ -61,6 +63,7 @@ declare module '@vue/runtime-core' {
     TfrSelect: typeof import('./src/components/TfrSelect/index.vue')['default']
     TfrSwitch: typeof import('./src/components/TfrSwitch/index.vue')['default']
     TfrTag: typeof import('./src/components/TfrTag/index.vue')['default']
+    Upload: typeof import('./src/components/Upload/index.vue')['default']
   }
 }
 

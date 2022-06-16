@@ -53,6 +53,11 @@ export const constantRoutes: Array<RouteRecordRaw> = [
             path: 'promotion/:type/:target',
             name: 'promotion',
             component: () => import('@/views/marketing/promotion/index.vue')
+          },
+          {
+            path: 'giftCard/:target',
+            name: 'giftCard',
+            component: () => import('@/views/marketing/giftCard/index.vue')
           }
         ]
       },
