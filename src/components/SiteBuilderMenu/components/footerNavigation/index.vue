@@ -35,7 +35,7 @@ const showEdit = ref(false)
 const linkConEdit = ref(false)
 const addPage = () => {
   router.push({
-    path: '/siteBuilder/selectpage'
+    path: '/siteBuilder/selectPage'
   })
 }
 const chickEditWin = () => {

@@ -14,19 +14,18 @@ import tfrMessage from '@/components/TfrMessageBox'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
-import PageSelectWin from '@/components/PageSelectWin/index.vue'
 import { useRoute, useRouter } from 'vue-router'
 import store from '@/store'
 const router = useRouter()
 const sidearr = store.setBuilder.sideState.Sidestate.sidebarArr
 const addPage = () => {
   router.push({
-    path: '/siteBuilder/selectpage'
+    path: '/siteBuilder/selectPage'
   })
 }
 const chickEditWin = () => {
   router.push({
-    path: '/siteBuilder/editpage'
+    path: '/siteBuilder/editPage'
   })
 }
 const deleteItem = () => {
