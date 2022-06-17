@@ -1,7 +1,7 @@
 <template>
   <TfrDialog
     :close-on-click-modal="false"
-    v-bind="$attrs"
+    v-model="visible"
     :is-no-padding="true"
     :headerLess="false"
     width="728px"
@@ -24,7 +24,7 @@
       </div>
       <section>
         <div class="delete-item" v-for="item in [1, 2, 3, 4, 5, 6]">
-          <PageListItem >
+          <PageListItem>
             <template #icon>
               <svg-icon icon-class="delete_up" class="delete"></svg-icon>
             </template>
@@ -43,16 +43,23 @@
 
 <script setup lang="ts">
 import TfrDialog from '@/components/TfrDialog/index.vue'
-import PageListItem  from "@/components/PageListItem/index.vue"
+import PageListItem from '@/components/PageListItem/index.vue'
+import generalwin from '@/views/homePage/generalwin'
+import { ref } from 'vue'
 
-const emits = defineEmits(['cancel', 'confirm'])
+const { showWin, closeWin } = generalwin()
+const visible = ref(true)
+
+// const Emits = defineEmits(['cancel', 'confirm'])
 
 const handlerCancel = () => {
-  emits('cancel')
+  closeWin()
+  // Emits('cancel')
 }
 
 const handlerConfirm = () => {
-  emits('confirm')
+  closeWin()
+  // Emits('confirm')
 }
 </script>
 
@@ -87,10 +94,10 @@ footer {
 }
 </style>
 <style lang="scss">
-  .clear-bin-dialog {
-    .el-dialog__header {
-      padding-top: 32px;
-      margin-bottom: 0px;
-    }
+.clear-bin-dialog {
+  .el-dialog__header {
+    padding-top: 32px;
+    margin-bottom: 0px;
   }
+}
 </style>

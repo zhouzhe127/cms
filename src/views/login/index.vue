@@ -3,7 +3,7 @@
     <div class="logo">
       <TfrLogo />
     </div>
-    <div class="content">
+    <div class="login-content">
       <el-form
         ref="loginFormRef"
         :model="loginForm"
@@ -102,7 +102,7 @@ const submitLoginForm = async (formEl: FormInstance | undefined) => {
   top: 30px;
   left: 30px;
 }
-.content {
+.login-content {
   width: 375px;
   padding: 20px;
   margin: auto;

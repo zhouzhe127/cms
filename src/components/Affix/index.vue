@@ -152,10 +152,12 @@ import { ref, reactive, onMounted, computed, nextTick, inject, onBeforeUnmount, 
     }
     if (getScrollRef) {
       const scoll = getScrollRef.value
-      const baseFunc = scoll.$.emitsOptions.scroll
-      scoll.$.emitsOptions.scroll = (target: any) => {
-        baseFunc(target, currentInstance)
-        addEventHandleScroll(target, currentInstance)
+      if( scoll ) {
+        const baseFunc = scoll.$.emitsOptions.scroll
+        scoll.$.emitsOptions.scroll = (target: any) => {
+          baseFunc(target, currentInstance)
+          addEventHandleScroll(target, currentInstance)
+        }
       }
     }
     if (!getScrollRef && !getParentRef){

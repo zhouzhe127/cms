@@ -45,17 +45,32 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import { menuStore } from '@/store/modules/menu'
 const router = useRouter()
+const route = useRoute()
 const addVisible = ref(false)
 const { marketingMenuList } = storeToRefs(menuStore())
+
+onMounted(() => {
+  const routeName = route.name
+  setMarketingMenuListExpand(routeName)
+  watch(
+    () => route.name,
+    name => {
+      const routeName: any = name
+      setMarketingMenuListExpand(routeName)
+    }
+  )
+})
+
 const expandToggle = (expand: boolean, index: number) => {
   marketingMenuList.value[index].expand = !expand
 }
+
 const addHandle = (type: string) => {
   console.log(type)
   addVisible.value = true
@@ -66,6 +81,12 @@ const addHandle = (type: string) => {
 const jumpTo = (path: string) => {
   router.push({ path })
   addVisible.value = false
+}
+
+const setMarketingMenuListExpand = (routeName: any) => {
+  marketingMenuList.value.forEach(item => {
+    item.expand = item.type === routeName
+  })
 }
 </script>
 

@@ -1,41 +1,77 @@
-import config from '@/config'
+// import config from '@/config'
+import Router from '@/router/index'
 import Request from './request'
 import { startsWith, get } from 'lodash'
-import type {
-  RequestResponse,
-  RequestConfig
-} from './types'
+import type { RequestResponse, RequestConfig } from './types'
 import qs from 'qs'
-const { apiAddress, mockAddress, demoAddress } = config
-const { apiAddress: testAddress } = qs.parse(location.search, { ignoreQueryPrefix: true })
+import { appStore } from '@/store/modules/app'
+const useAppStore = appStore()
+const { VITE_APP_API_ADDRESS, VITE_APP_MOCK_ADDRESS, VITE_APP_DEMO_ADDRESS } =
+  import.meta.env
+const apiAddress = VITE_APP_API_ADDRESS
+const mockAddress = VITE_APP_MOCK_ADDRESS
+const demoAddress = VITE_APP_DEMO_ADDRESS
+const { apiAddress: testAddress } = qs.parse(location.search, {
+  ignoreQueryPrefix: true
+})
 const errorHandler = (error: RequestResponse) => {
   const status = get(error, 'response.status')
   switch (status) {
     /* eslint-disable no-param-reassign */
-    case 400: error.message = 'Request error'; break
-    case 403: error.message = 'Access denied'; break
-    case 408: error.message = 'Request timed out'; break
-    case 500: error.message = 'Server internal error'; break
-    case 501: error.message = 'Service not implemented'; break
-    case 502: error.message = 'Gateway error'; break
-    case 503: error.message = 'Service is not available'; break
-    case 504: error.message = 'Gateway timeout'; break
-    case 505: error.message = 'HTTP version is not supported'; break
-    default: break
+    case 400:
+      error.message = 'Request error'
+      break
+    case 401:
+      // store.dispatch('app/openDrawerMessage', {
+      //   show: true,
+      //   content: 'Unauthorized, Please Login',
+      //   type: 'error'
+      // })
+      Router.push({ path: `/login` })
+      break
+    case 403:
+      error.message = 'Access denied'
+      break
+    case 408:
+      error.message = 'Request timed out'
+      break
+    case 500:
+      error.message = 'Server internal error'
+      break
+    case 501:
+      error.message = 'Service not implemented'
+      break
+    case 502:
+      error.message = 'Gateway error'
+      break
+    case 503:
+      error.message = 'Service is not available'
+      break
+    case 504:
+      error.message = 'Gateway timeout'
+      break
+    case 505:
+      error.message = 'HTTP version is not supported'
+      break
+    default:
+      break
     /* eslint-disabled */
   }
-  return error
+  return Promise.reject(error)
 }
 
 const requestHandler = (config: RequestConfig) => {
   // do something before request is sent
-  let { baseURL, url='' } = config
+  let { baseURL, url = '' } = config
   if (startsWith(config.url, '@mock') && mockAddress) {
     baseURL = mockAddress
     url = url.replace(/^@mock/, '')
   } else if (startsWith(config.url, '@demo') && demoAddress) {
     baseURL = demoAddress
     url = url.replace(/^@demo/, '')
+  }
+  if (useAppStore.token && !config?.headers?.Authorization) {
+    config.headers['Authorization'] = useAppStore.token
   }
   // if (store.getters.token) {
   //   if (!config.headers['Authorization']) {
@@ -53,14 +89,15 @@ const requestHandler = (config: RequestConfig) => {
     ...config,
     params: {
       ...config.params,
-      t: new Date().getTime(), // fix: .API cache
+      t: new Date().getTime() // fix: .API cache
     },
     baseURL,
-    url,
+    url
   }
 }
-const responseHandler = (response:any) => {
+const responseHandler = (response: any) => {
   const res = response.data
+  console.log(res.status, 'status')
   if (res.status === 0 || res.status === 10) return res.data && res.data
   if (res.status === 1) {
     return Promise.reject()
@@ -76,9 +113,8 @@ const request = new Request({
     // 响应拦截器
     requestInterceptorsCatch: (result: RequestResponse) => errorHandler(result),
     responseInterceptors: res => responseHandler(res),
-    responseInterceptorsCatch: (result: RequestResponse) => errorHandler(result),
-
-  },
+    responseInterceptorsCatch: (result: RequestResponse) => errorHandler(result)
+  }
 })
 
 /**

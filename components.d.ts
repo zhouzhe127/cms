@@ -35,11 +35,13 @@ declare module '@vue/runtime-core' {
     ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElOption: typeof import('element-plus/es')['ElOption']
+    ElProgress: typeof import('element-plus/es')['ElProgress']
     ElRadio: typeof import('element-plus/es')['ElRadio']
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     Email: typeof import('./src/components/SiteBuilderMenu/components/footerNavigation/setpages/Email.vue')['default']
     External: typeof import('./src/components/SiteBuilderMenu/components/footerNavigation/setpages/External.vue')['default']
     Footer: typeof import('./src/components/SiteBuilderMenu/Footer.vue')['default']
@@ -86,6 +88,7 @@ declare module '@vue/runtime-core' {
     TfrTag: typeof import('./src/components/TfrTag/index.vue')['default']
     TitleBar: typeof import('./src/components/SiteBuilderMenu/components/setmodules/TitleBar.vue')['default']
     Typeform: typeof import('./src/components/SiteBuilderMenu/components/setmodules/Typeform.vue')['default']
+    Upload: typeof import('./src/components/Upload/index.vue')['default']
   }
 }
 

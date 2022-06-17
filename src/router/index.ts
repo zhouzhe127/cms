@@ -68,6 +68,16 @@ export const constantRoutes: Array<RouteRecordRaw> = [
             name: 'siteBuilder_editSmart',
             component: () => import('@/views/homePage/editSmart/index.vue'),
           },
+          {
+            path: 'editLinkPage',
+            name: 'siteBuilder_editLinkPage',
+            component: () => import('@/views/homePage/editLinkPage/index.vue'),
+          },
+          {
+            path: 'editClearBin',
+            name: 'siteBuilder_editClearBin',
+            component: () => import('@/views/homePage/editClearBin/index.vue')
+          }
         ]
       },
       {
@@ -80,6 +90,11 @@ export const constantRoutes: Array<RouteRecordRaw> = [
             path: 'promotion/:type/:target',
             name: 'promotion',
             component: () => import('@/views/marketing/promotion/index.vue')
+          },
+          {
+            path: 'giftCard/:target',
+            name: 'giftCard',
+            component: () => import('@/views/marketing/giftCard/index.vue')
           }
         ]
       },

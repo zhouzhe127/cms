@@ -5,14 +5,13 @@
       class="promo-form"
       :model="promoForm"
       :rules="promoRules"
-      auto-complete="on"
     >
-      <StickFlow
+      <stick-flow
         :title="type === 'promo' ? 'PROMO CODE' : 'AUTOMATIC DISCOUNT'"
         :top="offsetTop"
       >
-        <template #right><TfrSwitch v-model="promoForm.disabled" /></template>
-      </StickFlow>
+        <template #right><tfr-switch v-model="promoForm.disabled" /></template>
+      </stick-flow>
       <div v-if="target === 'view'" class="tips">
         <svg-icon icon-class="lock" />
         <p class="text">
@@ -35,45 +34,45 @@
         />
         <p class="subtitle">Description is for internal reference only.</p>
       </el-form-item>
-      <StickFlow title="TERMS&CONDITIONS" :top="offsetTop" />
+      <stick-flow title="TERMS&CONDITIONS" :top="offsetTop" />
       <el-form-item label="Effective region">
         <div class="region-list">
-          <TfrTag
-            v-for="region in regions"
+          <tfr-tag
+            v-for="region in effectiveRegionList"
             :key="region.code"
             @close="removeRegionHandle(region)"
-            >{{ region.name }}</TfrTag
+            >{{ region.name }}</tfr-tag
           >
           <span class="pointer" @click="editRegionHandle">Edit</span>
         </div>
       </el-form-item>
       <el-form-item label="Promotion">
-        <TfrRadioGroup v-model="promotion" class="promotion-radio-group">
+        <tfr-radio-group v-model="promotion" class="promotion-radio-group">
           <el-radio label="free shipping">Free Shipping</el-radio>
           <el-radio label="Percent off"
             ><span class="text">Percent Off</span>
-            <TfrInput placeholder="10" width="80px" />%</el-radio
+            <tfr-input placeholder="10" width="80px" />%</el-radio
           >
           <el-radio label="amount off"
             ><span class="text">Amount Off</span>
             <div class="off-list">
-              <div><TfrInput placeholder="100" width="80px" />USD $</div>
-              <div><TfrInput placeholder="100" width="80px" />EUR €</div>
-              <div><TfrInput placeholder="1200" width="80px" />JPY ¥</div>
-              <div><TfrInput placeholder="1200" width="80px" />KRW ₩</div>
+              <div><tfr-input placeholder="100" width="80px" />USD $</div>
+              <div><tfr-input placeholder="100" width="80px" />EUR €</div>
+              <div><tfr-input placeholder="1200" width="80px" />JPY ¥</div>
+              <div><tfr-input placeholder="1200" width="80px" />KRW ₩</div>
             </div>
           </el-radio>
-        </TfrRadioGroup>
+        </tfr-radio-group>
       </el-form-item>
       <template v-if="type === 'promo'">
         <el-form-item label="Usage limit">
-          <TfrRadioGroup v-model="usageLimit">
+          <tfr-radio-group v-model="usageLimit">
             <el-radio label="none">None</el-radio>
             <el-radio label="set limit to"
               ><span class="text">Set Limit To</span>
-              <TfrInput placeholder="10" width="80px" />uses</el-radio
+              <tfr-input placeholder="10" width="80px" />uses</el-radio
             >
-          </TfrRadioGroup>
+          </tfr-radio-group>
         </el-form-item>
         <el-form-item label="Customer limit">
           <TfrRadioGroup v-model="customerLimit">
@@ -86,31 +85,31 @@
         </el-form-item>
       </template>
       <el-form-item label="Minimum requirement">
-        <TfrRadioGroup v-model="minimumRequirement">
+        <tfr-radio-group v-model="minimumRequirement">
           <el-radio label="none">None</el-radio>
           <el-radio label="spend"
             ><span class="text">Spend</span>
             <div class="off-list">
-              <div><TfrInput placeholder="100" width="80px" />USD $</div>
-              <div><TfrInput placeholder="100" width="80px" />EUR €</div>
-              <div><TfrInput placeholder="1200" width="80px" />JPY ¥</div>
-              <div><TfrInput placeholder="1200" width="80px" />KRW ₩</div>
+              <div><tfr-input placeholder="100" width="80px" />USD $</div>
+              <div><tfr-input placeholder="100" width="80px" />EUR €</div>
+              <div><tfr-input placeholder="1200" width="80px" />JPY ¥</div>
+              <div><tfr-input placeholder="1200" width="80px" />KRW ₩</div>
             </div>
           </el-radio>
           <el-radio label="purchase">
             <span class="text">Purchase</span>
-            <TfrInput placeholder="10" width="80px" />items
+            <tfr-input placeholder="10" width="80px" />items
           </el-radio>
-        </TfrRadioGroup>
+        </tfr-radio-group>
       </el-form-item>
       <el-form-item label="Target">
-        <TfrRadioGroup v-model="targetCustomer" @change="targetChange">
+        <tfr-radio-group v-model="targetCustomer" @change="targetChange">
           <el-radio label="all">All Customers</el-radio>
           <el-radio label="setTarget">Set Target</el-radio>
-        </TfrRadioGroup>
+        </tfr-radio-group>
       </el-form-item>
       <el-form-item label="Applies to">
-        <TfrRadioGroup v-model="applyToRadio" @change="applyToChange">
+        <tfr-radio-group v-model="applyToRadio" @change="applyToChange">
           <el-radio label="all">Entire Order</el-radio>
           <el-radio label="setLimit">Set Limit</el-radio>
           <el-radio label="tfrId"
@@ -121,19 +120,19 @@
               </el-input>
             </div></el-radio
           >
-        </TfrRadioGroup>
+        </tfr-radio-group>
       </el-form-item>
       <el-form-item label="Expiration">
-        <TfrRadioGroup v-model="expirationRadio">
+        <tfr-radio-group v-model="expirationRadio">
           <el-radio label="none">None</el-radio>
           <el-radio label="setExpiration">Set Expiration</el-radio>
-        </TfrRadioGroup>
+        </tfr-radio-group>
       </el-form-item>
       <el-form-item
         v-if="expirationRadio === 'setExpiration'"
         class="date-picker-item"
       >
-        <DatePickerRange
+        <date-picker-range
           startDate="2022-06-08T14:21:35+08:00"
           endDate="2022-06-18T14:21:35+08:00"
           zt="America/Denver"
@@ -143,105 +142,32 @@
     </el-form>
     <div class="btn-group" :style="{ left: menuWidth + 'px' }">
       <template v-if="target === 'add'">
-        <TfrButton type="gray">DELETE</TfrButton>
-        <TfrButton type="primary" @click="saveHandle">SAVE</TfrButton>
+        <tfr-button type="gray">DELETE</tfr-button>
+        <tfr-button type="primary" @click="saveHandle">SAVE</tfr-button>
       </template>
     </div>
   </div>
-  <TfrDialog
-    v-model="regionVisible"
+  <effective-region-dialog
+    :visible="effectiveRegionDialog"
+    @update:visible="effectiveRegionDialog = $event"
     :width="dialogWidth"
-    class="region-dialog"
-    :append-to-body="true"
-    :headerLess="false"
-    @beforeClose="closeRegionDialogHandle"
-  >
-    <template #header>
-      <el-input placeholder="SEARCH">
-        <template #suffix> CLEAR </template>
-      </el-input>
-    </template>
-    <div v-for="region in regionData" :key="region.code" class="region-item">
-      <TfrCheckbox v-model="region.checked" type="checkbox">{{
-        region.name
-      }}</TfrCheckbox>
-    </div>
-    <template #footer>
-      <TfrButton type="gray" @click="closeRegionDialogHandle">CANCEL</TfrButton>
-      <TfrButton type="primary" @click="confirmRegionHandle">CONFIRM</TfrButton>
-    </template>
-  </TfrDialog>
-  <TfrDialog
-    v-model="targetVisible"
+    @cancelHandle="effectiveRegionDialogCancelHandle"
+    @confirmHandle="effectiveRegionDialogConfirmHandle"
+  />
+  <target-dialog
+    :visible="targetVisible"
+    @update:visible="targetVisible = $event"
     :width="dialogWidth"
-    class="target-dialog"
-    :append-to-body="true"
-    :headerLess="false"
-    @beforeClose="closeTargetDialogHandle"
-  >
-    <template #header>
-      <el-input placeholder="SEARCH">
-        <template #suffix> CLEAR </template>
-      </el-input>
-    </template>
-    <div class="select-inline">
-      <TfrSelect v-model="accountsOrigin" width="339px">
-        <el-option value="all" label="All ACCOUNTS" />
-      </TfrSelect>
-      <TfrSelect v-model="targetRegion" width="339px">
-        <el-option
-          v-for="region in regionData"
-          :value="region.code"
-          :label="region.name"
-          :key="region.code"
-        />
-      </TfrSelect>
-    </div>
-    <div class="target-list">
-      <div class="region-item">
-        <TfrCheckbox v-model="targetAllChecked" type="checkbox">
-          SELECT ALL
-        </TfrCheckbox>
-      </div>
-      <div v-for="region in regionData" :key="region.code" class="region-item">
-        <TfrCheckbox v-model="region.checked" type="checkbox">{{
-          region.name
-        }}</TfrCheckbox>
-        <span>Google</span>
-      </div>
-    </div>
-
-    <template #footer>
-      <TfrButton type="gray" @click="closeRegionDialogHandle">CANCEL</TfrButton>
-      <TfrButton type="primary" @click="confirmRegionHandle">CONFIRM</TfrButton>
-    </template>
-  </TfrDialog>
-  <TfrDialog
-    v-model="applyLimitVisible"
+    @cancelHandle="targetDialogCancelHandle"
+    @confirmHandle="targetDialogConfirmHandle"
+  />
+  <applies-limit-dialog
+    :visible="applyLimitVisible"
+    @update:visible="applyLimitVisible = $event"
     :width="dialogWidth"
-    class="apply-limit-dialog"
-    :append-to-body="true"
-    :headerLess="true"
-    @beforeClose="closeApplyLimitDialogHandle"
-  >
-    <div>
-      <TfrSelect v-model="accountsOrigin" width="100%" :hasBorder="false">
-        <el-option value="all" label="All ACCOUNTS" />
-      </TfrSelect>
-      <TfrSelect v-model="targetRegion" width="100%" :hasBorder="false">
-        <el-option
-          v-for="region in regionData"
-          :value="region.code"
-          :label="region.name"
-          :key="region.code"
-        />
-      </TfrSelect>
-    </div>
-    <template #footer>
-      <TfrButton type="gray" @click="closeRegionDialogHandle">CANCEL</TfrButton>
-      <TfrButton type="primary" @click="confirmRegionHandle">CONFIRM</TfrButton>
-    </template>
-  </TfrDialog>
+    @cancelHandle="appliesLimitDialogCancelHandle"
+    @confirmHandle="appliesLimitDialogConfirmHandle"
+  />
 </template>
 
 <script setup lang="ts">
@@ -257,6 +183,9 @@ import TfrCheckbox from '@/components/TfrCheckbox/index.vue'
 import TfrRadioGroup from '@/components/TfrRadioGroup/index.vue'
 import TfrSelect from '@/components/TfrSelect/index.vue'
 import DatePickerRange from '@/components/DatePickerRange/index.vue'
+import EffectiveRegionDialog from '../components/EffectiveRegionDialog/index.vue'
+import AppliesLimitDialog from '../components/AppliesLimitDialog/index.vue'
+import TargetDialog from '../components/TargetDialog/index.vue'
 import moment from 'moment'
 import { storeToRefs } from 'pinia'
 import { menuStore } from '@/store/modules/menu'
@@ -303,7 +232,7 @@ const promoRules = reactive<FormRules>({
     }
   ]
 })
-const regions = ref([
+const effectiveRegionList = ref([
   { name: 'All Region', code: 'all' }
   // { name: 'All Region', code: 'all' },
   // { name: 'All Region', code: 'all' },
@@ -312,7 +241,9 @@ const regions = ref([
   // { name: 'All Region', code: 'all' },
   // { name: 'All Region', code: 'all' }
 ])
-const regionVisible = ref(false)
+const effectiveRegionDialog = ref(<boolean>false)
+const targetVisible = ref(<boolean>false)
+const applyLimitVisible = ref(<boolean>false)
 const regionData = ref([
   { name: 'All Region', code: 'all', checked: false },
   { name: 'Australia', code: 'as', checked: false }
@@ -322,27 +253,26 @@ const usageLimit = ref('none')
 const customerLimit = ref('none')
 const minimumRequirement = ref('none')
 const targetCustomer = ref('all')
-const targetVisible = ref(false)
-const accountsOrigin = ref('all')
-const targetRegion = ref('all')
-const targetAllChecked = ref(false)
+
 const applyToRadio = ref('all')
-const applyLimitVisible = ref(false)
+
 const expirationRadio = ref('none')
 
 const removeRegionHandle = (tag: any) => {
   console.log(tag)
 }
-const editRegionHandle = () => {
-  regionVisible.value = true
+const editRegionHandle = (): void => {
+  effectiveRegionDialog.value = true
 }
-const closeRegionDialogHandle = () => {
-  regionVisible.value = false
+
+const effectiveRegionDialogCancelHandle = (): void => {
+  effectiveRegionDialog.value = false
 }
-const confirmRegionHandle = () => {
-  const regionChecked = regionData.value.filter(item => item.checked)
-  regions.value = [...regions.value, ...regionChecked]
-  regionVisible.value = false
+
+const effectiveRegionDialogConfirmHandle = (regionData: any) => {
+  const regionChecked = regionData.value.filter((item: any) => item.checked)
+  effectiveRegionList.value = [...effectiveRegionList.value, ...regionChecked]
+  effectiveRegionDialog.value = false
 }
 const targetChange = (label: string) => {
   console.log(label)
@@ -350,6 +280,17 @@ const targetChange = (label: string) => {
     targetVisible.value = true
   }
 }
+const targetDialogCancelHandle = (): void => {
+  targetVisible.value = false
+}
+
+const targetDialogConfirmHandle = (): void => {
+  /**
+   * 关闭按钮前的一些处理逻辑
+   */
+  targetVisible.value = false
+}
+
 const applyToChange = (label: string) => {
   if (label === 'setLimit') {
     applyLimitVisible.value = true
@@ -358,7 +299,14 @@ const applyToChange = (label: string) => {
 const closeTargetDialogHandle = () => {
   targetVisible.value = false
 }
-const closeApplyLimitDialogHandle = () => {
+const appliesLimitDialogCancelHandle = (): void => {
+  applyLimitVisible.value = false
+}
+
+const appliesLimitDialogConfirmHandle = (): void => {
+  /**
+   * 关闭前的一些处理逻辑
+   */
   applyLimitVisible.value = false
 }
 const saveHandle = async () => {
@@ -522,144 +470,6 @@ const saveHandle = async () => {
     }
     .el-button + .el-button {
       margin-left: 10px;
-    }
-  }
-}
-</style>
-<style lang="scss">
-.region-dialog {
-  height: 100%;
-  .el-dialog__header {
-    padding: 0;
-    margin-top: 60px;
-    margin-right: 0;
-    border-bottom: 1px solid $theme;
-    .el-input {
-      .el-input__wrapper {
-        padding: 0;
-        box-shadow: none;
-        .el-input__inner {
-          height: 50px;
-          padding: 10px;
-          border: none;
-        }
-        .el-input__suffix-inner {
-          font-size: 12px;
-          color: $theme;
-        }
-      }
-    }
-  }
-  .el-dialog__body {
-    padding-top: 20px;
-    margin-bottom: 91px;
-    overflow: auto;
-    .region-item {
-      padding: 10px;
-      height: 60px;
-    }
-  }
-  .el-dialog__footer {
-    padding: 20px 0;
-    margin: 0 20px;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-top: 1px solid rgba(27, 43, 39, 0.1);
-    display: flex;
-    justify-content: space-between;
-    .el-button {
-      width: 339px;
-      & + .el-button {
-        margin-left: 10px;
-      }
-    }
-  }
-}
-.target-dialog {
-  height: 100%;
-  .el-dialog__header {
-    padding: 0;
-    margin-top: 60px;
-    margin-right: 0;
-    border-bottom: 1px solid $theme;
-    .el-input {
-      .el-input__wrapper {
-        padding: 0;
-        box-shadow: none;
-        .el-input__inner {
-          height: 50px;
-          padding: 10px;
-          border: none;
-        }
-        .el-input__suffix-inner {
-          font-size: 12px;
-          color: $theme;
-        }
-      }
-    }
-  }
-  .el-dialog__body {
-    padding-top: 20px;
-    margin-bottom: 91px;
-    overflow: auto;
-    .select-inline {
-      display: flex;
-      justify-content: space-between;
-      .el-select + .el-select {
-        margin-left: 10px;
-      }
-    }
-    .target-list {
-      padding-top: 20px;
-    }
-    .region-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 60px;
-      padding: 10px;
-    }
-  }
-  .el-dialog__footer {
-    padding: 20px 0;
-    margin: 0 20px;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-top: 1px solid rgba(27, 43, 39, 0.1);
-    display: flex;
-    justify-content: space-between;
-    .el-button {
-      width: 339px;
-      & + .el-button {
-        margin-left: 10px;
-      }
-    }
-  }
-}
-.apply-limit-dialog {
-  height: 100%;
-  .el-dialog__body {
-    padding-top: 60px;
-  }
-  .el-dialog__footer {
-    padding: 20px 0;
-    margin: 0 20px;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-top: 1px solid rgba(27, 43, 39, 0.1);
-    display: flex;
-    justify-content: space-between;
-    .el-button {
-      width: 339px;
-      & + .el-button {
-        margin-left: 10px;
-      }
     }
   }
 }
