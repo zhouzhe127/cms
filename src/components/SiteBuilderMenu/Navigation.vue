@@ -9,18 +9,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import tfrMessage from '@/components/TfrMessageBox'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import store from '@/store'
+import { SITE_MENUS } from './type'
 const router = useRouter()
-const sidearr = store.setBuilder.sideState.Sidestate.sidebarArr
+const sidearr = store.setBuilder.sideState[SITE_MENUS.NAVIGATION].sidebarArr
 const addPage = () => {
   router.push({
-    path: '/siteBuilder/selectPage'
+    path: '/siteBuilder/selectPage',
+    query: { origin: SITE_MENUS.NAVIGATION }
   })
 }
 const chickEditWin = () => {

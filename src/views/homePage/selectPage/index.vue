@@ -18,10 +18,13 @@
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import store from '@/store'
 import { PAGE_ICONS, PAGE_SELECT } from './index.type';
-import { SideItem } from '@/components/SiteBuilderMenu/type/index'
+import { SideItem, SITE_MENUS } from '@/components/SiteBuilderMenu/type/index'
 import generalwin from '@/views/homePage/generalwin'
+import { addFunc as addNavigateFun } from '@/store/setBuilder/sidebar';
+import { addFunc as addFooterFun } from '@/store/setBuilder/footerNavigation';
+import { useRouter } from 'vue-router';
 const {showWin, closeWin} = generalwin()
-const addSidebar = store.setBuilder.sideState.addSidebar
+const router = useRouter()
 const listArr = [
   {
     title: PAGE_SELECT.PAGE,
@@ -52,12 +55,27 @@ const listArr = [
     icon: PAGE_ICONS[PAGE_SELECT.SMART]
   }
 ]
+
+const getCurrentAddFunc = () => {
+  const origin = router.currentRoute.value.query.origin
+  const addSidebar = store.setBuilder.sideState
+  switch(origin) {
+    case SITE_MENUS.NAVIGATION:
+      return addSidebar[addNavigateFun]
+    case SITE_MENUS.FOOTER:
+      return addSidebar[addFooterFun]
+    default:
+      return null
+  }
+}
 const emit = defineEmits(['update:modelValue'])
 const addpage = (item: SideItem) => {
-  addSidebar({
-    title: 'New Custom',
-    icon: item.icon
-  })
+  const addSidebar = getCurrentAddFunc()
+  if (addSidebar)
+    addSidebar({
+      title: 'New Custom',
+      icon: item.icon
+    })
   emit('update:modelValue', false)
 }
 </script>
