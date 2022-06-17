@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import tfrMessage from '@/components/TfrMessageBox'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
@@ -18,6 +17,9 @@ import { useRoute, useRouter } from 'vue-router'
 import store from '@/store'
 const router = useRouter()
 const sidearr = store.setBuilder.sideState.Sidestate.sidebarArr
+const addSidebar = store.setBuilder.sideState.addSidebar
+store.setBuilder.sideState.setPageCallback(addSidebar)
+
 const addPage = () => {
   router.push({
     path: '/siteBuilder/selectPage'

@@ -179,7 +179,7 @@ import { ref, reactive, onMounted, computed, nextTick, inject, onBeforeUnmount, 
 
 <style scoped>
 .affix{
-  position:fixed;
+  position: fixed;
   background-color:#fff;
   z-index: 1000;
 }

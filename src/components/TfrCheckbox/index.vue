@@ -1,6 +1,6 @@
 <template>
   <el-checkbox
-    :class="buttonProps.type === 'radio' && 'tfr-radio'"
+    :class="buttonProps.type === 'tfr-radio' ? 'tfr-radio' : buttonProps.type"
     v-bind="$attrs"
   >
     <slot></slot>
@@ -52,6 +52,22 @@ const buttonProps = withDefaults(defineProps<PropsType>(), {
   }
   ::v-deep(.el-checkbox__label) {
     color: $theme;
+  }
+}
+.lagre {
+  ::v-deep(.el-checkbox__inner) {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    background-color: #EBEBEB;
+    border: initial;
+    &::after {
+      border-width: 2px;
+      width: 4px;
+      height: 9px;
+      top: 3px;
+      left: 7px;
+    }
   }
 }
 </style>

@@ -14,14 +14,13 @@
 </template>
 
 <script setup lang="ts">
-// import { computed } from 'vue'
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import store from '@/store'
 import { PAGE_ICONS, PAGE_SELECT } from './index.type';
 import { SideItem } from '@/components/SiteBuilderMenu/type/index'
 import generalwin from '@/views/homePage/generalwin'
 const {showWin, closeWin} = generalwin()
-const addSidebar = store.setBuilder.sideState.addSidebar
+const callback = store.setBuilder.sideState.Sidestate.selectPageCallback
 const listArr = [
   {
     title: PAGE_SELECT.PAGE,
@@ -52,13 +51,13 @@ const listArr = [
     icon: PAGE_ICONS[PAGE_SELECT.SMART]
   }
 ]
-const emit = defineEmits(['update:modelValue'])
 const addpage = (item: SideItem) => {
-  addSidebar({
-    title: 'New Custom',
-    icon: item.icon
-  })
-  emit('update:modelValue', false)
+  // addSidebar({
+  //   title: 'New Custom',
+  //   icon: item.icon
+  // })
+  if (callback) callback(item)
+  showWin.value = false
 }
 </script>
 

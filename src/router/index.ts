@@ -58,6 +58,16 @@ export const constantRoutes: Array<RouteRecordRaw> = [
             name: 'siteBuilder_selectPage',
             component: () => import('@/views/homePage/selectPage/index.vue'),
           },
+          {
+            path: 'editFolder',
+            name: 'siteBuilder_editFolder',
+            component: () => import('@/views/homePage/editFolder/index.vue'),
+          },
+          {
+            path: 'editSmart',
+            name: 'siteBuilder_editSmart',
+            component: () => import('@/views/homePage/editSmart/index.vue'),
+          },
         ]
       },
       {

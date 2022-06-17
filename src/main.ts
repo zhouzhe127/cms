@@ -13,4 +13,7 @@ import '@/icons/material/materialIcons.css'
 const app = createApp(App)
 app.component('SvgIcon', SvgIcon)
 app.use(router).use(createPinia()).mount('#app')
+app.mixin({
+  device: 'aaaaaa'
+})
 registerStore()
