@@ -28,12 +28,11 @@
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import store from '@/store'
 import { PAGE_ICONS, PAGE_SELECT } from './index.type'
-import { SideItem, SITE_MENUS } from '@/components/SiteBuilderMenu/type/index'
+import { SideItem } from '@/components/SiteBuilderMenu/type/index'
 import generalwin from '@/views/homePage/generalwin'
 const { showWin, closeWin } = generalwin()
 const setBuilder = store.setBuilder
 const callback = store.setBuilder.basic.selectPageCallback
-const parentId = store.setBuilder.basic.currentSelectParent
 const listArr = [
   {
     title: PAGE_SELECT.PAGE,
