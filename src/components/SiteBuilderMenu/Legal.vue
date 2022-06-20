@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SideMenu title="NAVIGATION" @add-click="addPage">
+    <SideMenu title="LEGAL" @add-click="addPage">
       <MenuItem v-for="(item, index) in sidearr" :key="index" :title="item.title" :center-icon="item.icon" @left-click="deleteItem" @right-click="chickEditWin">
         <ItemChild title="mnns" />
       </MenuItem>
@@ -15,16 +15,14 @@ import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
 import { useRouter } from 'vue-router'
 import store from '@/store'
-import { SITE_MENUS } from './type'
-import { addFunc } from '@/store/setBuilder/sidebar';
+import { SideItem, SITE_MENUS } from './type'
 const router = useRouter()
-const setBuilder = store.setBuilder
-const sidearr = setBuilder.sideState[SITE_MENUS.NAVIGATION].sidebarArr
+// const sidearr = store.setBuilder.sideState[SITE_MENUS.LEGAL].sidebarArr
+const sidearr: SideItem[] = []
 const addPage = () => {
-  setBuilder.setPageCallback(setBuilder.sideState[addFunc])
   router.push({
     path: '/siteBuilder/selectPage',
-    query: { origin: SITE_MENUS.NAVIGATION }
+    query: { origin: SITE_MENUS.LEGAL }
   })
 }
 const chickEditWin = () => {

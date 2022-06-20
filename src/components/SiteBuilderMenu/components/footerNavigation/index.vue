@@ -6,10 +6,11 @@
         :key="index"
         :title="item.title"
         :center-icon="item.icon"
-        @left-click="deleteItem"
+        @left-click="() => deleteItem(item)"
         @right-click="chickEditWin"
+        @add="() => onAdd(item)"
       >
-        <ItemChild title="mnns" />
+        <ItemChild v-for="(citem, cindex) in item.children" @left-click="() => deleteItem(citem, item.id || item.title)" :key="`child_${cindex}`" :center-icon="citem.icon" :title="citem.title" />
       </MenuItem>
     </SideMenu>
   </div>
@@ -21,14 +22,18 @@ import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
 import { useRouter } from 'vue-router'
-import { SITE_MENUS } from '../../type'
+import { SideItem, SITE_MENUS } from '../../type'
+import { addChildFunc, addFunc } from '@/store/setBuilder/footerNavigation';
 import store from '@/store'
+import { deleteFunc } from '@/store/setBuilder/footerNavigation'
+import { computed } from 'vue'
 const router = useRouter()
-const sidearr = store.setBuilder.sideState[SITE_MENUS.FOOTER].sidebarArr
+const setBuilder = store.setBuilder
+const sidearr = computed(() => store.setBuilder.sideState[SITE_MENUS.FOOTER].sidebarArr)
 const addPage = () => {
+  setBuilder.setPageCallback(setBuilder.sideState[addFunc])
   router.push({
-    path: '/siteBuilder/selectPage',
-    query: { origin: SITE_MENUS.FOOTER }
+    path: '/siteBuilder/selectPage'
   })
 }
 const chickEditWin = () => {
@@ -36,7 +41,14 @@ const chickEditWin = () => {
     path: '/siteBuilder/editLinkPage',
   })
 }
-const deleteItem = () => {
-  tfrMessage.confirm('wqqqqqq')
+const deleteItem = (item: SideItem, pid?:string) => {
+  setBuilder.sideState[deleteFunc](item, pid)
+  // tfrMessage.confirm('wqqaqqqq')
+}
+const onAdd = (item: SideItem) => {
+  setBuilder.setPageCallback(setBuilder.sideState[addChildFunc](item.id || item.title || ''))
+  router.push({
+    path: '/siteBuilder/selectPage'
+  }) 
 }
 </script>

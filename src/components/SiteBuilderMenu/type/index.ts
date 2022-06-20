@@ -1,8 +1,10 @@
 export interface SideItem {
+  id?: string,
   title?: string,
   leftIcon?: string,
   rightIcon?: string,
-  icon?: string
+  icon?: string,
+  children?: SideItem[]
 }
 export interface SideInterPort {
   title?: string,
