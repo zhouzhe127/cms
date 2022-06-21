@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-// import tfrMessage from '@/components/TfrMessageBox'
+import tfrMessage from '@/components/TfrMessageBox'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
@@ -54,7 +54,7 @@ const chickEditWin = () => {
 }
 const deleteItem = (item: SideItem, pid?: string) => {
   setBuilder.sideState[deleteFunc](item, pid)
-  // tfrMessage.confirm('wqqaqqqq')
+  tfrMessage.confirm('wqqaqqqq')
 }
 const onAdd = (item: SideItem) => {
   setBuilder.setPageCallback(

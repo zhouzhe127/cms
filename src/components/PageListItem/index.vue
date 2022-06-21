@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import PageListItem from './PageListItem.vue'
+import PageListItem from './ListItem.vue'
 interface IProps {
   iconStyle?: {[key:string]: string},
   disable?: boolean,
