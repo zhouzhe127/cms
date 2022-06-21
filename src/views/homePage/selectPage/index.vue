@@ -1,10 +1,21 @@
 <template>
   <div>
-    <TfrDialog v-model="showWin" width="336px" append-to-body class="page-add-dialog" :is-close="false" @close="closeWin">
+    <TfrDialog
+      v-model="showWin"
+      width="336px"
+      append-to-body
+      class="page-add-dialog"
+      :is-close="false"
+      @close="onClose"
+    >
       <div class="type-list">
         <ul>
-          <li v-for="(item, index) in listArr" :key="index" @click="addpage(item)">
-            <svg-icon :icon-class="item.icon"/>
+          <li
+            v-for="(item, index) in listArr"
+            :key="index"
+            @click="addpage(item)"
+          >
+            <svg-icon :icon-class="item.icon" />
             <span>{{ item.title }}</span>
           </li>
         </ul>
@@ -14,14 +25,14 @@
 </template>
 
 <script setup lang="ts">
-// import { computed } from 'vue'
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import store from '@/store'
-import { PAGE_ICONS, PAGE_SELECT } from './index.type';
+import { PAGE_ICONS, PAGE_SELECT } from './index.type'
 import { SideItem } from '@/components/SiteBuilderMenu/type/index'
 import generalwin from '@/views/homePage/generalwin'
-const {showWin, closeWin} = generalwin()
-const addSidebar = store.setBuilder.sideState.addSidebar
+const { showWin, closeWin } = generalwin()
+const setBuilder = store.setBuilder
+const callback = store.setBuilder.basic.selectPageCallback
 const listArr = [
   {
     title: PAGE_SELECT.PAGE,
@@ -52,41 +63,45 @@ const listArr = [
     icon: PAGE_ICONS[PAGE_SELECT.SMART]
   }
 ]
-const emit = defineEmits(['update:modelValue'])
+const resetBuilder = () => {
+  setBuilder.setPageCallback(() => {})
+  setBuilder.setCurrentSelectParent('')
+}
+const onClose = () => {
+  closeWin()
+  resetBuilder() 
+}
 const addpage = (item: SideItem) => {
-  addSidebar({
-    title: 'New Custom',
-    icon: item.icon
-  })
-  emit('update:modelValue', false)
+  if (callback) callback(item)
+  showWin.value = false
+  resetBuilder() 
 }
 </script>
 
 <style lang="scss" scoped>
-.page-add-dialog{
-  .type-list{
-    ul{
+.page-add-dialog {
+  .type-list {
+    ul {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
-      li{
+      li {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        padding:10px;
-        font-size:12px;
+        padding: 10px;
+        font-size: 12px;
         cursor: pointer;
         opacity: 0.5;
-        .svg-icon{
-          font-size:30px;
+        .svg-icon {
+          font-size: 30px;
           margin-bottom: 10px;
         }
-        &:hover{
+        &:hover {
           opacity: 1;
         }
       }
     }
-
   }
 }
 </style>

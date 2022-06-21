@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SideMenu title="FOOTER" @add-click="addPage">
+    <SideMenu title="LEGAL" @add-click="addPage">
       <MenuItem
         v-for="(item, index) in sidearr"
         :key="index"
@@ -29,27 +29,27 @@ import { useRouter } from 'vue-router'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
-import { SideItem, SITE_MENUS } from '../../type'
+import { SideItem, SITE_MENUS } from './type'
 import {
-  addChildFunc,
   addFunc,
-  deleteFunc
-} from '@/store/setBuilder/footerNavigation'
-import { toSeletPage } from '../../utils/router'
+  deleteFunc,
+  addChildFunc
+} from '@/store/setBuilder/legalNavigation'
+import { toSeletPage } from './utils/router'
 import store from '@/store'
 
 const router = useRouter()
 const setBuilder = store.setBuilder
 const sidearr = computed(
-  () => store.setBuilder.sideState[SITE_MENUS.FOOTER].sidebarArr
+  () => store.setBuilder.sideState[SITE_MENUS.LEGAL].sidebarArr
 )
 const addPage = () => {
   setBuilder.setPageCallback(setBuilder.sideState[addFunc])
-  toSeletPage(router)
+  toSeletPage(router)  
 }
 const chickEditWin = () => {
   router.push({
-    path: '/siteBuilder/editLinkPage'
+    path: '/siteBuilder/editPage'
   })
 }
 const deleteItem = (item: SideItem, pid?: string) => {
@@ -63,3 +63,5 @@ const onAdd = (item: SideItem) => {
   toSeletPage(router)
 }
 </script>
+
+<style scoped></style>

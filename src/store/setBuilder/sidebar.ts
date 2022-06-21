@@ -1,21 +1,30 @@
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
-import { SideItem } from '@/components/SiteBuilderMenu/type/index'
+import { SideItem, SITE_MENUS } from '@/components/SiteBuilderMenu/type/index'
+
+export const addFunc = Symbol(`add${SITE_MENUS.NAVIGATION}`)
+export const deleteFunc = Symbol(`delete${SITE_MENUS.NAVIGATION}`)
 interface Basic {
-  sidebarArr: Array<SideItem>
+  sidebarArr: Array<SideItem>,
 }
 
-export const sidebar = defineStore('sidebar', () => {
+interface ReturnType {
+ [SITE_MENUS.NAVIGATION]: Basic,
+ [addFunc]: (item: SideItem) => void
+ [deleteFunc]: (item: SideItem) => void
+}
+
+export const sidebar = defineStore('sidebar', (): ReturnType => {
   const Sidestate = reactive<Basic>({
     sidebarArr: [
       {
-        title: 'New In',
+        title: 'New In'
       },
       {
         title: 'Jewelry',
         icon: 'scratchable'
       }
-    ]
+    ],
   })
 
   function addSidebar(item: SideItem) {
@@ -27,5 +36,9 @@ export const sidebar = defineStore('sidebar', () => {
       Sidestate.sidebarArr = arr.filter(v => v.title !== item.title)
     }
   }
-  return { Sidestate, addSidebar, deleteSidebar }
+  return {
+    [SITE_MENUS.NAVIGATION]: Sidestate,
+    [addFunc]: addSidebar,
+    [deleteFunc]: deleteSidebar
+  }
 })

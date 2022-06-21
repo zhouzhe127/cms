@@ -4,16 +4,15 @@
       <div class="scroll-affix-con">
         <Navigation />
         <FooterNavigation />
-        <Navigation />
+        <LegalNavigation />
       </div>
     </second-side>
     <div class="footbox">
-      <div class="clearset" @click="clearBin">
+      <div class="clearset" @click="toClear">
         <SvgIcon icon-class="delete_fill" class="clearicon" />
         <span class="text">CLEAR BIN</span>
       </div>
     </div>
-    <ClearBinDialog v-model="visibleClearDialog" @confirm="visibleClearDialog = false" @cancel="visibleClearDialog = false"/>
   </div>
 </template>
 
@@ -21,13 +20,15 @@
 import SecondSide from '@/components/SecondSide/index.vue'
 import Navigation from '@/components/SiteBuilderMenu/Navigation.vue'
 import FooterNavigation from '@/components/SiteBuilderMenu/components/footerNavigation/index.vue'
-import ClearBinDialog from './ClearBinDialog.vue'
-import { ref } from 'vue'
+import LegalNavigation from '@/components/SiteBuilderMenu/Legal.vue'
+import { useRouter } from 'vue-router'
 
-const visibleClearDialog = ref(false)
+const router = useRouter()
 
-const clearBin = () => {
-  visibleClearDialog.value = true
+const toClear = () => {
+  router.push({
+    path: '/siteBuilder/editclearbin'
+  })
 }
 </script>
 

@@ -10,7 +10,6 @@ declare module '@vue/runtime-core' {
     Button: typeof import('./src/components/SiteBuilderMenu/components/setmodules/Button.vue')['default']
     Campaign: typeof import('./src/components/SiteBuilderMenu/components/setmodules/Campaign.vue')['default']
     Cinema: typeof import('./src/components/SiteBuilderMenu/components/setmodules/Cinema.vue')['default']
-    ClearBinDialog: typeof import('./src/components/SiteBuilderMenu/ClearBinDialog.vue')['default']
     CmsEdit: typeof import('./src/components/CmsEdit/index.vue')['default']
     Code: typeof import('./src/components/SiteBuilderMenu/components/footerNavigation/setpages/Code.vue')['default']
     CodeForm: typeof import('./src/components/SiteBuilderMenu/components/setpages/CodeForm.vue')['default']
@@ -20,7 +19,6 @@ declare module '@vue/runtime-core' {
     EdgeInput: typeof import('./src/components/TfrInput/EdgeInput.vue')['default']
     EditDialog: typeof import('./src/components/SiteBuilderMenu/components/footerNavigation/EditDialog.vue')['default']
     Editor: typeof import('./src/components/TfrEditor/Editor.vue')['default']
-    EditPageInfoWin: typeof import('./src/components/SiteBuilderMenu/EditPageInfoWin.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
@@ -31,7 +29,6 @@ declare module '@vue/runtime-core' {
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElHeader: typeof import('element-plus/es')['ElHeader']
-    ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElOption: typeof import('element-plus/es')['ElOption']
@@ -44,9 +41,7 @@ declare module '@vue/runtime-core' {
     ElUpload: typeof import('element-plus/es')['ElUpload']
     Email: typeof import('./src/components/SiteBuilderMenu/components/footerNavigation/setpages/Email.vue')['default']
     External: typeof import('./src/components/SiteBuilderMenu/components/footerNavigation/setpages/External.vue')['default']
-    Footer: typeof import('./src/components/SiteBuilderMenu/Footer.vue')['default']
     FooterNavigation: typeof import('./src/components/SiteBuilderMenu/components/footerNavigation/index.vue')['default']
-    HasasideWin: typeof import('./src/components/TfrDialog/HasasideWin.vue')['default']
     HasSidebarWin: typeof import('./src/components/TfrDialog/HasSidebarWin.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     ImageForm: typeof import('./src/components/SiteBuilderMenu/components/setpages/ImageForm.vue')['default']
@@ -55,6 +50,7 @@ declare module '@vue/runtime-core' {
     Internal: typeof import('./src/components/SiteBuilderMenu/components/footerNavigation/setpages/Internal.vue')['default']
     InternalSerch: typeof import('./src/components/SiteBuilderMenu/components/footerNavigation/setpages/InternalSerch.vue')['default']
     ItemChild: typeof import('./src/components/SecondSide/ItemChild.vue')['default']
+    Legal: typeof import('./src/components/SiteBuilderMenu/Legal.vue')['default']
     LinkShowCon: typeof import('./src/components/SiteBuilderMenu/components/footerNavigation/LinkShowCon.vue')['default']
     MaketingMenu: typeof import('./src/components/MaketingMenu/index.vue')['default']
     Markdown: typeof import('./src/components/SiteBuilderMenu/components/setmodules/Markdown.vue')['default']
@@ -63,7 +59,6 @@ declare module '@vue/runtime-core' {
     Navigation: typeof import('./src/components/SiteBuilderMenu/Navigation.vue')['default']
     Newsletter: typeof import('./src/components/SiteBuilderMenu/components/setmodules/Newsletter.vue')['default']
     PageListItem: typeof import('./src/components/PageListItem/PageListItem.vue')['default']
-    PageSelectWin: typeof import('./src/components/PageSelectWin/index.vue')['default']
     PlatformControl: typeof import('./src/components/PlatformControl/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -81,10 +76,25 @@ declare module '@vue/runtime-core' {
     TfrEditor: typeof import('./src/components/TfrEditor/index.vue')['default']
     TfrInput: typeof import('./src/components/TfrInput/index.vue')['default']
     TfrLogo: typeof import('./src/components/TfrLogo/index.vue')['default']
-    TfrMessage: typeof import('./src/components/TfrMessage/index.vue')['default']
     TfrMessageBox: typeof import('./src/components/TfrMessageBox/tfrMessageBox.vue')['default']
     TfrRadioGroup: typeof import('./src/components/TfrRadioGroup/index.vue')['default']
     TfrSelect: typeof import('./src/components/TfrSelect/index.vue')['default']
+    TfrSwitch: typeof import('./src/components/TfrSwitch/index.vue')['default']
+    TfrTag: typeof import('./src/components/TfrTag/index.vue')['default']
+    TitleBar: typeof import('./src/components/SiteBuilderMenu/components/setmodules/TitleBar.vue')['default']
+    Typeform: typeof import('./src/components/SiteBuilderMenu/components/setmodules/Typeform.vue')['default']
+    Upload: typeof import('./src/components/Upload/index.vue')['default']
+  }
+}
+
+export {}
+'default']
+    Upload: typeof import('./src/components/Upload/index.vue')['default']
+  }
+}
+
+export {}
+/TfrSelect/index.vue')['default']
     TfrSwitch: typeof import('./src/components/TfrSwitch/index.vue')['default']
     TfrTag: typeof import('./src/components/TfrTag/index.vue')['default']
     TitleBar: typeof import('./src/components/SiteBuilderMenu/components/setmodules/TitleBar.vue')['default']
