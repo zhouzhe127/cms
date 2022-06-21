@@ -81,6 +81,7 @@ declare module '@vue/runtime-core' {
     TfrEditor: typeof import('./src/components/TfrEditor/index.vue')['default']
     TfrInput: typeof import('./src/components/TfrInput/index.vue')['default']
     TfrLogo: typeof import('./src/components/TfrLogo/index.vue')['default']
+    TfrMessage: typeof import('./src/components/TfrMessage/index.vue')['default']
     TfrMessageBox: typeof import('./src/components/TfrMessageBox/tfrMessageBox.vue')['default']
     TfrRadioGroup: typeof import('./src/components/TfrRadioGroup/index.vue')['default']
     TfrSelect: typeof import('./src/components/TfrSelect/index.vue')['default']
