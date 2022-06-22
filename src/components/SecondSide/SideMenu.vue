@@ -36,6 +36,7 @@ const addClick = () => {
 <style lang="scss" scoped>
 .menu {
   .menu_header {
+    width: 100%;
     padding: 10px 10px;
     border-bottom: 1px black solid;
     display: flex;

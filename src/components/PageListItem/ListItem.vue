@@ -36,11 +36,14 @@ const clearBin = () => {}
       width: 20px;
       height: 20px;
       margin-right: 10px;
+      flex-basis: 20px;
     }
     span {
       display: inline-block;
       width: 100%;
       font-size: 14px;
+      flex-wrap: wrap;
+      line-height: 16px;
     }
   }
 
