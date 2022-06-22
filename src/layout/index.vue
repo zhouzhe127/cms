@@ -1,10 +1,10 @@
 <template>
   <div class="common-layout" v-if="device !== 'mobile'">
-    <el-aside :width="`${menuWidth}px`">
+    <el-aside :width="`${menuWidth}`">
       <SideBar />
     </el-aside>
-    <el-container :style="{ paddingLeft: menuWidth + 'px', height: '100%' }">
-      <el-header :style="{ left: menuWidth + 'px' }">
+    <el-container :style="{ paddingLeft: menuWidth, height: '100%' }">
+      <el-header :style="{ left: menuWidth }">
         <PlatformControl />
       </el-header>
       <el-main>

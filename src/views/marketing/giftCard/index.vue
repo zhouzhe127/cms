@@ -179,6 +179,15 @@
         />
       </el-form-item>
     </el-form>
+    <div
+      class="btn-group"
+      :style="{ left: device === 'mobile' ? 0 : menuWidth }"
+    >
+      <template v-if="target === 'add'">
+        <tfr-button type="gray">DELETE</tfr-button>
+        <tfr-button type="primary" @click="saveHandle">SAVE</tfr-button>
+      </template>
+    </div>
     <effective-region-dialog
       :visible="effectiveRegionDialog"
       @update:visible="effectiveRegionDialog = $event"
@@ -198,6 +207,7 @@
       @update:visible="imageBoxDialog = $event"
       :width="dialogWidth"
       :pictureList="picture"
+      :headerLess="false"
       @cancelHandle="imageBoxDialogCancelHandle"
       @confirmHandle="imageBoxDialogConfirmHandle"
     />
@@ -214,13 +224,28 @@ import EffectiveRegionDialog from '../components/EffectiveRegionDialog/index.vue
 import AppliesLimitDialog from '../components/AppliesLimitDialog/index.vue'
 import DatePickerRange from '@/components/DatePickerRange/index.vue'
 import Upload from '@/components/Upload/index.vue'
-import ImageBoxDialog from '../components/ImageBoxDialog/index.vue'
 import Editor from '@/components/TfrEditor/index.vue'
-import { reactive, ref, nextTick, computed } from 'vue'
+import ImageBoxDialog from '../components/ImageBoxDialog/index.vue'
+import TfrButton from '@/components/TfrButton/index.vue'
+import { reactive, ref, nextTick, computed, watch, inject } from 'vue'
+import { useRoute } from 'vue-router'
 import { FormInstance, FormRules } from 'element-plus'
 import { storeToRefs } from 'pinia'
 import { appStore } from '@/store/modules/app'
+import { menuStore } from '@/store/modules/menu'
+const { menuWidth } = storeToRefs(menuStore())
 const datePickerRangeRef = ref()
+const route = useRoute()
+const reload: any = inject('reload')
+const { target } = route.params
+
+watch(
+  () => route.params,
+  params => {
+    console.log(params)
+    reload()
+  }
+)
 
 interface TagItem {
   name: string
@@ -387,11 +412,14 @@ const cancelPictureSelectedHandle = () => {
     item.isSelect = false
   })
 }
+// 底部保存
+const saveHandle = () => {}
 </script>
 
 <style lang="scss" scoped>
 .gift-card-page {
   padding: 20px;
+  padding-bottom: 90px;
   .gift-card-form {
     .sticky-section {
       margin-bottom: 20px;
@@ -579,6 +607,7 @@ const cancelPictureSelectedHandle = () => {
       align-items: center;
       .image {
         width: 70px;
+        text-align: center;
       }
       .tfr-id {
         flex: 1;
@@ -729,6 +758,21 @@ const cancelPictureSelectedHandle = () => {
     }
     .link {
       font-family: 'Brown Light', serif;
+    }
+  }
+  .btn-group {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 20px;
+    display: flex;
+    z-index: 1000;
+    background-color: #fff;
+    .el-button {
+      width: 50%;
+    }
+    .el-button + .el-button {
+      margin-left: 10px;
     }
   }
 }

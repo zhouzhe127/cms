@@ -88,19 +88,3 @@ declare module '@vue/runtime-core' {
 }
 
 export {}
-'default']
-    Upload: typeof import('./src/components/Upload/index.vue')['default']
-  }
-}
-
-export {}
-/TfrSelect/index.vue')['default']
-    TfrSwitch: typeof import('./src/components/TfrSwitch/index.vue')['default']
-    TfrTag: typeof import('./src/components/TfrTag/index.vue')['default']
-    TitleBar: typeof import('./src/components/SiteBuilderMenu/components/setmodules/TitleBar.vue')['default']
-    Typeform: typeof import('./src/components/SiteBuilderMenu/components/setmodules/Typeform.vue')['default']
-    Upload: typeof import('./src/components/Upload/index.vue')['default']
-  }
-}
-
-export {}

@@ -73,7 +73,14 @@ const expandToggle = (expand: boolean, index: number) => {
 
 const addHandle = (type: string) => {
   console.log(type)
-  addVisible.value = true
+  if (type === 'promotion') {
+    addVisible.value = true
+  } else if (type === 'giftCard') {
+    router.push({ path: '/marketing/giftCard/add' })
+  } else {
+    router.push({ path: '/marketing/announcement/add' })
+  }
+  // addVisible.value = true
 }
 // const closeAddDialog = () => {
 //   addVisible.value = false

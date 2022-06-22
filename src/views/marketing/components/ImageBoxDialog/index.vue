@@ -7,6 +7,9 @@
     :headerLess="false"
     @beforeClose="cancelHandle"
   >
+    <template #header>
+      <div>VARIANT IMAGE</div>
+    </template>
     <upload
       :pictureList="dialogProps.pictureList"
       :is-select="true"
@@ -78,7 +81,7 @@ const updateSelectedIndexHandle = (index: number) => {
   height: 100%;
   .el-dialog__header {
     padding: 0;
-    margin-top: 60px;
+    margin-top: 20px;
     margin-right: 0;
     //border-bottom: 1px solid $theme;
   }

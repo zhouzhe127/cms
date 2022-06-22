@@ -53,13 +53,13 @@ export const menuStore = defineStore('menu', {
       showMobileMenuItem: true, // 手机端是否展示一级菜单
       showMobileSubMenu: true, // 手机端是否展示二级菜单
       mobileMainPaddingTop: 80, // 手机端主要区域底部内边距
-      outSideMenuRouteName: ['promotion'],
-      menuWidthMap: new Map<string, number>([
-        ['home', 213],
-        ['siteBuilder', 320],
-        ['marketing', 576],
-        ['promotion', 576],
-        ['giftCard', 576]
+      outSideMenuRouteName: ['promotion', 'giftCard'],
+      menuWidthMap: new Map<string, string>([
+        ['home', '213px'],
+        ['siteBuilder', '320px'],
+        ['marketing', '40%'],
+        ['promotion', '40%'],
+        ['giftCard', '40%']
       ]),
       submenuComponent: new Map<any, any>([
         ['siteBuilder', markRaw(SiteBuilderMenu)],
