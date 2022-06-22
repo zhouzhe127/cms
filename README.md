@@ -5,6 +5,9 @@
 目前版本基于 `vite` 进行构建.
 
 ## v0.9.0
+#### 开发环境依赖:
+- NodeJS version: 16.15.1
+- NPM version: 8.11.0
 
 ## Build Setup
 

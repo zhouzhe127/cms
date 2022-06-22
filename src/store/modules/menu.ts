@@ -89,12 +89,12 @@ export const menuStore = defineStore('menu', {
     setMenuWidth() {
       const route = useRoute()
       const routeName: any = route.name
-      this.menuWidth = this.getMenuWidth(routeName)
+      this.menuWidth = this.getMenuWidth(routeName.split('_')[0])
       watch(
         () => route.name,
         name => {
           const routeName: any = name
-          this.menuWidth = this.getMenuWidth(routeName)
+          this.menuWidth = this.getMenuWidth(routeName.split('_')[0])
         }
       )
     },

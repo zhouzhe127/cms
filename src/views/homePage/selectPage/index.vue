@@ -16,15 +16,20 @@
 <script setup lang="ts">
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import store from '@/store'
-import { PAGE_ICONS, PAGE_SELECT } from './index.type';
-import { SideItem, SITE_MENUS } from '@/components/SiteBuilderMenu/type/index'
+import { PAGE_ICONS, PAGE_SELECT } from './index.type'
+import { useEventBus } from '@vueuse/core'
+import { SideItem, SITE_MENUS, EventKey } from '@/components/SiteBuilderMenu/type/index'
 import generalwin from '@/views/homePage/generalwin'
+import { useRoute } from 'vue-router';
+const route = useRoute()
+const origin = route.query.origin as string
+const eventName = EventKey[origin]
+const  { emit } = useEventBus<string>(eventName)
+
 // import { addFunc as addNavigateFun } from '@/store/setBuilder/sidebar';
 // import { addFunc as addFooterFun } from '@/store/setBuilder/footerNavigation';
-// import { useRouter } from 'vue-router';
 const {showWin, closeWin} = generalwin()
 const callback = store.setBuilder.basic.selectPageCallback
-// const router = useRouter()
 const listArr = [
   {
     title: PAGE_SELECT.PAGE,
@@ -61,6 +66,7 @@ const addpage = (item: SideItem) => {
   //   icon: item.icon
   // })
   if (callback) callback(item)
+  emit(origin, item)
   showWin.value = false
 }
 // const getCurrentAddFunc = () => {

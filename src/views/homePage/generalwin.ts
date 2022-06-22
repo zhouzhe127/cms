@@ -1,7 +1,6 @@
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-
 export default function generalwin() {
   const router = useRouter()
   const showWin = ref(false)
