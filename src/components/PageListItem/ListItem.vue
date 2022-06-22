@@ -22,13 +22,15 @@ const clearBin = () => {}
 <style lang="scss" scoped>
 .page-item {
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   .con {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0px 20px;
+    // margin: 0px 20px;
+    margin-right: 20px;
     flex: 1;
     .svg {
       width: 20px;

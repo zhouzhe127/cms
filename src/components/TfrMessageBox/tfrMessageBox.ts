@@ -23,7 +23,7 @@ const messageInstance = new Map<
   ComponentPublicInstance<{ doClose: () => void }>, // marking doClose as function
   {
     options: any
-    callback: Callback
+    callback?: Callback
     resolve: (res: any) => void
     reject: (reason?: any) => void
   }
@@ -84,7 +84,7 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
 
   for (const prop in options) {
     if (hasOwn(options, prop) && !hasOwn(vm.$props, prop)) {
-      vm[prop as string] = options[prop]
+      vm[prop as keyof ComponentPublicInstance] = options[prop]
     }
   }
 
@@ -99,10 +99,10 @@ async function MessageBox(
 function MessageBox(
   options: ElMessageBoxOptions | string | VNode,
   appContext?: AppContext | null
-): Promise<{ value: string; action: Action } | Action> {
+): Promise<{ value: string; action: MessageBoxType } | Action> {
   if (!isClient) return Promise.reject()
 
-  let callback
+  let callback: Callback | undefined
   if (isString(options) || isVNode(options)) {
     options = {
       message: options
@@ -129,19 +129,21 @@ function MessageBox(
   })
 }
 
-export const MESSAGE_BOX_VARIANTS = ['alert', 'confirm', 'prompt'] as const
+type MessageBoxType = Action 
+
+export const MESSAGE_BOX_VARIANTS: (Action)[] = [ 'confirm', 'cancel', 'close']
 
 const MESSAGE_BOX_DEFAULT_OPTS: Record<
-  typeof MESSAGE_BOX_VARIANTS[number],
+  MessageBoxType,
   Partial<ElMessageBoxOptions>
 > = {
-  alert: { closeOnPressEscape: false, closeOnClickModal: false },
   confirm: { showCancelButton: true },
-  prompt: { showCancelButton: true, showInput: true }
+  close: {},
+  cancel: {},
 }
 
 MESSAGE_BOX_VARIANTS.forEach((boxType) => {
-  MessageBox[boxType] = messageBoxFactory(boxType)
+  (MessageBox as Record<string, any>)[boxType] = messageBoxFactory(boxType)
 })
 
 function messageBoxFactory(boxType: typeof MESSAGE_BOX_VARIANTS[number]) {

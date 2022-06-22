@@ -12,6 +12,7 @@ import { useRoute } from 'vue-router'
 import SiteBuilderMenu from '@/components/SiteBuilderMenu/index.vue'
 import MarketingMenu from '@/components/MaketingMenu/index.vue'
 import Default from '@/components/Default/index.vue'
+import UpdateMenu from '@/components/UpdateMenu/index.vue'
 
 /**
  * 1. 定义容器并导出
@@ -62,6 +63,7 @@ export const menuStore = defineStore('menu', {
         ['giftCard', '40%']
       ]),
       submenuComponent: new Map<any, any>([
+        ['update', markRaw(UpdateMenu)],
         ['siteBuilder', markRaw(SiteBuilderMenu)],
         ['marketing', markRaw(MarketingMenu)],
         ['promotion', markRaw(MarketingMenu)],

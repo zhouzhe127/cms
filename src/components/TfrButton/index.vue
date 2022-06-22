@@ -23,6 +23,14 @@
   >
     <slot></slot>
   </el-button>
+  <el-button
+    v-else
+    :class="['tfr-btn', 'tfr-button--normal', className]"
+    v-bind="$attrs"
+    @click="click"
+  >
+    <slot></slot>
+  </el-button>
 </template>
 
 <script setup lang="ts">
@@ -99,5 +107,18 @@ const click = () => {
   background-color: #fd7e7e;
   border: none;
   color: #fff;
+}
+
+.tfr-button--normal {
+  background-color: transparent;
+  border: 1px solid $theme;
+  color: $theme;
+}
+.tfr-button--normal:hover,
+.tfr-button--normal:focus,
+.tfr-button--normal:active {
+  background-color: transparent;
+  border: 1px solid $theme;
+  color: $theme;
 }
 </style>
