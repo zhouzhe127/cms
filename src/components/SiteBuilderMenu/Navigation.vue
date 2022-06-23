@@ -9,26 +9,22 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted } from 'vue'
 import tfrMessage from '@/components/TfrMessageBox'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
-import { useEventBus } from '@vueuse/core'
+// import { useEventBus } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 import store from '@/store'
-import { SITE_MENUS, EventKey } from './type'
+import { SITE_MENUS, SideItem } from './type'
+import { onSideEvent } from './utils/regesterEvent'
 import { addFunc } from '@/store/setBuilder/sidebar'
-const { on } = useEventBus<string>(EventKey.navigation)
-const unsubscribe = on((e, item) => {
+onSideEvent(SITE_MENUS.NAVIGATION, (e: string, item: SideItem) => {
   setBuilder.sideState[addFunc](item)
 })
 const router = useRouter()
 const setBuilder = store.setBuilder
 const sidearr = setBuilder.sideState[SITE_MENUS.NAVIGATION].sidebarArr
-onUnmounted(() => {
-  unsubscribe() // unregister the listener
-})
 const addPage = () => {
   router.push({
     path: '/siteBuilder/selectPage',

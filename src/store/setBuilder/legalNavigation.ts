@@ -1,11 +1,10 @@
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
 import { SideItem, SITE_MENUS } from '@/components/SiteBuilderMenu/type/index'
-import { generateUUID } from '@/utils/uuid'
 
-export const addFunc = Symbol(`add_${SITE_MENUS.FOOTER}`)
-export const addChildFunc = Symbol(`add_children_${SITE_MENUS.FOOTER}`)
-export const deleteFunc = Symbol(`delete_${SITE_MENUS.FOOTER}`)
+export const addFunc = Symbol(`add_${SITE_MENUS.LEGAL}`)
+export const addChildFunc = Symbol(`add_children_${SITE_MENUS.LEGAL}`)
+export const deleteFunc = Symbol(`delete_${SITE_MENUS.LEGAL}`)
 
 type addFuncType = (item: SideItem) => void
 type addChildFuncType = (pid: string) => addFuncType
@@ -13,25 +12,24 @@ interface Basic {
   sidebarArr: Array<SideItem>
 }
 interface ReturnType {
-  [SITE_MENUS.FOOTER]: Basic
+  [SITE_MENUS.LEGAL]: Basic
   [addFunc]: addFuncType
   [addChildFunc]: addChildFuncType
   [deleteFunc]: (item: SideItem, pid?: string) => void
 }
-export const sidebar = defineStore('footerSideBar', (): ReturnType => {
+export const sidebar = defineStore('legal', (): ReturnType => {
   const Sidestate = reactive<Basic>({
     sidebarArr: [
       {
-        title: 'New In'
+        title: 'Legal In'
       },
       {
-        title: 'Jewelry',
+        title: 'LEGAL',
         icon: 'scratchable'
       }
     ]
   })
   function addSidebar(item: SideItem) {
-    console.log(generateUUID())
     Sidestate.sidebarArr.unshift(item)
   }
   function addChildSildebar(pid: string): addFuncType {
@@ -61,7 +59,7 @@ export const sidebar = defineStore('footerSideBar', (): ReturnType => {
     }
   }
   return {
-    [SITE_MENUS.FOOTER]: Sidestate,
+    [SITE_MENUS.LEGAL]: Sidestate,
     [addFunc]: addSidebar,
     [addChildFunc]: addChildSildebar,
     [deleteFunc]: deleteSidebar

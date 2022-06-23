@@ -140,7 +140,10 @@
         />
       </el-form-item>
     </el-form>
-    <div class="btn-group" :style="{ left: menuWidth + 'px' }">
+    <div
+      class="btn-group"
+      :style="{ left: device === 'mobile' ? 0 : menuWidth }"
+    >
       <template v-if="target === 'add'">
         <tfr-button type="gray">DELETE</tfr-button>
         <tfr-button type="primary" @click="saveHandle">SAVE</tfr-button>
@@ -232,15 +235,7 @@ const promoRules = reactive<FormRules>({
     }
   ]
 })
-const effectiveRegionList = ref([
-  { name: 'All Region', code: 'all' }
-  // { name: 'All Region', code: 'all' },
-  // { name: 'All Region', code: 'all' },
-  // { name: 'All Region', code: 'all' },
-  // { name: 'All Region', code: 'all' },
-  // { name: 'All Region', code: 'all' },
-  // { name: 'All Region', code: 'all' }
-])
+const effectiveRegionList = ref([{ name: 'All Region', code: 'all' }])
 const effectiveRegionDialog = ref(<boolean>false)
 const targetVisible = ref(<boolean>false)
 const applyLimitVisible = ref(<boolean>false)

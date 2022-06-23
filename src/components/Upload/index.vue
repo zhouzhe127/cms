@@ -23,9 +23,11 @@
         v-for="(item, index) in pictureList"
         :key="'picturesItem' + index"
         class="picture-item"
+        :class="{ 'is-select': item.isSelect && uploadProps.isSelect }"
+        @click="selectedHandle(index)"
       >
         <div v-if="item.link" class="has-picture">
-          <span class="del-icon" @click="deleteMediaItem(item, index)"
+          <span class="del-icon" @click.stop="deleteMediaItem(item, index)"
             ><svg-icon icon-class="remove_black" />
           </span>
           <img v-if="item.content_type === 'image'" :src="item.link" />
@@ -65,21 +67,28 @@
 import TfrButton from '@/components/TfrButton/index.vue'
 import { getMediaExt } from '@/utils/getMediaExt'
 import uploadHandle from './upload'
-import { computed } from 'vue'
+import { computed, getCurrentInstance } from 'vue'
 import { UploadRequestOptions, UploadFile } from 'element-plus'
+const $tfrMessage: any =
+  getCurrentInstance()?.appContext?.config?.globalProperties?.$tfrMessage
 
 interface PictureItem {
   [propName: string]: any
 }
 interface PropsType {
   pictureList: Array<PictureItem>
+  isSelect?: boolean
 }
 
 const uploadProps = withDefaults(defineProps<PropsType>(), {
-  pictureList: () => [] // 默认值
+  pictureList: () => [], // 默认值
+  isSelect: false
 })
 
-const uploadEmits = defineEmits(['update:pictureList'])
+const uploadEmits = defineEmits([
+  'update:pictureList',
+  'updateSelectedIndexHandle'
+])
 
 const pictureList = computed({
   get: () => uploadProps.pictureList,
@@ -94,17 +103,17 @@ const handleUploadHttpRequest = async (
   const file: any = requestOptions.file
   try {
     const ext: any = await getMediaExt(file)
+    console.log(ext)
     const mediaExt: Array<string> = ['jpg', 'jpeg', 'png', 'gif', 'mp4']
     let type = ''
     if (mediaExt.includes(ext || '')) {
       type = ext === 'mp4' ? 'video' : 'image'
     }
     if (!type) {
-      // this.$tfrMessage({
-      //   show: true,
-      //   type: 'error',
-      //   content: 'Invalid the format. (Upload JPG, PNG, or MP4)'
-      // })
+      $tfrMessage({
+        type: 'error',
+        message: 'Invalid the format. (Upload JPG, PNG, or MP4)'
+      })
       return false
     }
     const options = {
@@ -192,6 +201,19 @@ const deleteMediaItem = async (item: any, index: number) => {
   //   }))
   // this.$emit('change', picturesList)
 }
+
+const selectedHandle = (index: number) => {
+  if (uploadProps.isSelect) {
+    pictureList.value.forEach((item, i) => {
+      if (index === i) {
+        item.isSelect = !item.isSelect
+      } else {
+        item.isSelect = false
+      }
+    })
+    uploadEmits('updateSelectedIndexHandle', index)
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -209,13 +231,16 @@ const deleteMediaItem = async (item: any, index: number) => {
   grid-gap: 10px;
   .picture-item {
     position: relative;
+    &.is-select {
+      border: 1px solid $theme;
+    }
     .has-picture {
       width: 100%;
       height: 0;
       padding-top: 60%;
       .del-icon {
-        width: 50px;
-        height: 50px;
+        width: 30px;
+        height: 30px;
         background-color: #fff;
         display: flex;
         justify-content: center;

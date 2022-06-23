@@ -24,7 +24,7 @@
             Empty
           </div>
         </div>
-        <div class="addbox">
+        <div class="addbox" @click="onAdd">
           <svg-icon icon-class="add_black" class="sicon" />
           <span class="addtext">Add</span>
         </div>
@@ -53,7 +53,7 @@ const showChild = ref(false)
 const clickItems = () => {
   showChild.value = !showChild.value
 }
-const emit = defineEmits(['leftClick', 'rightClick', 'centerIconClick'])
+const emit = defineEmits(['leftClick', 'rightClick', 'centerIconClick', 'add'])
 const leftClick = () => {
   emit('leftClick')
 }
@@ -62,6 +62,9 @@ const rightClick = () => {
 }
 const centerIconClick = () => {
   emit('centerIconClick')
+}
+const onAdd = () => {
+  emit('add')
 }
 </script>
 

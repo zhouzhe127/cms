@@ -36,7 +36,7 @@ export default defineConfig((mode: ConfigEnv) => {
       preprocessorOptions: {
         scss: {
           // 引入 var.scss 这样就可以在全局中使用 var.scss中预定义的变量了
-          additionalData: '@import "./src/styles/variables.scss";'
+          additionalData: '@use "./src/styles/variables.scss" as *;'
         }
       }
     },

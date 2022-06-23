@@ -1,10 +1,12 @@
 import { type } from "os"
 
 export interface SideItem {
+  id?: string,
   title?: string,
   leftIcon?: string,
   rightIcon?: string,
-  icon?: string
+  icon?: string,
+  children?: SideItem[]
 }
 export interface SideInterPort {
   title?: string,
@@ -22,5 +24,6 @@ export enum SITE_MENUS {
 type stringKey = Record<string, symbol>
 
 export const EventKey: stringKey = {
-  'navigation': Symbol('NAVIGATION')
+  'navigation': Symbol('NAVIGATION'),
+  'legal': Symbol('LEGAL')
 }

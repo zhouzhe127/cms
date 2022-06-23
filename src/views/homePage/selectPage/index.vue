@@ -1,10 +1,21 @@
 <template>
   <div>
-    <TfrDialog v-model="showWin" width="336px" append-to-body class="page-add-dialog" :is-close="false" @close="closeWin">
+    <TfrDialog
+      v-model="showWin"
+      width="336px"
+      append-to-body
+      class="page-add-dialog"
+      :is-close="false"
+      @close="onClose"
+    >
       <div class="type-list">
         <ul>
-          <li v-for="(item, index) in listArr" :key="index" @click="addpage(item)">
-            <svg-icon :icon-class="item.icon"/>
+          <li
+            v-for="(item, index) in listArr"
+            :key="index"
+            @click="addpage(item)"
+          >
+            <svg-icon :icon-class="item.icon" />
             <span>{{ item.title }}</span>
           </li>
         </ul>
@@ -17,19 +28,18 @@
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import store from '@/store'
 import { PAGE_ICONS, PAGE_SELECT } from './index.type'
-import { useEventBus } from '@vueuse/core'
-import { SideItem, SITE_MENUS, EventKey } from '@/components/SiteBuilderMenu/type/index'
+import { SideItem } from '@/components/SiteBuilderMenu/type/index'
 import generalwin from '@/views/homePage/generalwin'
-import { useRoute } from 'vue-router';
+import { useRoute } from 'vue-router'
+import { emitSideEvent } from '@/components/SiteBuilderMenu/utils/regesterEvent'
 const route = useRoute()
 const origin = route.query.origin as string
-const eventName = EventKey[origin]
-const  { emit } = useEventBus<string>(eventName)
-
+const sideEmit = emitSideEvent(origin)
 // import { addFunc as addNavigateFun } from '@/store/setBuilder/sidebar';
 // import { addFunc as addFooterFun } from '@/store/setBuilder/footerNavigation';
 const {showWin, closeWin} = generalwin()
 const callback = store.setBuilder.basic.selectPageCallback
+const setBuilder = store.setBuilder
 const listArr = [
   {
     title: PAGE_SELECT.PAGE,
@@ -60,64 +70,46 @@ const listArr = [
     icon: PAGE_ICONS[PAGE_SELECT.SMART]
   }
 ]
-const addpage = (item: SideItem) => {
-  // addSidebar({
-  //   title: 'New Custom',
-  //   icon: item.icon
-  // })
-  if (callback) callback(item)
-  emit(origin, item)
-  showWin.value = false
+const resetBuilder = () => {
+  setBuilder.setPageCallback(() => {})
+  setBuilder.setCurrentSelectParent('')
 }
-// const getCurrentAddFunc = () => {
-//   const origin = router.currentRoute.value.query.origin
-//   const addSidebar = store.setBuilder.sideState
-//   switch(origin) {
-//     case SITE_MENUS.NAVIGATION:
-//       return addSidebar[addNavigateFun]
-//     case SITE_MENUS.FOOTER:
-//       return addSidebar[addFooterFun]
-//     default:
-//       return null
-//   }
-// }
-// const emit = defineEmits(['update:modelValue'])
-// const addpage = (item: SideItem) => {
-//   const addSidebar = getCurrentAddFunc()
-//   if (addSidebar)
-//     addSidebar({
-//       title: 'New Custom',
-//       icon: item.icon
-//     })
-//   emit('update:modelValue', false)
-// }
+const onClose = () => {
+  closeWin()
+  resetBuilder()
+}
+const addpage = (item: SideItem) => {
+  if (callback) callback(item)
+  sideEmit(origin, {...item, ...route.query})
+  showWin.value = false
+  resetBuilder()
+}
 </script>
 
 <style lang="scss" scoped>
-.page-add-dialog{
-  .type-list{
-    ul{
+.page-add-dialog {
+  .type-list {
+    ul {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
-      li{
+      li {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        padding:10px;
-        font-size:12px;
+        padding: 10px;
+        font-size: 12px;
         cursor: pointer;
         opacity: 0.5;
-        .svg-icon{
-          font-size:30px;
+        .svg-icon {
+          font-size: 30px;
           margin-bottom: 10px;
         }
-        &:hover{
+        &:hover {
           opacity: 1;
         }
       }
     }
-
   }
 }
 </style>

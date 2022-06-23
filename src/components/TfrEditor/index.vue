@@ -1,7 +1,7 @@
 <template>
   <editor
     ref="toastuiEditor"
-    :initial-value="editorText"
+    :initial-value="editorValue"
     :options="editorOptions"
     preview-style="vertical"
     v-bind="$attrs"
@@ -11,7 +11,16 @@
 
 <script lang="ts" setup>
 import Editor from './Editor.vue'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+
+interface PropsType {
+  editorValue: string
+}
+
+const editorProps = withDefaults(defineProps<PropsType>(), {
+  editorValue: '' // 默认值
+})
+
 const editorOptions = {
   minHeight: '200px',
   language: 'en-US',
@@ -25,14 +34,21 @@ const editorOptions = {
     ['table']
   ]
 }
-const emit = defineEmits(['update:modelValue'])
-const editorText = ref('')
+const editorEmits = defineEmits(['update:editorValue'])
+// const editorText = ref('')
 const toastuiEditor = ref<any>(null)
+
+const editorValue = computed({
+  get: () => editorProps.editorValue,
+  set: newEditorValue => {
+    editorEmits('update:editorValue', newEditorValue)
+  }
+})
 const editorChange = () => {
   const html = toastuiEditor.value.invoke('getHTML')
-  emit('update:modelValue', html)
+  console.log(toastuiEditor.value)
+  editorEmits('update:editorValue', html)
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

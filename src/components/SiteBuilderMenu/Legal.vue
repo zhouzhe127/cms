@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SideMenu title="FOOTER" @add-click="addPage">
+    <SideMenu title="LEGAL" @add-click="addPage">
       <MenuItem
         v-for="(item, index) in sidearr"
         :key="index"
@@ -23,25 +23,24 @@
 </template>
 
 <script setup lang="ts">
-// import tfrMessage from '@/components/TfrMessageBox'
-import { onSideEvent } from '@/components/SiteBuilderMenu/utils/regesterEvent'
+import tfrMessage from '@/components/TfrMessageBox'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
-import { SideItem, SITE_MENUS } from '../../type'
+import { SideItem, SITE_MENUS } from './type'
 import {
-  addChildFunc,
   addFunc,
-  deleteFunc
-} from '@/store/setBuilder/footerNavigation'
-import { toSeletPage } from '../../utils/router'
+  deleteFunc,
+  addChildFunc
+} from '@/store/setBuilder/legalNavigation'
+import { onSideEvent } from './utils/regesterEvent'
+import { toSeletPage } from './utils/router'
 import store from '@/store'
-
 const router = useRouter()
 const setBuilder = store.setBuilder
-onSideEvent(SITE_MENUS.FOOTER, (e: string, item: any) => {
+onSideEvent(SITE_MENUS.LEGAL, (e: string, item: any) => {
   if (item.parentId) {
     setBuilder.sideState[addChildFunc](decodeURIComponent(item.parentId))(item)
     return
@@ -49,28 +48,32 @@ onSideEvent(SITE_MENUS.FOOTER, (e: string, item: any) => {
   setBuilder.sideState[addFunc](item)
 })
 const sidearr = computed(
-  () => store.setBuilder.sideState[SITE_MENUS.FOOTER].sidebarArr
+  () => store.setBuilder.sideState[SITE_MENUS.LEGAL].sidebarArr
 )
 const addPage = () => {
   // setBuilder.setPageCallback(setBuilder.sideState[addFunc])
-  toSeletPage(router)
+  toSeletPage(router, {
+    origin: SITE_MENUS.LEGAL
+  })
 }
 const chickEditWin = () => {
   router.push({
-    path: '/siteBuilder/editLinkPage'
+    path: '/siteBuilder/editPage'
   })
 }
 const deleteItem = (item: SideItem, pid?: string) => {
   setBuilder.sideState[deleteFunc](item, pid)
-  // tfrMessage.confirm('wqqaqqqq')
+  tfrMessage.confirm('wqqaqqqq')
 }
 const onAdd = (item: SideItem) => {
   // setBuilder.setPageCallback(
   //   setBuilder.sideState[addChildFunc](item.id || item.title || '')
   // )
   toSeletPage(router, {
-    origin: SITE_MENUS.FOOTER,
+    origin: SITE_MENUS.LEGAL,
     parentId: encodeURIComponent(item.id || item.title || '')
   })
 }
 </script>
+
+<style scoped></style>

@@ -1,6 +1,6 @@
 // import config from '@/config'
-import Router from '@/router/index'
 import Request from './request'
+import app from '@/main'
 import { startsWith, get } from 'lodash'
 import type { RequestResponse, RequestConfig } from './types'
 import qs from 'qs'
@@ -14,6 +14,7 @@ const demoAddress = VITE_APP_DEMO_ADDRESS
 const { apiAddress: testAddress } = qs.parse(location.search, {
   ignoreQueryPrefix: true
 })
+const { $router, $tfrMessage } = app.config.globalProperties
 const errorHandler = (error: RequestResponse) => {
   const status = get(error, 'response.status')
   switch (status) {
@@ -27,7 +28,12 @@ const errorHandler = (error: RequestResponse) => {
       //   content: 'Unauthorized, Please Login',
       //   type: 'error'
       // })
-      Router.push({ path: `/login` })
+      console.log(app)
+      $tfrMessage({
+        message: 'Unauthorized, Please Login',
+        type: 'error'
+      })
+      $router.push({ path: `/login` })
       break
     case 403:
       error.message = 'Access denied'

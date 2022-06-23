@@ -1,6 +1,6 @@
-// import { Message } from 'element-ui'
 import request from '@/api/request'
-// import context from '@/main'
+import app from '@/main'
+const { $tfrMessage } = app.config.globalProperties
 
 export const getPolicy = (
   resourceId: string,
@@ -91,16 +91,10 @@ export function uploadHttp({
         (e: any) => {
           const status: number = e?.target?.status ?? 0
           if (status !== 204) {
-            // Message({
-            //   message: 'Upload failed, please try again!',
-            //   type: 'error',
-            //   duration: 2 * 1000
-            // })
-            // context.$tfrMessage({
-            //   show: true,
-            //   type: 'error',
-            //   content: 'Oops...something went wrong, please try again.'
-            // })
+            $tfrMessage({
+              type: 'error',
+              message: 'Oops...something went wrong, please try again.'
+            })
             reject(status)
           }
           if (status === 204) {
@@ -110,16 +104,10 @@ export function uploadHttp({
         false
       )
       xhr.addEventListener('error', () => {
-        // Message({
-        //   message: 'Upload failed, please try again!',
-        //   type: 'error',
-        //   duration: 2 * 1000
-        // })
-        // context.$tfrMessage({
-        //   show: true,
-        //   type: 'error',
-        //   content: 'Oops...something went wrong, please try again.'
-        // })
+        $tfrMessage({
+          type: 'error',
+          message: 'Oops...something went wrong, please try again.'
+        })
         reject()
       })
       xhr.open('post', action, true)
