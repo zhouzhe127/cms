@@ -53,7 +53,9 @@ const sidearr = computed(
 )
 const addPage = () => {
   // setBuilder.setPageCallback(setBuilder.sideState[addFunc])
-  toSeletPage(router)
+  toSeletPage(router, {
+    origin: SITE_MENUS.FOOTER,
+  })
 }
 const chickEditWin = () => {
   router.push({
