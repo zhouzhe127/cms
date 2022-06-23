@@ -1,7 +1,8 @@
-import { Router } from 'vue-router'
+import { Router, LocationQueryRaw } from 'vue-router'
 
-export function toSeletPage(router: Router) {
+export function toSeletPage(router: Router, query?: LocationQueryRaw) {
   router.push({
-    path: '/siteBuilder/selectPage'
+    path: '/siteBuilder/selectPage',
+    query
   })
 }

@@ -15,7 +15,4 @@ const app = createApp(App)
 app.config.globalProperties.$tfrMessage = TfrMessage
 app.component('SvgIcon', SvgIcon)
 app.use(router).use(createPinia()).mount('#app')
-app.mixin({
-  device: 'aaaaaa'
-})
 registerStore()

@@ -1,3 +1,5 @@
+import { type } from "os"
+
 export interface SideItem {
   id?: string,
   title?: string,
@@ -16,4 +18,13 @@ export enum SITE_MENUS {
   LEGAL = 'legal',
   UNLINKED = 'unlinked',
   OFFLINE = 'offline'
+}
+
+
+type stringKey = Record<string, symbol>
+
+export const EventKey: stringKey = {
+  'navigation': Symbol('NAVIGATION'),
+  'legal': Symbol('LEGAL'),
+  'footer': Symbol('FOOTER'),
 }

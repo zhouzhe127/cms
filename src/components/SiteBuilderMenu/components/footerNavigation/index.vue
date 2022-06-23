@@ -24,6 +24,7 @@
 
 <script setup lang="ts">
 // import tfrMessage from '@/components/TfrMessageBox'
+import { onSideEvent } from '@/components/SiteBuilderMenu/utils/regesterEvent'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
@@ -40,12 +41,21 @@ import store from '@/store'
 
 const router = useRouter()
 const setBuilder = store.setBuilder
+onSideEvent(SITE_MENUS.FOOTER, (e: string, item: any) => {
+  if (item.parentId) {
+    setBuilder.sideState[addChildFunc](decodeURIComponent(item.parentId))(item)
+    return
+  }
+  setBuilder.sideState[addFunc](item)
+})
 const sidearr = computed(
   () => store.setBuilder.sideState[SITE_MENUS.FOOTER].sidebarArr
 )
 const addPage = () => {
-  setBuilder.setPageCallback(setBuilder.sideState[addFunc])
-  toSeletPage(router)
+  // setBuilder.setPageCallback(setBuilder.sideState[addFunc])
+  toSeletPage(router, {
+    origin: SITE_MENUS.FOOTER,
+  })
 }
 const chickEditWin = () => {
   router.push({
@@ -57,9 +67,12 @@ const deleteItem = (item: SideItem, pid?: string) => {
   // tfrMessage.confirm('wqqaqqqq')
 }
 const onAdd = (item: SideItem) => {
-  setBuilder.setPageCallback(
-    setBuilder.sideState[addChildFunc](item.id || item.title || '')
-  )
-  toSeletPage(router)
+  // setBuilder.setPageCallback(
+  //   setBuilder.sideState[addChildFunc](item.id || item.title || '')
+  // )
+  toSeletPage(router, {
+    origin: SITE_MENUS.FOOTER,
+    parentId: encodeURIComponent(item.id || item.title || '')
+  })
 }
 </script>

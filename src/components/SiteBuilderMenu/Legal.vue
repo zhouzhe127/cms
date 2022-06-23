@@ -35,17 +35,26 @@ import {
   deleteFunc,
   addChildFunc
 } from '@/store/setBuilder/legalNavigation'
+import { onSideEvent } from './utils/regesterEvent'
 import { toSeletPage } from './utils/router'
 import store from '@/store'
-
 const router = useRouter()
 const setBuilder = store.setBuilder
+onSideEvent(SITE_MENUS.LEGAL, (e: string, item: any) => {
+  if (item.parentId) {
+    setBuilder.sideState[addChildFunc](decodeURIComponent(item.parentId))(item)
+    return
+  }
+  setBuilder.sideState[addFunc](item)
+})
 const sidearr = computed(
   () => store.setBuilder.sideState[SITE_MENUS.LEGAL].sidebarArr
 )
 const addPage = () => {
-  setBuilder.setPageCallback(setBuilder.sideState[addFunc])
-  toSeletPage(router)  
+  // setBuilder.setPageCallback(setBuilder.sideState[addFunc])
+  toSeletPage(router, {
+    origin: SITE_MENUS.LEGAL
+  })
 }
 const chickEditWin = () => {
   router.push({
@@ -57,10 +66,13 @@ const deleteItem = (item: SideItem, pid?: string) => {
   tfrMessage.confirm('wqqaqqqq')
 }
 const onAdd = (item: SideItem) => {
-  setBuilder.setPageCallback(
-    setBuilder.sideState[addChildFunc](item.id || item.title || '')
-  )
-  toSeletPage(router)
+  // setBuilder.setPageCallback(
+  //   setBuilder.sideState[addChildFunc](item.id || item.title || '')
+  // )
+  toSeletPage(router, {
+    origin: SITE_MENUS.LEGAL,
+    parentId: encodeURIComponent(item.id || item.title || '')
+  })
 }
 </script>
 

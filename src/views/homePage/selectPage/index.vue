@@ -30,9 +30,16 @@ import store from '@/store'
 import { PAGE_ICONS, PAGE_SELECT } from './index.type'
 import { SideItem } from '@/components/SiteBuilderMenu/type/index'
 import generalwin from '@/views/homePage/generalwin'
-const { showWin, closeWin } = generalwin()
-const setBuilder = store.setBuilder
+import { useRoute } from 'vue-router'
+import { emitSideEvent } from '@/components/SiteBuilderMenu/utils/regesterEvent'
+const route = useRoute()
+const origin = route.query.origin as string
+const sideEmit = emitSideEvent(origin)
+// import { addFunc as addNavigateFun } from '@/store/setBuilder/sidebar';
+// import { addFunc as addFooterFun } from '@/store/setBuilder/footerNavigation';
+const {showWin, closeWin} = generalwin()
 const callback = store.setBuilder.basic.selectPageCallback
+const setBuilder = store.setBuilder
 const listArr = [
   {
     title: PAGE_SELECT.PAGE,
@@ -69,12 +76,13 @@ const resetBuilder = () => {
 }
 const onClose = () => {
   closeWin()
-  resetBuilder() 
+  resetBuilder()
 }
 const addpage = (item: SideItem) => {
   if (callback) callback(item)
+  sideEmit(origin, {...item, ...route.query})
   showWin.value = false
-  resetBuilder() 
+  resetBuilder()
 }
 </script>
 
