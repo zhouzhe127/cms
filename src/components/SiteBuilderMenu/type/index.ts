@@ -25,5 +25,6 @@ type stringKey = Record<string, symbol>
 
 export const EventKey: stringKey = {
   'navigation': Symbol('NAVIGATION'),
-  'legal': Symbol('LEGAL')
+  'legal': Symbol('LEGAL'),
+  'footer': Symbol('FOOTER'),
 }
