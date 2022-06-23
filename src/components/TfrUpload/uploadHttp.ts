@@ -1,6 +1,6 @@
 import request from '@/api/request'
-import app from '@/main'
-const { $tfrMessage } = app.config.globalProperties
+import tfrMessage from '@/utils/tfrMessage'
+const $tfrMessage = tfrMessage
 
 export const getPolicy = (
   resourceId: string,

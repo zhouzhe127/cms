@@ -84,7 +84,7 @@
       </el-form-item>
       <sticky-flow title="IMAGES" />
       <div class="image-area">
-        <upload :pictureList="picture" />
+        <tfr-upload :pictureList="picture" />
       </div>
       <sticky-flow title="GIFT CARD">
         <template #right>
@@ -166,7 +166,7 @@
         </div>
       </div>
       <el-form-item label="Alternate Image" class="alternate-image">
-        <upload :pictureList="alternateImage" />
+        <tfr-upload :pictureList="alternateImage" />
       </el-form-item>
       <el-form-item label="Alt Text" class="alternate-text">
         <tfr-input
@@ -185,7 +185,7 @@
     >
       <template v-if="target === 'add'">
         <tfr-button type="gray">DELETE</tfr-button>
-        <tfr-button type="primary" @click="saveHandle">SAVE</tfr-button>
+        <tfr-button type="primary" @click="saveHandle">SAVE </tfr-button>
       </template>
     </div>
     <effective-region-dialog
@@ -220,13 +220,13 @@ import TfrSwitch from '@/components/TfrSwitch/index.vue'
 import TfrInput from '@/components/TfrInput/index.vue'
 import TfrTag from '@/components/TfrTag/index.vue'
 import TfrRadioGroup from '@/components/TfrRadioGroup/index.vue'
-import EffectiveRegionDialog from '../components/EffectiveRegionDialog/index.vue'
-import AppliesLimitDialog from '../components/AppliesLimitDialog/index.vue'
-import DatePickerRange from '@/components/DatePickerRange/index.vue'
-import Upload from '@/components/Upload/index.vue'
-import Editor from '@/components/TfrEditor/index.vue'
-import ImageBoxDialog from '../components/ImageBoxDialog/index.vue'
 import TfrButton from '@/components/TfrButton/index.vue'
+import EffectiveRegionDialog from '@/views/marketing/components/EffectiveRegionDialog/index.vue'
+import AppliesLimitDialog from '@/views/marketing/components/AppliesLimitDialog/index.vue'
+import ImageBoxDialog from '@/views/marketing/components/ImageBoxDialog/index.vue'
+import DatePickerRange from '@/components/DatePickerRange/index.vue'
+import TfrUpload from '@/components/TfrUpload/index.vue'
+import Editor from '@/components/TfrEditor/index.vue'
 import { reactive, ref, nextTick, computed, watch, inject } from 'vue'
 import { useRoute } from 'vue-router'
 import { FormInstance, FormRules } from 'element-plus'

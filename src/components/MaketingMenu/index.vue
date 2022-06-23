@@ -76,9 +76,9 @@ const addHandle = (type: string) => {
   if (type === 'promotion') {
     addVisible.value = true
   } else if (type === 'giftCard') {
-    router.push({ path: '/marketing/giftCard/add' })
+    jumpTo('/marketing/giftCard/add')
   } else {
-    router.push({ path: '/marketing/announcement/add' })
+    jumpTo('/marketing/announcement/add')
   }
   // addVisible.value = true
 }

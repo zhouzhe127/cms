@@ -19,5 +19,3 @@ app.mixin({
   device: 'aaaaaa'
 })
 registerStore()
-
-export default app

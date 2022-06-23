@@ -25,7 +25,7 @@ export const appStore = defineStore('app', {
     return {
       device: getDevice(), // desktop ipad mobile
       token:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMCwidXNlcm5hbWUiOiJ0ZnIiLCJzY29wZSI6IiIsImV4dHJhIjoiIiwiZXhwIjoxNjU1NDQ5MDE1LCJpYXQiOjE2NTUzNjI2MTUsImlzcyI6InRmciIsIm5iZiI6MTY1NTM2MjYxNX0.UhMqKeExAOzxBPHDzLHh68fMmfy7JnzMOWhMzq1WMP8'
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMCwidXNlcm5hbWUiOiJ0ZnIiLCJzY29wZSI6IiIsImV4dHJhIjoiIiwiZXhwIjoxNjU2MDUzNTkxLCJpYXQiOjE2NTU5NjcxOTEsImlzcyI6InRmciIsIm5iZiI6MTY1NTk2NzE5MX0.4tOyej7PmdS7l0FCY2pL0_qTRdCU_4paoql19nQrS5w'
     }
   },
   /**
