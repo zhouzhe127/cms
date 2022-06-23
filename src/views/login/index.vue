@@ -28,9 +28,9 @@
           />
         </el-form-item>
         <div class="spec-form-item">
-          <TfrCheckbox v-model="signed" type="radio"
-            >Keep me Signed in</TfrCheckbox
-          >
+          <TfrCheckbox v-model="signed" type="radio">
+            Keep me Signed in
+          </TfrCheckbox>
           <router-link to="/reset">Forgot my password</router-link>
         </div>
       </el-form>

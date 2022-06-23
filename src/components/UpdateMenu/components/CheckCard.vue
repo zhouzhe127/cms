@@ -3,7 +3,7 @@
     <SideMenu title="ALL UPDATES" @add-click="" @head-click="onAllClick">
       <template #header>
         <div>
-          <TfrCheckbox key="all" type="large">ALL UPADTES</TfrCheckbox>
+          <TfrCheckbox v-model="isCheckAll" key="all" type="large">ALL UPADTES</TfrCheckbox>
         </div>
       </template>
       <div>
@@ -11,16 +11,17 @@
           <svg-icon icon-class="warn" class="svg-warn" />
           <span> The following pages are queuing for publish approval. </span>
         </div>
-        <PageListItem
-          v-for="(item, index) in [1, 2, 3, 4, 5, 6, 7, 8]"
-          :key="item"
-          :icon-style="{ marginRight: '0px' }"
-          @click="onAllClick"
-        >
-          <template #icon>
-            <TfrCheckbox type="large"></TfrCheckbox>
-          </template>
-        </PageListItem>
+        <el-checkbox-group v-model="checkAllData">
+          <PageListItem
+            v-for="(item, index) in [1, 2, 3, 4, 5, 6, 7, 8]"
+            :icon-style="{ marginRight: '0px' }"
+            @click="() => onAllClick(item)"
+          >
+            <template #icon>
+              <TfrCheckbox type="large" :key="item" :label="item"></TfrCheckbox>
+            </template>
+          </PageListItem>
+        </el-checkbox-group>
       </div>
     </SideMenu>
   </div>
@@ -30,11 +31,27 @@
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import TfrCheckbox from '@/components/TfrCheckbox/index.vue'
 import PageListItem from '@/components/PageListItem/index.vue'
-let i = 0
+import { ref } from 'vue'
+const checkAllData = ref<any[]>([1, 2, 3, 4, 5, 6, 7])
+const isCheckAll = ref<boolean>(false)
 
-const onAllClick = () => {
-  console.log('多选点击' + i++)
-  
+const onAllClick = (item?: any) => {
+  if (!item) {
+    isCheckAll.value = !isCheckAll.value
+
+    if (isCheckAll.value) {
+      checkAllData.value = [1,2,3,4,5,6,7,8]
+    } else {
+      checkAllData.value = []
+    }
+    return
+  }
+  const index = checkAllData.value.indexOf(item)
+  if (index >= 0) {
+    checkAllData.value.splice(index, 1)
+  } else {
+    checkAllData.value.push(item)
+  }
 }
 </script>
 

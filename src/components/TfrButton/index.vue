@@ -23,9 +23,21 @@
   >
     <slot></slot>
   </el-button>
+  <!-- <el-button
+    v-else-if="buttonProps.type === 'normal' && !board"
+    :class="['tfr-btn', 'tfr-button--normal', 'noborder', className]"
+    v-bind="$attrs"
+    @click="click"
+  >
+    <slot></slot>
+  </el-button> -->
   <el-button
     v-else
-    :class="['tfr-btn', 'tfr-button--normal', className]"
+    class="tfr-btn tfr-button--normal"
+    :class="{
+      noborder: !board,
+      className: !!className
+    }"
     v-bind="$attrs"
     @click="click"
   >
@@ -37,10 +49,12 @@
 interface PropsType {
   type?: string
   className?: string
+  board?: boolean
 }
 const buttonProps = withDefaults(defineProps<PropsType>(), {
   type: 'primary', // 默认值
-  className: ''
+  className: '',
+  board: true
 })
 const buttonEmits = defineEmits(['click'])
 const click = () => {
@@ -110,15 +124,26 @@ const click = () => {
 }
 
 .tfr-button--normal {
-  background-color: transparent;
+  background-color: #f8f8f8;
   border: 1px solid $theme;
   color: $theme;
-}
-.tfr-button--normal:hover,
-.tfr-button--normal:focus,
-.tfr-button--normal:active {
-  background-color: transparent;
-  border: 1px solid $theme;
-  color: $theme;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #f8f8f8;
+    border: 1px solid $theme;
+    color: $theme;
+  }
+
+  &.noborder {
+    border: none;
+  }
+
+  &.noborder:hover,
+  &.noborder:focus,
+  &.noborder:active {
+    border: none;
+  }
 }
 </style>
