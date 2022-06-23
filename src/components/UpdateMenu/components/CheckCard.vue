@@ -13,12 +13,13 @@
         </div>
         <el-checkbox-group v-model="checkAllData">
           <PageListItem
-            v-for="(item, index) in [1, 2, 3, 4, 5, 6, 7, 8]"
+            v-for="(item, index) in updateList"
+            :title="item.title"
             :icon-style="{ marginRight: '0px' }"
             @click="() => onAllClick(item)"
           >
             <template #icon>
-              <TfrCheckbox type="large" :key="item" :label="item"></TfrCheckbox>
+              <TfrCheckbox type="large" :key="item.title" :label="item"></TfrCheckbox>
             </template>
           </PageListItem>
         </el-checkbox-group>
@@ -32,7 +33,10 @@ import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import TfrCheckbox from '@/components/TfrCheckbox/index.vue'
 import PageListItem from '@/components/PageListItem/index.vue'
 import { ref } from 'vue'
-const checkAllData = ref<any[]>([1, 2, 3, 4, 5, 6, 7])
+import store from '@/store'
+import { UpdateSideListItem } from '@/components/PageListItem/index.type'
+const updateList = ref<UpdateSideListItem[]>(store.upadte.allModule.updateList) 
+const checkAllData = ref<UpdateSideListItem[]>(store.upadte.allModule.updateList)
 const isCheckAll = ref<boolean>(false)
 
 const onAllClick = (item?: any) => {
@@ -40,7 +44,7 @@ const onAllClick = (item?: any) => {
     isCheckAll.value = !isCheckAll.value
 
     if (isCheckAll.value) {
-      checkAllData.value = [1,2,3,4,5,6,7,8]
+      checkAllData.value = store.upadte.allModule.updateList
     } else {
       checkAllData.value = []
     }

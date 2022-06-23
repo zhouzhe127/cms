@@ -16,9 +16,9 @@
       <hr />
     </div>
     <div class="item-con">
-      <div class="item" v-for="item in [1,2,3,4,5]">
+      <div class="item" v-for="item in checkData">
         <div class="tag">RC</div>
-       <PageListItem :no-icon="true"></PageListItem> 
+       <PageListItem :title="item.title" :no-icon="true"></PageListItem> 
       </div>
     </div>
     <template #footer>
@@ -31,10 +31,15 @@
 <script setup lang="ts">
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import PageListItem from '@/components/PageListItem/index.vue'
+import { ref } from 'vue';
+import { UpdateSideListItem } from '@/components/PageListItem/index.type';
+import store from '@/store';
 
 interface IProps {
   visible: boolean
 }
+
+const checkData = ref<UpdateSideListItem[]>(store.upadte.allModule.checkCardList)
 
 withDefaults(defineProps<IProps>(), {
   visible: true
