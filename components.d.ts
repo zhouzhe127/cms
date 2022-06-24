@@ -82,6 +82,7 @@ declare module '@vue/runtime-core' {
     TfrSelect: typeof import('./src/components/TfrSelect/index.vue')['default']
     TfrSwitch: typeof import('./src/components/TfrSwitch/index.vue')['default']
     TfrTag: typeof import('./src/components/TfrTag/index.vue')['default']
+    TfrUpload: typeof import('./src/components/TfrUpload/index.vue')['default']
     TitleBar: typeof import('./src/components/SiteBuilderMenu/components/setmodules/TitleBar.vue')['default']
     Typeform: typeof import('./src/components/SiteBuilderMenu/components/setmodules/Typeform.vue')['default']
     UpdateMenu: typeof import('./src/components/UpdateMenu/index.vue')['default']

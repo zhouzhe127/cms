@@ -18,7 +18,11 @@
         </div>
       </el-upload>
     </div>
-    <div v-else class="picture-box">
+    <div
+      v-else
+      class="picture-box"
+      :class="{ 'picture-box-one': uploadProps.isOnlyOne }"
+    >
       <div
         v-for="(item, index) in pictureList"
         :key="'picturesItem' + index"
@@ -48,7 +52,7 @@
           </div>
         </div>
       </div>
-      <div class="picture-item picture-add">
+      <div v-if="!uploadProps.isOnlyOne" class="picture-item picture-add">
         <el-upload
           action=""
           list-type="picture-card"
@@ -68,7 +72,7 @@ import TfrButton from '@/components/TfrButton/index.vue'
 import { getMediaExt } from '@/utils/getMediaExt'
 import uploadHandle from './upload'
 import { computed, getCurrentInstance } from 'vue'
-import { UploadRequestOptions, UploadFile } from 'element-plus'
+import type { UploadRequestOptions, UploadFile } from 'element-plus'
 const $tfrMessage: any =
   getCurrentInstance()?.appContext?.config?.globalProperties?.$tfrMessage
 
@@ -76,13 +80,15 @@ interface PictureItem {
   [propName: string]: any
 }
 interface PropsType {
-  pictureList: Array<PictureItem>
-  isSelect?: boolean
+  pictureList: Array<PictureItem> // 图片数据
+  isSelect?: boolean // 是否可勾选
+  isOnlyOne?: boolean // 是否只显示一张图片
 }
 
 const uploadProps = withDefaults(defineProps<PropsType>(), {
   pictureList: () => [], // 默认值
-  isSelect: false
+  isSelect: false,
+  isOnlyOne: false
 })
 
 const uploadEmits = defineEmits([
@@ -229,6 +235,9 @@ const selectedHandle = (index: number) => {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
+  &.picture-box-one {
+    grid-template-columns: repeat(1, 1fr);
+  }
   .picture-item {
     position: relative;
     &.is-select {

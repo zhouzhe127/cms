@@ -46,32 +46,32 @@ export const constantRoutes: Array<RouteRecordRaw> = [
           {
             path: 'editModules',
             name: 'siteBuilder_editModules',
-            component: () => import('@/views/homePage/editModules/index.vue'),
+            component: () => import('@/views/homePage/editModules/index.vue')
           },
           {
             path: 'editPage',
             name: 'siteBuilder_editPage',
-            component: () => import('@/views/homePage/editPage/index.vue'),
+            component: () => import('@/views/homePage/editPage/index.vue')
           },
           {
             path: 'selectPage',
             name: 'siteBuilder_selectPage',
-            component: () => import('@/views/homePage/selectPage/index.vue'),
+            component: () => import('@/views/homePage/selectPage/index.vue')
           },
           {
             path: 'editFolder',
             name: 'siteBuilder_editFolder',
-            component: () => import('@/views/homePage/editFolder/index.vue'),
+            component: () => import('@/views/homePage/editFolder/index.vue')
           },
           {
             path: 'editSmart',
             name: 'siteBuilder_editSmart',
-            component: () => import('@/views/homePage/editSmart/index.vue'),
+            component: () => import('@/views/homePage/editSmart/index.vue')
           },
           {
             path: 'editLinkPage',
             name: 'siteBuilder_editLinkPage',
-            component: () => import('@/views/homePage/editLinkPage/index.vue'),
+            component: () => import('@/views/homePage/editLinkPage/index.vue')
           },
           {
             path: 'editClearBin',
@@ -95,6 +95,11 @@ export const constantRoutes: Array<RouteRecordRaw> = [
             path: 'giftCard/:target',
             name: 'giftCard',
             component: () => import('@/views/marketing/giftCard/index.vue')
+          },
+          {
+            path: 'announcement/:target',
+            name: 'announcement',
+            component: () => import('@/views/marketing/announcement/index.vue')
           }
         ]
       },

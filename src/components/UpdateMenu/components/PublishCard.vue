@@ -11,9 +11,12 @@
       </template>
       <div :style="{ paddingTop: '10px' }">
         <PageListItem
+          v-for="(item, index) in publishList"
           :no-icon="true"
           :disable="true"
-          v-for="(item, index) in [1, 2, 3, 4, 5, 6, 7, 8]"
+          :title="item.title"
+          :date="item.date"
+          :icon-name="item.iconName"
           :icon-style="{ marginRight: '0px' }"
           @click="onAllClick"
         >
@@ -26,13 +29,16 @@
 
 <script setup lang="ts">
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
-import TfrCheckbox from '@/components/TfrCheckbox/index.vue'
 import PageListItem from '@/components/PageListItem/index.vue'
-let i = 0
+import { UpdateSideListItem } from '@/components/PageListItem/index.type'
+import store from '@/store'
+import { ref } from 'vue'
 
-const onAllClick = () => {
-  console.log('多选点击' + i++)
-}
+const publishList = ref<UpdateSideListItem[]>(
+  store.upadte.allModule.publishList
+)
+
+const onAllClick = () => {}
 </script>
 
 <style lang="scss" scoped>

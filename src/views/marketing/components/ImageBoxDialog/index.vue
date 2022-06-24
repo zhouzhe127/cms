@@ -10,12 +10,11 @@
     <template #header>
       <div>VARIANT IMAGE</div>
     </template>
-    <upload
+    <tfr-upload
       :pictureList="dialogProps.pictureList"
       :is-select="true"
       @updateSelectedIndexHandle="updateSelectedIndexHandle"
     />
-
     <template #footer>
       <tfr-button type="gray" @click="cancelHandle">CANCEL</tfr-button>
       <tfr-button type="primary" @click="confirmHandle">APPLY</tfr-button>
@@ -26,7 +25,7 @@
 <script setup lang="ts">
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import TfrButton from '@/components/TfrButton/index.vue'
-import Upload from '@/components/Upload/index.vue'
+import TfrUpload from '@/components/TfrUpload/index.vue'
 import { ref, computed } from 'vue'
 
 interface PropsType {

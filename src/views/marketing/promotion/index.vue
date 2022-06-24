@@ -1,5 +1,5 @@
 <template>
-  <div class="promotion-page" :key="componentKey">
+  <div class="promotion-page">
     <el-form
       ref="promoFormRef"
       class="promo-form"
@@ -186,9 +186,9 @@ import TfrCheckbox from '@/components/TfrCheckbox/index.vue'
 import TfrRadioGroup from '@/components/TfrRadioGroup/index.vue'
 import TfrSelect from '@/components/TfrSelect/index.vue'
 import DatePickerRange from '@/components/DatePickerRange/index.vue'
-import EffectiveRegionDialog from '../components/EffectiveRegionDialog/index.vue'
-import AppliesLimitDialog from '../components/AppliesLimitDialog/index.vue'
-import TargetDialog from '../components/TargetDialog/index.vue'
+import EffectiveRegionDialog from '@/views/marketing/components/EffectiveRegionDialog/index.vue'
+import AppliesLimitDialog from '@/views/marketing/components/AppliesLimitDialog/index.vue'
+import TargetDialog from '@/views/marketing/components/TargetDialog/index.vue'
 import moment from 'moment'
 import { storeToRefs } from 'pinia'
 import { menuStore } from '@/store/modules/menu'
@@ -200,7 +200,6 @@ const route = useRoute()
 const { type, target } = route.params
 console.log('route', type, target)
 const { menuWidth } = storeToRefs(menuStore())
-const componentKey = ref(1)
 const reload: any = inject('reload')
 const { device } = storeToRefs(appStore())
 const offsetTop = ref(device.value === 'mobile' ? 140 : 60)

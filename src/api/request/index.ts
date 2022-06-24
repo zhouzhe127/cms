@@ -1,6 +1,6 @@
-// import config from '@/config'
 import Request from './request'
-import app from '@/main'
+import tfrMessage from '@/utils/tfrMessage'
+import router from '@/router'
 import { startsWith, get } from 'lodash'
 import type { RequestResponse, RequestConfig } from './types'
 import qs from 'qs'
@@ -14,7 +14,7 @@ const demoAddress = VITE_APP_DEMO_ADDRESS
 const { apiAddress: testAddress } = qs.parse(location.search, {
   ignoreQueryPrefix: true
 })
-const { $router, $tfrMessage } = app.config.globalProperties
+const $tfrMessage = tfrMessage
 const errorHandler = (error: RequestResponse) => {
   const status = get(error, 'response.status')
   switch (status) {
@@ -28,12 +28,11 @@ const errorHandler = (error: RequestResponse) => {
       //   content: 'Unauthorized, Please Login',
       //   type: 'error'
       // })
-      console.log(app)
       $tfrMessage({
         message: 'Unauthorized, Please Login',
         type: 'error'
       })
-      $router.push({ path: `/login` })
+      router.push({ path: `/login` })
       break
     case 403:
       error.message = 'Access denied'

@@ -3,7 +3,7 @@
     <header>
       <TfrButton type="normal" :class="'btn'">PREVIEW</TfrButton>
       <div style="width: 10px"></div>
-      <TfrButton type="primary" :class="'btn'" @click="onPublish">PUBLISH</TfrButton>
+      <TfrButton :type="isPublishCheck ? 'primary' : 'normal'" :class="'btn'" @click="onPublish">PUBLISH</TfrButton>
     </header>
     <EdgeInput placeholder="SEARCH" width="100%" />
     <CheckCard />
@@ -14,16 +14,19 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue'
+import store from '@/store'
 import EdgeInput from '@/components/TfrInput/EdgeInput.vue'
 import TfrButton from '@/components/TfrButton/index.vue'
 import CheckCard from '@/components/UpdateMenu/components/CheckCard.vue'
 import PublishCard from '@/components/UpdateMenu/components/PublishCard.vue'
 import ChooseDialog from './components/ChooseDialog.vue'
 import PublishDialog from './components/PublishDialog.vue'
-import { ref } from 'vue'
+import { UpdateSideListItem } from '../PageListItem/index.type'
 
 const chooseVisible = ref<boolean>(false)
 const publishVisible = ref<boolean>(false)
+const isPublishCheck = computed(() => (store.upadte.allModule.checkCardList.length > 0))
 
 const onPublish = () => {
   chooseVisible.value = false

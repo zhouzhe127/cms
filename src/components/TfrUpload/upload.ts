@@ -1,7 +1,6 @@
 import { uploadHttp } from './uploadHttp'
-import app from '@/main'
-const { $tfrMessage } = app.config.globalProperties
-
+import tfrMessage from '@/utils/tfrMessage'
+const $tfrMessage: any = tfrMessage
 export default async function uploadHandle({
   file,
   resourceId,

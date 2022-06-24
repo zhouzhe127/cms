@@ -11,7 +11,7 @@ interface Basic {
 }
 
 export const setBuilder = defineStore('setBuilder', () => {
-  const sideState = { ...sidebar(), ...footerSlidebar(), ...legalSlidebar()}
+  const sideState = { ...sidebar(), ...footerSlidebar(), ...legalSlidebar() }
 
   const basic = reactive<Basic>({
     platformState: 'pc',
@@ -35,7 +35,7 @@ export const setBuilder = defineStore('setBuilder', () => {
     }
   }
 
-  function setItem(type:string):void {
+  function setItem(type: string): void {
     basic.platformState = type
   }
   return { basic, setItem, addNewPage, addPageModle, sideState }

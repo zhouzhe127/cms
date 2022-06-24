@@ -16,5 +16,3 @@ app.config.globalProperties.$tfrMessage = TfrMessage
 app.component('SvgIcon', SvgIcon)
 app.use(router).use(createPinia()).mount('#app')
 registerStore()
-
-export default app

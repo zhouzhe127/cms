@@ -60,14 +60,16 @@ export const menuStore = defineStore('menu', {
         ['siteBuilder', '320px'],
         ['marketing', '40%'],
         ['promotion', '40%'],
-        ['giftCard', '40%']
+        ['giftCard', '40%'],
+        ['announcement', '40%']
       ]),
       submenuComponent: new Map<any, any>([
         ['update', markRaw(UpdateMenu)],
         ['siteBuilder', markRaw(SiteBuilderMenu)],
         ['marketing', markRaw(MarketingMenu)],
         ['promotion', markRaw(MarketingMenu)],
-        ['giftCard', markRaw(MarketingMenu)]
+        ['giftCard', markRaw(MarketingMenu)],
+        ['announcement', markRaw(MarketingMenu)]
       ])
     }
   },

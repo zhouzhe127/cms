@@ -4,21 +4,25 @@
       <div class="icon" v-if="!noIcon" :style="iconStyle">
         <slot name="icon"></slot>
       </div>
-      <PageListItem />
+      <ListItem :title="title" :date="date" :icon-name="iconName"/>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import PageListItem from './ListItem.vue'
-interface IProps {
+import { UpdateSideListItem } from './index.type';
+import ListItem from './ListItem.vue'
+interface IProps extends UpdateSideListItem {
   iconStyle?: {[key:string]: string},
   disable?: boolean,
-  noIcon?: boolean 
+  noIcon?: boolean,
+  title: string,
+  date?: string,
+  iconName?: string
 }
 
 const emits = defineEmits(['click'])
-const props = withDefaults(defineProps<IProps>(), {
+withDefaults(defineProps<IProps>(), {
   iconStyle: () => {
     return {
       marginRight: '10px'
