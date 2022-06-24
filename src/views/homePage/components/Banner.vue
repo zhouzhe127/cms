@@ -1,14 +1,20 @@
 <template>
-  <div class="banner_content">
-    <video src="https://framerusercontent.com/modules/qAxyUgdzgkINJGI0AxxB/uHziABuy0VXWHbXCY7Ow/assets/RKTWhevPDx7sSt5NwHTElJVdLqc.mp4" muted autoplay loop class="showitem" />
-    <div class="textdec">
-      <div class="br">First Diamond</div>
-      <div class="tb">new rocks for new experiences</div>
+  <CmsEdit @optionClick="edit">
+    <div class="banner_content">
+      <video src="https://framerusercontent.com/modules/qAxyUgdzgkINJGI0AxxB/uHziABuy0VXWHbXCY7Ow/assets/RKTWhevPDx7sSt5NwHTElJVdLqc.mp4" muted autoplay loop class="showitem" />
+      <div class="textdec">
+        <div class="br">First Diamond</div>
+        <div class="tb">new rocks for new experiences</div>
+      </div>
     </div>
-  </div>
+  </CmsEdit>
 </template>
 
 <script setup lang="ts">
+import CmsEdit from '@/components/CmsEdit/index.vue'
+const edit = (index: number):void => {
+  console.log(index)
+}
 </script>
 
 <style lang="scss" scoped>

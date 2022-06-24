@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
-import { sidebar } from './sidebar'
+import { sidebar } from './navigation'
 import { sidebar as footerSlidebar } from './footerNavigation'
 import { sidebar as legalSlidebar } from './legalNavigation'
+import { PageSchema, ComponentsSchema } from '@/views/homePage/type/index'
+import { SITE_PAGETEMPLATE } from '@/views/homePage/templateMap'
 interface Basic {
   platformState: string,
-  selectPageCallback?: Function,
-  currentSelectParent?: string
+  pageTemplate: PageSchema
 }
 
 export const setBuilder = defineStore('setBuilder', () => {
@@ -14,17 +15,28 @@ export const setBuilder = defineStore('setBuilder', () => {
 
   const basic = reactive<Basic>({
     platformState: 'pc',
-    selectPageCallback: () => {},
+    pageTemplate: {
+      title: '',
+      template: '',
+      properties: []
+    },
   })
+  function addNewPage(title?: string) {
+    basic.pageTemplate.template = SITE_PAGETEMPLATE.PAGE
+    basic.pageTemplate.title = title
+    basic.pageTemplate.properties = []
+  }
+  function addPageModle(item: ComponentsSchema | Array<ComponentsSchema>, index: number) {
+    console.log(item)
+    if (Array.isArray(item)) {
+      basic.pageTemplate.properties = item
+    } else {
+      basic.pageTemplate.properties?.splice(index, 0, item)
+    }
+  }
 
   function setItem(type:string):void {
     basic.platformState = type
   }
-  function setPageCallback (value: Function) {
-    basic.selectPageCallback = value
-  }
-  function setCurrentSelectParent(id?: string) {
-    basic.currentSelectParent = id || ''
-  }
-  return { basic, setItem, setPageCallback, sideState, setCurrentSelectParent }
+  return { basic, setItem, addNewPage, addPageModle, sideState }
 })

@@ -1,18 +1,18 @@
 <template>
   <div>
     <div class="menu_item">
-      <div class="itemlist" @click="clickItems">
+      <div class="itemlist" :class="{active: active}" @click="clickItems">
         <div class="hidden" @click.stop="leftClick">
-          <svg-icon :icon-class="prop.leftIcon" class="sicon" />
+          <svg-icon :icon-class="props.leftIcon" class="sicon" />
         </div>
         <div @click.stop="centerIconClick">
-          <svg-icon :icon-class="prop.centerIcon" class="sicon" />
+          <svg-icon :icon-class="props.centerIcon" class="sicon" />
         </div>
         <div>
-          {{ prop.title }}
+          {{ props.title }}
         </div>
         <div class="hidden" @click.stop="rightClick">
-          <svg-icon :icon-class="prop.rightIcon" class="sicon" />
+          <svg-icon :icon-class="props.rightIcon" class="sicon" />
         </div>
       </div>
     </div>
@@ -41,13 +41,15 @@ interface Props {
   rightIcon?: string,
   centerIcon?: string,
   isEmpty?: boolean,
+  active: boolean
 }
-const prop = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   title: '--',
   leftIcon: 'delete_red',
   rightIcon: 'tool_gray',
   centerIcon: 'home',
-  isEmpty: false
+  isEmpty: false,
+  active: false
 })
 const showChild = ref(false)
 const clickItems = () => {
@@ -91,6 +93,12 @@ const onAdd = () => {
       .hidden {
         opacity: 1;
       }
+    }
+  }
+  .active {
+    background-color: #ffffff;
+    .hidden {
+      opacity: 1;
     }
   }
 }

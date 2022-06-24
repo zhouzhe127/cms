@@ -1,6 +1,6 @@
 <template>
   <div class="addmain">
-    <CmsEdit :options="['add_white']">
+    <CmsEdit :options="['add_white']" @optionClick="addModule">
       <div class="contenttext">
         <span>Add content module</span>
       </div>
@@ -10,6 +10,14 @@
 
 <script setup lang="ts">
 import CmsEdit from '@/components/CmsEdit/index.vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const addModule = () => {
+  router.push({
+    path: '/siteBuilder/editModules',
+    query: { origin: 1 }
+  })
+}
 </script>
 
 <style lang="scss" scoped>

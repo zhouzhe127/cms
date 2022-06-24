@@ -38,8 +38,8 @@ const sideEmit = emitSideEvent(origin)
 // import { addFunc as addNavigateFun } from '@/store/setBuilder/sidebar';
 // import { addFunc as addFooterFun } from '@/store/setBuilder/footerNavigation';
 const {showWin, closeWin} = generalwin()
-const callback = store.setBuilder.basic.selectPageCallback
-const setBuilder = store.setBuilder
+// const callback = store.setBuilder.basic.selectPageCallback
+// const setBuilder = store.setBuilder
 const listArr = [
   {
     title: PAGE_SELECT.PAGE,
@@ -70,19 +70,12 @@ const listArr = [
     icon: PAGE_ICONS[PAGE_SELECT.SMART]
   }
 ]
-const resetBuilder = () => {
-  setBuilder.setPageCallback(() => {})
-  setBuilder.setCurrentSelectParent('')
-}
 const onClose = () => {
   closeWin()
-  resetBuilder()
 }
 const addpage = (item: SideItem) => {
-  if (callback) callback(item)
-  sideEmit(origin, {...item, ...route.query})
+  if (sideEmit) sideEmit(origin, {...item, ...route.query})
   showWin.value = false
-  resetBuilder()
 }
 </script>
 
