@@ -4,7 +4,8 @@ import {
   render,
   ComponentPublicInstance,
   h,
-  isVNode
+  isVNode,
+  watch
 } from 'vue'
 import {
   ElMessageBoxOptions,
@@ -88,6 +89,21 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
     }
   }
 
+  watch(
+    () => vm.message,
+    (newVal, oldVal) => {
+      if (isVNode(newVal)) {
+        instance.slots.default = () => [newVal]
+      } else if (isVNode(oldVal) && !isVNode(newVal)) {
+        delete instance.slots.default
+      }
+    },
+    {
+      immediate: true,
+    }
+  )
+
+
   // vm.visible = true
   return vm
 }
@@ -148,7 +164,7 @@ MESSAGE_BOX_VARIANTS.forEach((boxType) => {
 
 function messageBoxFactory(boxType: typeof MESSAGE_BOX_VARIANTS[number]) {
   return (
-    message: string,
+    message: string | VNode,
     titleOrOpts: string | ElMessageBoxOptions,
     options?: ElMessageBoxOptions,
     appContext?: AppContext | null
@@ -156,9 +172,9 @@ function messageBoxFactory(boxType: typeof MESSAGE_BOX_VARIANTS[number]) {
     let title: string
     if (isObject(titleOrOpts)) {
       options = titleOrOpts
-      title = 'DELETE?'
+      title = 'Delete?'
     } else if (isUndefined(titleOrOpts)) {
-      title = 'DELETE?'
+      title = 'Delete?'
     } else {
       title = titleOrOpts
     }

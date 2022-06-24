@@ -7,6 +7,7 @@ import { AppContext } from 'vue'
 interface TfrSetting extends ElMessageBoxOptions {
   dangerouslyTitleHTMLString?: boolean // 标题采用html模式解析
   dangerouslyContentHTMLString?: boolean // 内容采用html模式解析
+  secTitle?: string
 }
 
 export declare type TfrElMessageBoxShortcutMethod = ((

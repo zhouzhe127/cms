@@ -1,4 +1,5 @@
-import Article from '@/components/SiteBuilderMenu/components/setmodules/Article.vue'
+import { markRaw } from 'vue'
+import Download from '@/components/SiteBuilderMenu/components/footerNavigation/setpages/Download.vue'
 import External from '@/components/SiteBuilderMenu/components/footerNavigation/setpages/External.vue'
 import Code from '@/components/SiteBuilderMenu/components/footerNavigation/setpages/Code.vue'
 import Email from '@/components/SiteBuilderMenu/components/footerNavigation/setpages/Email.vue'
@@ -8,26 +9,26 @@ export default [
   {
     icon: 'link',
     title: 'External',
-    component: External 
+    component: markRaw(External)
   },
   {
     icon: 'internal',
     title: 'Internal',
-    component: Internal
+    component: markRaw(Internal)
   },
   {
     icon: 'codeicon',
     title: 'Code',
-    component: Code
+    component: markRaw(Code)
   },
   {
     icon: 'mail_fill',
     title: 'Email',
-    component: Email 
+    component: markRaw(Email) 
   },
   {
     icon: 'download',
     title: 'Download',
-    component: Article
+    component: markRaw(Download)
   },
 ]

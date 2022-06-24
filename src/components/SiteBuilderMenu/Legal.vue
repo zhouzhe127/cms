@@ -63,7 +63,7 @@ const chickEditWin = () => {
 }
 const deleteItem = (item: SideItem, pid?: string) => {
   setBuilder.sideState[deleteFunc](item, pid)
-  tfrMessage.confirm('wqqaqqqq')
+  tfrMessage.confirm('wqqaqqqq', { title: 'Delete', secTitle: 'LINK' })
 }
 const onAdd = (item: SideItem) => {
   // setBuilder.setPageCallback(

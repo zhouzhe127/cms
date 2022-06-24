@@ -17,15 +17,16 @@
           :center-icon="citem.icon"
           :title="citem.title"
         />
+        <DeleteDialog :visible="false"/>
       </MenuItem>
     </SideMenu>
   </div>
 </template>
 
 <script setup lang="ts">
-// import tfrMessage from '@/components/TfrMessageBox'
+import tfrMessage from '@/components/TfrMessageBox'
 import { onSideEvent } from '@/components/SiteBuilderMenu/utils/regesterEvent'
-import { computed } from 'vue'
+import { computed, h, render } from 'vue'
 import { useRouter } from 'vue-router'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
@@ -36,7 +37,9 @@ import {
   addFunc,
   deleteFunc
 } from '@/store/setBuilder/footerNavigation'
+import DeleteDialog from './DeleteDialog.vue'
 import { toSeletPage } from '../../utils/router'
+import LinkShowCon from './LinkShowCon.vue'
 import store from '@/store'
 
 const router = useRouter()
@@ -64,7 +67,7 @@ const chickEditWin = () => {
 }
 const deleteItem = (item: SideItem, pid?: string) => {
   setBuilder.sideState[deleteFunc](item, pid)
-  // tfrMessage.confirm('wqqaqqqq')
+  tfrMessage.confirm(h(LinkShowCon, {}), { title: "Delete", secTitle: "LINK" })
 }
 const onAdd = (item: SideItem) => {
   // setBuilder.setPageCallback(
