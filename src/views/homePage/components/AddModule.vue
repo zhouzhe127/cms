@@ -11,11 +11,17 @@
 <script setup lang="ts">
 import CmsEdit from '@/components/CmsEdit/index.vue'
 import { useRouter } from 'vue-router'
+interface Props {
+  index?: number,
+}
+const props = withDefaults(defineProps<Props>(), {
+  index: 0
+})
 const router = useRouter()
 const addModule = () => {
   router.push({
     path: '/siteBuilder/editModules',
-    query: { origin: 1 }
+    query: { origin: props.index }
   })
 }
 </script>

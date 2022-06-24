@@ -1,8 +1,8 @@
-import InfoForm from '@/components/SiteBuilderMenu/components/setpages/InfoForm.vue'
-import SeoForm from '@/components/SiteBuilderMenu/components/setpages/SeoForm.vue'
-import ImageForm from '@/components/SiteBuilderMenu/components/setpages/ImageForm.vue'
-import CodeForm from '@/components/SiteBuilderMenu/components/setpages/CodeForm.vue'
-import TagForm from '@/components/SiteBuilderMenu/components/setpages/TagForm.vue'
+import InfoForm from './components/InfoForm.vue'
+import SeoForm from './components/SeoForm.vue'
+import ImageForm from './components/ImageForm.vue'
+import CodeForm from './components/CodeForm.vue'
+import TagForm from './components/TagForm.vue'
 
 export default [
   {

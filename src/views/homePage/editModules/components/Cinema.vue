@@ -19,6 +19,27 @@
 
 <script setup lang="ts">
 import CmsEdit from '@/components/CmsEdit/index.vue'
+import { defineExpose } from 'vue'
+import appStore from '@/store'
+import { useRoute } from 'vue-router'
+import { SITE_MODULES } from '@/views/homePage/config/pageComponents'
+interface Props {
+  close?: Function,
+}
+const props = withDefaults(defineProps<Props>(), {
+  close: () => {},
+})
+const route = useRoute()
+const origin = route.query.origin
+const confirm = () => {
+  appStore.setBuilder.addPageModle({
+    componentName: SITE_MODULES.CINEMA
+  }, Number(origin))
+  if (props.close) props.close()
+}
+defineExpose({
+  confirm
+})
 </script>
 
 <style lang="scss" scoped>

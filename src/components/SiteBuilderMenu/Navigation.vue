@@ -21,7 +21,6 @@ import { onSideEvent } from './utils/regesterEvent'
 import { addFunc } from '@/store/setBuilder/navigation'
 import { PAGE_SELECT } from '@/views/homePage/selectPage/index.type'
 onSideEvent(SITE_MENUS.NAVIGATION, (e: string, item: SideItem) => {
-  console.log(item)
   setBuilder.sideState[addFunc](item)
   switch(item.title) {
     case PAGE_SELECT.PAGE:

@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import Empty from '@/views/homePage/components/Empty.vue'
 import appStore from '@/store'
-import TemplateMap from '@/views/homePage/templateMap'
+import TemplateMap from '@/views/homePage/config/templateMap'
 const pageTemplate = appStore.setBuilder.basic.pageTemplate
 
 </script>

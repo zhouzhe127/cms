@@ -4,7 +4,7 @@ import { sidebar } from './navigation'
 import { sidebar as footerSlidebar } from './footerNavigation'
 import { sidebar as legalSlidebar } from './legalNavigation'
 import { PageSchema, ComponentsSchema } from '@/views/homePage/type/index'
-import { SITE_PAGETEMPLATE } from '@/views/homePage/templateMap'
+import { SITE_PAGETEMPLATE } from '@/views/homePage/config/templateMap'
 interface Basic {
   platformState: string,
   pageTemplate: PageSchema

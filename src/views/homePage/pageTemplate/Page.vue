@@ -13,9 +13,8 @@
 import Pagetop from '@/views/homePage/components/Pagetop.vue'
 import FootContent from '@/views/homePage/components/FootContent.vue'
 import AddModule from '@/views/homePage/components/AddModule.vue'
-
 import appStore from '@/store'
-import pageComponents from '@/views/homePage/pageComponents'
+import pageComponents from '@/views/homePage/config/pageComponents'
 const pageTemplate = appStore.setBuilder.basic.pageTemplate
 </script>
 
