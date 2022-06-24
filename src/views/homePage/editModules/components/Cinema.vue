@@ -30,11 +30,11 @@ const props = withDefaults(defineProps<Props>(), {
   close: () => {},
 })
 const route = useRoute()
-const origin = route.query.origin
+const site = route.query.site
 const confirm = () => {
   appStore.setBuilder.addPageModle({
     componentName: SITE_MODULES.CINEMA
-  }, Number(origin))
+  }, Number(site))
   if (props.close) props.close()
 }
 defineExpose({

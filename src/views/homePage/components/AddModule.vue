@@ -10,7 +10,9 @@
 
 <script setup lang="ts">
 import CmsEdit from '@/components/CmsEdit/index.vue'
+import appStore from '@/store'
 import { useRouter } from 'vue-router'
+const properties = appStore.setBuilder.basic.pageTemplate.properties || []
 interface Props {
   index?: number,
 }
@@ -21,7 +23,7 @@ const router = useRouter()
 const addModule = () => {
   router.push({
     path: '/siteBuilder/editModules',
-    query: { origin: props.index }
+    query: { site: properties?.length }
   })
 }
 </script>

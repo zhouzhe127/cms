@@ -1,3 +1,4 @@
+import { markRaw } from 'vue'
 import Article from './components/Article.vue'
 import Button from './components/Button.vue'
 import Campaign from './components/Campaign.vue'
@@ -14,56 +15,56 @@ export default [
   {
     icon: 'scanner',
     title: 'Article',
-    component: Article
+    component: markRaw(Article)
   },
   {
     icon: 'smart_button',
     title: 'Button',
-    component: Button
+    component: markRaw(Button)
   },
   {
     icon: 'campaign_hei',
     title: 'Campain',
-    component: Campaign
+    component: markRaw(Campaign)
   },
   {
     icon: 'panorama',
     title: 'Cinema',
-    component: Cinema
+    component: markRaw(Cinema)
   },
   {
     icon: 'info',
     title: 'Info Block',
-    component: InfoBlock
+    component: markRaw(InfoBlock)
   },
   {
     icon: 'format_text',
     title: 'Markdown',
-    component: Markdown
+    component: markRaw(Markdown)
   },
   {
     icon: 'mms',
     title: 'Media',
-    component: Media
+    component: markRaw(Media)
   },
   {
     icon: 'mail_fill',
     title: 'Newsletter',
-    component: Newsletter
+    component: markRaw(Newsletter)
   },
   {
     icon: 'category_fill',
     title: 'Shelve',
-    component: Shelve
+    component: markRaw(Shelve)
   },
   {
     icon: 'space_bar',
     title: 'Title Bar',
-    component: TitleBar
+    component: markRaw(TitleBar)
   },
   {
     icon: 'title_fill',
     title: 'Typeform',
-    component: Typeform
+    component: markRaw(Typeform)
   },
 ]

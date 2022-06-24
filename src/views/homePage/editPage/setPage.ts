@@ -1,3 +1,4 @@
+import { markRaw } from 'vue'
 import InfoForm from './components/InfoForm.vue'
 import SeoForm from './components/SeoForm.vue'
 import ImageForm from './components/ImageForm.vue'
@@ -8,26 +9,26 @@ export default [
   {
     icon: 'fillsigh',
     title: 'Info',
-    component: InfoForm
+    component: markRaw(InfoForm)
   },
   {
     icon: 'searchseo',
     title: 'SEO',
-    component: SeoForm
+    component: markRaw(SeoForm)
   },
   {
     icon: 'fillImage',
     title: 'Image',
-    component: ImageForm
+    component: markRaw(ImageForm)
   },
   {
     icon: 'codeicon',
     title: 'Code',
-    component: CodeForm
+    component: markRaw(CodeForm)
   },
   {
     icon: 'tagtitle',
     title: 'Tag',
-    component: TagForm
+    component: markRaw(TagForm)
   }
 ]
