@@ -27,7 +27,6 @@ export const setBuilder = defineStore('setBuilder', () => {
     basic.pageTemplate.properties = []
   }
   function addPageModle(item: ComponentsSchema | Array<ComponentsSchema>, index: number) {
-    console.log(item)
     if (Array.isArray(item)) {
       basic.pageTemplate.properties = item
     } else {
@@ -39,4 +38,6 @@ export const setBuilder = defineStore('setBuilder', () => {
     basic.platformState = type
   }
   return { basic, setItem, addNewPage, addPageModle, sideState }
+}, {
+  persist: true
 })
