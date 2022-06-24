@@ -134,7 +134,7 @@ import { ref, reactive, onMounted, computed, nextTick, inject, onBeforeUnmount, 
     }
     return ret
   }
-  const getParentRef = inject<Ref>('getRef')
+  const getParentRef = inject<any>('getRef', null)
   const getScrollRef = inject<any>('scrollRef')
   let  addEventHandleScroll: any;
   onMounted(() => {

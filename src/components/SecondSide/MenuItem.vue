@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="menu_item">
-      <div class="itemlist" :class="{active: active}" @click="clickItems">
+      <div class="itemlist" :class="{active: props.active}" @click="clickItems">
         <div class="hidden" @click.stop="leftClick">
           <svg-icon :icon-class="props.leftIcon" class="sicon" />
         </div>
@@ -41,7 +41,7 @@ interface Props {
   rightIcon?: string,
   centerIcon?: string,
   isEmpty?: boolean,
-  active: boolean
+  active?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   title: '--',
