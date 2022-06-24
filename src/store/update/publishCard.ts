@@ -1,6 +1,6 @@
 import { UpdateSideListItem } from "@/components/PageListItem/index.type"
 import { generateUUID } from "@/utils/uuid"
-import { PAGE_ICONS, PAGE_SELECT } from "@/views/homePage/selectPage/index.type"
+import { PAGE_ICONS, PAGE_SELECT } from "@/views/homePage/pageDialog/selectPage/index.type"
 import { defineStore } from "pinia"
 
 interface ReturnType {

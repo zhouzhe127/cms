@@ -48,7 +48,7 @@ import generalwin from '@/views/homePage/generalwin'
 import { ref } from 'vue'
 import { UpdateSideListItem } from '@/components/PageListItem/index.type';
 import { generateUUID } from '@/utils/uuid';
-import { PAGE_ICONS, PAGE_SELECT } from '../selectPage/index.type';
+import { PAGE_ICONS, PAGE_SELECT } from '../pageDialog/selectPage/index.type';
 
 const { showWin, closeWin } = generalwin()
 const visible = ref(true)
