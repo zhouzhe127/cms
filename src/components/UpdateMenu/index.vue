@@ -22,7 +22,6 @@ import CheckCard from '@/components/UpdateMenu/components/CheckCard.vue'
 import PublishCard from '@/components/UpdateMenu/components/PublishCard.vue'
 import ChooseDialog from './components/ChooseDialog.vue'
 import PublishDialog from './components/PublishDialog.vue'
-import { UpdateSideListItem } from '../PageListItem/index.type'
 
 const chooseVisible = ref<boolean>(false)
 const publishVisible = ref<boolean>(false)
