@@ -12,7 +12,7 @@ export default async function uploadHandle({
     const ext = file.name
       .substring(file.name.lastIndexOf('.') + 1)
       .toLowerCase()
-    const filesType = ['jpeg', 'jpg', 'png', 'gif', 'mp4']
+    const filesType: string[] = ['jpeg', 'jpg', 'png', 'gif', 'mp4']
     if (!filesType.includes(ext)) {
       $tfrMessage({
         type: 'error',

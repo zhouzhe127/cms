@@ -53,11 +53,13 @@
       </el-form-item>
       <el-form-item label="Banner image" class="image-area">
         <tfr-upload :pictureList="bannerPicture" :isOnlyOne="true" />
-        <p class="subtitle">Message shown on the banner.</p>
+        <p class="subtitle">
+          Optional banner image triggers on announcement hover.
+        </p>
       </el-form-item>
       <el-form-item label="Mobile alternative" class="image-area mobile-image">
         <tfr-upload :pictureList="mobileBannerPicture" :isOnlyOne="true" />
-        <p class="subtitle">Message shown on the banner.</p>
+        <p class="subtitle">Alternative mobile image triggers on press.</p>
       </el-form-item>
       <div class="form-item-inline">
         <el-form-item label="Promo code">
@@ -81,7 +83,72 @@
           </tfr-select>
         </el-form-item>
       </div>
+      <stick-flow title="TERMS & CONDITIONS" :top="offsetTop" />
+      <el-form-item label="Effective region">
+        <div class="region-list">
+          <tfr-tag
+            v-for="region in effectiveRegionList"
+            :key="region.code"
+            @close="removeRegionHandle(region)"
+            >{{ region.name }}</tfr-tag
+          >
+          <span class="pointer" @click="editRegionHandle">Edit</span>
+        </div>
+      </el-form-item>
+      <el-form-item label="Link">
+        <tfr-radio-group v-model="linkType" @change="linkTypeChange">
+          <el-radio label="none">None</el-radio>
+          <el-radio label="setLink">Set Link</el-radio>
+        </tfr-radio-group>
+      </el-form-item>
+      <el-form-item label="Target">
+        <tfr-radio-group v-model="targetCustomer" @change="targetChange">
+          <el-radio label="all">All Customers</el-radio>
+          <el-radio label="setTarget">Set Target</el-radio>
+        </tfr-radio-group>
+      </el-form-item>
+      <el-form-item label="Expiration">
+        <tfr-radio-group v-model="expirationType">
+          <el-radio label="none">None</el-radio>
+          <el-radio label="setExpiration">Set Expiration</el-radio>
+        </tfr-radio-group>
+      </el-form-item>
+      <el-form-item
+        v-if="expirationType === 'setExpiration'"
+        class="date-picker-item"
+      >
+        <date-picker-range
+          startDate="2022-06-08T14:21:35+08:00"
+          endDate="2022-06-18T14:21:35+08:00"
+          zt="America/Denver"
+          ref="datePickerRangeRef"
+        />
+      </el-form-item>
     </el-form>
+    <div
+      class="btn-group"
+      :style="{ left: device === 'mobile' ? 0 : menuWidth }"
+    >
+      <template v-if="target === 'add'">
+        <tfr-button type="gray">DELETE</tfr-button>
+        <tfr-button type="primary" @click="saveHandle">SAVE</tfr-button>
+      </template>
+    </div>
+    <effective-region-dialog
+      :visible="effectiveRegionDialog"
+      @update:visible="effectiveRegionDialog = $event"
+      :width="dialogWidth"
+      @cancelHandle="effectiveRegionDialogCancelHandle"
+      @confirmHandle="effectiveRegionDialogConfirmHandle"
+    />
+    <HasSidebarWin v-model="linkVisibleDialog" :side-arr="sideArr" />
+    <target-dialog
+      :visible="targetVisible"
+      @update:visible="targetVisible = $event"
+      :width="dialogWidth"
+      @cancelHandle="targetDialogCancelHandle"
+      @confirmHandle="targetDialogConfirmHandle"
+    />
   </div>
 </template>
 
@@ -91,41 +158,26 @@ import TfrSwitch from '@/components/TfrSwitch/index.vue'
 import TfrInput from '@/components/TfrInput/index.vue'
 import TfrUpload from '@/components/TfrUpload/index.vue'
 import TfrSelect from '@/components/TfrSelect/index.vue'
+import TfrTag from '@/components/TfrTag/index.vue'
+import TfrRadioGroup from '@/components/TfrRadioGroup/index.vue'
+import HasSidebarWin from '@/components/TfrDialog/HasSidebarWin.vue'
+import EffectiveRegionDialog from '@/views/marketing/components/EffectiveRegionDialog/index.vue'
+import sideArr from '@/views/homePage/editLinkPage/setModules'
+import TargetDialog from '@/views/marketing/components/TargetDialog/index.vue'
+import DatePickerRange from '@/components/DatePickerRange/index.vue'
 import { reactive, ref } from 'vue'
 import { FormInstance, FormRules } from 'element-plus'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { appStore } from '@/store/modules/app'
+import { menuStore } from '@/store/modules/menu'
 const announcementFormRef = ref<FormInstance>()
 const route = useRoute()
 const { target } = route.params
 const { device } = storeToRefs(appStore())
 const offsetTop = ref(device.value === 'mobile' ? 140 : 60)
-const bannerPicture = ref([])
-const mobileBannerPicture = ref([])
-const promoList = reactive([
-  {
-    name: 'PromoCode 1',
-    code: '1'
-  },
-  {
-    name: 'PromoCode 2',
-    code: '2'
-  }
-])
-const promoCode = ref('')
-const legalList = ref([
-  {
-    name: 'Privacy policy',
-    code: '1'
-  },
-  {
-    name: 'Terms & Conditions',
-    code: '2'
-  }
-])
-const legal = ref('')
-
+const dialogWidth = ref(device.value === 'mobile' ? '100%' : '728px')
+const { menuWidth } = storeToRefs(menuStore())
 const announcementForm = reactive({
   disabled: false,
   name: '',
@@ -155,6 +207,69 @@ const announcementRules = reactive<FormRules>({
     }
   ]
 })
+const bannerPicture = ref([])
+const mobileBannerPicture = ref([])
+const promoList = reactive([
+  {
+    name: 'PromoCode 1',
+    code: '1'
+  },
+  {
+    name: 'PromoCode 2',
+    code: '2'
+  }
+])
+const promoCode = ref('')
+const legalList = ref([
+  {
+    name: 'Privacy policy',
+    code: '1'
+  },
+  {
+    name: 'Terms & Conditions',
+    code: '2'
+  }
+])
+const legal = ref('')
+const effectiveRegionList = ref([{ name: 'All Region', code: 'all' }])
+const effectiveRegionDialog = ref(false)
+const linkType = ref('none')
+const linkVisibleDialog = ref(false)
+const targetVisible = ref(false)
+const targetCustomer = ref('all')
+const expirationType = ref<string>('none')
+
+const removeRegionHandle = (tag: any) => {
+  console.log(tag)
+}
+const editRegionHandle = () => {
+  effectiveRegionDialog.value = true
+}
+const effectiveRegionDialogCancelHandle = () => {
+  effectiveRegionDialog.value = false
+}
+const effectiveRegionDialogConfirmHandle = (regionData: any) => {
+  const regionChecked = regionData.value.filter((item: any) => item.checked)
+  effectiveRegionList.value = [...effectiveRegionList.value, ...regionChecked]
+  effectiveRegionDialog.value = false
+}
+const linkTypeChange = (label: string) => {
+  if (label === 'setLink') {
+    linkVisibleDialog.value = true
+  }
+}
+
+const targetChange = (label: string) => {
+  if (label === 'setTarget') {
+    targetVisible.value = true
+  }
+}
+const targetDialogCancelHandle = () => {
+  targetVisible.value = false
+}
+
+const targetDialogConfirmHandle = () => {}
+const saveHandle = () => {}
 </script>
 
 <style lang="scss" scoped>
@@ -267,6 +382,66 @@ const announcementRules = reactive<FormRules>({
     svg {
       font-size: 20px;
       margin-right: 10px;
+    }
+  }
+  .region-list {
+    display: flex;
+    .tfr-tag {
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+  }
+  .tfr-radio-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    .el-radio {
+      height: auto;
+      padding: 0 10px;
+      margin-right: 0;
+      align-items: unset;
+      & + .el-radio {
+        margin-top: 10px;
+      }
+      ::v-deep(.el-radio__input) {
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+      }
+      .text {
+        display: inline-block;
+        width: 100px;
+      }
+      .tfr-input {
+        margin-right: 10px;
+      }
+      ::v-deep(.el-input__wrapper) {
+        box-shadow: rgba(27, 42, 39, 0.5) inset 0 0 0 1px;
+        height: 40px;
+        line-height: 40px;
+        border-radius: 0;
+        .el-input__inner {
+          text-align: center;
+        }
+      }
+      ::v-deep(.el-radio__label) {
+        display: flex;
+      }
+    }
+  }
+  .btn-group {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 20px;
+    display: flex;
+    z-index: 1000;
+    background-color: #fff;
+    .el-button {
+      width: 50%;
+    }
+    .el-button + .el-button {
+      margin-left: 10px;
     }
   }
 }
