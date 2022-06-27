@@ -21,7 +21,6 @@ import Affix from '@/components/Affix/index.vue'
 interface Props {
   title?: string,
   disable?: boolean
-  
 }
 const props = withDefaults(defineProps<Props>(), {
   title: '--',

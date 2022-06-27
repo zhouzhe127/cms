@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import HasSidebarWin from '@/components/TfrDialog/HasSidebarWin.vue'
-import sideArr from '@/views/homePage/editPage/setPage'
+import sideArr from '@/views/homePage/pageDialog/editPage/setPage'
 import generalwin from '@/views/homePage/generalwin'
 const {showWin, closeWin} = generalwin()
 </script>

@@ -18,16 +18,7 @@
       <LinkShowCon />
     </div>
     <template #footer>
-      <footer v-if="!isDelete">
-        <TfrButton type="gray" :class="'btn'" @click="isDelete = true"
-          >DELETE</TfrButton
-        >
-        <div style="width: 10px"></div>
-        <TfrButton type="primary" :class="'btn'" @click="onEdit"
-          >EDIT</TfrButton
-        >
-      </footer>
-      <footer v-else>
+      <footer>
         <TfrButton type="gray" :class="'btn'" @click="isDelete = false"
           >CANCEL</TfrButton
         >
@@ -49,11 +40,12 @@ const emit = defineEmits(['cancel', 'confirm', 'delete'])
 
 interface IProps {
   visible: boolean
-  width: string
+  width?: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {
-  visible: true
+  visible: true,
+  width: '375px'
 })
 
 const isDelete = ref(false)

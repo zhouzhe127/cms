@@ -22,6 +22,7 @@
     "moment": "^2.29.3",
     "moment-timezone": "^0.5.34",
     "pinia": "^2.0.14",
+    "pinia-plugin-persistedstate": "^1.6.1",
     "qs": "^6.10.3",
     "vite-plugin-svg-icons": "^2.0.1",
     "vue": "^3.2.25",

@@ -9,31 +9,42 @@
     >
       <div class="body">
         <header>
-          <div v-if="!props.dangerouslyTitleHTMLString">{{ props.title }}</div>
+          <div v-if="!props.dangerouslyTitleHTMLString">
+            {{ props.title }}
+            <span class="sec">{{ props.secTitle }}</span>
+          </div>
           <!-- eslint-disable-next-line vue/no-v-html -->
           <div v-else v-html="props.title"></div>
         </header>
         <div class="content">
-          <div class="left-icon">
-            <svg-icon icon-class="warn" />
-          </div>
-          <div class="message">
-            <div v-if="!props.dangerouslyContentHTMLString">
-              {{ props.message }}
+          <slot>
+            <div class="base-content">
+              <div class="left-icon">
+                <svg-icon icon-class="warn" />
+              </div>
+              <div class="message">
+                <div v-if="!props.dangerouslyContentHTMLString">
+                  {{ props.message }}
+                </div>
+                <div v-else>
+                  <!-- eslint-disable-next-line vue/no-v-html -->
+                  <span v-html="props.message"></span>
+                </div>
+              </div>
             </div>
-            <div v-else>
-              <!-- eslint-disable-next-line vue/no-v-html -->
-              <span v-html="props.message"></span>
-            </div>
-          </div>
+          </slot>
         </div>
       </div>
 
       <template #footer>
         <footer>
-          <TfrButton type="gray" :class="'btn'" @click="onCancel">{{ props.cancelButtonText }}</TfrButton>
+          <TfrButton type="gray" :class="'btn'" @click="onCancel">{{
+            props.cancelButtonText
+          }}</TfrButton>
           <div style="width: 10px"></div>
-          <TfrButton type="danger" :class="'btn'" @click="onDelete">{{ props.confirmButtonText }}</TfrButton>
+          <TfrButton type="danger" :class="'btn'" @click="onDelete">{{
+            props.confirmButtonText
+          }}</TfrButton>
         </footer>
       </template>
     </TfrDialog>
@@ -58,11 +69,12 @@ interface IProps {
   dangerouslyTitleHTMLString?: boolean
   showCancelBtn?: boolean
   boxType?: typeof MESSAGE_BOX_VARIANTS[number]
+  secTitle?: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {
   visible: true,
-  title: 'Title',
+  title: 'Delete',
   message: 'Place confirm you setting!',
   cancelButtonText: 'CANCEL',
   confirmButtonText: 'OK',
@@ -105,12 +117,20 @@ const onDelete = () => {
 <style lang="scss" scope>
 .body header {
   margin-top: 14px;
+  color: $theme;
+  font-family: "Brown Regular", serif;
+  .sec {
+    font-size: 15px;
+  }
 }
 
 .content {
-  padding: 30px;
-  display: flex;
-  justify-content: space-between;
+  margin-top: 30px;
+  .base-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 30px 30px;
+  }
   .message {
     margin-left: 5px;
   }

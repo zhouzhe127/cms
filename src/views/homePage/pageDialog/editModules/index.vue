@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import HasSidebarWin from '@/components/TfrDialog/HasSidebarWin.vue'
-import modulesArr from '@/views/homePage/editModules/setModules'
+import modulesArr from '@/views/homePage/pageDialog/editModules/setModules'
 import generalwin from '@/views/homePage/generalwin'
 const {showWin, closeWin} = generalwin()
 // import { onMounted, ref } from 'vue'

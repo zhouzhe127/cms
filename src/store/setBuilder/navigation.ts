@@ -41,4 +41,6 @@ export const sidebar = defineStore('sidebar', (): ReturnType => {
     [addFunc]: addSidebar,
     [deleteFunc]: deleteSidebar
   }
+}, {
+  persist: true
 })
