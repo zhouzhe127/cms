@@ -1,14 +1,26 @@
 <template>
   <div class="link-show-con">
     <header>
-      <div class="title">FAQ</div>
-      <svg-icon icon-class="link" />
+      <div class="title">{{ title }}</div>
+      <svg-icon :icon-class="icon" />
     </header>
-    <div class="show-con">intercom('show');</div>
+    <div class="show-con">{{ content || '' }}</div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+interface IProps {
+  title?: string,
+  icon?: string,
+  content?: string
+}
+
+withDefaults(defineProps<IProps>(), {
+  title: "FAQ",
+  icon: "link",
+  content: "intercom('show');"
+})
+</script>
 
 <style lang="scss" scoped>
 .link-show-con {
