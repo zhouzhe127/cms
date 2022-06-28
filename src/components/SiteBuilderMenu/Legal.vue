@@ -38,6 +38,7 @@ import {
 import { onSideEvent } from './utils/regesterEvent'
 import { toSeletPage } from './utils/router'
 import store from '@/store'
+import { showDeleteModel } from './utils/deleteUtils'
 const router = useRouter()
 const setBuilder = store.setBuilder
 onSideEvent(SITE_MENUS.LEGAL, (e: string, item: any) => {
@@ -62,8 +63,9 @@ const chickEditWin = () => {
   })
 }
 const deleteItem = (item: SideItem, pid?: string) => {
-  setBuilder.sideState[deleteFunc](item, pid)
-  tfrMessage.confirm('wqqaqqqq', { title: 'Delete', secTitle: 'LINK' })
+  showDeleteModel(item, () => {
+    setBuilder.sideState[deleteFunc](item, pid)
+  })
 }
 const onAdd = (item: SideItem) => {
   // setBuilder.setPageCallback(

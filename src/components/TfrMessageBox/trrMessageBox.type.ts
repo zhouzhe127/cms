@@ -2,12 +2,13 @@ import {
   ElMessageBoxOptions,
   MessageBoxData
 } from 'element-plus/es/components/message-box/src/message-box.type'
-import { AppContext } from 'vue'
+import { AppContext, VNode } from 'vue'
 
-interface TfrSetting extends ElMessageBoxOptions {
+export interface TfrSetting extends ElMessageBoxOptions {
   dangerouslyTitleHTMLString?: boolean // 标题采用html模式解析
   dangerouslyContentHTMLString?: boolean // 内容采用html模式解析
-  secTitle?: string
+  secTitle?: string,
+  message?: string | VNode | undefined
 }
 
 export declare type TfrElMessageBoxShortcutMethod = ((

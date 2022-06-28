@@ -24,7 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import tfrMessage from '@/components/TfrMessageBox'
 import { onSideEvent } from '@/components/SiteBuilderMenu/utils/regesterEvent'
 import { computed, h, render } from 'vue'
 import { useRouter } from 'vue-router'
@@ -39,8 +38,8 @@ import {
 } from '@/store/setBuilder/footerNavigation'
 import DeleteDialog from './DeleteDialog.vue'
 import { toSeletPage } from '../../utils/router'
-import LinkShowCon from './LinkShowCon.vue'
 import store from '@/store'
+import { showDeleteModel } from '../../utils/deleteUtils'
 
 const router = useRouter()
 const setBuilder = store.setBuilder
@@ -55,7 +54,6 @@ const sidearr = computed(
   () => store.setBuilder.sideState[SITE_MENUS.FOOTER].sidebarArr
 )
 const addPage = () => {
-  // setBuilder.setPageCallback(setBuilder.sideState[addFunc])
   toSeletPage(router, {
     origin: SITE_MENUS.FOOTER,
   })
@@ -66,13 +64,11 @@ const chickEditWin = () => {
   })
 }
 const deleteItem = (item: SideItem, pid?: string) => {
-  setBuilder.sideState[deleteFunc](item, pid)
-  tfrMessage.confirm(h(LinkShowCon, {}), { title: "Delete", secTitle: "LINK" })
+  showDeleteModel(item, () => {
+    setBuilder.sideState[deleteFunc](item, pid)
+  })
 }
 const onAdd = (item: SideItem) => {
-  // setBuilder.setPageCallback(
-  //   setBuilder.sideState[addChildFunc](item.id || item.title || '')
-  // )
   toSeletPage(router, {
     origin: SITE_MENUS.FOOTER,
     parentId: encodeURIComponent(item.id || item.title || '')

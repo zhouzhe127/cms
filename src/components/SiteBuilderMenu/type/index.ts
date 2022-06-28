@@ -1,9 +1,11 @@
 export interface SideItem {
   id?: string,
+  type?: string,
   title?: string,
   leftIcon?: string,
   rightIcon?: string,
   icon?: string,
+  url?: string,
   children?: SideItem[]
 }
 export interface SideInterPort {

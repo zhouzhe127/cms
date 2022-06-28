@@ -5,7 +5,7 @@
  *    3. 修改容器中的state
  *    4. 使用容器中的action
  */
-import { markRaw } from 'vue'
+import { markRaw, defineComponent } from 'vue'
 import { defineStore } from 'pinia'
 import { watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -54,7 +54,7 @@ export const menuStore = defineStore('menu', {
       showMobileMenuItem: true, // 手机端是否展示一级菜单
       showMobileSubMenu: true, // 手机端是否展示二级菜单
       mobileMainPaddingTop: 80, // 手机端主要区域底部内边距
-      outSideMenuRouteName: ['promotion', 'giftCard'],
+      outSideMenuRouteName: ['promotion', 'giftCard', 'announcement'],
       menuWidthMap: new Map<string, string>([
         ['home', '213px'],
         ['siteBuilder', '320px'],
@@ -63,7 +63,7 @@ export const menuStore = defineStore('menu', {
         ['giftCard', '40%'],
         ['announcement', '40%']
       ]),
-      submenuComponent: new Map<any, any>([
+      submenuComponent: new Map<string, ReturnType<typeof defineComponent>>([
         ['update', markRaw(UpdateMenu)],
         ['siteBuilder', markRaw(SiteBuilderMenu)],
         ['marketing', markRaw(MarketingMenu)],

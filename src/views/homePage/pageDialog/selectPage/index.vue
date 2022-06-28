@@ -43,30 +43,37 @@ const {showWin, closeWin} = generalwin()
 const listArr = [
   {
     title: PAGE_SELECT.PAGE,
+    type: PAGE_SELECT.PAGE,
     icon: PAGE_ICONS[PAGE_SELECT.PAGE]
   },
   {
     title: PAGE_SELECT.ARTICLE,
+    type: PAGE_SELECT.ARTICLE,
     icon: PAGE_ICONS[PAGE_SELECT.ARTICLE]
   },
   {
     title: PAGE_SELECT.PLP,
+    type: PAGE_SELECT.PLP,
     icon: PAGE_ICONS[PAGE_SELECT.PLP]
   },
   {
     title: PAGE_SELECT.LINK,
+    type: PAGE_SELECT.LINK,
     icon: PAGE_ICONS[PAGE_SELECT.LINK]
   },
   {
     title: PAGE_SELECT.CLIP,
+    type:PAGE_SELECT.CLIP,
     icon: PAGE_ICONS[PAGE_SELECT.CLIP]
   },
   {
     title: PAGE_SELECT.FOLDER,
+    type: PAGE_SELECT.FOLDER,
     icon: PAGE_ICONS[PAGE_SELECT.FOLDER]
   },
   {
     title: PAGE_SELECT.SMART,
+    type: PAGE_SELECT.SMART,
     icon: PAGE_ICONS[PAGE_SELECT.SMART]
   }
 ]

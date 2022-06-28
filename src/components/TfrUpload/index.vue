@@ -109,7 +109,6 @@ const handleUploadHttpRequest = async (
   const file: any = requestOptions.file
   try {
     const ext: any = await getMediaExt(file)
-    console.log(ext)
     const mediaExt: Array<string> = ['jpg', 'jpeg', 'png', 'gif', 'mp4']
     let type = ''
     if (mediaExt.includes(ext || '')) {
