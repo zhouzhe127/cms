@@ -66,4 +66,9 @@ const addClick = () => {
     color: #8a9290;
   }
 }
+::v-deep(.affix-placeholder) {
+  &>div {
+    width: 100%;
+  }
+}
 </style>

@@ -68,4 +68,6 @@ export const sidebar = defineStore('legal', (): ReturnType => {
     [addChildFunc]: addChildSildebar,
     [deleteFunc]: deleteSidebar
   }
+}, {
+  persist: true
 })

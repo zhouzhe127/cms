@@ -7,7 +7,7 @@
         :title="item.title"
         :center-icon="item.icon"
         @left-click="() => deleteItem(item)"
-        @right-click="chickEditWin"
+        @right-click="() => chickEditWin(item)"
         @add="() => onAdd(item)"
       >
         <ItemChild
@@ -16,6 +16,7 @@
           :key="`child_${cindex}`"
           :center-icon="citem.icon"
           :title="citem.title"
+          @right-click="() => chickEditWin(citem)"
         />
       </MenuItem>
     </SideMenu>
@@ -23,9 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import tfrMessage from '@/components/TfrMessageBox'
 import { computed } from 'vue'
-import { useRouter } from 'vue-router'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
@@ -36,10 +35,9 @@ import {
   addChildFunc
 } from '@/store/setBuilder/legalNavigation'
 import { onSideEvent } from './utils/regesterEvent'
-import { toSeletPage } from './utils/router'
+import { toEditionModel, toSeletPage } from './utils/router'
 import store from '@/store'
 import { showDeleteModel } from './utils/deleteUtils'
-const router = useRouter()
 const setBuilder = store.setBuilder
 onSideEvent(SITE_MENUS.LEGAL, (e: string, item: any) => {
   if (item.parentId) {
@@ -52,15 +50,12 @@ const sidearr = computed(
   () => store.setBuilder.sideState[SITE_MENUS.LEGAL].sidebarArr
 )
 const addPage = () => {
-  // setBuilder.setPageCallback(setBuilder.sideState[addFunc])
-  toSeletPage(router, {
+  toSeletPage({
     origin: SITE_MENUS.LEGAL
   })
 }
-const chickEditWin = () => {
-  router.push({
-    path: '/siteBuilder/editPage'
-  })
+const chickEditWin = (item: SideItem) => {
+  toEditionModel(item)
 }
 const deleteItem = (item: SideItem, pid?: string) => {
   showDeleteModel(item, () => {
@@ -68,10 +63,7 @@ const deleteItem = (item: SideItem, pid?: string) => {
   })
 }
 const onAdd = (item: SideItem) => {
-  // setBuilder.setPageCallback(
-  //   setBuilder.sideState[addChildFunc](item.id || item.title || '')
-  // )
-  toSeletPage(router, {
+  toSeletPage({
     origin: SITE_MENUS.LEGAL,
     parentId: encodeURIComponent(item.id || item.title || '')
   })

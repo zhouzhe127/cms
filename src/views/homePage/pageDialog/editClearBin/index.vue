@@ -16,7 +16,7 @@
     </template>
     <div class="body">
       <div class="warn-text">
-        <svg-icon icon-class="warn" class="svg-warn" />
+        <svg-icon icon-class="warning" class="svg-warn" />
         <span
           >Restore recently deleted pages or empty trash to remove from the
           system.</span

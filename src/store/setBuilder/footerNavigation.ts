@@ -20,6 +20,12 @@ interface ReturnType {
   [deleteFunc]: (item: SideItem, pid?: string) => void
 }
 export const sidebar = defineStore('footerSideBar', (): ReturnType => {
+  const SideLegal = reactive<SideItem>({
+    title: 'Legal',
+    icon: PAGE_ICONS[PAGE_SELECT.LEGAL],
+    type: PAGE_SELECT.LEGAL,
+    children: []
+  })
   const Sidestate = reactive<Basic>({
     sidebarArr: [
       {
@@ -31,7 +37,8 @@ export const sidebar = defineStore('footerSideBar', (): ReturnType => {
         title: 'Jewelry',
         icon: PAGE_ICONS[PAGE_SELECT.PLP],
         type: PAGE_SELECT.PLP
-      }
+      },
+      SideLegal
     ]
   })
   function addSidebar(item: SideItem) {
@@ -70,4 +77,6 @@ export const sidebar = defineStore('footerSideBar', (): ReturnType => {
     [addChildFunc]: addChildSildebar,
     [deleteFunc]: deleteSidebar
   }
+}, {
+  persist: true
 })

@@ -20,7 +20,7 @@
           <slot>
             <div class="base-content">
               <div class="left-icon">
-                <svg-icon icon-class="warn" />
+                <svg-icon icon-class="warning" />
               </div>
               <div class="message">
                 <div v-if="!props.dangerouslyContentHTMLString">
