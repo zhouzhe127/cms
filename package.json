@@ -24,6 +24,7 @@
     "pinia": "^2.0.14",
     "pinia-plugin-persistedstate": "^1.6.1",
     "qs": "^6.10.3",
+    "swiper": "^8.2.4",
     "vite-plugin-svg-icons": "^2.0.1",
     "vue": "^3.2.25",
     "vue-router": "4"
