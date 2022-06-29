@@ -52,8 +52,8 @@ const props = withDefaults(defineProps<Props>(), {
   centerIcon: 'home',
   isEmpty: false,
   active: false,
-  hasLeftIcon: false,
-  hasRightIcon: false
+  hasLeftIcon: true,
+  hasRightIcon: true
 })
 const showChild = ref(false)
 const clickItems = () => {
