@@ -3,7 +3,7 @@
     <div class="menu_item">
       <div class="itemlist" :class="{active: props.active}" @click="clickItems">
         <div class="hidden" @click.stop="leftClick">
-          <svg-icon :icon-class="props.leftIcon" class="sicon" />
+          <svg-icon v-if="props.hasLeftIcon" :icon-class="props.leftIcon" class="sicon" />
         </div>
         <div @click.stop="centerIconClick">
           <svg-icon :icon-class="props.centerIcon" class="sicon" />
@@ -12,7 +12,7 @@
           {{ props.title }}
         </div>
         <div class="hidden" @click.stop="rightClick">
-          <svg-icon :icon-class="props.rightIcon" class="sicon" />
+          <svg-icon v-if="props.hasRightIcon" :icon-class="props.rightIcon" class="sicon" />
         </div>
       </div>
     </div>
@@ -41,7 +41,9 @@ interface Props {
   rightIcon?: string,
   centerIcon?: string,
   isEmpty?: boolean,
-  active?: boolean
+  active?: boolean,
+  hasLeftIcon?: boolean,
+  hasRightIcon?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   title: '--',
@@ -49,7 +51,9 @@ const props = withDefaults(defineProps<Props>(), {
   rightIcon: 'tool_gray',
   centerIcon: 'home',
   isEmpty: false,
-  active: false
+  active: false,
+  hasLeftIcon: true,
+  hasRightIcon: true
 })
 const showChild = ref(false)
 const clickItems = () => {
@@ -57,10 +61,10 @@ const clickItems = () => {
 }
 const emit = defineEmits(['leftClick', 'rightClick', 'centerIconClick', 'add'])
 const leftClick = () => {
-  emit('leftClick')
+  if (props.hasLeftIcon) emit('leftClick')
 }
 const rightClick = () => {
-  emit('rightClick')
+  if (props.hasRightIcon) emit('rightClick')
 }
 const centerIconClick = () => {
   emit('centerIconClick')

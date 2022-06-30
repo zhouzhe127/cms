@@ -10,7 +10,7 @@
       <div class="body">
         <header>
           <div v-if="!props.dangerouslyTitleHTMLString">
-            {{ props.title }}
+            {{ isString(props.title) ? props.title : "" }}
             <span class="sec">{{ props.secTitle }}</span>
           </div>
           <!-- eslint-disable-next-line vue/no-v-html -->
@@ -20,11 +20,11 @@
           <slot>
             <div class="base-content">
               <div class="left-icon">
-                <svg-icon icon-class="warn" />
+                <svg-icon icon-class="warning" />
               </div>
               <div class="message">
                 <div v-if="!props.dangerouslyContentHTMLString">
-                  {{ props.message }}
+                  {{ isString(props.message) ? props.message : "" }}
                 </div>
                 <div v-else>
                   <!-- eslint-disable-next-line vue/no-v-html -->
@@ -52,16 +52,17 @@
 </template>
 
 <script lang="ts" setup>
-import { defineEmits, onMounted, ref, nextTick } from 'vue'
+import { defineEmits, onMounted, ref, nextTick, VNode } from 'vue'
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import TfrButton from '@/components/TfrButton/index.vue'
 import { MESSAGE_BOX_VARIANTS } from './tfrMessageBox'
+import { TfrSetting } from './trrMessageBox.type';
 const emit = defineEmits(['action', 'vanish'])
 
 interface IProps {
   visible?: boolean
   title: string
-  message: string
+  message: TfrSetting['message']
   cancelButtonText?: string
   confirmButtonText?: string
   width?: string
@@ -85,6 +86,8 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const curVisible = ref<Boolean>(props.visible)
 const action = ref<string>()
+
+const isString = (item: any) => typeof item === 'string'
 // watchEffect(() => {
 //   if (curVisible.value !== props.visible) curVisible.value = props.visible
 // })

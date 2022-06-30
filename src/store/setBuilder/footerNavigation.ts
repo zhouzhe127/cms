@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { reactive } from 'vue'
 import { SideItem, SITE_MENUS } from '@/components/SiteBuilderMenu/type/index'
 import { generateUUID } from '@/utils/uuid'
+import { PAGE_ICONS, PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
 
 export const addFunc = Symbol(`add_${SITE_MENUS.FOOTER}`)
 export const addChildFunc = Symbol(`add_children_${SITE_MENUS.FOOTER}`)
@@ -19,15 +20,25 @@ interface ReturnType {
   [deleteFunc]: (item: SideItem, pid?: string) => void
 }
 export const sidebar = defineStore('footerSideBar', (): ReturnType => {
+  const SideLegal = reactive<SideItem>({
+    title: 'Legal',
+    icon: PAGE_ICONS[PAGE_SELECT.LEGAL],
+    type: PAGE_SELECT.LEGAL,
+    children: []
+  })
   const Sidestate = reactive<Basic>({
     sidebarArr: [
       {
-        title: 'New In'
+        title: 'New In',
+        icon: PAGE_ICONS[PAGE_SELECT.HOME],
+        type: PAGE_SELECT.HOME
       },
       {
         title: 'Jewelry',
-        icon: 'scratchable'
-      }
+        icon: PAGE_ICONS[PAGE_SELECT.PLP],
+        type: PAGE_SELECT.PLP
+      },
+      SideLegal
     ]
   })
   function addSidebar(item: SideItem) {
@@ -66,4 +77,6 @@ export const sidebar = defineStore('footerSideBar', (): ReturnType => {
     [addChildFunc]: addChildSildebar,
     [deleteFunc]: deleteSidebar
   }
+}, {
+  persist: true
 })

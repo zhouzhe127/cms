@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import TfrDialog from '@/components/TfrDialog/index.vue'
-import LinkShowCon from './LinkShowCon.vue'
+import LinkShowCon from '../LinkShowCon.vue'
 
 const emit = defineEmits(['cancel', 'confirm', 'delete'])
 

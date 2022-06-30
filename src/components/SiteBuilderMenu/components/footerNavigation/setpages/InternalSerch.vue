@@ -1,10 +1,10 @@
 <template>
   <div class="internal-search">
-    <el-input placeholder="SEARCH">
+    <el-input placeholder="SEARCH" v-model="inputVal">
       <template #suffix> <span @click="onClear">CLEAR</span> </template>
     </el-input>
 
-    <div class="search-list" v-for="item in uiList">
+    <div class="search-list" v-for="item in showList">
       <div class="search-item">
         <div class="icon">
           <svg-icon :icon-class="item.icon" class="svg_item" />
@@ -19,11 +19,22 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue'
+
 interface SearchItem {
   icon: string
   name: string
   url: string
 }
+
+const inputVal = ref<string>('')
+const showList = computed(() =>
+  uiList.filter((item: any) => {
+    return (
+      item.name.toLowerCase().indexOf(inputVal.value.toLocaleLowerCase()) >= 0
+    )
+  })
+)
 
 const uiList: SearchItem[] = [
   {
@@ -44,7 +55,8 @@ const uiList: SearchItem[] = [
 ]
 
 const onClear = () => {
-  console.log("触发了clear事件")
+  inputVal.value = ''
+  console.log('触发了clear事件')
 }
 </script>
 
@@ -87,7 +99,7 @@ const onClear = () => {
     }
 
     .name {
-      font-family: "Brown Regular", serif;
+      font-family: 'Brown Regular', serif;
       font-weight: 400;
       line-height: 1.3em;
       margin-top: 6px;

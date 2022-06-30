@@ -7,8 +7,10 @@
         :title="item.title"
         :center-icon="item.icon"
         @left-click="() => deleteItem(item)"
-        @right-click="chickEditWin"
+        @right-click="() => chickEditWin(item)"
         @add="() => onAdd(item)"
+        :has-left-icon="!isLegal(item)"
+        :has-right-icon="!isLegal(item)"
       >
         <ItemChild
           v-for="(citem, cindex) in item.children"
@@ -16,6 +18,7 @@
           :key="`child_${cindex}`"
           :center-icon="citem.icon"
           :title="citem.title"
+          @right-click="() => chickEditWin(citem)"
         />
         <DeleteDialog :visible="false"/>
       </MenuItem>
@@ -24,10 +27,8 @@
 </template>
 
 <script setup lang="ts">
-import tfrMessage from '@/components/TfrMessageBox'
 import { onSideEvent } from '@/components/SiteBuilderMenu/utils/regesterEvent'
-import { computed, h, render } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed } from 'vue'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
@@ -38,11 +39,12 @@ import {
   deleteFunc
 } from '@/store/setBuilder/footerNavigation'
 import DeleteDialog from './DeleteDialog.vue'
-import { toSeletPage } from '../../utils/router'
-import LinkShowCon from './LinkShowCon.vue'
+import { toSeletPage, toEditionModel } from '../../utils/router'
 import store from '@/store'
+import { showDeleteModel } from '../../utils/deleteUtils'
+import { isLegal } from './utils'
+import { PAGE_ICONS, PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
 
-const router = useRouter()
 const setBuilder = store.setBuilder
 onSideEvent(SITE_MENUS.FOOTER, (e: string, item: any) => {
   if (item.parentId) {
@@ -55,25 +57,29 @@ const sidearr = computed(
   () => store.setBuilder.sideState[SITE_MENUS.FOOTER].sidebarArr
 )
 const addPage = () => {
-  // setBuilder.setPageCallback(setBuilder.sideState[addFunc])
-  toSeletPage(router, {
+  toSeletPage({
     origin: SITE_MENUS.FOOTER,
   })
 }
-const chickEditWin = () => {
-  router.push({
-    path: '/siteBuilder/editLinkPage'
-  })
+const chickEditWin = (item: SideItem) => {
+  toEditionModel(item)
 }
 const deleteItem = (item: SideItem, pid?: string) => {
-  setBuilder.sideState[deleteFunc](item, pid)
-  tfrMessage.confirm(h(LinkShowCon, {}), { title: "Delete", secTitle: "LINK" })
+  showDeleteModel(item, () => {
+    setBuilder.sideState[deleteFunc](item, pid)
+  })
 }
 const onAdd = (item: SideItem) => {
-  // setBuilder.setPageCallback(
-  //   setBuilder.sideState[addChildFunc](item.id || item.title || '')
-  // )
-  toSeletPage(router, {
+  if (isLegal(item)) {
+    const baseLegal = {
+      title: 'Policy Title',
+      type: PAGE_SELECT.POLICY,
+      icon: PAGE_ICONS[PAGE_SELECT.POLICY]
+    }
+    setBuilder.sideState[addChildFunc](decodeURIComponent('Legal'))(baseLegal)
+    return
+  }
+  toSeletPage({
     origin: SITE_MENUS.FOOTER,
     parentId: encodeURIComponent(item.id || item.title || '')
   })

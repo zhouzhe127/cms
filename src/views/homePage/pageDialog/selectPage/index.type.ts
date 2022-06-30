@@ -5,7 +5,10 @@ export enum PAGE_SELECT {
   LINK = 'LINK',
   CLIP = 'CLIP',
   FOLDER = 'FOLDER',
-  SMART = 'SMART'
+  SMART = 'SMART',
+  HOME = 'HOME',
+  LEGAL = 'LEGAL',
+  POLICY = 'POLICY'
 }
 
 export const PAGE_ICONS = {
@@ -15,5 +18,8 @@ export const PAGE_ICONS = {
   [PAGE_SELECT.LINK]: 'link',
   [PAGE_SELECT.CLIP]: 'clip',
   [PAGE_SELECT.FOLDER]: 'folder',
-  [PAGE_SELECT.SMART]: 'smart'
+  [PAGE_SELECT.SMART]: 'smart',
+  [PAGE_SELECT.HOME]: 'home',
+  [PAGE_SELECT.LEGAL]: 'legal',
+  [PAGE_SELECT.POLICY]: 'legal_item'
 }

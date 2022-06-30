@@ -4,7 +4,6 @@
       <div class="scroll-affix-con">
         <Navigation />
         <FooterNavigation />
-        <LegalNavigation />
       </div>
     </second-side>
     <div class="footbox">
@@ -20,7 +19,6 @@
 import SecondSide from '@/components/SecondSide/index.vue'
 import Navigation from '@/components/SiteBuilderMenu/Navigation.vue'
 import FooterNavigation from '@/components/SiteBuilderMenu/components/footerNavigation/index.vue'
-import LegalNavigation from '@/components/SiteBuilderMenu/Legal.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()

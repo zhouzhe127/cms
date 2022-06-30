@@ -83,6 +83,11 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
               import('@/views/homePage/pageDialog/editLinkPage/index.vue')
           },
           {
+            path: 'editLegal',
+            name: 'siteBuilder_editLegal',
+            component: () => import('@/views/homePage/pageDialog/editLegal/index.vue')
+          },
+          {
             path: 'editClearBin',
             name: 'siteBuilder_editClearBin',
             component: () =>

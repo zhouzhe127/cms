@@ -7,5 +7,5 @@ import { updateCard } from './updateCard'
 export const update = defineStore('update', () => {
   const allModule = { ...updateCard(), ...publishCard() }
 
-  return { allModule }
+  return { allModule } as { allModule: typeof allModule}
 })

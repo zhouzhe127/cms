@@ -8,7 +8,7 @@
       </template>
       <div>
         <div class="warn">
-          <svg-icon icon-class="warn" class="svg-warn" />
+          <svg-icon icon-class="warning" class="svg-warn" />
           <span> The following pages are queuing for publish approval. </span>
         </div>
         <el-checkbox-group v-model="checkAllData">
