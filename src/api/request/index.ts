@@ -4,8 +4,7 @@ import router from '@/router'
 import { startsWith, get } from 'lodash'
 import type { RequestResponse, RequestConfig } from './types'
 import qs from 'qs'
-import { appStore } from '@/store/modules/app'
-const useAppStore = appStore()
+import { getToken } from '@/utils/cookies'
 const { VITE_APP_API_ADDRESS, VITE_APP_MOCK_ADDRESS, VITE_APP_DEMO_ADDRESS } =
   import.meta.env
 const apiAddress = VITE_APP_API_ADDRESS
@@ -18,21 +17,15 @@ const $tfrMessage = tfrMessage
 const errorHandler = (error: RequestResponse) => {
   const status = get(error, 'response.status')
   switch (status) {
-    /* eslint-disable no-param-reassign */
     case 400:
       error.message = 'Request error'
       break
     case 401:
-      // store.dispatch('app/openDrawerMessage', {
-      //   show: true,
-      //   content: 'Unauthorized, Please Login',
-      //   type: 'error'
-      // })
       $tfrMessage({
         message: 'Unauthorized, Please Login',
         type: 'error'
       })
-      router.push({ path: `/login` })
+      router.push({ path: '/login' })
       break
     case 403:
       error.message = 'Access denied'
@@ -60,7 +53,6 @@ const errorHandler = (error: RequestResponse) => {
       break
     default:
       break
-    /* eslint-disabled */
   }
   return Promise.reject(error)
 }
@@ -75,9 +67,7 @@ const requestHandler = (config: RequestConfig) => {
     baseURL = demoAddress
     url = url.replace(/^@demo/, '')
   }
-  if (useAppStore.token && !config?.headers?.Authorization) {
-    config.headers['Authorization'] = useAppStore.token
-  }
+  config.headers['Authorization'] = getToken()
   // if (store.getters.token) {
   //   if (!config.headers['Authorization']) {
   //     config.headers['Authorization'] = getToken()
@@ -102,9 +92,12 @@ const requestHandler = (config: RequestConfig) => {
 }
 const responseHandler = (response: any) => {
   const res = response.data
-  console.log(res.status, 'status')
   if (res.status === 0 || res.status === 10) return res.data && res.data
   if (res.status === 1) {
+    $tfrMessage({
+      message: res.msg || 'Error',
+      type: 'error'
+    })
     return Promise.reject()
   }
   return res

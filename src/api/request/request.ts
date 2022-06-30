@@ -53,7 +53,9 @@ class Request {
       (res: RequestResponse) => {
         return res
       },
-      (err: any) => err
+      (err: any) => {
+        return Promise.reject(err)
+      }
     )
   }
   /**

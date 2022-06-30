@@ -14,7 +14,8 @@ import getDevice from '@/utils/device'
  * 参数二: 选项对象
  * 返回值: 函数, 调用的时候要空参调用, 返回容器实例
  */
-export const appStore = defineStore('app', {
+export const appStore = defineStore({
+  id: 'app',
   /**
    * 类似组件的 data, 用于存储全局的的状态
    * 注意:
@@ -24,8 +25,7 @@ export const appStore = defineStore('app', {
   state: () => {
     return {
       device: getDevice(), // desktop ipad mobile
-      token:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMCwidXNlcm5hbWUiOiJ0ZnIiLCJzY29wZSI6IiIsImV4dHJhIjoiIiwiZXhwIjoxNjU2MDUzNTkxLCJpYXQiOjE2NTU5NjcxOTEsImlzcyI6InRmciIsIm5iZiI6MTY1NTk2NzE5MX0.4tOyej7PmdS7l0FCY2pL0_qTRdCU_4paoql19nQrS5w'
+      token: ''
     }
   },
   /**

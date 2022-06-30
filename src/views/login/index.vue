@@ -16,9 +16,10 @@
         </el-form-item>
         <el-form-item label="Password" prop="password">
           <TfrInput
-            :type="passwordType"
             v-model="loginForm.password"
+            :type="passwordType"
             placeholder="Password"
+            @keyup.enter.prevent="submitLoginForm(loginFormRef)"
           />
           <svg-icon
             :icon-class="
@@ -34,7 +35,9 @@
           <router-link to="/reset">Forgot my password</router-link>
         </div>
       </el-form>
-      <TfrButton @click="submitLoginForm(loginFormRef)">SIGN IN</TfrButton>
+      <TfrButton :loading="signInLoading" @click="submitLoginForm(loginFormRef)"
+        >SIGN IN</TfrButton
+      >
     </div>
   </div>
 </template>
@@ -45,7 +48,11 @@ import TfrLogo from '@/components/TfrLogo/index.vue'
 import TfrButton from '@/components/TfrButton/index.vue'
 import TfrCheckbox from '@/components/TfrCheckbox/index.vue'
 import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { userStore } from '@/store/modules/user'
 import type { FormInstance, FormRules } from 'element-plus'
+const router = useRouter()
+const useUserStore = userStore()
 const loginFormRef = ref<FormInstance>()
 const passwordType = ref('password')
 const signed = ref(false)
@@ -55,10 +62,16 @@ const loginForm = reactive({
 })
 const loginRules = reactive<FormRules>({
   username: [
+    // {
+    //   type: 'email',
+    //   required: true,
+    //   message: 'Please input correct email address',
+    //   trigger: ['blur', 'change']
+    // }
+
     {
-      type: 'email',
       required: true,
-      message: 'Please input correct email address',
+      message: 'TFR Email is required',
       trigger: ['blur', 'change']
     }
   ],
@@ -70,6 +83,7 @@ const loginRules = reactive<FormRules>({
     }
   ]
 })
+const signInLoading = ref(false)
 const showPwd = () => {
   if (passwordType.value === 'password') {
     passwordType.value = ''
@@ -79,12 +93,19 @@ const showPwd = () => {
 }
 const submitLoginForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    console.log(loginForm, 'value')
+  await formEl.validate(async valid => {
     if (valid) {
-      console.log('submit!')
-    } else {
-      console.log('error submit!', fields)
+      try {
+        signInLoading.value = true
+        await useUserStore.loginHttp({
+          username: loginForm.username,
+          password: loginForm.password
+        })
+        signInLoading.value = false
+        router.push({ path: '/home' })
+      } catch (e) {
+        signInLoading.value = false
+      }
     }
   })
 }

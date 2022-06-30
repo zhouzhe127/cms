@@ -1,5 +1,5 @@
 import { setBuilder } from './setBuilder'
-import { update } from "./update"
+import { update } from './update'
 
 export interface IAppStore {
   setBuilder: ReturnType<typeof setBuilder>

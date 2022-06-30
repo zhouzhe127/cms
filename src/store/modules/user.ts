@@ -6,6 +6,35 @@
  *    4. 使用容器中的action
  */
 import { defineStore } from 'pinia'
+import { login, getInfo, layout } from '@/api/user'
+import { setToken, removeToken } from '@/utils/cookies'
+import { appStore } from '@/store/modules/app'
+
+interface LoginData {
+  username: string
+  password: string
+}
+
+interface User {
+  title?: string
+  id?: number
+  phone?: string
+  role?: string
+  status?: number
+  username?: number
+  gmt_create?: null | string
+}
+
+// interface LoginResponse {
+//   token: string
+//   user: object
+//   menu?: () => []
+// }
+//
+// interface InfoResponse {
+//   user: object
+//   menu: () => []
+// }
 
 /**
  * 1. 定义容器并导出
@@ -13,7 +42,8 @@ import { defineStore } from 'pinia'
  * 参数二: 选项对象
  * 返回值: 函数, 调用的时候要空参调用, 返回容器实例
  */
-export const userStore = defineStore('user', {
+export const userStore = defineStore({
+  id: 'user',
   /**
    * 类似组件的 data, 用于存储全局的的状态
    * 注意:
@@ -22,7 +52,8 @@ export const userStore = defineStore('user', {
    */
   state: () => {
     return {
-      count: 1
+      count: 1,
+      user: <User>{}
     }
   },
   /**
@@ -36,6 +67,50 @@ export const userStore = defineStore('user', {
   actions: {
     addCount() {
       this.count++
+    },
+    loginHttp(data: LoginData) {
+      const useAppStore = appStore()
+      const { username, password } = data
+      return new Promise((resolve, reject) => {
+        login({ username: username.trim(), password })
+          .then((res: any) => {
+            const token = res.token
+            useAppStore.token = res.token
+            setToken(token)
+            this.user = {}
+            resolve(res)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+    getInfoHttp() {
+      return new Promise((resolve, reject) => {
+        getInfo()
+          .then((data: any) => {
+            this.user = data.user
+            resolve(data)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+    layoutHttp() {
+      const useAppStore = appStore()
+      return new Promise((resolve, reject) => {
+        layout()
+          .then((data: any) => {
+            removeToken()
+            useAppStore.token = ''
+            this.user = {}
+            resolve(data)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
     }
   }
 })

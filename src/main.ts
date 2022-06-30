@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-// import '@/router/permission'
+import '@/router/permission'
 // @ts-ignore
 import App from '@/App.vue'
 import router from '@/router'
