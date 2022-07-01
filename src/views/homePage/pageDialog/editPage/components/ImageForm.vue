@@ -83,19 +83,6 @@ const holderText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
   .formcontant {
     margin-top: 40px;
     padding: 0 10px;
-    .navrid {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 45px;
-      color: black;
-      .dtt {
-        height: 1px;
-        border-bottom: 1px #C7CACA solid;
-        margin: 0 30px;
-        flex: 1;
-      }
-    }
     .optionbox {
       position: relative;
       width: 100%;
