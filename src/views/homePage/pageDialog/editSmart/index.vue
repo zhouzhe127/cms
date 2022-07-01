@@ -46,18 +46,14 @@
                 width="100%"
               />
             </el-form-item>
-            <div class="navrid">
-              <span>Hide From Search Results</span>
-              <div class="dtt" />
-              <div class="bg-switch">
-                <el-switch
-                  v-model="ruleForm.hide"
-                  active-color="#1B2B27"
-                  inactive-color="#F8F8F8"
-                  @change="switchChange"
-                />
-              </div>
-            </div>
+            <RowSetItem title="Hide From Search Results">
+              <el-switch
+                v-model="ruleForm.hide"
+                active-color="#1B2B27"
+                inactive-color="#F8F8F8"
+                @change="switchChange"
+              />
+            </RowSetItem>
             <p class="mkdu">
               Disabled pages can’t be accessed by site visitors.
             </p>
@@ -102,6 +98,7 @@ import TfrDialog from '@/components/TfrDialog/index.vue'
 import TfrEditor from '@/components/TfrEditor/index.vue'
 import generalwin from '@/views/homePage/generalwin'
 import EdgeInput from '@/components/TfrInput/EdgeInput.vue'
+import RowSetItem from '@/components/RowSetItem/index.vue'
 
 const ruleForm = reactive({
   pageTitle: '',
@@ -169,19 +166,6 @@ const switchChange = (e: boolean) => {
         right: 0;
         top: -34px;
         color: #c7caca;
-      }
-    }
-    .navrid {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 45px;
-      color: black;
-      .dtt {
-        height: 1px;
-        border-bottom: 1px #c7caca solid;
-        margin: 0 30px;
-        flex: 1;
       }
     }
     .pagelist {

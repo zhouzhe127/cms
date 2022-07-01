@@ -15,18 +15,14 @@
         <el-form-item label="Code" prop="code">
           <tfr-input v-model="ruleForm.code" width="100%" />
         </el-form-item>
-        <div class="navrid">
-          <span>Open In New Window</span>
-          <div class="dtt" />
-          <div class="bg-switch">
-            <el-switch
-              v-model="ruleForm.isNewWindow"
-              active-color="#1B2B27"
-              inactive-color="#F8F8F8"
-              @change="switchChange"
-            />
-          </div>
-        </div>
+        <RowSetItem title="Open In New Window">
+          <el-switch
+            v-model="ruleForm.isNewWindow"
+            active-color="#1B2B27"
+            inactive-color="#F8F8F8"
+            @change="switchChange"
+          />
+        </RowSetItem>
       </el-form>
     </div>
   </div>
@@ -34,6 +30,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
+import RowSetItem from '@/components/RowSetItem/index.vue'
 const ruleForm = reactive({
   linkTitle: '',
   code: '',
@@ -85,20 +82,6 @@ const switchChange = (e: boolean) => {
       font-family: 'Brown Light', serif;
       font-weight: 300;
       margin-bottom: 24px;
-    }
-    .navrid {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 10px;
-      margin-top: 45px;
-      color: black;
-      .dtt {
-        height: 1px;
-        border-bottom: 1px #c7caca solid;
-        margin: 0 30px;
-        flex: 1;
-      }
     }
   }
 }

@@ -59,6 +59,7 @@ declare module '@vue/runtime-core' {
     PublishDialog: typeof import('./src/components/UpdateMenu/components/PublishDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    RowSetItem: typeof import('./src/components/RowSetItem/index.vue')['default']
     SecondSide: typeof import('./src/components/SecondSide/index.vue')['default']
     SideMenu: typeof import('./src/components/SecondSide/SideMenu.vue')['default']
     SiteBuilderMenu: typeof import('./src/components/SiteBuilderMenu/index.vue')['default']

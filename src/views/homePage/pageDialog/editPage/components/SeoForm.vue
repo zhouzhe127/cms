@@ -27,7 +27,7 @@
             <div class="optionbox">
               <tfr-input
                 v-model="ruleForm.metaTitle"
-                max-length="60"
+                maxLength="60"
                 width="100%"
               />
               <div class="ptbox">
@@ -45,18 +45,14 @@
             <!-- <tfr-input v-model="ruleForm.metaDes" width="100%" /> -->
             <tfr-editor v-model="ruleForm.metaDes" height="150px" />
           </el-form-item>
-          <div class="navrid">
-            <span>Hide From Navigation</span>
-            <div class="dtt" />
-            <div class="bg-switch">
-              <el-switch
-                v-model="ruleForm.hide"
-                active-color="#1B2B27"
-                inactive-color="#F8F8F8"
-                @change="switchChange"
-              />
-            </div>
-          </div>
+          <row-set-item title="Hide From Navigation">
+            <el-switch
+              v-model="ruleForm.hide"
+              active-color="#1B2B27"
+              inactive-color="#F8F8F8"
+              @change="switchChange"
+            />
+          </row-set-item>
           <p class="mkdu">Disabled pages can’t be accessed by site visitors.</p>
         </el-form>
       </div>
@@ -67,6 +63,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 import TfrEditor from '@/components/TfrEditor/index.vue'
+import RowSetItem from '@/components/RowSetItem/index.vue'
 const ruleForm = reactive({
   metaTitle: '',
   slug: '',
@@ -131,19 +128,6 @@ const switchChange = (e: boolean) => {
   .formcontant {
     margin-top: 40px;
     padding: 0 10px;
-    .navrid {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 45px;
-      color: black;
-      .dtt {
-        height: 1px;
-        border-bottom: 1px #c7caca solid;
-        margin: 0 30px;
-        flex: 1;
-      }
-    }
     .optionbox {
       position: relative;
       width: 100%;

@@ -28,18 +28,14 @@
         <p class="mkdu">
           The navigation title is the page’s name in the navigation menu.
         </p>
-        <div class="navrid">
-          <span>Hide From Navigation</span>
-          <div class="dtt" />
-          <div class="bg-switch">
-            <el-switch
-              v-model="ruleForm.hide"
-              active-color="#1B2B27"
-              inactive-color="#F8F8F8"
-              @change="switchChange"
-            />
-          </div>
-        </div>
+        <RowSetItem title="Hide From Navigation">
+          <el-switch
+            v-model="ruleForm.hide"
+            active-color="#1B2B27"
+            inactive-color="#F8F8F8"
+            @change="switchChange"
+          />
+        </RowSetItem>
       </el-form>
     </div>
   </div>
@@ -47,6 +43,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
+import RowSetItem from '@/components/RowSetItem/index.vue';
 const ruleForm = reactive({
   pageTitle: '',
   navTitle: '',
@@ -99,20 +96,6 @@ const switchChange = (e: boolean) => {
       font-family: 'Brown Light', serif;
       font-weight: 300;
       margin-bottom: 24px;
-    }
-    .navrid {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 10px;
-      margin-top: 45px;
-      color: black;
-      .dtt {
-        height: 1px;
-        border-bottom: 1px #c7caca solid;
-        margin: 0 30px;
-        flex: 1;
-      }
     }
   }
 }
