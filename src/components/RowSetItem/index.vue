@@ -1,5 +1,5 @@
 <template>
-  <div class="row-setting-item">
+  <div class="row-setting-item" :class="{ 'p10': hasPadding }">
     <span>{{ title }}</span>
     <div class="line" />
     <div class="bg-switch">
@@ -11,19 +11,23 @@
 <script setup lang="ts">
 interface Props {
   title: string
+  hasPadding: boolean
 }
 
 withDefaults(defineProps<Props>(), {
-  title: 'Hide From Navigation'
+  title: 'Hide From Navigation',
+  hasPadding: true
 })
 </script>
 
 <style lang="scss">
+.p10 {
+  padding: 0 10px
+}
 .row-setting-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
   margin-top: 45px;
   color: black;
   .line {

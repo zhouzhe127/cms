@@ -93,6 +93,12 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
             name: 'siteBuilder_editClearBin',
             component: () =>
               import('@/views/homePage/pageDialog/editClearBin/index.vue')
+          },
+          {
+            path: 'plpSettings',
+            name: 'siteBuilder_plpSettings',
+            component: () =>
+              import('@/views/homePage/pageDialog/plpSettings/index.vue')
           }
         ]
       },
