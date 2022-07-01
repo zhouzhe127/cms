@@ -1,10 +1,10 @@
 <template>
   <div class="internal-search">
-    <el-input placeholder="SEARCH" v-model="inputVal">
+    <el-input v-model="inputVal" placeholder="SEARCH">
       <template #suffix> <span @click="onClear">CLEAR</span> </template>
     </el-input>
 
-    <div class="search-list" v-for="item in showList">
+    <div v-for="item in showList" class="search-list">
       <div class="search-item">
         <div class="icon">
           <svg-icon :icon-class="item.icon" class="svg_item" />

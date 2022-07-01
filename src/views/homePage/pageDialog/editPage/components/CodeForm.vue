@@ -1,11 +1,18 @@
 <template>
   <div class="form_container">
-    <div class="headerbox">
-      INJECT CODE
+    <div class="headerbox">INJECT CODE</div>
+    <div class="smue">
+      Inject custom code or scripts to enhance the page. Below codes will be
+      injected under the &lt;head&gt; tag.
     </div>
-    <div class="smue">Inject custom code or scripts to enhance the page. Below codes will be injected under the &lt;head&gt; tag.</div>
     <div class="formcontant tfr-form">
-      <el-form ref="ruleFormNode" :model="ruleForm" label-width="80px" label-position="top" class="tfr-form-required">
+      <el-form
+        ref="ruleFormNode"
+        :model="ruleForm"
+        label-width="80px"
+        label-position="top"
+        class="tfr-form-required"
+      >
         <el-form-item label="Code" prop="codeText">
           <tfr-editor v-model="ruleForm.codeText" />
         </el-form-item>
@@ -18,7 +25,7 @@
 import { reactive } from 'vue'
 import TfrEditor from '@/components/TfrEditor/index.vue'
 const ruleForm = reactive({
-  codeText: '',
+  codeText: ''
 })
 </script>
 
@@ -47,7 +54,7 @@ const ruleForm = reactive({
     }
   }
   .smue {
-    font-family: "Brown Light", serif;
+    font-family: 'Brown Light', serif;
     font-weight: 300;
     padding: 20px 0;
   }

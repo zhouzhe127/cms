@@ -14,7 +14,7 @@ import appStore from '@/store'
 import { useRouter } from 'vue-router'
 const properties = appStore.setBuilder.basic.pageTemplate.properties || []
 interface Props {
-  index?: number,
+  index?: number
 }
 const props = withDefaults(defineProps<Props>(), {
   index: 0
@@ -41,7 +41,7 @@ const addModule = () => {
     span {
       color: rgba(27, 43, 39, 0.25);
       font-size: 14px;
-      font-family: "Brown Regular", serif;
+      font-family: 'Brown Regular', serif;
     }
   }
 }

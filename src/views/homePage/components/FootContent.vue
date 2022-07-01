@@ -4,11 +4,20 @@
       <div class="links">
         <div v-for="(item, index) in links" :key="index" class="links_items">
           <div class="pt">{{ item.text }}</div>
-          <div v-for="(list, i) in item.children" :key="list.text + i" class="ct">{{ list.text }}</div>
+          <div
+            v-for="(list, i) in item.children"
+            :key="list.text + i"
+            class="ct"
+          >
+            {{ list.text }}
+          </div>
         </div>
       </div>
       <div class="sndc">
-        <span>Copyright © 2022 The Future Rocks Company Limited. All Rights Reserved.</span>
+        <span
+          >Copyright © 2022 The Future Rocks Company Limited. All Rights
+          Reserved.</span
+        >
       </div>
       <div class="pagetab">
         <span>Privacy Policy</span>
@@ -17,7 +26,14 @@
         <span>Return & Refunds Policy</span>
       </div>
       <div class="labdc">
-        <span>We make no representations, warranties or guarantees, whether express or implied, that the Website, or any content on it, is accurate, complete, up-to-date or will be free from errors or omissions. To the fullest extent permitted by law, we exclude all conditions, warranties, representations or other terms which may apply to the Website, or any content on it, whether express or implied.</span>
+        <span
+          >We make no representations, warranties or guarantees, whether express
+          or implied, that the Website, or any content on it, is accurate,
+          complete, up-to-date or will be free from errors or omissions. To the
+          fullest extent permitted by law, we exclude all conditions,
+          warranties, representations or other terms which may apply to the
+          Website, or any content on it, whether express or implied.</span
+        >
       </div>
     </div>
   </CmsEdit>
@@ -27,18 +43,18 @@
 import CmsEdit from '@/components/CmsEdit/index.vue'
 
 interface Msd {
-  text: string,
-  link: string,
+  text: string
+  link: string
   children?: Array<Msd>
 }
-const links:Array<Msd> = [
+const links: Array<Msd> = [
   {
     text: 'about',
     link: 'aaaa',
     children: [
       {
         text: 'about',
-        link: 'aaaa',
+        link: 'aaaa'
       }
     ]
   },
@@ -48,7 +64,7 @@ const links:Array<Msd> = [
     children: [
       {
         text: 'about',
-        link: 'aaaa',
+        link: 'aaaa'
       }
     ]
   },
@@ -58,7 +74,7 @@ const links:Array<Msd> = [
     children: [
       {
         text: 'about',
-        link: 'aaaa',
+        link: 'aaaa'
       }
     ]
   },
@@ -68,10 +84,10 @@ const links:Array<Msd> = [
     children: [
       {
         text: 'about',
-        link: 'aaaa',
+        link: 'aaaa'
       }
     ]
-  },
+  }
 ]
 </script>
 
@@ -79,8 +95,8 @@ const links:Array<Msd> = [
 .foot-box {
   width: 100%;
   padding: 30px 20px;
-  background-color: #F8F8F8;
-  font-family: "Brown Regular";
+  background-color: #f8f8f8;
+  font-family: 'Brown Regular';
   font-size: 14px;
   .links {
     display: flex;
@@ -95,22 +111,22 @@ const links:Array<Msd> = [
         padding-right: initial;
       }
       .pt {
-        font-family: "Brown Regular";
+        font-family: 'Brown Regular';
         text-transform: uppercase;
         margin-bottom: 10px;
       }
       .ct {
         margin-bottom: 10px;
-        font-family: "Brown Light", serif;
+        font-family: 'Brown Light', serif;
       }
     }
   }
-  .sndc  {
+  .sndc {
     margin-top: 45px;
     text-align: center;
   }
   .pagetab {
-    font-family: "Brown Light", serif;
+    font-family: 'Brown Light', serif;
     text-align: center;
     margin-top: 12px;
     span {
@@ -121,7 +137,7 @@ const links:Array<Msd> = [
   .labdc {
     margin-top: 30px;
     font-size: 12px;
-    font-family: "Brown Light", serif;
+    font-family: 'Brown Light', serif;
     line-height: 16px;
     text-align: center;
   }

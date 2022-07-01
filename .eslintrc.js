@@ -37,7 +37,7 @@ module.exports = defineConfig({
     'consistent-return': 'off', // return 后面是否允许省略
     'consistent-this': ['error', 'that'], // this别名
     'constructor-super': 'off', // 非派生类不能调用super，派生类必须调用super
-    curly: ['error', 'multi-line'], // 使用 if(){} 中的{} 或 if()
+    //curly: ['error', 'multi-line'], // 使用 if(){} 中的{} 或 if()
     'default-case': 'error', // switch语句最后必须有default
     'dot-location': 'off', // 对象访问符的位置，换行的时候在行首还是行尾
     'dot-notation': ['off', { allowKeywords: true }], // 避免不必要的方括号

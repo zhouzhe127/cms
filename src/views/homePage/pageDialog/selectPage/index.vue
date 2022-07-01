@@ -37,7 +37,7 @@ const origin = route.query.origin as string
 const sideEmit = emitSideEvent(origin)
 // import { addFunc as addNavigateFun } from '@/store/setBuilder/sidebar';
 // import { addFunc as addFooterFun } from '@/store/setBuilder/footerNavigation';
-const {showWin, closeWin} = generalwin()
+const { showWin, closeWin } = generalwin()
 // const callback = store.setBuilder.basic.selectPageCallback
 // const setBuilder = store.setBuilder
 const listArr = [
@@ -63,7 +63,7 @@ const listArr = [
   },
   {
     title: PAGE_SELECT.CLIP,
-    type:PAGE_SELECT.CLIP,
+    type: PAGE_SELECT.CLIP,
     icon: PAGE_ICONS[PAGE_SELECT.CLIP]
   },
   {
@@ -81,7 +81,7 @@ const onClose = () => {
   closeWin()
 }
 const addpage = (item: SideItem) => {
-  if (sideEmit) sideEmit(origin, {...item, ...route.query})
+  if (sideEmit) sideEmit(origin, { ...item, ...route.query })
   showWin.value = false
 }
 </script>

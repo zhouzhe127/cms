@@ -7,14 +7,14 @@ import {
   isVNode,
   watch
 } from 'vue'
-import {
-  Action,
-  Callback
-} from 'element-plus/es/components/message-box'
+import { Action, Callback } from 'element-plus/es/components/message-box'
 import { isClient, isObject, isString } from '@vueuse/shared'
 import MessageBoxConstructor from './tfrMessageBox.vue'
 import { ITfrMessageBox, TfrSetting } from './trrMessageBox.type'
-import { MessageBoxState, MessageBoxData } from 'element-plus/lib/components/message-box/src/message-box.type'
+import {
+  MessageBoxState,
+  MessageBoxData
+} from 'element-plus/lib/components/message-box/src/message-box.type'
 import { hasOwn } from '@vue/shared'
 
 const isUndefined = (val: any): val is undefined => val === undefined
@@ -98,10 +98,9 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
       }
     },
     {
-      immediate: true,
+      immediate: true
     }
   )
-
 
   // vm.visible = true
   return vm
@@ -126,7 +125,7 @@ function MessageBox(
     callback = options.callback
   }
   return new Promise((resolve, reject) => {
-    let vm: any;
+    let vm: any
     try {
       vm = showMessage(options, appContext)
     } catch (e) {
@@ -143,26 +142,23 @@ function MessageBox(
   })
 }
 
-type MessageBoxType = Action 
+type MessageBoxType = Action
 
-export const MESSAGE_BOX_VARIANTS: (Action)[] = [ 'confirm', 'cancel', 'close']
+export const MESSAGE_BOX_VARIANTS: Action[] = ['confirm', 'cancel', 'close']
 
-const MESSAGE_BOX_DEFAULT_OPTS: Record<
-  MessageBoxType,
-  Partial<TfrSetting>
-> = {
+const MESSAGE_BOX_DEFAULT_OPTS: Record<MessageBoxType, Partial<TfrSetting>> = {
   confirm: { showCancelButton: true },
   close: {},
-  cancel: {},
+  cancel: {}
 }
 
-MESSAGE_BOX_VARIANTS.forEach((boxType) => {
+MESSAGE_BOX_VARIANTS.forEach(boxType => {
   (MessageBox as Record<string, any>)[boxType] = messageBoxFactory(boxType)
 })
 
 function messageBoxFactory(boxType: typeof MESSAGE_BOX_VARIANTS[number]) {
   return (
-    message: TfrSetting["message"],
+    message: TfrSetting['message'],
     titleOrOpts: string | TfrSetting,
     options?: TfrSetting,
     appContext?: AppContext | null

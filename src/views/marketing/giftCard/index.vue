@@ -76,15 +76,15 @@
         class="date-picker-item"
       >
         <date-picker-range
-          startDate="2022-06-08T14:21:35+08:00"
-          endDate="2022-06-18T14:21:35+08:00"
-          zt="America/Denver"
           ref="datePickerRangeRef"
+          start-date="2022-06-08T14:21:35+08:00"
+          end-date="2022-06-18T14:21:35+08:00"
+          zt="America/Denver"
         />
       </el-form-item>
       <sticky-flow title="IMAGES" />
       <div class="image-area">
-        <tfr-upload :pictureList="picture" />
+        <tfr-upload :picture-list="picture" />
       </div>
       <sticky-flow title="GIFT CARD">
         <template #right>
@@ -137,7 +137,7 @@
         </el-form-item>
         <el-form-item label="SEO Description">
           <editor
-            :editorValue="seoDescription"
+            :editor-value="seoDescription"
             @update:editorValue="seoDescription = $event"
           />
         </el-form-item>
@@ -166,13 +166,13 @@
         </div>
       </div>
       <el-form-item label="Alternate Image" class="alternate-image">
-        <tfr-upload :pictureList="alternateImage" />
+        <tfr-upload :picture-list="alternateImage" />
       </el-form-item>
       <el-form-item label="Alt Text" class="alternate-text">
         <tfr-input
+          v-model="alternateText"
           type="textarea"
           maxlength="100"
-          v-model="alternateText"
           resize="none"
           show-word-limit
           placeholder="Lorem ipsum dolor site amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
@@ -190,24 +190,24 @@
     </div>
     <effective-region-dialog
       :visible="effectiveRegionDialog"
-      @update:visible="effectiveRegionDialog = $event"
       :width="dialogWidth"
+      @update:visible="effectiveRegionDialog = $event"
       @cancelHandle="effectiveRegionDialogCancelHandle"
       @confirmHandle="effectiveRegionDialogConfirmHandle"
     />
     <applies-limit-dialog
       :visible="appliesLimitDialog"
-      @update:visible="appliesLimitDialog = $event"
       :width="dialogWidth"
+      @update:visible="appliesLimitDialog = $event"
       @cancelHandle="appliesLimitDialogCancelHandle"
       @confirmHandle="appliesLimitDialogConfirmHandle"
     />
     <image-box-dialog
       :visible="imageBoxDialog"
-      @update:visible="imageBoxDialog = $event"
       :width="dialogWidth"
-      :pictureList="picture"
-      :headerLess="false"
+      :picture-list="picture"
+      :header-less="false"
+      @update:visible="imageBoxDialog = $event"
       @cancelHandle="imageBoxDialogCancelHandle"
       @confirmHandle="imageBoxDialogConfirmHandle"
     />

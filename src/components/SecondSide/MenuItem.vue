@@ -1,9 +1,17 @@
 <template>
   <div>
     <div class="menu_item">
-      <div class="itemlist" :class="{active: props.active}" @click="clickItems">
+      <div
+        class="itemlist"
+        :class="{ active: props.active }"
+        @click="clickItems"
+      >
         <div class="hidden" @click.stop="leftClick">
-          <svg-icon v-if="props.hasLeftIcon" :icon-class="props.leftIcon" class="sicon" />
+          <svg-icon
+            v-if="props.hasLeftIcon"
+            :icon-class="props.leftIcon"
+            class="sicon"
+          />
         </div>
         <div @click.stop="centerIconClick">
           <svg-icon :icon-class="props.centerIcon" class="sicon" />
@@ -12,7 +20,11 @@
           {{ props.title }}
         </div>
         <div class="hidden" @click.stop="rightClick">
-          <svg-icon v-if="props.hasRightIcon" :icon-class="props.rightIcon" class="sicon" />
+          <svg-icon
+            v-if="props.hasRightIcon"
+            :icon-class="props.rightIcon"
+            class="sicon"
+          />
         </div>
       </div>
     </div>
@@ -20,9 +32,7 @@
       <div v-show="showChild">
         <slot />
         <div v-if="isEmpty" class="emptybox">
-          <div class="empty">
-            Empty
-          </div>
+          <div class="empty">Empty</div>
         </div>
         <div class="addbox" @click="onAdd">
           <svg-icon icon-class="add_black" class="sicon" />
@@ -36,13 +46,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 interface Props {
-  title?: string,
-  leftIcon?: string,
-  rightIcon?: string,
-  centerIcon?: string,
-  isEmpty?: boolean,
-  active?: boolean,
-  hasLeftIcon?: boolean,
+  title?: string
+  leftIcon?: string
+  rightIcon?: string
+  centerIcon?: string
+  isEmpty?: boolean
+  active?: boolean
+  hasLeftIcon?: boolean
   hasRightIcon?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -89,8 +99,8 @@ const onAdd = () => {
     cursor: pointer;
     .hidden {
       opacity: 0;
-      transition: opacity .5s;
-      transition: .5s;
+      transition: opacity 0.5s;
+      transition: 0.5s;
     }
     &:hover {
       background-color: #ffffff;

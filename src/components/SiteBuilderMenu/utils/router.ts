@@ -1,4 +1,4 @@
-import {LocationQueryRaw } from 'vue-router'
+import { LocationQueryRaw } from 'vue-router'
 import router from '@/router'
 import { PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
 import { SideItem } from '../type'
@@ -10,11 +10,11 @@ export function toSeletPage(query?: LocationQueryRaw) {
   })
 }
 
-export const toEditionModel = (item: SideItem,) => {
-  switch(item.type) {
+export const toEditionModel = (item: SideItem) => {
+  switch (item.type) {
     case PAGE_SELECT.SMART:
       router.push({
-        path: '/siteBuilder/editSmart',
+        path: '/siteBuilder/editSmart'
       })
       break
     case PAGE_SELECT.LINK:
@@ -31,7 +31,7 @@ export const toEditionModel = (item: SideItem,) => {
     case PAGE_SELECT.POLICY:
       router.push({
         path: '/siteBuilder/editLegal'
-      }) 
+      })
       break
     default:
       router.push({

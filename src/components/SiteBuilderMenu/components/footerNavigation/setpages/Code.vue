@@ -1,7 +1,14 @@
 <template>
   <div class="form_container">
     <div class="formcontant tfr-form">
-      <el-form ref="ruleFormNode" :model="ruleForm" :rules="rules" label-width="80px" label-position="top" class="tfr-form-required">
+      <el-form
+        ref="ruleFormNode"
+        :model="ruleForm"
+        :rules="rules"
+        label-width="80px"
+        label-position="top"
+        class="tfr-form-required"
+      >
         <el-form-item label="Link Title" prop="linkTitle">
           <tfr-input v-model="ruleForm.linkTitle" width="100%" />
         </el-form-item>
@@ -12,7 +19,12 @@
           <span>Open In New Window</span>
           <div class="dtt" />
           <div class="bg-switch">
-            <el-switch v-model="ruleForm.isNewWindow" active-color="#1B2B27" inactive-color="#F8F8F8" @change="switchChange" />
+            <el-switch
+              v-model="ruleForm.isNewWindow"
+              active-color="#1B2B27"
+              inactive-color="#F8F8F8"
+              @change="switchChange"
+            />
           </div>
         </div>
       </el-form>
@@ -25,7 +37,7 @@ import { reactive } from 'vue'
 const ruleForm = reactive({
   linkTitle: '',
   code: '',
-  isNewWindow: false 
+  isNewWindow: false
 })
 const rules = {
   linkTitle: {
@@ -37,7 +49,7 @@ const rules = {
     required: true,
     message: ' ',
     trigger: 'blur'
-  },
+  }
 }
 const switchChange = (e: boolean) => {
   // ruleForm.hide = e
@@ -70,7 +82,7 @@ const switchChange = (e: boolean) => {
   }
   .formcontant {
     .mkdu {
-      font-family: "Brown Light", serif;
+      font-family: 'Brown Light', serif;
       font-weight: 300;
       margin-bottom: 24px;
     }
@@ -83,7 +95,7 @@ const switchChange = (e: boolean) => {
       color: black;
       .dtt {
         height: 1px;
-        border-bottom: 1px #C7CACA solid;
+        border-bottom: 1px #c7caca solid;
         margin: 0 30px;
         flex: 1;
       }

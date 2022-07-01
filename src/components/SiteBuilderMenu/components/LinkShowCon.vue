@@ -10,14 +10,14 @@
 
 <script setup lang="ts">
 interface IProps {
-  title?: string,
-  icon?: string,
+  title?: string
+  icon?: string
   content?: string
 }
 
 withDefaults(defineProps<IProps>(), {
-  title: "FAQ",
-  icon: "link",
+  title: 'FAQ',
+  icon: 'link',
   content: "intercom('show');"
 })
 </script>

@@ -24,11 +24,11 @@ export default [
   {
     icon: 'mail_fill',
     title: 'Email',
-    component: markRaw(Email) 
+    component: markRaw(Email)
   },
   {
     icon: 'download',
     title: 'Download',
     component: markRaw(Download)
-  },
+  }
 ]

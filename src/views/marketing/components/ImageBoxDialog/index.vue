@@ -4,14 +4,14 @@
     :width="dialogProps.width"
     class="image-box-dialog"
     :append-to-body="true"
-    :headerLess="false"
+    :header-less="false"
     @beforeClose="cancelHandle"
   >
     <template #header>
       <div>VARIANT IMAGE</div>
     </template>
     <tfr-upload
-      :pictureList="dialogProps.pictureList"
+      :picture-list="dialogProps.pictureList"
       :is-select="true"
       @updateSelectedIndexHandle="updateSelectedIndexHandle"
     />

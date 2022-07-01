@@ -2,8 +2,7 @@
   <div class="container">
     <CmsEdit :options="['edit_cms', 'add_white']">
       <div class="shelve">
-        <div class="imgbox">
-        </div>
+        <div class="imgbox"></div>
         <div class="footbox">
           <div class="barbox">
             <div class="baritem active" />
@@ -22,7 +21,6 @@
 
 <script setup lang="ts">
 import CmsEdit from '@/components/CmsEdit/index.vue'
-
 </script>
 
 <style lang="scss" scoped>
@@ -44,7 +42,7 @@ import CmsEdit from '@/components/CmsEdit/index.vue'
         display: flex;
         .baritem {
           height: 5px;
-          background-color: #E2E3E3;
+          background-color: #e2e3e3;
           flex: 1;
           margin-right: 5px;
           &:last-child {
@@ -54,7 +52,7 @@ import CmsEdit from '@/components/CmsEdit/index.vue'
       }
       .cl {
         font-size: 12px;
-        font-family: "Brown Light", serif;
+        font-family: 'Brown Light', serif;
         margin: 10px 0;
       }
     }

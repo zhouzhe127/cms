@@ -2,15 +2,12 @@
   <div class="container">
     <CmsEdit :options="['edit_cms', 'add_white']">
       <div class="campaign">
-        <div class="imgoption">
-          Image Option
-        </div>
+        <div class="imgoption">Image Option</div>
         <div class="textmain">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </div>
-        <div class="lorembtn">
-          LOREM IPSUM
-        </div>
+        <div class="lorembtn">LOREM IPSUM</div>
       </div>
     </CmsEdit>
   </div>
@@ -18,7 +15,6 @@
 
 <script setup lang="ts">
 import CmsEdit from '@/components/CmsEdit/index.vue'
-
 </script>
 
 <style lang="scss" scoped>
@@ -31,7 +27,7 @@ import CmsEdit from '@/components/CmsEdit/index.vue'
     width: 406px;
     height: 360px;
     border: 1px black dashed;
-    background-color: #F8F8F8;
+    background-color: #f8f8f8;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -42,7 +38,7 @@ import CmsEdit from '@/components/CmsEdit/index.vue'
       margin-top: 60px;
       border: 1px black dashed;
       padding: 20px 0;
-      color: rgb(27, 43, 39, .5);
+      color: rgb(27, 43, 39, 0.5);
       border-radius: 8px;
     }
     .textmain {

@@ -10,19 +10,19 @@
   >
     <template #header> PUBLISH </template>
     <div class="header-icon">
-      <div class="animate-svg">
-        缺个对勾SVG
-      </div>
+      <div class="animate-svg">缺个对勾SVG</div>
       <hr />
     </div>
     <div class="item-con">
-      <div class="item" v-for="item in checkData">
+      <div v-for="item in checkData" class="item">
         <div class="tag">RC</div>
-       <PageListItem :title="item.title" :no-icon="true"></PageListItem> 
+        <PageListItem :title="item.title" :no-icon="true"></PageListItem>
       </div>
     </div>
     <template #footer>
-      <TfrButton type="normal" :board="false" @click="emits('check')">CHECK LIVE SITE</TfrButton>
+      <TfrButton type="normal" :board="false" @click="emits('check')"
+        >CHECK LIVE SITE</TfrButton
+      >
       <TfrButton type="primary" @click="emits('down')"> DONE </TfrButton>
     </template>
   </TfrDialog>
@@ -31,15 +31,17 @@
 <script setup lang="ts">
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import PageListItem from '@/components/PageListItem/index.vue'
-import { ref } from 'vue';
-import { UpdateSideListItem } from '@/components/PageListItem/index.type';
-import store from '@/store';
+import { ref } from 'vue'
+import { UpdateSideListItem } from '@/components/PageListItem/index.type'
+import store from '@/store'
 
 interface IProps {
   visible: boolean
 }
 
-const checkData = ref<UpdateSideListItem[]>(store.upadte.allModule.checkCardList)
+const checkData = ref<UpdateSideListItem[]>(
+  store.upadte.allModule.checkCardList
+)
 
 withDefaults(defineProps<IProps>(), {
   visible: true
@@ -48,26 +50,26 @@ withDefaults(defineProps<IProps>(), {
 const emits = defineEmits(['check', 'down'])
 </script>
 <style lang="scss">
-  .item-con {
-    padding: 20px
-  }
-  .item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .tag {
-    border-radius: 50%;
-    background-color: #fff;
-    padding: 10px;
-    display: inline-block;
-    flex-shrink: 0;
-    margin-right: 10px;
-    width: 40px;
-    height: 40px;
-    margin-bottom: 10px;
-    margin-left: 5px;
-  }
+.item-con {
+  padding: 20px;
+}
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tag {
+  border-radius: 50%;
+  background-color: #fff;
+  padding: 10px;
+  display: inline-block;
+  flex-shrink: 0;
+  margin-right: 10px;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+}
 </style>
 
 <style lang="scss">

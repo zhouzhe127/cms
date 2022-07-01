@@ -1,13 +1,13 @@
 <template>
   <TfrDialog
-    :close-on-click-modal="false"
     v-model="visible"
+    :close-on-click-modal="false"
     :is-no-padding="true"
-    :headerLess="false"
+    :header-less="false"
     width="728px"
     class="clear-bin-dialog"
-    @before-close="handlerCancel"
     append-to-body
+    @before-close="handlerCancel"
   >
     <template #header>
       <div class="header">
@@ -23,7 +23,7 @@
         >
       </div>
       <section>
-        <div class="delete-item" v-for="item in deleteList">
+        <div v-for="item in deleteList" class="delete-item">
           <PageListItem :title="item.title">
             <template #icon>
               <svg-icon icon-class="delete_up" class="delete"></svg-icon>
@@ -46,35 +46,33 @@ import TfrDialog from '@/components/TfrDialog/index.vue'
 import PageListItem from '@/components/PageListItem/index.vue'
 import generalwin from '@/views/homePage/generalwin'
 import { ref } from 'vue'
-import { UpdateSideListItem } from '@/components/PageListItem/index.type';
-import { generateUUID } from '@/utils/uuid';
-import { PAGE_ICONS, PAGE_SELECT } from '../selectPage/index.type';
+import { UpdateSideListItem } from '@/components/PageListItem/index.type'
+import { generateUUID } from '@/utils/uuid'
+import { PAGE_ICONS, PAGE_SELECT } from '../selectPage/index.type'
 
 const { showWin, closeWin } = generalwin()
 const visible = ref(true)
 const deleteList: UpdateSideListItem[] = [
-    {
-      id: generateUUID(),
-      title:
-        'publish TFR’s Women: Denni Elias, Lea Naumman On The Power Of Standing Out And Speaking Up',
-      iconName: PAGE_ICONS[PAGE_SELECT.ARTICLE],
-      date: new Date("2022-6-22 10:49").toISOString()
-    },
-    {
-      id: generateUUID(),
-      title:
-        'publish Inspirations',
-      iconName: PAGE_ICONS[PAGE_SELECT.CLIP],
-      date: new Date("2022-6-22 10:20").toISOString()
-    },
-    {
-      id: generateUUID(),
-      title:
-        'publish Designers',
-      iconName: PAGE_ICONS[PAGE_SELECT.CLIP],
-      date: new Date("2022-6-22 10:20").toISOString()
-    },  
-  ]
+  {
+    id: generateUUID(),
+    title:
+      'publish TFR’s Women: Denni Elias, Lea Naumman On The Power Of Standing Out And Speaking Up',
+    iconName: PAGE_ICONS[PAGE_SELECT.ARTICLE],
+    date: new Date('2022-6-22 10:49').toISOString()
+  },
+  {
+    id: generateUUID(),
+    title: 'publish Inspirations',
+    iconName: PAGE_ICONS[PAGE_SELECT.CLIP],
+    date: new Date('2022-6-22 10:20').toISOString()
+  },
+  {
+    id: generateUUID(),
+    title: 'publish Designers',
+    iconName: PAGE_ICONS[PAGE_SELECT.CLIP],
+    date: new Date('2022-6-22 10:20').toISOString()
+  }
+]
 
 // const Emits = defineEmits(['cancel', 'confirm'])
 

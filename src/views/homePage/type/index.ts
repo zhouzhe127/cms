@@ -1,9 +1,9 @@
 export interface ComponentsSchema {
-  componentName: string,
+  componentName: string
 }
 
 export interface PageSchema {
-  title?: string,
-  template?: string,
+  title?: string
+  template?: string
   properties?: Array<ComponentsSchema>
 }

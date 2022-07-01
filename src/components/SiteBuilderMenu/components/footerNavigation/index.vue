@@ -6,21 +6,21 @@
         :key="index"
         :title="item.title"
         :center-icon="item.icon"
+        :has-left-icon="!isLegal(item)"
+        :has-right-icon="!isLegal(item)"
         @left-click="() => deleteItem(item)"
         @right-click="() => chickEditWin(item)"
         @add="() => onAdd(item)"
-        :has-left-icon="!isLegal(item)"
-        :has-right-icon="!isLegal(item)"
       >
         <ItemChild
           v-for="(citem, cindex) in item.children"
-          @left-click="() => deleteItem(citem, item.id || item.title)"
           :key="`child_${cindex}`"
           :center-icon="citem.icon"
           :title="citem.title"
+          @left-click="() => deleteItem(citem, item.id || item.title)"
           @right-click="() => chickEditWin(citem)"
         />
-        <DeleteDialog :visible="false"/>
+        <DeleteDialog :visible="false" />
       </MenuItem>
     </SideMenu>
   </div>
@@ -43,7 +43,10 @@ import { toSeletPage, toEditionModel } from '../../utils/router'
 import store from '@/store'
 import { showDeleteModel } from '../../utils/deleteUtils'
 import { isLegal } from './utils'
-import { PAGE_ICONS, PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
+import {
+  PAGE_ICONS,
+  PAGE_SELECT
+} from '@/views/homePage/pageDialog/selectPage/index.type'
 
 const setBuilder = store.setBuilder
 onSideEvent(SITE_MENUS.FOOTER, (e: string, item: any) => {
@@ -58,7 +61,7 @@ const sidearr = computed(
 )
 const addPage = () => {
   toSeletPage({
-    origin: SITE_MENUS.FOOTER,
+    origin: SITE_MENUS.FOOTER
   })
 }
 const chickEditWin = (item: SideItem) => {

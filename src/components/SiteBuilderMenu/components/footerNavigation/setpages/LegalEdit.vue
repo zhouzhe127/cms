@@ -11,8 +11,8 @@
       >
         <el-form-item prop="linkTitle">
           <tfr-select
-            :hasBorder="false"
             v-model="ruleForm.country"
+            :has-border="false"
             width="100%"
           >
             <el-option
@@ -32,13 +32,19 @@
         </el-alert>
         <el-form-item></el-form-item>
         <el-form-item label="Policy Title" prop="title">
-          <tfr-input placeholder="NEW POLICY" v-model="ruleForm.title" width="100%" />
+          <tfr-input
+            v-model="ruleForm.title"
+            placeholder="NEW POLICY"
+            width="100%"
+          />
         </el-form-item>
         <el-form-item label="Slug" prop="slug">
-          <tfr-input placeholder="/new-poilcy" v-model="ruleForm.slug" width="100%" />
-          <span class="tips">
-            The unique location slug for this page.
-          </span>
+          <tfr-input
+            v-model="ruleForm.slug"
+            placeholder="/new-poilcy"
+            width="100%"
+          />
+          <span class="tips"> The unique location slug for this page. </span>
         </el-form-item>
         <el-form-item label="Policy Body" prop="areaText">
           <tfr-editor v-model="ruleForm.areaText" />

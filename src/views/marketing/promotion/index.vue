@@ -133,10 +133,10 @@
         class="date-picker-item"
       >
         <date-picker-range
-          startDate="2022-06-08T14:21:35+08:00"
-          endDate="2022-06-18T14:21:35+08:00"
-          zt="America/Denver"
           ref="datePickerRangeRef"
+          start-date="2022-06-08T14:21:35+08:00"
+          end-date="2022-06-18T14:21:35+08:00"
+          zt="America/Denver"
         />
       </el-form-item>
     </el-form>
@@ -152,22 +152,22 @@
   </div>
   <effective-region-dialog
     :visible="effectiveRegionDialog"
-    @update:visible="effectiveRegionDialog = $event"
     :width="dialogWidth"
+    @update:visible="effectiveRegionDialog = $event"
     @cancelHandle="effectiveRegionDialogCancelHandle"
     @confirmHandle="effectiveRegionDialogConfirmHandle"
   />
   <target-dialog
     :visible="targetVisible"
-    @update:visible="targetVisible = $event"
     :width="dialogWidth"
+    @update:visible="targetVisible = $event"
     @cancelHandle="targetDialogCancelHandle"
     @confirmHandle="targetDialogConfirmHandle"
   />
   <applies-limit-dialog
     :visible="applyLimitVisible"
-    @update:visible="applyLimitVisible = $event"
     :width="dialogWidth"
+    @update:visible="applyLimitVisible = $event"
     @cancelHandle="appliesLimitDialogCancelHandle"
     @confirmHandle="appliesLimitDialogConfirmHandle"
   />
@@ -305,7 +305,7 @@ const appliesLimitDialogConfirmHandle = (): void => {
 }
 const saveHandle = async () => {
   console.log(datePickerRangeRef.value.timeRef, 'kkkk')
-  datePickerRangeRef.value.timeRef.validate((valid: Boolean) => {
+  datePickerRangeRef.value.timeRef.validate((valid: boolean) => {
     console.log(valid)
   })
   const dateFormat = moment('2022-07-02').format('YYYY-MM-DD')

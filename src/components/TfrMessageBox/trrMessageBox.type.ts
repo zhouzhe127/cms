@@ -7,7 +7,7 @@ import { AppContext, VNode } from 'vue'
 export interface TfrSetting extends ElMessageBoxOptions {
   dangerouslyTitleHTMLString?: boolean // 标题采用html模式解析
   dangerouslyContentHTMLString?: boolean // 内容采用html模式解析
-  secTitle?: string,
+  secTitle?: string
   message?: string | VNode | undefined
 }
 

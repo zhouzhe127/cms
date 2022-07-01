@@ -2,7 +2,12 @@
   <div class="optionmain">
     <div class="contant">
       <div class="optionbox">
-        <div v-for="(item, index) in props.options" :key="index" class="option_item" @click="optionClick(index)">
+        <div
+          v-for="(item, index) in props.options"
+          :key="index"
+          class="option_item"
+          @click="optionClick(index)"
+        >
           <svg-icon :icon-class="item" class="svg_item" />
         </div>
       </div>
@@ -13,10 +18,10 @@
 
 <script setup lang="ts">
 interface Props {
-  options?: Array<string>,
+  options?: Array<string>
 }
 const props = withDefaults(defineProps<Props>(), {
-  options: () => ['suspended', 'edit_cms', 'add_white'],
+  options: () => ['suspended', 'edit_cms', 'add_white']
 })
 const emit = defineEmits(['optionClick'])
 const optionClick = (index: number) => {

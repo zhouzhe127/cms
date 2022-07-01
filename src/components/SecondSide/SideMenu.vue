@@ -5,7 +5,12 @@
         <slot name="header">
           <div class="header_con">
             <span>{{ title }}</span>
-            <svg-icon icon-class="add_black" class="add" color="black" @click="addClick" />
+            <svg-icon
+              icon-class="add_black"
+              class="add"
+              color="black"
+              @click="addClick"
+            />
           </div>
         </slot>
       </div>
@@ -19,7 +24,7 @@
 <script setup lang="ts" name="SideMenu">
 import Affix from '@/components/Affix/index.vue'
 interface Props {
-  title?: string,
+  title?: string
   disable?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -44,12 +49,12 @@ const addClick = () => {
     position: sticky;
     top: -50px;
     z-index: 10;
-    background-color: #F8F8F8;
+    background-color: #f8f8f8;
     .header_con {
       width: 100%;
       display: flex;
       align-items: center;
-      justify-content: space-between; 
+      justify-content: space-between;
     }
     .add {
       font-size: 22px;
@@ -60,14 +65,14 @@ const addClick = () => {
 
 .menu__disable {
   .menu_header {
-   border-bottom: 1px #8a9290 solid; 
+    border-bottom: 1px #8a9290 solid;
   }
   .menu_header {
     color: #8a9290;
   }
 }
 ::v-deep(.affix-placeholder) {
-  &>div {
+  & > div {
     width: 100%;
   }
 }

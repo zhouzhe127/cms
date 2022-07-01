@@ -1,8 +1,8 @@
 <template>
   <div>
     <HasSidebarWin
-      title="EDIT LINK"
       v-model="showEdit"
+      title="EDIT LINK"
       :side-arr="sideArr"
       @close="closeWin"
     />

@@ -3,12 +3,18 @@
     <CmsEdit :options="['edit_cms', 'add_white']">
       <div class="newsletter">
         <div class="title">LOREM IPSUM</div>
-        <div class="ms">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+        <div class="ms">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </div>
         <div class="inputbox">
           <div class="ueb">Your email address</div>
           <div class="ibt">LOREM IPSUM</div>
         </div>
-        <div class="miue">By subscribing you agree with our Terms & Conditions and Privacy Policy. To opt out, click unsubscribe at the bottom of our emails.</div>
+        <div class="miue">
+          By subscribing you agree with our Terms & Conditions and Privacy
+          Policy. To opt out, click unsubscribe at the bottom of our emails.
+        </div>
       </div>
     </CmsEdit>
   </div>
@@ -37,7 +43,7 @@ import CmsEdit from '@/components/CmsEdit/index.vue'
     }
     .ms {
       width: 285px;
-      font-family: "Brown Light", serif;
+      font-family: 'Brown Light', serif;
       text-align: center;
     }
     .inputbox {
@@ -61,7 +67,7 @@ import CmsEdit from '@/components/CmsEdit/index.vue'
     }
     .miue {
       width: 305px;
-      font-family: "Brown Light", serif;
+      font-family: 'Brown Light', serif;
       text-align: center;
     }
   }

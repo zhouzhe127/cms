@@ -44,7 +44,7 @@ const toClear = () => {
     align-items: center;
     justify-content: center;
     color: $theme;
-    opacity: .5;
+    opacity: 0.5;
     cursor: pointer;
     .clearicon {
       font-size: 30px;

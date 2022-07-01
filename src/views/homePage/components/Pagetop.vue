@@ -1,16 +1,25 @@
 <template>
   <div class="topcontant">
     <div class="aside">
-      <img src="@/assets/image/top.png" alt="">
+      <img src="@/assets/image/top.png" alt="" />
     </div>
     <div class="tab">
-      <div v-for="(item, index) in itemArr" :key="index" class="tabitem">{{ item }}</div>
+      <div v-for="(item, index) in itemArr" :key="index" class="tabitem">
+        {{ item }}
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const itemArr = ['NEW IN', 'JEWELRY', 'INSPIRATIONS', 'DESIGNERS', 'DISCOVER', 'CONCIERGE']
+const itemArr = [
+  'NEW IN',
+  'JEWELRY',
+  'INSPIRATIONS',
+  'DESIGNERS',
+  'DISCOVER',
+  'CONCIERGE'
+]
 </script>
 
 <style lang="scss" scoped>
@@ -28,10 +37,10 @@ const itemArr = ['NEW IN', 'JEWELRY', 'INSPIRATIONS', 'DESIGNERS', 'DISCOVER', '
     justify-content: center;
     padding: 20px 0;
     font-size: 14px;
-    font-family: "Brown Regular";
+    font-family: 'Brown Regular';
     .tabitem {
       padding: 0 10px;
-      color: #8E9693;
+      color: #8e9693;
     }
   }
 }

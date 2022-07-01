@@ -14,6 +14,6 @@ export function onSideEvent(key: string, func: Function) {
 
 export function emitSideEvent(key: string) {
   if (!key) return false
-  const  { emit } = useEventBus<string>(EventKey[key])
+  const { emit } = useEventBus<string>(EventKey[key])
   return emit
 }

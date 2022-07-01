@@ -4,11 +4,20 @@
       <div class="container">
         <div class="title">FOLDER SETTINGS</div>
         <div class="formbox tfr-form">
-          <el-form ref="ruleFormNode" :model="ruleForm" :rules="rules" label-width="80px" label-position="top" class="tfr-form-required">
+          <el-form
+            ref="ruleFormNode"
+            :model="ruleForm"
+            :rules="rules"
+            label-width="80px"
+            label-position="top"
+            class="tfr-form-required"
+          >
             <el-form-item label="Navigation Title" prop="pageTitle">
               <tfr-input v-model="ruleForm.pageTitle" width="100%" />
             </el-form-item>
-            <p class="mkdu">The navigation title is the page’s name in the navigation menu.</p>
+            <p class="mkdu">
+              The navigation title is the page’s name in the navigation menu.
+            </p>
             <el-form-item label="Default (optional)" prop="codeText">
               <EdgeInput v-model="search" placeholder="SEARCH" width="100%" />
             </el-form-item>
@@ -71,7 +80,12 @@
             <tfr-button class="btn" @click="closeWin">CANCEL</tfr-button>
           </div>
           <div>
-            <tfr-button class="btn black" :loading="rightBtnLoading" @click="clickRightBtn">SAVE</tfr-button>
+            <tfr-button
+              class="btn black"
+              :loading="rightBtnLoading"
+              @click="clickRightBtn"
+              >SAVE</tfr-button
+            >
           </div>
         </div>
       </div>
@@ -85,19 +99,19 @@ import TfrDialog from '@/components/TfrDialog/index.vue'
 import EdgeInput from '@/components/TfrInput/EdgeInput.vue'
 import generalwin from '@/views/homePage/generalwin'
 const ruleForm = reactive({
-  pageTitle: '',
+  pageTitle: ''
 })
 const rules = {
   pageTitle: {
     required: true,
     message: ' ',
     trigger: 'blur'
-  },
+  }
 }
 const search = ref('')
 const { showWin, closeWin } = generalwin()
 const rightBtnLoading = ref(false)
-const clickRightBtn = () =>{}
+const clickRightBtn = () => {}
 </script>
 
 <style lang="scss" scoped>
@@ -111,7 +125,7 @@ const clickRightBtn = () =>{}
       padding: 30px 10px;
     }
     .mkdu {
-      font-family: "Brown Light", serif;
+      font-family: 'Brown Light', serif;
       font-weight: 300;
       margin-bottom: 24px;
     }
@@ -148,7 +162,7 @@ const clickRightBtn = () =>{}
       height: 50px;
       line-height: 50px;
       text-align: center;
-      background-color: #F8F8F8;
+      background-color: #f8f8f8;
       color: black;
       cursor: pointer;
     }

@@ -59,7 +59,7 @@ const buttonProps = withDefaults(defineProps<PropsType>(), {
     width: 20px;
     height: 20px;
     border-radius: 6px;
-    background-color: #EBEBEB;
+    background-color: #ebebeb;
     border: initial;
     &::after {
       border-width: 2px;

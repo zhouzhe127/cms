@@ -66,5 +66,5 @@ export default [
     icon: 'title_fill',
     title: 'Typeform',
     component: markRaw(Typeform)
-  },
+  }
 ]

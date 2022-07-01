@@ -5,9 +5,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 .emptybox {
@@ -19,7 +17,7 @@
   justify-content: center;
   align-items: center;
   border: 1px black dashed;
-  font-family: "Brown Regular Italic", serif;
+  font-family: 'Brown Regular Italic', serif;
   font-weight: bolder;
 }
 </style>

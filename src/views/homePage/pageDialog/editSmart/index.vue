@@ -9,10 +9,21 @@
               <span>Discover</span>
               <svg-icon icon-class="folder_line" class="svgicon" />
             </div>
-            <div class="muend">The page title appears in the top of the browser window.</div>
-            <div class="muend topbord">The page title appears in the top of the browser window.</div>
+            <div class="muend">
+              The page title appears in the top of the browser window.
+            </div>
+            <div class="muend topbord">
+              The page title appears in the top of the browser window.
+            </div>
           </div>
-          <el-form ref="ruleFormNode" :model="ruleForm" :rules="rules" label-width="80px" label-position="top" class="tfr-form-required">
+          <el-form
+            ref="ruleFormNode"
+            :model="ruleForm"
+            :rules="rules"
+            label-width="80px"
+            label-position="top"
+            class="tfr-form-required"
+          >
             <el-form-item label="SEO Title" prop="pageTitle">
               <div class="optionbox">
                 <tfr-input v-model="ruleForm.pageTitle" width="100%" />
@@ -28,16 +39,28 @@
             </el-form-item>
             <p class="mkdu">The unique location slug for this page.</p>
             <el-form-item label="SEO Description" prop="codeText">
-              <TfrEditor v-model="ruleForm.seoDes" placeholder="SEARCH" height="140px" width="100%" />
+              <TfrEditor
+                v-model="ruleForm.seoDes"
+                placeholder="SEARCH"
+                height="140px"
+                width="100%"
+              />
             </el-form-item>
             <div class="navrid">
               <span>Hide From Search Results</span>
               <div class="dtt" />
               <div class="bg-switch">
-                <el-switch v-model="ruleForm.hide" active-color="#1B2B27" inactive-color="#F8F8F8" @change="switchChange" />
+                <el-switch
+                  v-model="ruleForm.hide"
+                  active-color="#1B2B27"
+                  inactive-color="#F8F8F8"
+                  @change="switchChange"
+                />
               </div>
             </div>
-            <p class="mkdu">Disabled pages can’t be accessed by site visitors.</p>
+            <p class="mkdu">
+              Disabled pages can’t be accessed by site visitors.
+            </p>
             <el-form-item label="Cover" prop="pageTitle">
               <EdgeInput placeholder="SEARCH" width="100%" />
             </el-form-item>
@@ -60,7 +83,12 @@
             <tfr-button class="btn" @click="closeWin">CANCEL</tfr-button>
           </div>
           <div>
-            <tfr-button class="btn black" :loading="rightBtnLoading" @click="clickRightBtn">SAVE</tfr-button>
+            <tfr-button
+              class="btn black"
+              :loading="rightBtnLoading"
+              @click="clickRightBtn"
+              >SAVE</tfr-button
+            >
           </div>
         </div>
       </div>
@@ -78,18 +106,18 @@ import EdgeInput from '@/components/TfrInput/EdgeInput.vue'
 const ruleForm = reactive({
   pageTitle: '',
   seoDes: '',
-  hide: false,
+  hide: false
 })
 const rules = {
   pageTitle: {
     required: true,
     message: ' ',
     trigger: 'blur'
-  },
+  }
 }
 const { showWin, closeWin } = generalwin()
 const rightBtnLoading = ref(false)
-const clickRightBtn = () =>{}
+const clickRightBtn = () => {}
 const switchChange = (e: boolean) => {
   // ruleForm.hide = e
 }
@@ -108,14 +136,14 @@ const switchChange = (e: boolean) => {
       overflow: auto;
     }
     .mkdu {
-      font-family: "Brown Light", serif;
+      font-family: 'Brown Light', serif;
       font-weight: 300;
       margin-bottom: 24px;
     }
     .sbanner {
       padding: 20px;
       margin-bottom: 20px;
-      background-color: #F8F8F8;
+      background-color: #f8f8f8;
       .top {
         display: flex;
         justify-content: space-between;
@@ -125,12 +153,12 @@ const switchChange = (e: boolean) => {
         }
       }
       .muend {
-        font-family: "Brown Light", serif;
+        font-family: 'Brown Light', serif;
         font-weight: 300;
         padding: 10px 0;
       }
       .topbord {
-        border-top: 1px #C7CACA solid;
+        border-top: 1px #c7caca solid;
       }
     }
     .optionbox {
@@ -140,7 +168,7 @@ const switchChange = (e: boolean) => {
         position: absolute;
         right: 0;
         top: -34px;
-        color: #C7CACA;
+        color: #c7caca;
       }
     }
     .navrid {
@@ -151,7 +179,7 @@ const switchChange = (e: boolean) => {
       color: black;
       .dtt {
         height: 1px;
-        border-bottom: 1px #C7CACA solid;
+        border-bottom: 1px #c7caca solid;
         margin: 0 30px;
         flex: 1;
       }
@@ -189,7 +217,7 @@ const switchChange = (e: boolean) => {
       height: 50px;
       line-height: 50px;
       text-align: center;
-      background-color: #F8F8F8;
+      background-color: #f8f8f8;
       color: black;
       cursor: pointer;
     }

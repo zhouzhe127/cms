@@ -25,7 +25,6 @@
           <tfr-input v-model="ruleForm.bcc" width="100%" />
         </el-form-item>
       </el-form>
-      
     </div>
   </div>
 </template>

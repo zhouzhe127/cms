@@ -6,5 +6,5 @@ export default [
     icon: 'legal',
     title: 'Legal',
     component: markRaw(LegalEdit)
-  },
+  }
 ]
