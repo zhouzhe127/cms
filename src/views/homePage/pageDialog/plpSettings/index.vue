@@ -8,6 +8,7 @@
       width="730px"
       class="plp-model"
       append-to-body
+      @before-close="closeWin"
     >
       <div class="body">
         <header>
@@ -110,6 +111,8 @@ import TfrRadioGroup from '@/components/TfrRadioGroup/index.vue'
 import TfrEditor from '@/components/TfrEditor/index.vue'
 import TfrUpload from '@/components/TfrUpload/index.vue'
 import DatePicker from '@/components/DatePicker/index.vue'
+import generalwin from '../../generalwin'
+const { showWin, closeWin } = generalwin()
 
 enum PLPTYPE {
   PREANNOUNCEMENT = 'Preannouncement',

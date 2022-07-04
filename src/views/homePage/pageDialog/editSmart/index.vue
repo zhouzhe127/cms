@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TfrDialog v-model="showWin" width="730px" class="folder" @close="closeWin">
+    <TfrDialog v-model="showWin" width="730px" class="folder" @before-close="closeWin">
       <div class="container">
         <div class="title">SMART SETTINGS</div>
         <div class="formbox tfr-form">
