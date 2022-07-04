@@ -1,4 +1,5 @@
 import Page from '@/views/homePage/pageTemplate/Page.vue'
+import Plp from '@/views/homePage/pageTemplate/Plp.vue'
 import { Component } from 'vue'
 
 export enum SITE_PAGETEMPLATE {
@@ -12,7 +13,8 @@ export enum SITE_PAGETEMPLATE {
 }
 type stringKey = Record<string, Component>
 const TemplateMap:stringKey = {
-  [SITE_PAGETEMPLATE.PAGE]: Page
+  [SITE_PAGETEMPLATE.PAGE]: Page,
+  [SITE_PAGETEMPLATE.PLP]: Plp,
 }
 
 export default TemplateMap

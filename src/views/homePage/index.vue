@@ -1,5 +1,5 @@
 <template>
-  <div v-if="pageTemplate.template">
+  <div v-if="pageTemplate.template" class="pagemain">
     <component :is='TemplateMap[pageTemplate.template]'></component>
   </div>
   <Empty v-else />
@@ -15,4 +15,7 @@ const pageTemplate = appStore.setBuilder.basic.pageTemplate
 </script>
 
 <style lang="scss" scoped>
+.pagemain {
+  height: 100%;
+}
 </style>

@@ -12,8 +12,26 @@
 
 <script setup lang="ts">
 import CmsEdit from '@/components/CmsEdit/index.vue'
+import appStore from '@/store'
+import { useRouter } from 'vue-router'
+const properties = appStore.setBuilder.basic.pageTemplate.properties || []
+interface Props {
+  index?: number,
+}
+const props = withDefaults(defineProps<Props>(), {
+  index: 0
+})
 const edit = (index: number):void => {
-  console.log(index)
+  if (index === 2) {
+    openedit()
+  }
+}
+const router = useRouter()
+const openedit = () => {
+  router.push({
+    path: '/siteBuilder/editModules',
+    query: { site: properties?.length }
+  })
 }
 </script>
 

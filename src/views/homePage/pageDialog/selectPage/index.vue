@@ -27,6 +27,7 @@
 <script setup lang="ts">
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import store from '@/store'
+import { navigationCreate } from '@/api/siteBuilder/navigation'
 import { PAGE_ICONS, PAGE_SELECT } from './index.type'
 import { SideItem } from '@/components/SiteBuilderMenu/type/index'
 import generalwin from '@/views/homePage/generalwin'
@@ -80,7 +81,11 @@ const listArr = [
 const onClose = () => {
   closeWin()
 }
-const addpage = (item: SideItem) => {
+const addpage = async (item: SideItem) => {
+  await navigationCreate({
+    location: origin,
+    content_type: item.title,
+  })
   if (sideEmit) sideEmit(origin, {...item, ...route.query})
   showWin.value = false
 }

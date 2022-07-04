@@ -26,6 +26,11 @@ export const setBuilder = defineStore('setBuilder', () => {
     basic.pageTemplate.title = title
     basic.pageTemplate.properties = []
   }
+  function addNewPlp(title?: string) {
+    basic.pageTemplate.template = SITE_PAGETEMPLATE.PLP
+    basic.pageTemplate.title = title
+    basic.pageTemplate.properties = []
+  }
   function addPageModle(item: ComponentsSchema | Array<ComponentsSchema>, index: number) {
     if (Array.isArray(item)) {
       basic.pageTemplate.properties = item
@@ -37,7 +42,7 @@ export const setBuilder = defineStore('setBuilder', () => {
   function setItem(type: string): void {
     basic.platformState = type
   }
-  return { basic, setItem, addNewPage, addPageModle, sideState }
+  return { basic, setItem, addNewPage, addNewPlp, addPageModle, sideState }
 }, {
   persist: true
 })

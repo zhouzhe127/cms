@@ -1,5 +1,6 @@
 export interface ComponentsSchema {
   componentName: string,
+  properties?: Array<ComponentsSchema>
 }
 
 export interface PageSchema {

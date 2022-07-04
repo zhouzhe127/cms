@@ -1,14 +1,20 @@
 <template>
   <div>
     <SideMenu title="NAVIGATION" @add-click="addPage">
-      <MenuItem v-for="(item, index) in sidearr" :key="index" :title="item.title" :center-icon="item.icon" @left-click="() => {deleteItem(item)}" @right-click="chickEditWin">
-        <ItemChild title="mnns" />
-      </MenuItem>
+      <draggable v-model="sidearr" v-bind="dragOptions" :component-data="{ tag: 'div', name: 'flip-list', type: 'transition' }" group="side" item-key="title" @start="isDragging = true" @end="isDragging = false">
+        <template #item="{element, index}">
+          <MenuItem :title="element.title" :key="index" :center-icon="element.icon" @left-click="() => {deleteItem(element)}" @right-click="chickEditWin">
+            <ItemChild title="mnns" />
+          </MenuItem>
+        </template>
+      </draggable>
     </SideMenu>
   </div>
 </template>
 
 <script setup lang="ts">
+import draggable from 'vuedraggable'
+import { ref, computed } from 'vue'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
@@ -26,11 +32,30 @@ onSideEvent(SITE_MENUS.NAVIGATION, (e: string, item: SideItem) => {
     case PAGE_SELECT.PAGE:
       setBuilder.addNewPage()
       break
+    case PAGE_SELECT.PLP:
+      setBuilder.addNewPlp()
+      break
   }
 })
+const dragOptions = computed(() => {
+  return {
+    animation: 200,
+    group: 'description',
+    disabled: false,
+    ghostClass: 'ghost'
+  }
+})
+const isDragging = ref(false)
 const router = useRouter()
 const setBuilder = store.setBuilder
-const sidearr = setBuilder.sideState[SITE_MENUS.NAVIGATION].sidebarArr
+const sidearr = computed({
+  get() {
+    return setBuilder.sideState[SITE_MENUS.NAVIGATION].sidebarArr
+  },
+  set(value: any) {
+    console.log(value)
+  }
+})
 const addPage = () => {
   router.push({
     path: '/siteBuilder/selectPage',
