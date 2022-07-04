@@ -13,81 +13,89 @@
         <header>
           <span> PLP SETTINGS </span>
         </header>
-        <el-form :rules="rules" label-position="top">
-          <RowSetItem title="HIDE PLP" :has-padding="false">
-            <TfrSwitch />
-          </RowSetItem>
-          <div class="tips-row">Toggle to disable PLP from public domain.</div>
-
-          <el-form-item class="type">
-            <header>TYPE</header>
-            <div class="type-con">
-              <TfrRadioGroup v-model="typeCheck">
-                <el-radio label="Preannouncement">Preannouncement</el-radio>
-                <el-radio label="Filter">Filter</el-radio>
-                <el-radio label="Custom">Custom</el-radio>
-              </TfrRadioGroup>
+        <el-scrollbar ref="scrollRoot" style="padding: 20px">
+          <el-form :rules="rules" label-position="top">
+            <RowSetItem title="HIDE PLP" :has-padding="false">
+              <TfrSwitch />
+            </RowSetItem>
+            <div class="tips-row">
+              Toggle to disable PLP from public domain.
             </div>
-            <div class="show-type-con">
-              <div v-if="typeCheck === 'Preannouncement'">Preannouncement</div>
-              <div v-if="typeCheck === 'Filter'">Filter</div>
-              <div v-if="typeCheck === 'Custom'">Custom</div>
-            </div>
-          </el-form-item>
-          <RowSetItem title="Title Block" :has-padding="false">
-            <TfrSwitch />
-          </RowSetItem>
 
-          <el-form-item label="Title" props="title">
-            <tfr-input v-model="ruleForm.title" width="100%" />
-          </el-form-item>
+            <el-form-item class="type">
+              <header>TYPE</header>
+              <div class="type-con">
+                <TfrRadioGroup v-model="typeCheck">
+                  <el-radio :label="PLPTYPE.PREANNOUNCEMENT"
+                    >Preannouncement</el-radio
+                  >
+                  <el-radio :label="PLPTYPE.FILTER">Filter</el-radio>
+                  <el-radio :label="PLPTYPE.CUSTOM">Custom</el-radio>
+                </TfrRadioGroup>
+              </div>
+              <div class="show-type-con">
+                <div v-if="typeCheck === PLPTYPE.PREANNOUNCEMENT">
+                  Preannouncement
+                </div>
+                <div v-if="typeCheck === PLPTYPE.FILTER">Filter</div>
+                <div v-if="typeCheck === PLPTYPE.CUSTOM">Custom</div>
+              </div>
+            </el-form-item>
+            <RowSetItem title="Title Block" :has-padding="false">
+              <TfrSwitch />
+            </RowSetItem>
 
-          <el-form-item label="Body" props="body">
-            <TfrEditor />
-          </el-form-item>
+            <el-form-item label="Title" props="title">
+              <tfr-input v-model="ruleForm.title" width="100%" />
+            </el-form-item>
 
-          <el-form-item label="Background" props="background">
-            <tfr-upload :picture-list="ruleForm.background" />
-          </el-form-item>
+            <el-form-item label="Body" props="body">
+              <TfrEditor />
+            </el-form-item>
 
-          <el-form-item label="Mobile Alterntive" props="background">
-            <div class="mobile-upload">
+            <el-form-item label="Background" props="background">
               <tfr-upload :picture-list="ruleForm.background" />
+            </el-form-item>
+
+            <el-form-item label="Mobile Alterntive" props="background">
+              <div class="mobile-upload">
+                <tfr-upload :picture-list="ruleForm.background" />
+              </div>
+            </el-form-item>
+
+            <el-form-item label="Title" props="title">
+              <tfr-input
+                placeholder="Launches"
+                v-model="ruleForm.title"
+                width="100%"
+              />
+            </el-form-item>
+
+            <el-form-item label="Button" props="title">
+              <tfr-input
+                placeholder="NOTIFY ME"
+                v-model="ruleForm.title"
+                width="100%"
+              />
+            </el-form-item>
+
+            <el-form-item label="Submit To" props="title">
+              <tfr-input
+                placeholder="sales@thefuturerocks.com"
+                v-model="ruleForm.title"
+                width="100%"
+              />
+            </el-form-item>
+
+            <RowSetItem title="Launch Date" :has-padding="false">
+              <TfrSwitch />
+            </RowSetItem>
+
+            <div class="date">
+              <DatePicker width="100%" time-width="330px"></DatePicker>
             </div>
-          </el-form-item>
-
-          <el-form-item label="Title" props="title">
-            <tfr-input
-              placeholder="Launches"
-              v-model="ruleForm.title"
-              width="100%"
-            />
-          </el-form-item>
-
-          <el-form-item label="Button" props="title">
-            <tfr-input
-              placeholder="NOTIFY ME"
-              v-model="ruleForm.title"
-              width="100%"
-            />
-          </el-form-item>
-
-          <el-form-item label="Submit To" props="title">
-            <tfr-input
-              placeholder="sales@thefuturerocks.com"
-              v-model="ruleForm.title"
-              width="100%"
-            />
-          </el-form-item>
-
-          <RowSetItem title="Launch Date" :has-padding="false">
-            <TfrSwitch />
-          </RowSetItem>
-
-          <div class="date">
-            <DatePicker width="100%" time-width="330px"></DatePicker>
-          </div>
-        </el-form>
+          </el-form>
+        </el-scrollbar>
       </div>
     </TfrDialog>
   </div>
@@ -103,6 +111,12 @@ import TfrEditor from '@/components/TfrEditor/index.vue'
 import TfrUpload from '@/components/TfrUpload/index.vue'
 import DatePicker from '@/components/DatePicker/index.vue'
 
+enum PLPTYPE {
+  PREANNOUNCEMENT = 'Preannouncement',
+  FILTER = 'Filter',
+  CUSTOM = 'Custom'
+}
+
 const ruleForm = reactive({
   title: '',
   background: [] as any
@@ -110,7 +124,7 @@ const ruleForm = reactive({
 const rules = {}
 
 const plpVisible = ref<boolean>(true)
-const typeCheck = ref<string>('Preannouncement')
+const typeCheck = ref<string>(PLPTYPE.PREANNOUNCEMENT)
 </script>
 <style lang="scss">
 .tips-row {
@@ -123,7 +137,7 @@ const typeCheck = ref<string>('Preannouncement')
   .body {
     padding: 30px;
     height: 728px;
-    overflow: auto;
+    // overflow: auto;
   }
   .type {
     header {
