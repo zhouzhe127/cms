@@ -1,43 +1,48 @@
 import router from '@/router'
-// import NProgress from 'nprogress'
-// import 'nprogress/nprogress.css'
-import { token } from '@/utils/cookies'
-// import { useUserStoreHook } from '@/stores/modules/user'
-// import { usePermissionStoreHook } from '@/stores/modules/permission'
-const whiteList = ['login']
-
-// const userStore = useUserStoreHook()
-// const permissionStore = usePermissionStoreHook()
-
-// NProgress.configure({ showSpinner: false })
+import { getToken, setToken } from '@/utils/cookies'
+import { whiteList } from '@/config/white-list'
+import { userStore } from '@/store/modules/user'
+import { permissionStore } from '@/store/modules/permission'
+import { appStore } from '@/store/modules/app'
+import tfrMessage from '@/utils/tfrMessage'
+const $tfrMessage = tfrMessage
 
 router.beforeEach(async (to, from, next) => {
-  // NProgress.start()
-  if (token.getToken()) {
-    if (to.path === '/login') {
-      next({ path: '/' })
-      // NProgress.done()
-    } else {
-      // if (userStore.roles.length === 0) {
-      //   // 检查用户是否已获得权限角色
-      //   await userStore.getInfo()
-      //   const roles = userStore.roles
-      //   permissionStore.setRoutes(roles)
-      //   permissionStore.dynamicRoutes.forEach(v => {
-      //     router.addRoute(v)
-      //   })
-      //   next({ ...to, replace: true })
-      // } else {
-      //   next()
-      // }
-    }
-  } else {
+  const useUserStore = userStore()
+  const usePermissionStore = permissionStore()
+  const useAppStore = appStore()
+  const token = getToken()
+  if (token) {
     if (whiteList.indexOf(to.path) !== -1) {
       next()
     } else {
-      next('/login')
-      // NProgress.done()
+      try {
+        console.log(useUserStore.user)
+        if (JSON.stringify(useUserStore.user) === '{}') {
+          // 检查用户是否已获得权限角色
+          await useUserStore.getInfoHttp()
+          useAppStore.token = token // 刷新后从设置token
+          usePermissionStore.setRoutes()
+          usePermissionStore.dynamicRoutes.forEach(v => {
+            router.addRoute(v)
+          })
+          next({ ...to, replace: true })
+        } else {
+          next()
+        }
+      } catch (e) {
+        setToken('')
+        next(`/login?redirect=${to.path}`)
+      }
     }
+  } else if (whiteList.indexOf(to.path) !== -1) {
+    next()
+  } else {
+    $tfrMessage({
+      message: 'Please Sign In',
+      type: 'error'
+    })
+    next('/login')
   }
 })
 

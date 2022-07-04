@@ -9,7 +9,7 @@ export enum SITE_PAGETEMPLATE {
   LINK = 'link',
   CLIP = 'clip',
   FOLDER = 'folder',
-  SMART = 'smart',
+  SMART = 'smart'
 }
 type stringKey = Record<string, Component>
 const TemplateMap:stringKey = {

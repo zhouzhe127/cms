@@ -3,12 +3,14 @@
     <SideMenu title="ALL UPDATES" @add-click="" @head-click="onAllClick">
       <template #header>
         <div>
-          <TfrCheckbox v-model="isCheckAll" key="all" type="large">ALL UPADTES</TfrCheckbox>
+          <TfrCheckbox key="all" v-model="isCheckAll" type="large"
+            >ALL UPADTES</TfrCheckbox
+          >
         </div>
       </template>
       <div>
         <div class="warn">
-          <svg-icon icon-class="warn" class="svg-warn" />
+          <svg-icon icon-class="warning" class="svg-warn" />
           <span> The following pages are queuing for publish approval. </span>
         </div>
         <el-checkbox-group v-model="checkAllData">
@@ -19,7 +21,11 @@
             @click="() => onAllClick(item)"
           >
             <template #icon>
-              <TfrCheckbox type="large" :key="item.title" :label="item"></TfrCheckbox>
+              <TfrCheckbox
+                :key="item.title"
+                type="large"
+                :label="item"
+              ></TfrCheckbox>
             </template>
           </PageListItem>
         </el-checkbox-group>
@@ -35,8 +41,10 @@ import PageListItem from '@/components/PageListItem/index.vue'
 import { ref } from 'vue'
 import store from '@/store'
 import { UpdateSideListItem } from '@/components/PageListItem/index.type'
-const updateList = ref<UpdateSideListItem[]>(store.upadte.allModule.updateList) 
-const checkAllData = ref<UpdateSideListItem[]>(store.upadte.allModule.updateList)
+const updateList = ref<UpdateSideListItem[]>(store.upadte.allModule.updateList)
+const checkAllData = ref<UpdateSideListItem[]>(
+  store.upadte.allModule.updateList
+)
 const isCheckAll = ref<boolean>(false)
 
 const onAllClick = (item?: any) => {

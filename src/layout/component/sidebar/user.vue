@@ -1,16 +1,16 @@
 <template>
   <div class="user-con">
     <transition name="fade">
-      <div class="user" v-show="!isConfirmLogout">
-        <span>title</span>
-        <span>username</span>
+      <div v-show="!isConfirmLogout" class="user">
+        <span>{{ myToUpperCase(user.title) }}</span>
+        <span>{{ myToUpperCase(user.username) }}</span>
         <svg-icon icon-class="logout" @click="onLogout" />
       </div>
     </transition>
     <transition name="fade">
-      <div class="confirm-con" v-show="isConfirmLogout">
+      <div v-show="isConfirmLogout" class="confirm-con">
         <span>Sign out?</span>
-        <span class="btn" @click="isConfirmLogout = false">YES</span>
+        <span class="btn" @click="confirmLogoutHandle">YES</span>
         <span class="btn" @click="isConfirmLogout = false">NO</span>
       </div>
     </transition>
@@ -19,10 +19,24 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-const isConfirmLogout = ref<boolean>(false)
-const onLogout = () => {
-  isConfirmLogout.value = true
-}
+import { userStore } from '@/store/modules/user'
+import { storeToRefs } from 'pinia'
+import { useRouter, useRoute } from 'vue-router'
+const { user } = storeToRefs(userStore()),
+  router = useRouter(),
+  route = useRoute(),
+  isConfirmLogout = ref<boolean>(false),
+  onLogout = () => {
+    isConfirmLogout.value = true
+  },
+  confirmLogoutHandle = async () => {
+    await userStore().layoutHttp()
+    router.push({ path: `/login?redirect=${route.fullPath}` })
+    isConfirmLogout.value = false
+  },
+  myToUpperCase = (str: string) => {
+    if (str) return str.toUpperCase()
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -30,17 +44,18 @@ const onLogout = () => {
   margin-top: 20px;
   position: relative;
   height: 20px;
-  padding: 0 20px;
 }
 .user {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   span {
     font-size: 14px;
     margin-right: 10px;
+    word-break: break-all;
   }
   span:last-of-type {
-    font-family: 'San Francisco';
+    font-family: 'Brown Light';
   }
   svg {
     width: 20px;

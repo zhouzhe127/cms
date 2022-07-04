@@ -4,7 +4,7 @@ export interface ComponentsSchema {
 }
 
 export interface PageSchema {
-  title?: string,
-  template?: string,
+  title?: string
+  template?: string
   properties?: Array<ComponentsSchema>
 }

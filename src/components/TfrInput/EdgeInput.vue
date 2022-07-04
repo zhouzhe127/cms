@@ -12,20 +12,25 @@
 
 <script setup lang="ts">
 interface PropsType {
-  width?: string,
+  width?: string
 }
 // eslint-disable-next-line no-undef
 const inputProps = withDefaults(defineProps<PropsType>(), {
   width: '100%' // 默认值
 })
 // eslint-disable-next-line no-undef
-const inputEmits = defineEmits(['input', 'change', "update:modelValue", 'clear'])
+const inputEmits = defineEmits([
+  'input',
+  'change',
+  'update:modelValue',
+  'clear'
+])
 const input = (e: any) => {
   inputEmits('input', e)
 }
 const clearClick = () => {
-  inputEmits("update:modelValue", '')
-  inputEmits("clear")
+  inputEmits('update:modelValue', '')
+  inputEmits('clear')
 }
 </script>
 

@@ -4,10 +4,22 @@
       <div class="cinema">
         <swiper :modules="[Pagination]" :pagination="pagination">
           <swiper-slide>
-            <video src="https://framerusercontent.com/modules/qAxyUgdzgkINJGI0AxxB/uHziABuy0VXWHbXCY7Ow/assets/RKTWhevPDx7sSt5NwHTElJVdLqc.mp4" muted autoplay loop class="showitem" />
+            <video
+              src="https://framerusercontent.com/modules/qAxyUgdzgkINJGI0AxxB/uHziABuy0VXWHbXCY7Ow/assets/RKTWhevPDx7sSt5NwHTElJVdLqc.mp4"
+              muted
+              autoplay
+              loop
+              class="showitem"
+            />
           </swiper-slide>
           <swiper-slide>
-            <video src="https://framerusercontent.com/modules/qAxyUgdzgkINJGI0AxxB/uHziABuy0VXWHbXCY7Ow/assets/RKTWhevPDx7sSt5NwHTElJVdLqc.mp4" muted autoplay loop class="showitem" />
+            <video
+              src="https://framerusercontent.com/modules/qAxyUgdzgkINJGI0AxxB/uHziABuy0VXWHbXCY7Ow/assets/RKTWhevPDx7sSt5NwHTElJVdLqc.mp4"
+              muted
+              autoplay
+              loop
+              class="showitem"
+            />
           </swiper-slide>
         </swiper>
         <div class="textdec">
@@ -30,10 +42,10 @@ import { useRoute } from 'vue-router'
 import { SITE_MODULES } from '@/views/homePage/config/pageComponents'
 import 'swiper/css'
 interface Props {
-  close?: Function,
+  close?: Function
 }
 const props = withDefaults(defineProps<Props>(), {
-  close: () => {},
+  close: () => {}
 })
 const route = useRoute()
 const pagination = {
@@ -44,9 +56,12 @@ const pagination = {
 }
 const site = route.query.site
 const confirm = () => {
-  appStore.setBuilder.addPageModle({
-    componentName: SITE_MODULES.CINEMA
-  }, Number(site))
+  appStore.setBuilder.addPageModle(
+    {
+      componentName: SITE_MODULES.CINEMA
+    },
+    Number(site)
+  )
   if (props.close) props.close()
 }
 defineExpose({
@@ -64,7 +79,7 @@ defineExpose({
     width: 406px;
     height: 406px;
     border: 1px black dashed;
-    background-color: #F8F8F8;
+    background-color: #f8f8f8;
     position: relative;
     .showitem {
       width: 100%;
@@ -73,18 +88,18 @@ defineExpose({
       margin: 30px 8px 0;
       .br {
         font-size: 28px;
-        font-family: "Brown Bold Italic";
+        font-family: 'Brown Bold Italic';
       }
       .tb {
         font-size: 14px;
-        font-family: "Brown Light Italic";
+        font-family: 'Brown Light Italic';
       }
       .barbox {
         display: flex;
         margin-top: 30px;
         ::v-deep(.baritem) {
           height: 4px;
-          background-color: #E2E3E3;
+          background-color: #e2e3e3;
           flex: 1;
           margin-right: 5px;
           cursor: pointer;

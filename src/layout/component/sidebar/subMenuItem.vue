@@ -12,9 +12,15 @@
   >
     <component :is="currentMenuComponent" />
   </el-scrollbar>
+  <back-dialog
+    :visible="backDialogVisible"
+    @update:visible="backDialogVisible = $event"
+    @confirmHandle="confirmLeaveHandle"
+  />
 </template>
 
 <script setup lang="ts">
+import BackDialog from './backDialog.vue'
 import { provide, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { menuStore } from '@/store/modules/menu'
@@ -24,7 +30,7 @@ const useMenuStore = menuStore()
 const { currentMenuComponent, showMobileSubMenu, outSideMenuRouteName } =
   storeToRefs(menuStore())
 const { device } = storeToRefs(appStore())
-// const currentComponent = shallowRef(useMenuStore.currentMenuComponent)
+const backDialogVisible = ref(false)
 useMenuStore.setCurrentMenuComponent()
 useMenuStore.setShowMobileSubMenu()
 const scrollRoot = ref(null)
@@ -35,6 +41,13 @@ provide('scrollRef', scrollRoot)
 const router = useRouter()
 const route = useRoute()
 const backHandle = () => {
+  /**
+   * 判断是否有增加的编辑数据，一般预设一个状态
+   */
+  backDialogVisible.value = true
+}
+
+const directBackHandle = () => {
   if (device.value === 'mobile') {
     const routeName: any = route.name
     if (outSideMenuRouteName.value.includes(routeName)) {
@@ -46,10 +59,21 @@ const backHandle = () => {
     router.push({ path: '/home' })
   }
 }
+
+const confirmLeaveHandle = () => {
+  /**
+   * 清除二级菜单编辑中的数据
+   * ...
+   */
+  directBackHandle()
+}
 </script>
 
 <style lang="scss" scoped>
 .back {
+  & > div {
+    cursor: pointer;
+  }
   svg {
     font-size: 20px;
     margin-right: 10px;

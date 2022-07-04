@@ -6,7 +6,11 @@
           <svg-icon :icon-class="prop.leftIcon" class="sicon" />
         </div>
         <div class="nextmi" @change="centerIconClick">
-          <svg-icon icon-class="return_right" class="sicon" color="rgba(27, 43, 39, .5)" />
+          <svg-icon
+            icon-class="return_right"
+            class="sicon"
+            color="rgba(27, 43, 39, .5)"
+          />
         </div>
         <div @change="centerIconClick">
           <svg-icon :icon-class="prop.centerIcon" class="sicon" />
@@ -24,16 +28,16 @@
 
 <script setup lang="ts">
 interface Props {
-  title?: string,
-  leftIcon?: string,
-  rightIcon?: string,
+  title?: string
+  leftIcon?: string
+  rightIcon?: string
   centerIcon?: string
 }
 const prop = withDefaults(defineProps<Props>(), {
   title: '--',
   leftIcon: 'delete_red',
   rightIcon: 'tool_gray',
-  centerIcon: 'scratchable',
+  centerIcon: 'scratchable'
 })
 const emit = defineEmits(['leftClick', 'rightClick', 'centerIconClick'])
 const leftClick = () => {
@@ -68,8 +72,8 @@ const centerIconClick = () => {
     }
     .hidden {
       opacity: 0;
-      transition: opacity .5s;
-      transition: .5s;
+      transition: opacity 0.5s;
+      transition: 0.5s;
     }
     &:hover {
       background-color: #ffffff;

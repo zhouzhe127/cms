@@ -4,7 +4,7 @@
     :width="dialogProps.width"
     class="region-dialog"
     :append-to-body="true"
-    :headerLess="false"
+    :header-less="false"
     @beforeClose="closeHandle"
   >
     <template #header>

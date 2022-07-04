@@ -25,7 +25,6 @@
           <tfr-input v-model="ruleForm.bcc" width="100%" />
         </el-form-item>
       </el-form>
-      
     </div>
   </div>
 </template>
@@ -89,27 +88,6 @@ const switchChange = (e: boolean) => {
         font-size: 20px;
         margin-right: 10px;
         cursor: pointer;
-      }
-    }
-  }
-  .formcontant {
-    .mkdu {
-      font-family: 'Brown Light', serif;
-      font-weight: 300;
-      margin-bottom: 24px;
-    }
-    .navrid {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 10px;
-      margin-top: 45px;
-      color: black;
-      .dtt {
-        height: 1px;
-        border-bottom: 1px #c7caca solid;
-        margin: 0 30px;
-        flex: 1;
       }
     }
   }

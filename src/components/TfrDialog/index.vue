@@ -3,7 +3,7 @@
     <div v-if="dialogProps.isClose" class="close">
       <svg-icon icon-class="close" @click="closeHandle" />
     </div>
-    <template #title>
+    <template #header>
       <slot name="header"></slot>
     </template>
     <template #footer>
@@ -30,9 +30,7 @@ const dialogProps = withDefaults(defineProps<PropsType>(), {
 })
 customClass.value = `${customClass.value} ${dialogProps.class} ${
   dialogProps.headerLess ? 'dialog-header-less' : ''
-} ${
-  dialogProps.isNoPadding ? 'dialog-no-padding' : ''
-}`
+} ${dialogProps.isNoPadding ? 'dialog-no-padding' : ''}`
 const dialogEmits = defineEmits(['beforeClose'])
 const closeHandle = () => {
   dialogEmits('beforeClose')

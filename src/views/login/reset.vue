@@ -6,14 +6,17 @@
     <div class="content">
       <el-form
         v-if="step === '1'"
-        class="send-form"
         ref="sendFormRef"
+        class="send-form"
         :model="sendForm"
         :rules="sendFormRules"
         :hide-required-asterisk="true"
       >
-        <el-form-item label="FORGOT YOUR PASSWORD?" prop="username">
-          <TfrInput v-model="sendForm.username" />
+        <el-form-item label="FORGOT YOUR PASSWORD?" prop="email">
+          <TfrInput
+            v-model="sendForm.email"
+            @keyup.enter.prevent="submitSendForm(sendFormRef)"
+          />
         </el-form-item>
         <p class="tips">
           Please confirm your email and we'll send a reset link to your inbox.
@@ -25,7 +28,10 @@
             @click="backToLoginHandle"
             >CANCEL</TfrButton
           >
-          <TfrButton style="width: 162.5px" @click="submitSendForm(sendFormRef)"
+          <TfrButton
+            :loading="sendEmailLoading"
+            style="width: 162.5px"
+            @click="submitSendForm(sendFormRef)"
             >CONFIRM</TfrButton
           >
         </div>
@@ -40,15 +46,15 @@
       </div>
       <el-form
         v-if="step === '3'"
-        class="reset-form"
         ref="resetFormRef"
+        class="reset-form"
         :model="resetForm"
         :rules="resetFormRules"
       >
         <el-form-item label="Create New Password" prop="password">
           <TfrInput
-            :type="passwordType"
             v-model="resetForm.password"
+            :type="passwordType"
             placeholder=""
           />
           <svg-icon
@@ -60,9 +66,10 @@
         </el-form-item>
         <el-form-item label="Confirm Password" prop="confirmPassword">
           <TfrInput
-            :type="confirmPasswordType"
             v-model="resetForm.confirmPassword"
+            :type="confirmPasswordType"
             placeholder=""
+            @keyup.enter.prevent="resetConfirm(resetFormRef)"
           />
           <svg-icon
             :icon-class="
@@ -75,7 +82,9 @@
         </el-form-item>
         <div class="btn-group">
           <TfrButton type="gray" @click="backToLoginHandle">CANCEL</TfrButton>
-          <TfrButton @click="resetConfirm(resetFormRef)">RESET</TfrButton>
+          <TfrButton :loading="resetLoading" @click="resetConfirm(resetFormRef)"
+            >RESET</TfrButton
+          >
         </div>
       </el-form>
       <div v-if="step === '4'" class="has-reset">
@@ -95,29 +104,38 @@ import TfrButton from '@/components/TfrButton/index.vue'
 import { reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { FormInstance, FormRules } from 'element-plus'
+import { sendEmail, resetPassword } from '@/api/user'
 const route = useRoute()
 const router = useRouter()
-const { token = '', official_id = '' } = route.query
 const step: any = ref(route.query.step || '1')
 const passwordType = ref('password')
 const confirmPasswordType = ref('password')
 const sendFormRef = ref<FormInstance>()
+const sendEmailLoading = ref(false)
 const resetFormRef = ref<FormInstance>()
+const resetLoading = ref(false)
+interface Query {
+  step?: string
+  token?: string
+  official_id?: string
+}
 watch(
   () => route.query,
-  query => {
-    step.value = query ? query.step : '1'
+  (query: Query) => {
+    console.log(typeof query.official_id)
+    step.value = query.step ? query.step : '1'
+    router.push({ query: { ...query } })
   }
 )
 const sendForm = reactive({
-  username: ''
+  email: ''
 })
 const resetForm = reactive({
   password: '',
   confirmPassword: ''
 })
 const sendFormRules = reactive<FormRules>({
-  username: [
+  email: [
     {
       type: 'email',
       required: true,
@@ -157,36 +175,51 @@ const backToLoginHandle = () => {
 }
 const submitSendForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  await formEl.validate((valid, fields) => {
+  await formEl.validate(async (valid, fields) => {
     if (valid) {
-      console.log('submit!')
+      try {
+        console.log('submit!')
+        sendEmailLoading.value = true
+        await sendEmail(sendForm)
+        sendEmailLoading.value = false
+        router.push({ query: { step: '2' } })
+        step.value = '2'
+      } catch (e) {
+        sendEmailLoading.value = false
+        console.log(e)
+      }
     } else {
       console.log('error submit!', fields)
     }
-    router.push({ query: { step: '2' } })
   })
 }
 const showPwd = (type: string) => {
-  console.log(type)
-  switch (type) {
-    case 'password':
-      passwordType.value = passwordType.value === 'password' ? '' : 'password'
-      break
-    case 'confirm':
-      confirmPasswordType.value =
-        confirmPasswordType.value === 'password' ? '' : 'password'
+  if (type === 'password') {
+    passwordType.value = passwordType.value === 'password' ? '' : 'password'
+  } else {
+    confirmPasswordType.value =
+      confirmPasswordType.value === 'password' ? '' : 'password'
   }
 }
 
 const resetConfirm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  await formEl.validate((valid, fields) => {
+  await formEl.validate(async (valid, fields) => {
     if (valid) {
-      console.log('submit!')
+      resetLoading.value = true
+      const query: Query = route.query
+      await resetPassword({
+        official_id: query.official_id,
+        token: query.token,
+        password: resetForm.password
+      })
+      resetLoading.value = false
+      step.value = '4'
+      router.push({ query: { step: '4' } })
     } else {
       console.log('error submit!', fields)
+      resetLoading.value = false
     }
-    router.push({ query: { step: '4' } })
   })
 }
 </script>

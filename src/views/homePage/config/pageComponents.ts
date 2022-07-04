@@ -7,10 +7,10 @@ export enum SITE_MODULES {
   PAGETOP = 'Pagetop',
   CINEMA = 'Cinema',
   ADDMODULE = 'AddModule',
-  FOOTCONTENT = 'FootContent',
+  FOOTCONTENT = 'FootContent'
 }
 type stringKey = Record<string, Component>
-const ComponentsMap:stringKey =  {
+const ComponentsMap: stringKey = {
   [SITE_MODULES.PAGETOP]: Pagetop,
   [SITE_MODULES.CINEMA]: Banner,
   [SITE_MODULES.ADDMODULE]: AddModule,

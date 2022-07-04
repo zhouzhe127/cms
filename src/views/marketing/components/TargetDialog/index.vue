@@ -4,7 +4,7 @@
     :width="dialogProps.width"
     class="target-dialog"
     :append-to-body="true"
-    :headerLess="false"
+    :header-less="false"
     @beforeClose="cancelHandle"
   >
     <template #header>
@@ -19,9 +19,9 @@
       <tfr-select v-model="targetRegionSelect" width="339px">
         <el-option
           v-for="region in regionList"
+          :key="region.code"
           :value="region.code"
           :label="region.name"
-          :key="region.code"
         />
       </tfr-select>
     </div>
@@ -51,7 +51,7 @@ import TfrDialog from '@/components/TfrDialog/index.vue'
 import TfrSelect from '@/components/TfrSelect/index.vue'
 import TfrCheckbox from '@/components/TfrCheckbox/index.vue'
 import TfrButton from '@/components/TfrButton/index.vue'
-import { ref, computed} from 'vue'
+import { ref, computed } from 'vue'
 
 interface PropsType {
   visible: boolean
@@ -83,17 +83,17 @@ const filterList = ref([
 ])
 
 const visibleDialog = computed({
-  get:() => dialogProps.visible,
-  set:(newVisible:boolean)=>{
+  get: () => dialogProps.visible,
+  set: (newVisible: boolean) => {
     dialogEmits('update:visible', newVisible)
   }
 })
 
-const cancelHandle = ():void =>{
+const cancelHandle = (): void => {
   dialogEmits('cancelHandle')
 }
 
-const confirmHandle = ():void => {
+const confirmHandle = (): void => {
   dialogEmits('confirmHandle')
 }
 </script>

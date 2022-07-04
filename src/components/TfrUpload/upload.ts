@@ -19,28 +19,28 @@ export default async function uploadHandle({
         message: 'Invalid the format. (Upload JPG, PNG, or MP4)'
       })
       return reject(file)
-    } else {
-      if (
-        (ext === 'jpg' ||
-          ext === 'png' ||
-          ext === 'jpeg' ||
-          ext === 'JPG' ||
-          ext === 'gif') &&
-        file.size > 1024 * 1024 * 5
-      ) {
-        $tfrMessage({
-          type: 'error',
-          message: 'JPG/PNG size limit: 5MB'
-        })
-        return reject(file)
-      } else if (ext === 'mp4' && file.size > 1024 * 1024 * 20) {
-        $tfrMessage({
-          type: 'error',
-          content: 'MP4 size limit: 20MB'
-        })
-        return reject(file)
-      }
     }
+    if (
+      (ext === 'jpg' ||
+        ext === 'png' ||
+        ext === 'jpeg' ||
+        ext === 'JPG' ||
+        ext === 'gif') &&
+      file.size > 1024 * 1024 * 5
+    ) {
+      $tfrMessage({
+        type: 'error',
+        message: 'JPG/PNG size limit: 5MB'
+      })
+      return reject(file)
+    } else if (ext === 'mp4' && file.size > 1024 * 1024 * 20) {
+      $tfrMessage({
+        type: 'error',
+        content: 'MP4 size limit: 20MB'
+      })
+      return reject(file)
+    }
+
     try {
       const option = {
         file,

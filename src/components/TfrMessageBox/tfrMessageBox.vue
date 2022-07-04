@@ -1,16 +1,16 @@
 <template>
   <div>
     <TfrDialog
-      :close-on-click-modal="false"
       v-model="curVisible"
+      :close-on-click-modal="false"
       :width="props.width"
-      :isClose="true"
+      :is-close="true"
       @before-close="onCancel"
     >
       <div class="body">
         <header>
           <div v-if="!props.dangerouslyTitleHTMLString">
-            {{ isString(props.title) ? props.title : "" }}
+            {{ isString(props.title) ? props.title : '' }}
             <span class="sec">{{ props.secTitle }}</span>
           </div>
           <!-- eslint-disable-next-line vue/no-v-html -->
@@ -20,11 +20,11 @@
           <slot>
             <div class="base-content">
               <div class="left-icon">
-                <svg-icon icon-class="warn" />
+                <svg-icon icon-class="warning" />
               </div>
               <div class="message">
                 <div v-if="!props.dangerouslyContentHTMLString">
-                  {{ isString(props.message) ? props.message : "" }}
+                  {{ isString(props.message) ? props.message : '' }}
                 </div>
                 <div v-else>
                   <!-- eslint-disable-next-line vue/no-v-html -->
@@ -56,7 +56,7 @@ import { defineEmits, onMounted, ref, nextTick, VNode } from 'vue'
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import TfrButton from '@/components/TfrButton/index.vue'
 import { MESSAGE_BOX_VARIANTS } from './tfrMessageBox'
-import { TfrSetting } from './trrMessageBox.type';
+import { TfrSetting } from './trrMessageBox.type'
 const emit = defineEmits(['action', 'vanish'])
 
 interface IProps {
@@ -84,7 +84,7 @@ const props = withDefaults(defineProps<IProps>(), {
   dangerouslyTitleHTMLString: false
 })
 
-const curVisible = ref<Boolean>(props.visible)
+const curVisible = ref<boolean>(props.visible)
 const action = ref<string>()
 
 const isString = (item: any) => typeof item === 'string'
@@ -121,7 +121,7 @@ const onDelete = () => {
 .body header {
   margin-top: 14px;
   color: $theme;
-  font-family: "Brown Regular", serif;
+  font-family: 'Brown Regular', serif;
   .sec {
     font-size: 15px;
   }

@@ -6,7 +6,7 @@
         {{ title }}
       </span>
     </div>
-    <div class="date" v-if="date">
+    <div v-if="date" class="date">
       <div class="year">{{ moment(date).format('DD MMM YYYY') }}</div>
       <div class="time">{{ moment(date).format('HH:mm') }}</div>
     </div>
@@ -14,16 +14,17 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment';
+import moment from 'moment'
 import { UpdateSideListItem } from './index.type'
 interface IProps extends UpdateSideListItem {
-  title: string,
-  date?: string,
+  title: string
+  date?: string
   iconName?: string
 }
 
 withDefaults(defineProps<IProps>(), {
-  title: 'TFR’s Women: Denni Elias, Lea Naumman On The Power Of Standing Out And S',
+  title:
+    'TFR’s Women: Denni Elias, Lea Naumman On The Power Of Standing Out And S',
   date: new Date().toISOString(),
   iconName: 'article'
 })

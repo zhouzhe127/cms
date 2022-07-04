@@ -11,7 +11,6 @@ import Empty from '@/views/homePage/components/Empty.vue'
 import appStore from '@/store'
 import TemplateMap from '@/views/homePage/config/templateMap'
 const pageTemplate = appStore.setBuilder.basic.pageTemplate
-
 </script>
 
 <style lang="scss" scoped>

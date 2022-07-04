@@ -1,6 +1,6 @@
 <template>
   <div class="down-container">
-    <tfr-upload :pictureList="downList" />
+    <tfr-upload :picture-list="downList" />
   </div>
 </template>
 
@@ -13,16 +13,12 @@ const downList = ref<any[]>([])
 
 <style lang="scss">
 // 调整上传组件的样式
-$classlist: 
-    '.down-container' 
-    '.down-container .upload-field' 
-    '.down-container .upload-box' 
-    '.down-container .upload-box>div' 
-    '.down-container .el-upload-list' 
-    '.down-container .upload-box .el-upload';
-  
+$classlist: '.down-container' '.down-container .upload-field'
+  '.down-container .upload-box' '.down-container .upload-box>div'
+  '.down-container .el-upload-list' '.down-container .upload-box .el-upload';
+
 @each $classKey in $classlist {
-  #{$classKey}{
+  #{$classKey} {
     width: 100%;
     height: 100%;
   }

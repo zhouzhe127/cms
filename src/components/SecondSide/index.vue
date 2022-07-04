@@ -1,13 +1,12 @@
 <template>
   <div class="side_container">
-    <el-scrollbar >
+    <el-scrollbar>
       <slot />
     </el-scrollbar>
   </div>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 .side_container {

@@ -52,13 +52,13 @@
         <p class="subtitle">Message shown on the banner.</p>
       </el-form-item>
       <el-form-item label="Banner image" class="image-area">
-        <tfr-upload :pictureList="bannerPicture" :isOnlyOne="true" />
+        <tfr-upload :picture-list="bannerPicture" :is-only-one="true" />
         <p class="subtitle">
           Optional banner image triggers on announcement hover.
         </p>
       </el-form-item>
       <el-form-item label="Mobile alternative" class="image-area mobile-image">
-        <tfr-upload :pictureList="mobileBannerPicture" :isOnlyOne="true" />
+        <tfr-upload :picture-list="mobileBannerPicture" :is-only-one="true" />
         <p class="subtitle">Alternative mobile image triggers on press.</p>
       </el-form-item>
       <div class="form-item-inline">
@@ -118,10 +118,10 @@
         class="date-picker-item"
       >
         <date-picker-range
-          startDate="2022-06-08T14:21:35+08:00"
-          endDate="2022-06-18T14:21:35+08:00"
-          zt="America/Denver"
           ref="datePickerRangeRef"
+          start-date="2022-06-08T14:21:35+08:00"
+          end-date="2022-06-18T14:21:35+08:00"
+          zt="America/Denver"
         />
       </el-form-item>
     </el-form>
@@ -136,16 +136,16 @@
     </div>
     <effective-region-dialog
       :visible="effectiveRegionDialog"
-      @update:visible="effectiveRegionDialog = $event"
       :width="dialogWidth"
+      @update:visible="effectiveRegionDialog = $event"
       @cancelHandle="effectiveRegionDialogCancelHandle"
       @confirmHandle="effectiveRegionDialogConfirmHandle"
     />
     <HasSidebarWin v-model="linkVisibleDialog" :side-arr="sideArr" />
     <target-dialog
       :visible="targetVisible"
-      @update:visible="targetVisible = $event"
       :width="dialogWidth"
+      @update:visible="targetVisible = $event"
       @cancelHandle="targetDialogCancelHandle"
       @confirmHandle="targetDialogConfirmHandle"
     />
@@ -162,7 +162,7 @@ import TfrTag from '@/components/TfrTag/index.vue'
 import TfrRadioGroup from '@/components/TfrRadioGroup/index.vue'
 import HasSidebarWin from '@/components/TfrDialog/HasSidebarWin.vue'
 import EffectiveRegionDialog from '@/views/marketing/components/EffectiveRegionDialog/index.vue'
-import sideArr from '@/views/homePage/editLinkPage/setModules'
+import sideArr from '@/views/homePage/pageDialog/editLinkPage/setModules'
 import TargetDialog from '@/views/marketing/components/TargetDialog/index.vue'
 import DatePickerRange from '@/components/DatePickerRange/index.vue'
 import { reactive, ref } from 'vue'

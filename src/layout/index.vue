@@ -1,5 +1,5 @@
 <template>
-  <div class="common-layout" v-if="device !== 'mobile'">
+  <div v-if="device !== 'mobile'" class="common-layout">
     <el-aside :width="`${menuWidth}`">
       <SideBar />
     </el-aside>

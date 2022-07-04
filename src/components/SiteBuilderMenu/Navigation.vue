@@ -3,7 +3,7 @@
     <SideMenu title="NAVIGATION" @add-click="addPage">
       <draggable v-model="sidearr" v-bind="dragOptions" :component-data="{ tag: 'div', name: 'flip-list', type: 'transition' }" group="side" item-key="title" @start="isDragging = true" @end="isDragging = false">
         <template #item="{element, index}">
-          <MenuItem :title="element.title" :key="index" :center-icon="element.icon" @left-click="() => {deleteItem(element)}" @right-click="chickEditWin">
+          <MenuItem :title="element.title" :key="index" :center-icon="element.icon" @left-click="() => {deleteItem(element)}" @right-click="chickEditWin(element)">
             <ItemChild title="mnns" />
           </MenuItem>
         </template>
@@ -19,16 +19,16 @@ import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
 // import { useEventBus } from '@vueuse/core'
-import { useRouter } from 'vue-router'
 import store from '@/store'
 import { SITE_MENUS, SideItem } from './type'
 import { onSideEvent } from './utils/regesterEvent'
 import { addFunc } from '@/store/setBuilder/navigation'
 import { PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
 import { showDeleteModel } from './utils/deleteUtils'
+import { toEditionModel, toSeletPage } from './utils/router'
 onSideEvent(SITE_MENUS.NAVIGATION, (e: string, item: SideItem) => {
   setBuilder.sideState[addFunc](item)
-  switch(item.title) {
+  switch (item.title) {
     case PAGE_SELECT.PAGE:
       setBuilder.addNewPage()
       break
@@ -46,7 +46,6 @@ const dragOptions = computed(() => {
   }
 })
 const isDragging = ref(false)
-const router = useRouter()
 const setBuilder = store.setBuilder
 const sidearr = computed({
   get() {
@@ -57,21 +56,14 @@ const sidearr = computed({
   }
 })
 const addPage = () => {
-  router.push({
-    path: '/siteBuilder/selectPage',
-    query: { origin: SITE_MENUS.NAVIGATION }
-  })
+  toSeletPage({ origin: SITE_MENUS.NAVIGATION })
 }
-const chickEditWin = () => {
-  router.push({
-    path: '/siteBuilder/editPage'
-  })
+const chickEditWin = (item: SideItem) => {
+  toEditionModel(item)
 }
 const deleteItem = (item: SideItem) => {
   showDeleteModel(item, () => {})
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

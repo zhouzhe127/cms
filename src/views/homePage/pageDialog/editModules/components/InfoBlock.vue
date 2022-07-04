@@ -7,7 +7,8 @@
         </div>
         <div class="nt">LOREM IPSUM</div>
         <div class="lt">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </div>
         <div class="nt">Action</div>
       </div>
@@ -36,7 +37,7 @@ import CmsEdit from '@/components/CmsEdit/index.vue'
       margin-top: 48px;
       width: 50px;
       height: 50px;
-      background-color: #F8F8F8;
+      background-color: #f8f8f8;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -53,7 +54,7 @@ import CmsEdit from '@/components/CmsEdit/index.vue'
     }
     .lt {
       padding: 0 20px;
-      font-family: "Brown Light", serif;
+      font-family: 'Brown Light', serif;
     }
   }
 }

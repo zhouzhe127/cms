@@ -38,11 +38,11 @@ import CmsEdit from '@/components/CmsEdit/index.vue'
         padding: 5px 0;
         line-height: 1.3;
       }
-      .nuem{
+      .nuem {
         font-size: 24px;
       }
       .lint {
-        font-family: "Brown Light", serif;
+        font-family: 'Brown Light', serif;
       }
     }
   }

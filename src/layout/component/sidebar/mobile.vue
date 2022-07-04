@@ -7,7 +7,9 @@
     <template v-if="showMobileMenuItem">
       <template v-if="route.name === 'home'">
         <MenuItem />
-        <User />
+        <div style="padding: 0 20px">
+          <User />
+        </div>
       </template>
       <SubMenuItem v-else />
     </template>

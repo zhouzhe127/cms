@@ -4,6 +4,7 @@
     :style="{ width: inputProps.width }"
     v-bind="$attrs"
     @input="input"
+    @keyup.enter.prevent="keyupEnterPrevent"
   />
 </template>
 
@@ -16,9 +17,12 @@ const inputProps = withDefaults(defineProps<PropsType>(), {
   width: '100%' // 默认值
 })
 // eslint-disable-next-line no-undef
-const inputEmits = defineEmits(['input', 'change'])
+const inputEmits = defineEmits(['input', 'change', 'keyup.enter.prevent'])
 const input = () => {
   inputEmits('input')
+}
+const keyupEnterPrevent = () => {
+  inputEmits('keyup.enter.prevent')
 }
 </script>
 

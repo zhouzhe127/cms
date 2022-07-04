@@ -15,7 +15,10 @@ export const constantRoutes: Array<RouteRecordRaw> = [
   {
     path: '/404',
     component: () => import('@/views/error/index.vue')
-  },
+  }
+]
+// 需要权限管理
+export const asyncRoutes: Array<RouteRecordRaw> = [
   {
     path: '/',
     redirect: '/home',
@@ -46,37 +49,56 @@ export const constantRoutes: Array<RouteRecordRaw> = [
           {
             path: 'editModules',
             name: 'siteBuilder_editModules',
-            component: () => import('@/views/homePage/pageDialog/editModules/index.vue')
+            component: () =>
+              import('@/views/homePage/pageDialog/editModules/index.vue')
           },
           {
             path: 'editPage',
             name: 'siteBuilder_editPage',
-            component: () => import('@/views/homePage/pageDialog/editPage/index.vue')
+            component: () =>
+              import('@/views/homePage/pageDialog/editPage/index.vue')
           },
           {
             path: 'selectPage',
             name: 'siteBuilder_selectPage',
-            component: () => import('@/views/homePage/pageDialog/selectPage/index.vue')
+            component: () =>
+              import('@/views/homePage/pageDialog/selectPage/index.vue')
           },
           {
             path: 'editFolder',
             name: 'siteBuilder_editFolder',
-            component: () => import('@/views/homePage/pageDialog/editFolder/index.vue')
+            component: () =>
+              import('@/views/homePage/pageDialog/editFolder/index.vue')
           },
           {
             path: 'editSmart',
             name: 'siteBuilder_editSmart',
-            component: () => import('@/views/homePage/pageDialog/editSmart/index.vue')
+            component: () =>
+              import('@/views/homePage/pageDialog/editSmart/index.vue')
           },
           {
             path: 'editLinkPage',
             name: 'siteBuilder_editLinkPage',
-            component: () => import('@/views/homePage/pageDialog/editLinkPage/index.vue')
+            component: () =>
+              import('@/views/homePage/pageDialog/editLinkPage/index.vue')
+          },
+          {
+            path: 'editLegal',
+            name: 'siteBuilder_editLegal',
+            component: () =>
+              import('@/views/homePage/pageDialog/editLegal/index.vue')
           },
           {
             path: 'editClearBin',
             name: 'siteBuilder_editClearBin',
-            component: () => import('@/views/homePage/pageDialog/editClearBin/index.vue')
+            component: () =>
+              import('@/views/homePage/pageDialog/editClearBin/index.vue')
+          },
+          {
+            path: 'plpSettings',
+            name: 'siteBuilder_plpSettings',
+            component: () =>
+              import('@/views/homePage/pageDialog/plpSettings/index.vue')
           }
         ]
       },
@@ -106,25 +128,6 @@ export const constantRoutes: Array<RouteRecordRaw> = [
       {
         path: '/settings',
         name: 'settings',
-        component: () => import('@/views/homePage/index.vue')
-      }
-    ]
-  }
-]
-// 需要权限管理
-export const asyncRoutes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    component: () => import('@/layout/index.vue'),
-    children: [
-      {
-        path: '/home',
-        name: 'Home',
-        component: () => import('@/views/home/index.vue')
-      },
-      {
-        path: 'main',
-        name: 'Main',
         component: () => import('@/views/homePage/index.vue')
       }
     ]

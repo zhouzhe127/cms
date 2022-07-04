@@ -4,23 +4,23 @@
     :width="dialogProps.width"
     class="apply-limit-dialog"
     :append-to-body="true"
-    :headerLess="true"
+    :header-less="true"
     @beforeClose="closeHandle"
   >
     <div>
       <tfr-select
         v-model="selectedAccountsOrigin"
         width="100%"
-        :hasBorder="false"
+        :has-border="false"
       >
         <el-option value="all" label="All ACCOUNTS" />
       </tfr-select>
-      <tfr-select v-model="selectedRegion" width="100%" :hasBorder="false">
+      <tfr-select v-model="selectedRegion" width="100%" :has-border="false">
         <el-option
           v-for="region in regionList"
+          :key="region.code"
           :value="region.code"
           :label="region.name"
-          :key="region.code"
         />
       </tfr-select>
     </div>

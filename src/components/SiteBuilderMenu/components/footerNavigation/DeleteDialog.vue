@@ -1,19 +1,19 @@
 <template>
   <TfrDialog
+    v-model="editVisible"
     :close-on-click-modal="false"
     class="link-show-modal"
-    v-model="editVisible"
     :width="props.width"
     :header-less="false"
-    :isClose="true"
+    :is-close="true"
+    append-to-body
     @before-close="onCancel"
-    append-to-body 
   >
-  <template #header>
-    <header>
-      <span v-if="!isDelete">LINK</span> <span v-else> Delete XXX</span>
-    </header>
-  </template>
+    <template #header>
+      <header>
+        <span v-if="!isDelete">LINK</span> <span v-else> Delete XXX</span>
+      </header>
+    </template>
     <div class="body">
       <LinkShowCon />
     </div>

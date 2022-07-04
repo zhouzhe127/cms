@@ -1,6 +1,13 @@
 <template>
   <div>
-    <TfrDialog class="editpageinfowin" v-bind="$attrs" :width="props.width" append-to-body @beforeClose="close" @close="close">
+    <TfrDialog
+      class="editpageinfowin"
+      v-bind="$attrs"
+      :width="props.width"
+      append-to-body
+      @beforeClose="close"
+      @close="close"
+    >
       <div class="editpage">
         <el-container>
           <el-aside :width="props.asideWidth">
@@ -8,11 +15,21 @@
               <div class="aside_ti">{{ props.title }}</div>
               <ul class="tablist">
                 <div v-if="props.hasSearch" class="inputbox">
-                  <edge-input v-model="searchText" placeholder="SEARCH" @input="inputSearch" @clear="inputSearch" />
+                  <edge-input
+                    v-model="searchText"
+                    placeholder="SEARCH"
+                    @input="inputSearch"
+                    @clear="inputSearch"
+                  />
                 </div>
-                <li v-for="(item, index) in cacheAside" :key="index" :class="{ active: selectd === index }" @click="clickTab(index)">
+                <li
+                  v-for="(item, index) in cacheAside"
+                  :key="index"
+                  :class="{ active: selectd === index }"
+                  @click="clickTab(index)"
+                >
                   <div class="liitem">
-                    <svg-icon  :icon-class="item.icon" class="svg_side" />
+                    <svg-icon :icon-class="item.icon" class="svg_side" />
                     <span>{{ item.title }}</span>
                   </div>
                 </li>
@@ -20,18 +37,30 @@
             </div>
           </el-aside>
           <el-main class="main_container">
-            <el-container style="height:100%;">
+            <el-container style="height: 100%">
               <el-main>
-                <component v-if="cacheAside[selectd]" :is='cacheAside[selectd].component' :close="close" ref="modulsNode" />
+                <component
+                  :is="cacheAside[selectd].component"
+                  v-if="cacheAside[selectd]"
+                  ref="modulsNode"
+                  :close="close"
+                />
               </el-main>
               <el-footer>
                 <div class="footerbox">
                   <!-- <div class="btn" @click="cancelHandle">{{ props.leftbtn }}</div> -->
                   <div>
-                    <tfr-button class="btn" @click="cancelHandle">{{ props.leftbtn }}</tfr-button>
+                    <tfr-button class="btn" @click="cancelHandle">{{
+                      props.leftbtn
+                    }}</tfr-button>
                   </div>
                   <div>
-                    <tfr-button class="btn black" :loading="rightBtnLoading" @click="clickRightBtn">{{ props.rightbtn }}</tfr-button>
+                    <tfr-button
+                      class="btn black"
+                      :loading="rightBtnLoading"
+                      @click="clickRightBtn"
+                      >{{ props.rightbtn }}</tfr-button
+                    >
                   </div>
                 </div>
               </el-footer>
@@ -49,15 +78,15 @@ import TfrDialog from '@/components/TfrDialog/index.vue'
 import EdgeInput from '@/components/TfrInput/EdgeInput.vue'
 interface Props {
   sideArr?: Array<{
-    icon?: string,
-    title?: string,
+    icon?: string
+    title?: string
     component?: any
-  }>,
-  width?: string,
-  asideWidth?: string,
-  hasSearch?: boolean,
-  title?: string,
-  leftbtn?: string,
+  }>
+  width?: string
+  asideWidth?: string
+  hasSearch?: boolean
+  title?: string
+  leftbtn?: string
   rightbtn?: string
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -67,14 +96,14 @@ const props = withDefaults(defineProps<Props>(), {
   hasSearch: false,
   leftbtn: 'CANCEL',
   rightbtn: 'SAVE',
-  sideArr: () => ([])
+  sideArr: () => []
 })
 const cacheAside = ref<any>([])
 cacheAside.value = [...props.sideArr]
 const selectd = ref(0)
 const rightBtnLoading = ref(false)
 const modulsNode = ref<any>(null)
-const clickTab = (index:number) => {
+const clickTab = (index: number) => {
   selectd.value = index
 }
 const searchText = ref('')
@@ -111,7 +140,7 @@ onUnmounted(() => {
 .editpage {
   color: black;
   .aside_box {
-    background-color: #F8F8F8;
+    background-color: #f8f8f8;
     padding-bottom: 30px;
     height: 730px;
     .aside_ti {
@@ -125,7 +154,7 @@ onUnmounted(() => {
         padding: 0 20px;
         height: 40px;
         display: flex;
-        opacity: .4;
+        opacity: 0.4;
         justify-content: center;
         align-items: center;
         cursor: pointer;
@@ -178,7 +207,7 @@ onUnmounted(() => {
         height: 50px;
         line-height: 50px;
         text-align: center;
-        background-color: #F8F8F8;
+        background-color: #f8f8f8;
         color: black;
         cursor: pointer;
       }
