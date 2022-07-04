@@ -2,14 +2,18 @@
   <div>
     <TfrDialog
       v-model="plpVisible"
-      width="730px"
-      :header-less="false"
+      :close-on-click-modal="false"
       :is-no-padding="true"
+      :header-less="true"
+      width="730px"
       class="plp-model"
+      append-to-body
     >
-      <template #header> PLP SETTINGS </template>
-      <div class="con">
-        <el-form>
+      <div class="body">
+        <header>
+          <span> PLP SETTINGS </span>
+        </header>
+        <el-form :rules="rules" label-position="top">
           <RowSetItem title="HIDE PLP" :has-padding="false">
             <TfrSwitch />
           </RowSetItem>
@@ -18,11 +22,11 @@
           <el-form-item class="type">
             <header>TYPE</header>
             <div class="type-con">
-               <TfrRadioGroup v-model="typeCheck">
-                  <el-radio label="Preannouncement">Preannouncement</el-radio>
-                  <el-radio label="Filter">Filter</el-radio>
-                  <el-radio label="Custom">Custom</el-radio>
-                </TfrRadioGroup>
+              <TfrRadioGroup v-model="typeCheck">
+                <el-radio label="Preannouncement">Preannouncement</el-radio>
+                <el-radio label="Filter">Filter</el-radio>
+                <el-radio label="Custom">Custom</el-radio>
+              </TfrRadioGroup>
             </div>
             <div class="show-type-con">
               <div v-if="typeCheck === 'Preannouncement'">Preannouncement</div>
@@ -34,19 +38,76 @@
             <TfrSwitch />
           </RowSetItem>
 
-          
+          <el-form-item label="Title" props="title">
+            <tfr-input v-model="ruleForm.title" width="100%" />
+          </el-form-item>
+
+          <el-form-item label="Body" props="body">
+            <TfrEditor />
+          </el-form-item>
+
+          <el-form-item label="Background" props="background">
+            <tfr-upload :picture-list="ruleForm.background" />
+          </el-form-item>
+
+          <el-form-item label="Mobile Alterntive" props="background">
+            <div class="mobile-upload">
+              <tfr-upload :picture-list="ruleForm.background" />
+            </div>
+          </el-form-item>
+
+          <el-form-item label="Title" props="title">
+            <tfr-input
+              placeholder="Launches"
+              v-model="ruleForm.title"
+              width="100%"
+            />
+          </el-form-item>
+
+          <el-form-item label="Button" props="title">
+            <tfr-input
+              placeholder="NOTIFY ME"
+              v-model="ruleForm.title"
+              width="100%"
+            />
+          </el-form-item>
+
+          <el-form-item label="Submit To" props="title">
+            <tfr-input
+              placeholder="sales@thefuturerocks.com"
+              v-model="ruleForm.title"
+              width="100%"
+            />
+          </el-form-item>
+
+          <RowSetItem title="Launch Date" :has-padding="false">
+            <TfrSwitch />
+          </RowSetItem>
+
+          <div class="date">
+            <DatePicker width="100%" time-width="330px"></DatePicker>
+          </div>
         </el-form>
       </div>
-
     </TfrDialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import TfrSwitch from '@/components/TfrSwitch/index.vue'
+import TfrDialog from '@/components/TfrDialog/index.vue'
 import RowSetItem from '@/components/RowSetItem/index.vue'
-import TfrRadioGroup from '@/components/TfrRadioGroup/index.vue';
+import TfrRadioGroup from '@/components/TfrRadioGroup/index.vue'
+import TfrEditor from '@/components/TfrEditor/index.vue'
+import TfrUpload from '@/components/TfrUpload/index.vue'
+import DatePicker from '@/components/DatePicker/index.vue'
+
+const ruleForm = reactive({
+  title: '',
+  background: [] as any
+})
+const rules = {}
 
 const plpVisible = ref<boolean>(true)
 const typeCheck = ref<string>('Preannouncement')
@@ -59,8 +120,10 @@ const typeCheck = ref<string>('Preannouncement')
   --framer-font-family: 'Brown Bold', serif;
 }
 .plp-model {
-  .con {
-    padding: 30px
+  .body {
+    padding: 30px;
+    height: 728px;
+    overflow: auto;
   }
   .type {
     header {
@@ -79,6 +142,20 @@ const typeCheck = ref<string>('Preannouncement')
       width: 100%;
       margin-bottom: 10px;
     }
+  }
+  .mobile-upload {
+    width: 252px;
+    margin: 0 auto;
+  }
+
+  .el-form-item__label {
+    color: $theme;
+  }
+
+  .date {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 }
 </style>
