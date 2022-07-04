@@ -1,34 +1,36 @@
 <template>
   <div class="container">
-    <CmsEdit :options="['edit_cms', 'add_white']">
-      <div class="cinema">
-        <swiper :modules="[Pagination]" :pagination="pagination">
-          <swiper-slide>
-            <video
-              src="https://framerusercontent.com/modules/qAxyUgdzgkINJGI0AxxB/uHziABuy0VXWHbXCY7Ow/assets/RKTWhevPDx7sSt5NwHTElJVdLqc.mp4"
-              muted
-              autoplay
-              loop
-              class="showitem"
-            />
-          </swiper-slide>
-          <swiper-slide>
-            <video
-              src="https://framerusercontent.com/modules/qAxyUgdzgkINJGI0AxxB/uHziABuy0VXWHbXCY7Ow/assets/RKTWhevPDx7sSt5NwHTElJVdLqc.mp4"
-              muted
-              autoplay
-              loop
-              class="showitem"
-            />
-          </swiper-slide>
-        </swiper>
-        <div class="textdec">
-          <div class="br">First Diamond</div>
-          <div class="tb">new rocks for new experiences</div>
-          <div class="barbox" />
+    <div>
+      <CmsEdit :options="['edit_cms', 'add_white']">
+        <div class="cinema">
+          <swiper :modules="[Pagination]" :pagination="pagination">
+            <swiper-slide>
+              <video
+                src="https://framerusercontent.com/modules/qAxyUgdzgkINJGI0AxxB/uHziABuy0VXWHbXCY7Ow/assets/RKTWhevPDx7sSt5NwHTElJVdLqc.mp4"
+                muted
+                autoplay
+                loop
+                class="showitem"
+              />
+            </swiper-slide>
+            <swiper-slide>
+              <video
+                src="https://framerusercontent.com/modules/qAxyUgdzgkINJGI0AxxB/uHziABuy0VXWHbXCY7Ow/assets/RKTWhevPDx7sSt5NwHTElJVdLqc.mp4"
+                muted
+                autoplay
+                loop
+                class="showitem"
+              />
+            </swiper-slide>
+          </swiper>
+          <div class="textdec">
+            <div class="br">First Diamond</div>
+            <div class="tb">new rocks for new experiences</div>
+            <div class="barbox" />
+          </div>
         </div>
-      </div>
-    </CmsEdit>
+      </CmsEdit>
+    </div>
   </div>
 </template>
 

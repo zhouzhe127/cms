@@ -32,6 +32,11 @@ export const setBuilder = defineStore(
       basic.pageTemplate.title = title
       basic.pageTemplate.properties = []
     }
+    function addNewArticle(title?: string) {
+      basic.pageTemplate.template = SITE_PAGETEMPLATE.ARTICLE
+      basic.pageTemplate.title = title
+      basic.pageTemplate.properties = []
+    }
     function addPageModle(
       item: ComponentsSchema | Array<ComponentsSchema>,
       index: number
@@ -46,7 +51,7 @@ export const setBuilder = defineStore(
     function setItem(type: string): void {
       basic.platformState = type
     }
-    return { basic, setItem, addNewPage, addPageModle, addNewPlp, sideState }
+    return { basic, setItem, addNewPage, addPageModle, addNewPlp, addNewArticle, sideState }
   },
   {
     persist: true

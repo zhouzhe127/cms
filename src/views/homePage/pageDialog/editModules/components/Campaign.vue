@@ -1,15 +1,17 @@
 <template>
   <div class="container">
-    <CmsEdit :options="['edit_cms', 'add_white']">
-      <div class="campaign">
-        <div class="imgoption">Image Option</div>
-        <div class="textmain">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    <div>
+      <CmsEdit :options="['edit_cms', 'add_white']">
+        <div class="campaign">
+          <div class="imgoption">Image Option</div>
+          <div class="textmain">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </div>
+          <div class="lorembtn">LOREM IPSUM</div>
         </div>
-        <div class="lorembtn">LOREM IPSUM</div>
-      </div>
-    </CmsEdit>
+      </CmsEdit>
+    </div>
   </div>
 </template>
 

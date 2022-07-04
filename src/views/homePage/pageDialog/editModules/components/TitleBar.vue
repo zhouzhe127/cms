@@ -1,8 +1,10 @@
 <template>
   <div class="container">
-    <CmsEdit :options="['edit_cms', 'add_white']">
-      <div class="titlebar">LOREM IPSUM</div>
-    </CmsEdit>
+    <div>
+      <CmsEdit :options="['edit_cms', 'add_white']">
+        <div class="titlebar">LOREM IPSUM</div>
+      </CmsEdit>
+    </div>
   </div>
 </template>
 

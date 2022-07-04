@@ -1,16 +1,18 @@
 <template>
   <div class="article_box">
-    <CmsEdit :options="['edit_cms', 'add_white']">
-      <div class="article_com">
-        <div class="imgcontant"></div>
-        <ul class="info">
-          <li>GASAHNX</li>
-          <li class="nuem">GASAHNX</li>
-          <li class="lint">GASAHNX</li>
-          <li>GASAHNX</li>
-        </ul>
-      </div>
-    </CmsEdit>
+    <div>
+      <CmsEdit :options="['edit_cms', 'add_white']">
+        <div class="article_com">
+          <div class="imgcontant"></div>
+          <ul class="info">
+            <li>GASAHNX</li>
+            <li class="nuem">GASAHNX</li>
+            <li class="lint">GASAHNX</li>
+            <li>GASAHNX</li>
+          </ul>
+        </div>
+      </CmsEdit>
+    </div>
   </div>
 </template>
 

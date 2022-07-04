@@ -35,6 +35,9 @@ onSideEvent(SITE_MENUS.NAVIGATION, (e: string, item: SideItem) => {
     case PAGE_SELECT.PLP:
       setBuilder.addNewPlp()
       break
+    case PAGE_SELECT.ARTICLE:
+      setBuilder.addNewArticle()
+      break
   }
 })
 const dragOptions = computed(() => {

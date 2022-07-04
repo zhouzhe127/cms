@@ -82,10 +82,10 @@ const onClose = () => {
   closeWin()
 }
 const addpage = async (item: SideItem) => {
-  await navigationCreate({
-    location: origin,
-    content_type: item.title,
-  })
+  // await navigationCreate({
+  //   location: origin,
+  //   content_type: item.title,
+  // })
   if (sideEmit) sideEmit(origin, { ...item, ...route.query })
   showWin.value = false
 }

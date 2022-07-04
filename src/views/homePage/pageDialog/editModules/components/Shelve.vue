@@ -1,21 +1,23 @@
 <template>
   <div class="container">
-    <CmsEdit :options="['edit_cms', 'add_white']">
-      <div class="shelve">
-        <div class="imgbox"></div>
-        <div class="footbox">
-          <div class="barbox">
-            <div class="baritem active" />
-            <div class="baritem" />
-            <div class="baritem" />
+    <div>
+      <CmsEdit :options="['edit_cms', 'add_white']">
+        <div class="shelve">
+          <div class="imgbox"></div>
+          <div class="footbox">
+            <div class="barbox">
+              <div class="baritem active" />
+              <div class="baritem" />
+              <div class="baritem" />
+            </div>
+            <div class="cl">Available in # colors</div>
+            <div class="me">product name</div>
+            <div class="cl">Brand Name</div>
+            <div>Rsp 0000</div>
           </div>
-          <div class="cl">Available in # colors</div>
-          <div class="me">product name</div>
-          <div class="cl">Brand Name</div>
-          <div>Rsp 0000</div>
         </div>
-      </div>
-    </CmsEdit>
+      </CmsEdit>
+    </div>
   </div>
 </template>
 

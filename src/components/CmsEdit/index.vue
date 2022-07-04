@@ -31,6 +31,7 @@ const optionClick = (index: number) => {
 
 <style lang="scss" scoped>
 .optionmain {
+  width: 100%;
   position: relative;
   &:hover {
     .optionbox {
