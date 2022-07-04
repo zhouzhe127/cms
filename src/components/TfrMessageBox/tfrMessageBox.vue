@@ -1,6 +1,7 @@
 <template>
   <div>
     <TfrDialog
+      class="tfr-message-box"
       v-model="curVisible"
       :close-on-click-modal="false"
       :width="props.width"
@@ -148,30 +149,11 @@ const onDelete = () => {
   }
 }
 
-footer {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  .btn {
-    height: 50px;
-    border: none;
-    border-radius: 0;
-    background-color: rgb(248, 248, 248);
+.tfr-message-box {
+  footer {
+    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    padding: 0 20px;
-    --framer-font-family: 'Brown Regular', serif;
-    --framer-font-style: normal;
-    --framer-font-weight: 400;
-    --framer-text-color: rgba(27, 43, 39, 1);
-    --framer-font-size: 14px;
-    --framer-text-decoration: none;
-    cursor: pointer;
-    &.confirm {
-      color: #fff;
-    }
+    justify-content: space-between;
   }
 }
 </style>
