@@ -179,6 +179,8 @@ footer {
 .tfr-dialog {
   &.dialog-header-less {
     .el-dialog__footer {
+      display: flex;
+      justify-content: space-between;
       margin-top: 10px;
     }
   }

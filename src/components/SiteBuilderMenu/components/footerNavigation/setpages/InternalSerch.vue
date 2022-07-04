@@ -51,6 +51,21 @@ const uiList: SearchItem[] = [
     icon: 'scratchable',
     name: 'Rains',
     url: '/jewelry/necklaces'
+  },
+  {
+    icon: 'scratchable',
+    name: 'Rains',
+    url: '/jewelry/necklaces'
+  },
+  {
+    icon: 'scratchable',
+    name: 'Rains',
+    url: '/jewelry/necklaces'
+  },
+  {
+    icon: 'scratchable',
+    name: 'Rains',
+    url: '/jewelry/necklaces'
   }
 ]
 

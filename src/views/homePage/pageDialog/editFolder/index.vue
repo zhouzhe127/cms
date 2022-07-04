@@ -22,56 +22,58 @@
               <EdgeInput v-model="search" placeholder="SEARCH" width="100%" />
             </el-form-item>
           </el-form>
-          <div class="pagelist">
-            <div class="itemlist">
-              <svg-icon icon-class="scratchable" class="sicon" />
-              <div class="doc">
-                <div class="snd">Necklaces</div>
-                <div class="mkdu">/kjjdjs/njnjcd</div>
+          <el-scrollbar ref="scrollRoot" style="padding: 20px">
+            <div class="pagelist">
+              <div class="itemlist">
+                <svg-icon icon-class="scratchable" class="sicon" />
+                <div class="doc">
+                  <div class="snd">Necklaces</div>
+                  <div class="mkdu">/kjjdjs/njnjcd</div>
+                </div>
+                <TfrCheckbox type="lagre" />
               </div>
-              <TfrCheckbox type="lagre" />
-            </div>
-            <div class="itemlist">
-              <svg-icon icon-class="scratchable" class="sicon" />
-              <div class="doc">
-                <div class="snd">Necklaces</div>
-                <div class="mkdu">/kjjdjs/njnjcd</div>
+              <div class="itemlist">
+                <svg-icon icon-class="scratchable" class="sicon" />
+                <div class="doc">
+                  <div class="snd">Necklaces</div>
+                  <div class="mkdu">/kjjdjs/njnjcd</div>
+                </div>
+                <TfrCheckbox type="lagre" />
               </div>
-              <TfrCheckbox type="lagre" />
-            </div>
-            <div class="itemlist">
-              <svg-icon icon-class="scratchable" class="sicon" />
-              <div class="doc">
-                <div class="snd">Necklaces</div>
-                <div class="mkdu">/kjjdjs/njnjcd</div>
+              <div class="itemlist">
+                <svg-icon icon-class="scratchable" class="sicon" />
+                <div class="doc">
+                  <div class="snd">Necklaces</div>
+                  <div class="mkdu">/kjjdjs/njnjcd</div>
+                </div>
+                <TfrCheckbox type="lagre" />
               </div>
-              <TfrCheckbox type="lagre" />
-            </div>
-            <div class="itemlist">
-              <svg-icon icon-class="scratchable" class="sicon" />
-              <div class="doc">
-                <div class="snd">Necklaces</div>
-                <div class="mkdu">/kjjdjs/njnjcd</div>
+              <div class="itemlist">
+                <svg-icon icon-class="scratchable" class="sicon" />
+                <div class="doc">
+                  <div class="snd">Necklaces</div>
+                  <div class="mkdu">/kjjdjs/njnjcd</div>
+                </div>
+                <TfrCheckbox type="lagre" />
               </div>
-              <TfrCheckbox type="lagre" />
-            </div>
-            <div class="itemlist">
-              <svg-icon icon-class="scratchable" class="sicon" />
-              <div class="doc">
-                <div class="snd">Necklaces</div>
-                <div class="mkdu">/kjjdjs/njnjcd</div>
+              <div class="itemlist">
+                <svg-icon icon-class="scratchable" class="sicon" />
+                <div class="doc">
+                  <div class="snd">Necklaces</div>
+                  <div class="mkdu">/kjjdjs/njnjcd</div>
+                </div>
+                <TfrCheckbox type="lagre" />
               </div>
-              <TfrCheckbox type="lagre" />
-            </div>
-            <div class="itemlist">
-              <svg-icon icon-class="scratchable" class="sicon" />
-              <div class="doc">
-                <div class="snd">Necklaces</div>
-                <div class="mkdu">/kjjdjs/njnjcd</div>
+              <div class="itemlist">
+                <svg-icon icon-class="scratchable" class="sicon" />
+                <div class="doc">
+                  <div class="snd">Necklaces</div>
+                  <div class="mkdu">/kjjdjs/njnjcd</div>
+                </div>
+                <TfrCheckbox type="lagre" />
               </div>
-              <TfrCheckbox type="lagre" />
             </div>
-          </div>
+          </el-scrollbar>
         </div>
       </div>
       <div slot="footer">
@@ -131,7 +133,6 @@ const clickRightBtn = () => {}
     }
     .pagelist {
       max-height: 340px;
-      overflow-y: auto;
       padding: 0 20px;
       .itemlist {
         display: flex;

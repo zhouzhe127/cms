@@ -102,7 +102,7 @@ const switchChange = (e: boolean) => {
 
 <style lang="scss" scoped>
 .form_container {
-  padding: 60px 10px 0;
+  padding: 0px 10px 0;
   ::v-deep(.el-select) {
     border-bottom: 1px solid $theme;
   }

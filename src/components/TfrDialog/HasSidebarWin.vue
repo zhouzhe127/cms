@@ -39,12 +39,14 @@
           <el-main class="main_container">
             <el-container style="height: 100%">
               <el-main>
-                <component
-                  :is="cacheAside[selectd].component"
-                  v-if="cacheAside[selectd]"
-                  ref="modulsNode"
-                  :close="close"
-                />
+                <el-scrollbar>
+                  <component
+                    :is="cacheAside[selectd].component"
+                    v-if="cacheAside[selectd]"
+                    ref="modulsNode"
+                    :close="close"
+                  />
+                </el-scrollbar>
               </el-main>
               <el-footer>
                 <div class="footerbox">
@@ -191,6 +193,7 @@ onUnmounted(() => {
   }
   .main_container {
     height: 730px;
+    padding-top: 60px;
     .el-main {
       padding: initial;
       padding-bottom: 20px;

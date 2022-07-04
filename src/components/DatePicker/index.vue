@@ -1,6 +1,6 @@
 <template>
-  <div class="date-picker" :style="{ width: datePickerProps.width + 'px' }">
-    <div class="date-panel">
+  <div class="date-picker" :style="{ width: datePickerProps.width }">
+    <div class="date-panel" :style="{width: datePickerProps.timeWidth}">
       <div class="panel-header">
         <div class="prev-month">
           <svg-icon
@@ -42,9 +42,9 @@
       </div>
     </div>
     <div class="zone-time-panel">
-      <el-form ref="timeRef" :model="timeForm" :rules="timeRules">
+      <el-form ref="timeRef" label-width="80px" label-position="top" :model="timeForm" :rules="timeRules">
         <el-form-item prop="timeZone" label="Time zone">
-          <tfr-select v-model="timeForm.timeZone" width="310px">
+          <tfr-select v-model="timeForm.timeZone" width="100%">
             <el-option
               v-for="zone in timeZoneData"
               :key="zone.value"
@@ -54,7 +54,7 @@
           </tfr-select>
         </el-form-item>
         <el-form-item prop="timePoint">
-          <tfr-select v-model="timeForm.timePoint" width="310px">
+          <tfr-select v-model="timeForm.timePoint" width="100%">
             <el-option
               v-for="time in timePointOption"
               :key="time.value"
@@ -83,7 +83,8 @@ const timeRef = ref<FormInstance>()
 
 interface PropsType {
   time?: string | number
-  width?: number
+  width?: string
+  timeWidth?: string
   zt?: string
   hasSubmit?: boolean
 }
@@ -97,7 +98,8 @@ interface DateList {
 
 const datePickerProps = withDefaults(defineProps<PropsType>(), {
   time: '', // 默认值
-  width: 330,
+  width: '330px',
+  timeWidth: '330px',
   zt: '',
   hasBorder: false
 })
@@ -406,6 +408,7 @@ defineExpose({
     //box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 10px 0px;
     border-radius: 8px;
     z-index: 2000;
+    margin: 0 auto;
     padding: 0 0 50px 0;
     .panel-header {
       display: flex;
@@ -559,6 +562,7 @@ defineExpose({
     .el-form-item {
       display: block;
       .el-form-item__label {
+        width: 80px;
         text-align: left;
         color: $theme;
         font-weight: 400;
