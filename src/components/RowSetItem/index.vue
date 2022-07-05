@@ -1,5 +1,5 @@
 <template>
-  <div class="row-setting-item" :class="{ 'p10': hasPadding }">
+  <div class="row-setting-item" :style="{margin: margin}" :class="{ 'p10': hasPadding }">
     <span>{{ title }}</span>
     <div class="line" />
     <div class="bg-switch">
@@ -11,12 +11,14 @@
 <script setup lang="ts">
 interface Props {
   title: string
-  hasPadding: boolean
+  hasPadding: boolean,
+  margin: string
 }
 
 withDefaults(defineProps<Props>(), {
   title: 'Hide From Navigation',
-  hasPadding: true
+  hasPadding: true,
+  margin: '45px 0 0 0'
 })
 </script>
 
@@ -28,7 +30,6 @@ withDefaults(defineProps<Props>(), {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 45px;
   color: black;
   .line {
     height: 1px;

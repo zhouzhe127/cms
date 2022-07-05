@@ -22,9 +22,9 @@ import CmsEdit from '@/components/CmsEdit/index.vue'
 
 <style lang="scss" scoped>
 .article_box {
-  padding-top: 80px;
   display: flex;
   justify-content: center;
+  align-items: center;
   .article_com {
     width: 328px;
     height: 508px;

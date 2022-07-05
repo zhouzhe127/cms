@@ -233,4 +233,7 @@ onUnmounted(() => {
 .main_container::v-global(.el-footer) {
   height: auto;
 }
+.main_container::v-global(.el-scrollbar__view) {
+  height: 100%;
+}
 </style>

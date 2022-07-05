@@ -6,17 +6,19 @@
       v-bind="$attrs"
       @input="input"
     />
-    <span class="clear" @click="clearClick">CLEAR</span>
+    <span v-if="hasClear" class="clear" @click="clearClick">CLEAR</span>
   </div>
 </template>
 
 <script setup lang="ts">
 interface PropsType {
-  width?: string
+  width?: string,
+  hasClear: boolean
 }
 // eslint-disable-next-line no-undef
 const inputProps = withDefaults(defineProps<PropsType>(), {
-  width: '100%' // 默认值
+  width: '100%', // 默认值
+  hasClear: true
 })
 // eslint-disable-next-line no-undef
 const inputEmits = defineEmits([

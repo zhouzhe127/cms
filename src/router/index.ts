@@ -99,7 +99,13 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
             name: 'siteBuilder_plpSettings',
             component: () =>
               import('@/views/homePage/pageDialog/plpSettings/index.vue')
-          }
+          },
+          {
+            path: 'gridSettings',
+            name: 'siteBuilder_plpSettings',
+            component: () =>
+              import('@/views/homePage/pageDialog/gridBlockSettings/index.vue')
+          },
         ]
       },
       {
