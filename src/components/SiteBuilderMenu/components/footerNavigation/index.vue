@@ -10,6 +10,7 @@
           type: 'transition',
           sideState: SITE_MENUS.FOOTER
         }"
+        draggable=".drag-item"
         group="side"
         item-key="title"
         @start="isDragging = true"
@@ -17,6 +18,7 @@
       >
         <template #item="{ element, index }">
           <MenuItem
+            :class="{'drag-item': element.type !== PAGE_SELECT.LEGAL}"
             :key="index"
             :title="element.title"
             :center-icon="element.icon"
