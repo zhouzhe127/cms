@@ -1,7 +1,7 @@
 <template>
   <div>
     <SideMenu title="NAVIGATION" @add-click="addPage">
-      <draggable v-model="sidearr" v-bind="dragOptions" :component-data="{ tag: 'div', name: 'flip-list', type: 'transition' }" group="side" item-key="title" @start="isDragging = true" @end="isDragging = false">
+      <draggable v-model="sidearr" v-bind="dragOptions" :component-data="{ tag: 'div', name: 'flip-list', type: 'transition', sideState: SITE_MENUS.NAVIGATION }" group="side" item-key="title" @start="isDragging = true" @end="onEndCallback">
         <template #item="{element, index}">
           <MenuItem :title="element.title" :key="index" :center-icon="element.icon" @left-click="() => {deleteItem(element)}" @right-click="chickEditWin(element)">
             <ItemChild title="mnns" />
@@ -20,9 +20,9 @@ import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
 // import { useEventBus } from '@vueuse/core'
 import store from '@/store'
-import { SITE_MENUS, SideItem } from './type'
-import { onSideEvent } from './utils/regesterEvent'
-import { addFunc } from '@/store/setBuilder/navigation'
+import { SITE_MENUS, SideItem, EVENT_KEY } from './type'
+import { emitSideEvent, onSideEvent } from './utils/regesterEvent'
+import { addFunc, deleteFunc } from '@/store/setBuilder/navigation'
 import { PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
 import { showDeleteModel } from './utils/deleteUtils'
 import { toEditionModel, toSeletPage } from './utils/router'
@@ -39,6 +39,9 @@ onSideEvent(SITE_MENUS.NAVIGATION, (e: string, item: SideItem) => {
       setBuilder.addNewArticle()
       break
   }
+})
+onSideEvent(EVENT_KEY.DRAG, (e: string, item: any) => {
+  if (item.newModule === SITE_MENUS.NAVIGATION) setBuilder.sideState[addFunc](item.item, item.newIndex)
 })
 const dragOptions = computed(() => {
   return {
@@ -66,6 +69,21 @@ const chickEditWin = (item: SideItem) => {
 }
 const deleteItem = (item: SideItem) => {
   showDeleteModel(item, () => {})
+}
+const onEndCallback = (evt: any) => {
+  isDragging.value = false
+  const item = {
+    ...sidearr.value[evt.oldIndex]
+  }
+  setBuilder.sideState[deleteFunc](item)
+  const dragEmit = emitSideEvent(EVENT_KEY.DRAG)
+  if (dragEmit)
+    dragEmit(EVENT_KEY.DRAG, {
+      item,
+      newIndex: evt.newIndex,
+      oldModule: SITE_MENUS.NAVIGATION,
+      newModule: evt.to.getAttribute('sideState')
+    })
 }
 </script>
 

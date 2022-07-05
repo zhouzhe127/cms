@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
 import { SideItem, SITE_MENUS } from '@/components/SiteBuilderMenu/type/index'
-import { generateUUID } from '@/utils/uuid'
 import {
   PAGE_ICONS,
   PAGE_SELECT
@@ -11,7 +10,7 @@ export const addFunc = Symbol(`add_${SITE_MENUS.FOOTER}`)
 export const addChildFunc = Symbol(`add_children_${SITE_MENUS.FOOTER}`)
 export const deleteFunc = Symbol(`delete_${SITE_MENUS.FOOTER}`)
 
-type addFuncType = (item: SideItem) => void
+type addFuncType = (item: SideItem, index?: number) => void
 type addChildFuncType = (pid: string) => addFuncType
 interface Basic {
   sidebarArr: Array<SideItem>
@@ -46,9 +45,13 @@ export const sidebar = defineStore(
         SideLegal
       ]
     })
-    function addSidebar(item: SideItem) {
-      console.log(generateUUID())
-      Sidestate.sidebarArr.unshift(item)
+    function addSidebar(item: SideItem, index?: number) {
+      // console.log(generateUUID())
+      if (typeof index === 'number') {
+        Sidestate.sidebarArr.splice(index, 0, item) 
+      } else {
+        Sidestate.sidebarArr.unshift(item)
+      }
     }
     function addChildSildebar(pid: string): addFuncType {
       return (item: SideItem) => {
