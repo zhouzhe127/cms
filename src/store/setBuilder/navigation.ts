@@ -14,7 +14,7 @@ interface Basic {
 
 interface ReturnType {
   [SITE_MENUS.NAVIGATION]: Basic
-  [addFunc]: (item: SideItem) => void
+  [addFunc]: (item: SideItem, index?: number) => void
   [deleteFunc]: (item: SideItem) => void
 }
 
@@ -36,8 +36,12 @@ export const sidebar = defineStore(
       ]
     })
 
-    function addSidebar(item: SideItem) {
-      Sidestate.sidebarArr.unshift(item)
+    function addSidebar(item: SideItem, index?: number) {
+      if (typeof index === 'number') {
+        Sidestate.sidebarArr.splice(index, 0, item)
+      } else {
+        Sidestate.sidebarArr.unshift(item)
+      }
     }
     function deleteSidebar(item: SideItem) {
       const arr = Sidestate.sidebarArr
