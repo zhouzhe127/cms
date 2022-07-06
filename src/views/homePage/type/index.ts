@@ -8,3 +8,8 @@ export interface PageSchema {
   template?: string
   properties?: Array<ComponentsSchema>
 }
+
+export enum ARTICLE_REGULAR {
+  FULL_WIDTH = 'full_width',
+  PADDING = 'padding'
+}

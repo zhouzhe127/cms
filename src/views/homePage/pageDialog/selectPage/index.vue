@@ -6,7 +6,7 @@
       append-to-body
       class="page-add-dialog"
       :is-close="false"
-      @before-close="onClose"
+      @close="onClose"
     >
       <div class="type-list">
         <ul>

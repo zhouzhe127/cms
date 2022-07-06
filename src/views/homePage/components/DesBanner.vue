@@ -1,5 +1,5 @@
 <template>
-  <CmsEdit>
+  <CmsEdit :options="['edit_cms', 'add_white']">
     <div class="bannershow">
       <div class="t1">LOREM IPSUM</div>
       <div>SHOP ALL</div>
@@ -27,6 +27,7 @@ import CmsEdit from '@/components/CmsEdit/index.vue'
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
   &:hover {
     background-color: #ffffff;
     .tyable {
