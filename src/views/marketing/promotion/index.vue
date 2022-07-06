@@ -153,6 +153,7 @@
   <effective-region-dialog
     :visible="effectiveRegionDialog"
     :width="dialogWidth"
+    :region-list="[]"
     @update:visible="effectiveRegionDialog = $event"
     @cancelHandle="effectiveRegionDialogCancelHandle"
     @confirmHandle="effectiveRegionDialogConfirmHandle"

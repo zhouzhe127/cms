@@ -1,3 +1,3 @@
-const whiteList = ['/login', '/reset']
+const whiteList = ['/login', '/reset', '/svg']
 
 export { whiteList }

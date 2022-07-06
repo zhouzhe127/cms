@@ -13,6 +13,11 @@ export const constantRoutes: Array<RouteRecordRaw> = [
     component: () => import('@/views/login/reset.vue')
   },
   {
+    path: '/svg',
+    name: 'svg',
+    component: () => import('@/views/svg/index.vue')
+  },
+  {
     path: '/404',
     component: () => import('@/views/error/index.vue')
   }

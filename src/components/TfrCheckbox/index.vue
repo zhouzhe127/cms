@@ -1,7 +1,10 @@
 <template>
   <el-checkbox
-    :class="buttonProps.type === 'tfr-radio' ? 'tfr-radio' : buttonProps.type"
+    :class="
+      checkboxProps.type === 'tfr-radio' ? 'tfr-radio' : checkboxProps.type
+    "
     v-bind="$attrs"
+    @change="change"
   >
     <slot></slot>
   </el-checkbox>
@@ -11,9 +14,13 @@
 interface PropsType {
   type?: string
 }
-const buttonProps = withDefaults(defineProps<PropsType>(), {
+const checkboxProps = withDefaults(defineProps<PropsType>(), {
   type: '' // 默认值
 })
+const checkboxEmits = defineEmits(['change'])
+const change = (value: any) => {
+  checkboxEmits('change', value)
+}
 </script>
 
 <style lang="scss" scoped>

@@ -17,8 +17,8 @@
     <el-form
       ref="announcementFormRef"
       class="announcement-form"
-      :modle="announcementForm"
-      :reles="announcementRules"
+      :model="announcementForm"
+      :rules="announcementRules"
     >
       <stick-flow title="ANNOUNCEMENT" :top="offsetTop">
         <template #right
@@ -66,9 +66,9 @@
           <tfr-select v-model="promoCode" width="100%">
             <el-option
               v-for="promo in promoList"
-              :key="promo.code"
+              :key="promo.promotion_code_id"
               :label="promo.name"
-              :value="promo.code"
+              :value="promo.promotion_code_id"
             />
           </tfr-select>
         </el-form-item>
@@ -87,19 +87,24 @@
       <el-form-item label="Effective region">
         <div class="region-list">
           <tfr-tag
-            v-for="region in effectiveRegionList"
-            :key="region.code"
-            @close="removeRegionHandle(region)"
-            >{{ region.name }}</tfr-tag
+            v-for="(region, index) in effectiveRegionList"
+            :key="region.region_code"
+            @close="removeRegionHandle(index)"
+            >{{ region.region_name }}</tfr-tag
           >
           <span class="pointer" @click="editRegionHandle">Edit</span>
         </div>
       </el-form-item>
       <el-form-item label="Link">
-        <tfr-radio-group v-model="linkType" @change="linkTypeChange">
-          <el-radio label="none">None</el-radio>
-          <el-radio label="setLink">Set Link</el-radio>
+        <tfr-radio-group v-model="linkType">
+          <el-radio label="none" @click.prevent="setLinkNoneHandle"
+            >None</el-radio
+          >
+          <el-radio label="setLink" @click.prevent="setLinkHandle"
+            >Set Link</el-radio
+          >
         </tfr-radio-group>
+        <div v-if="linkType === 'setLink'" class="link"></div>
       </el-form-item>
       <el-form-item label="Target">
         <tfr-radio-group v-model="targetCustomer" @change="targetChange">
@@ -135,13 +140,19 @@
       </template>
     </div>
     <effective-region-dialog
+      v-if="effectiveRegionDialog"
       :visible="effectiveRegionDialog"
       :width="dialogWidth"
+      :region-list="effectiveRegionList"
       @update:visible="effectiveRegionDialog = $event"
       @cancelHandle="effectiveRegionDialogCancelHandle"
       @confirmHandle="effectiveRegionDialogConfirmHandle"
     />
-    <HasSidebarWin v-model="linkVisibleDialog" :side-arr="sideArr" />
+    <HasSidebarWin
+      v-model="linkVisibleDialog"
+      title="Edit Link"
+      :side-arr="sideArr"
+    />
     <target-dialog
       :visible="targetVisible"
       :width="dialogWidth"
@@ -165,12 +176,59 @@ import EffectiveRegionDialog from '@/views/marketing/components/EffectiveRegionD
 import sideArr from '@/views/homePage/pageDialog/editLinkPage/setModules'
 import TargetDialog from '@/views/marketing/components/TargetDialog/index.vue'
 import DatePickerRange from '@/components/DatePickerRange/index.vue'
-import { reactive, ref } from 'vue'
+import { getPromotionList } from '@/api/marketing'
+import { reactive, ref, onMounted } from 'vue'
 import { FormInstance, FormRules } from 'element-plus'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { appStore } from '@/store/modules/app'
 import { menuStore } from '@/store/modules/menu'
+
+interface PromotionItem {
+  name: string
+  promo_code_id: number
+  [key: string]: any
+}
+
+interface RegionItem {
+  checked: boolean
+  currency_code?: string
+  flag?: string
+  phone_code?: string
+  region_code: string
+  region_name: string
+}
+
+interface Link {
+  type: string
+  external: {
+    title: string
+    link: string
+    open_new: boolean
+  }
+  internal: {
+    title: string
+    page: string
+    open_new: boolean
+  }
+  code: {
+    title: string
+    code: string
+    open_new: string
+  }
+  email: {
+    send_to: string
+    subject: string
+    body: string
+    cc: string
+    bcc: string
+  }
+  download_media: {
+    type: string
+    path: string
+  }
+}
+
 const announcementFormRef = ref<FormInstance>()
 const route = useRoute()
 const { target } = route.params
@@ -209,16 +267,7 @@ const announcementRules = reactive<FormRules>({
 })
 const bannerPicture = ref([])
 const mobileBannerPicture = ref([])
-const promoList = reactive([
-  {
-    name: 'PromoCode 1',
-    code: '1'
-  },
-  {
-    name: 'PromoCode 2',
-    code: '2'
-  }
-])
+let promoList = ref<PromotionItem[]>()
 const promoCode = ref('')
 const legalList = ref([
   {
@@ -228,19 +277,35 @@ const legalList = ref([
   {
     name: 'Terms & Conditions',
     code: '2'
+  },
+  {
+    name: 'Return & Refund And Policy',
+    code: '3'
+  },
+  {
+    name: 'Cookie Policy',
+    code: '4'
   }
 ])
 const legal = ref('')
-const effectiveRegionList = ref([{ name: 'All Region', code: 'all' }])
+const effectiveRegionList = ref([
+  { region_name: 'All Region', region_code: 'all', checked: true }
+])
 const effectiveRegionDialog = ref(false)
 const linkType = ref('none')
 const linkVisibleDialog = ref(false)
 const targetVisible = ref(false)
 const targetCustomer = ref('all')
 const expirationType = ref<string>('none')
+const link = ref<Link>()
 
-const removeRegionHandle = (tag: any) => {
-  console.log(tag)
+onMounted(async () => {
+  const { list }: any = await getPromotionList()
+  promoList.value = list
+})
+
+const removeRegionHandle = (index: number) => {
+  effectiveRegionList.value.splice(index, 1)
 }
 const editRegionHandle = () => {
   effectiveRegionDialog.value = true
@@ -248,15 +313,27 @@ const editRegionHandle = () => {
 const effectiveRegionDialogCancelHandle = () => {
   effectiveRegionDialog.value = false
 }
-const effectiveRegionDialogConfirmHandle = (regionData: any) => {
-  const regionChecked = regionData.value.filter((item: any) => item.checked)
-  effectiveRegionList.value = [...effectiveRegionList.value, ...regionChecked]
+const effectiveRegionDialogConfirmHandle = (regionList: RegionItem[]) => {
+  const regionChecked: RegionItem[] = regionList.filter(
+    (item: RegionItem) => item.checked
+  )
+  effectiveRegionList.value = regionChecked
   effectiveRegionDialog.value = false
 }
-const linkTypeChange = (label: string) => {
-  if (label === 'setLink') {
-    linkVisibleDialog.value = true
-  }
+// const linkTypeChange = (label: string) => {
+//   console.log(label, 'nihao')
+//   if (label === 'setLink') {
+//     linkVisibleDialog.value = true
+//   }
+// }
+
+const setLinkNoneHandle = () => {
+  linkType.value = 'none'
+}
+
+const setLinkHandle = () => {
+  linkType.value = 'setLink'
+  linkVisibleDialog.value = true
 }
 
 const targetChange = (label: string) => {
@@ -269,7 +346,9 @@ const targetDialogCancelHandle = () => {
 }
 
 const targetDialogConfirmHandle = () => {}
-const saveHandle = () => {}
+const saveHandle = () => {
+  console.log(bannerPicture)
+}
 </script>
 
 <style lang="scss" scoped>
