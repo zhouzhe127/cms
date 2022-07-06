@@ -28,11 +28,14 @@ import RadioInput from './index.vue'
       height: 40px;
       text-align: center;
       padding: 10px;
-      border: 1px black solid;
+      border: 1px #c6c9c9 solid;
     }
     .svgicon {
       font-size: 20px;
       margin-right: 8px;
+      &.svg-icon {
+        fill: #c6c9c9;
+      }
     }
     span {
       display: inline-block;
@@ -40,6 +43,15 @@ import RadioInput from './index.vue'
     }
     .rot {
       transform: rotate(90deg);
+    }
+  }
+  ::v-deep(.is-checked) {
+    .pdipt {
+      border: 1px $theme solid;
+    }
+
+    .svgicon.svg-icon {
+      fill: $theme;
     }
   }
 }
