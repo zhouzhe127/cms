@@ -7,7 +7,7 @@ import qs from 'qs'
 import { getToken } from '@/utils/cookies'
 const { VITE_APP_API_ADDRESS, VITE_APP_MOCK_ADDRESS, VITE_APP_DEMO_ADDRESS } =
   import.meta.env
-const apiAddress = VITE_APP_API_ADDRESS.replace('dev', 'pre')
+const apiAddress = VITE_APP_API_ADDRESS
 const mockAddress = VITE_APP_MOCK_ADDRESS
 const demoAddress = VITE_APP_DEMO_ADDRESS
 const { apiAddress: testAddress } = qs.parse(location.search, {

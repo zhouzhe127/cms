@@ -17,7 +17,6 @@ import draggable from 'vuedraggable'
 import { ref, computed } from 'vue'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
-import ItemChild from '@/components/SecondSide/ItemChild.vue'
 // import { useEventBus } from '@vueuse/core'
 import store from '@/store'
 import { SITE_MENUS, SideItem, EVENT_KEY } from './type'
@@ -53,13 +52,11 @@ const dragOptions = computed(() => {
 })
 const isDragging = ref(false)
 const setBuilder = store.setBuilder
-const storeSide = setBuilder.sideState[SITE_MENUS.NAVIGATION].sidebarArr
 const sidearr = computed({
   get() {
     return setBuilder.sideState[SITE_MENUS.NAVIGATION].sidebarArr
   },
   set(value: any) {
-    console.log(value)
     dragSetSide(value)
   }
 })
