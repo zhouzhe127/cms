@@ -2,12 +2,7 @@ import request from '@/api/request'
 import tfrMessage from '@/utils/tfrMessage'
 const $tfrMessage = tfrMessage
 
-export const getPolicy = (
-  resourceId: string,
-  merchantId: string,
-  content_type: string,
-  uid: number
-) => {
+export const getPolicy = (content_type: string) => {
   // const urlMap = new Map([
   //   ['cms', `${apiAddress}general/aws/bucket/policy/cms?content_type=${contentType}`],
   //   ['product', `${apiAddress}general/aws/bucket/policy/${target}?resource_id=${resourceId}&merchant_id=${merchantId}&content_type=${contentType}`],
@@ -15,7 +10,7 @@ export const getPolicy = (
   // ])
   const url = `${
     import.meta.env.VITE_APP_API_ADDRESS
-  }general/aws/bucket/policy/product?resource_id=${resourceId}&merchant_id=${merchantId}&content_type=${content_type}&uid=${uid}`
+  }general/bucket/aws/policy/site?content_type=${content_type}`
   return request({
     url,
     method: 'get'
@@ -42,12 +37,7 @@ export function uploadHttp({
     try {
       const ext = file.name.substring(file.name.lastIndexOf('.') + 1)
       const contentType = `image/${ext}`
-      const res: any = await getPolicy(
-        resourceId,
-        merchantId,
-        file.type || contentType,
-        file.uid
-      )
+      const res: any = await getPolicy(file.type || contentType)
       const fd = new FormData()
       console.log(res)
       const { action } = res.policy

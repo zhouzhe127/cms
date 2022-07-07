@@ -80,6 +80,7 @@ const requestHandler = (config: RequestConfig) => {
   //   axiosPromiseCancel.push(cancel)
   //   store.dispatch('app/axiosPromiseCancel', axiosPromiseCancel)
   // })
+  console.log(config, 'kkk888')
   return {
     ...config,
     params: {
@@ -126,15 +127,18 @@ export interface TSZResponse<T> {
   status: number
   msg: string
   data?: T
+  params?: T
 }
 // 重写返回类型
 interface TSRequestConfig<T, R> extends RequestConfig<TSZResponse<R>> {
   data?: T
+  params?: T
 }
 const tszRequest = <D = any, T = any>(config: TSRequestConfig<D, T>) => {
   const { method = 'GET' } = config
   if (method === 'get' || method === 'GET') {
-    config.params = config.data
+    console.log(config)
+    config.params = config.params // method:get 统一用params
   }
   return request.request<TSZResponse<T>>(config)
 }

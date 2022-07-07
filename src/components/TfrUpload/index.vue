@@ -123,9 +123,6 @@ const handleUploadHttpRequest = async (
     }
     const options = {
       file,
-      resourceId: '629dc1bb3d2b140008054f62',
-      merchantId: '1016',
-      pid: 2844,
       proc: onProgress
     }
     const pictureItem: PictureItem = {

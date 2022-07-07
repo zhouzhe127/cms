@@ -38,7 +38,12 @@
       </el-form>
       <div v-if="step === '2'" class="send-finish-box">
         <p class="title">CHECK YOUR INBOX</p>
-        <svg-icon icon-class="sending" />
+        <lottie-player
+          src="https://assets9.lottiefiles.com/packages/lf20_jSLuz3.json"
+          style="width: 100px; height: 100px; margin: 0 auto"
+          loop
+          autoplay
+        ></lottie-player>
         <p class="tips">Reset link is send to your inbox.</p>
         <TfrButton type="gray" @click="backToLoginHandle"
           >RETURN TO SIGN IN</TfrButton
