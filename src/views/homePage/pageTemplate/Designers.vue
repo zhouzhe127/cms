@@ -27,10 +27,8 @@ import pageComponents from '@/views/homePage/config/pageComponents'
 import Newsletter from '@/views/homePage/components/Newsletter.vue'
 import InfoBlock from '@/views/homePage/components/InfoBlock.vue'
 
-const pageTemplate = appStore.setBuilder.basic.pageTemplate
+const pageTemplate = appStore.setBuilder.pageState.basic.schema
 </script>
 
 <style lang="scss" scoped>
-.template_box {
-}
 </style>

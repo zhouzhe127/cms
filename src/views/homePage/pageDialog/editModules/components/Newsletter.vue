@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<Props>(), {
 const route = useRoute()
 const site = route.query.site
 const confirm = () => {
-  appStore.setBuilder.addPageModle(
+  appStore.setBuilder.pageState.addPageModle(
     {
       componentName: SITE_MODULES.NEWSLETTER
     },

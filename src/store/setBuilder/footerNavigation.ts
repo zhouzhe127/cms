@@ -48,7 +48,7 @@ export const sidebar = defineStore(
     function addSidebar(item: SideItem, index?: number) {
       // console.log(generateUUID())
       if (typeof index === 'number') {
-        Sidestate.sidebarArr.splice(index, 0, item) 
+        Sidestate.sidebarArr.splice(index, 0, item)
       } else {
         Sidestate.sidebarArr.unshift(item)
       }

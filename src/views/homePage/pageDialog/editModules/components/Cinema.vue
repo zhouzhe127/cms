@@ -58,7 +58,7 @@ const pagination = {
 }
 const site = route.query.site
 const confirm = () => {
-  appStore.setBuilder.addPageModle(
+  appStore.setBuilder.pageState.addPageModle(
     {
       componentName: SITE_MODULES.CINEMA
     },

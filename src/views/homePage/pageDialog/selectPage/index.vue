@@ -40,8 +40,8 @@ const sideEmit = emitSideEvent(origin)
 // import { addFunc as addFooterFun } from '@/store/setBuilder/footerNavigation';
 const { showWin, closeWin } = generalwin()
 // const callback = store.setBuilder.basic.selectPageCallback
-// const setBuilder = store.setBuilder
-const listArr = [
+const setBuilder = store.setBuilder
+const listArr: Array<SideItem> = [
   {
     title: PAGE_SELECT.PAGE,
     type: PAGE_SELECT.PAGE,
@@ -82,10 +82,21 @@ const onClose = () => {
   closeWin()
 }
 const addpage = async (item: SideItem) => {
-  // await navigationCreate({
-  //   location: origin,
-  //   content_type: item.title,
-  // })
+  await navigationCreate({
+    location: origin,
+    content_type: item.title,
+    name: `NEW ${item.title}`,
+    page_title: 'das',
+    slug: 'cds',
+    status: 'dsa',
+    search_disabled: true,
+    position: 1,
+    inject_code: 'das',
+    search_tags: ["tag","search"],
+    is_home_page: false,
+    parent_code: 'dsa',
+  })
+  setBuilder.getSetBuilderList()
   if (sideEmit) sideEmit(origin, { ...item, ...route.query })
   showWin.value = false
 }
