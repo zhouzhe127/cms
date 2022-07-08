@@ -27,19 +27,23 @@
               <header>TYPE</header>
               <div class="type-con">
                 <TfrRadioGroup v-model="typeCheck">
-                  <el-radio :label="PLPTYPE.PREANNOUNCEMENT"
-                    >Preannouncement</el-radio
-                  >
+                  <el-radio :label="PLPTYPE.PREANNOUNCEMENT">
+                    Preannouncement
+                  </el-radio>
                   <el-radio :label="PLPTYPE.FILTER">Filter</el-radio>
                   <el-radio :label="PLPTYPE.CUSTOM">Custom</el-radio>
                 </TfrRadioGroup>
               </div>
               <div class="show-type-con">
                 <div v-if="typeCheck === PLPTYPE.PREANNOUNCEMENT">
-                  Preannouncement
+                  <div style="width: 335px; margin: 0 auto">
+                    <Preannouncement />
+                  </div>
                 </div>
-                <div v-if="typeCheck === PLPTYPE.FILTER">Filter</div>
-                <div v-if="typeCheck === PLPTYPE.CUSTOM">Custom</div>
+                <div v-if="typeCheck === PLPTYPE.FILTER"><Filter /></div>
+                <div v-if="typeCheck === PLPTYPE.CUSTOM">
+                  <SkuInput />
+                </div>
               </div>
             </el-form-item>
             <RowSetItem title="Title Block" :has-padding="false">
@@ -112,6 +116,9 @@ import TfrEditor from '@/components/TfrEditor/index.vue'
 import TfrUpload from '@/components/TfrUpload/index.vue'
 import DatePicker from '@/components/DatePicker/index.vue'
 import generalwin from '../../generalwin'
+import SkuInput from '@/views/homePage/components/FormCommon/SkuInput.vue'
+import Preannouncement from './component/Preannouncement.vue'
+import Filter from './component/Filter.vue'
 const { showWin, closeWin } = generalwin()
 
 enum PLPTYPE {
@@ -159,6 +166,10 @@ const typeCheck = ref<string>(PLPTYPE.PREANNOUNCEMENT)
       width: 100%;
       margin-bottom: 10px;
     }
+  }
+  .show-type-con {
+    width: 100%;
+    margin-top: 10px;
   }
   .mobile-upload {
     width: 252px;

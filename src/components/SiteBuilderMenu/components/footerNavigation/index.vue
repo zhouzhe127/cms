@@ -20,22 +20,16 @@
           <MenuItem
             :class="{'drag-item': element.type !== PAGE_SELECT.LEGAL}"
             :key="index"
-            :title="element.title"
-            :center-icon="element.icon"
+            :title="element.navigation.name"
+            :has-child="element.navigation.hasChild"
+            :center-icon="element.navigation.icon"
             :has-left-icon="!isLegal(element)"
             :has-right-icon="!isLegal(element)"
             @left-click="() => deleteItem(element)"
             @right-click="() => chickEditWin(element)"
             @add="() => onAdd(element)"
           >
-            <ItemChild
-              v-for="(citem, cindex) in element.children"
-              :key="`child_${cindex}`"
-              :center-icon="citem.icon"
-              :title="citem.title"
-              @left-click="() => deleteItem(citem, element.id || element.title)"
-              @right-click="() => chickEditWin(citem)"
-            />
+          <nested-draggable :draglist="element.sub_navigation" :parentId="element.navigation.id" :reset="dragSetSide"></nested-draggable>
             <DeleteDialog :visible="false" />
           </MenuItem>
         </template>
@@ -53,7 +47,6 @@ import { computed, ref } from 'vue'
 import draggable from 'vuedraggable'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
-import ItemChild from '@/components/SecondSide/ItemChild.vue'
 import { EVENT_KEY, SideItem, SITE_MENUS } from '../../type'
 import {
   addChildFunc,
@@ -69,6 +62,7 @@ import {
   PAGE_ICONS,
   PAGE_SELECT
 } from '@/views/homePage/pageDialog/selectPage/index.type'
+import NestedDraggable from '../NestedDraggable.vue'
 
 const dragOptions = computed(() => {
   return {
@@ -81,11 +75,22 @@ const dragOptions = computed(() => {
 const isDragging = ref(false)
 const setBuilder = store.setBuilder
 onSideEvent(SITE_MENUS.FOOTER, (e: string, item: any) => {
-  if (item.parentId) {
-    setBuilder.sideState[addChildFunc](decodeURIComponent(item.parentId))(item)
-    return
+  switch (item.title) {
+    case PAGE_SELECT.PAGE:
+      setBuilder.pageState.addNewPage()
+      break
+    case PAGE_SELECT.PLP:
+      setBuilder.pageState.addNewPlp()
+      break
+    case PAGE_SELECT.ARTICLE:
+      setBuilder.pageState.addNewArticle()
+      break
   }
-  setBuilder.sideState[addFunc](item)
+  // if (item.parentId) {
+  //   setBuilder.sideState[addChildFunc](decodeURIComponent(item.parentId))(item)
+  //   return
+  // }
+  // setBuilder.sideState[addFunc](item)
 })
 onSideEvent(EVENT_KEY.DRAG, (e: string, item: any) => {
   if (item.newModule === SITE_MENUS.FOOTER)
@@ -107,8 +112,26 @@ const onEndCallback = (evt: any) => {
     })
 }
 const sidearr = computed(
-  () => store.setBuilder.sideState[SITE_MENUS.FOOTER].sidebarArr
+  {
+    get() {
+      return store.setBuilder.sideState[SITE_MENUS.FOOTER].sidebarArr
+    },
+    set(value: any) {
+      dragSetSide(value)
+    }
+  }
 )
+const dragSetSide = (value: any, parentId?: string) => {
+  if(parentId) {
+    sidearr.value.forEach((v: any) => {
+      if (v.navigation.id === parentId) {
+        v.sub_navigation = value
+      }
+    })
+  } else {
+    setBuilder.sideState[addFunc](value)
+  }
+}
 const addPage = () => {
   toSeletPage({
     origin: SITE_MENUS.FOOTER
@@ -119,7 +142,7 @@ const chickEditWin = (item: SideItem) => {
 }
 const deleteItem = (item: SideItem, pid?: string) => {
   showDeleteModel(item, () => {
-    setBuilder.sideState[deleteFunc](item, pid)
+    // setBuilder.sideState[deleteFunc](item, pid)
   })
 }
 const onAdd = (item: SideItem) => {
