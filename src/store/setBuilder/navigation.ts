@@ -32,10 +32,19 @@ export const sidebar = defineStore(
         Sidestate.sidebarArr.unshift(item)
       }
     }
-    function deleteSidebar(item: RequestSide) {
+    function deleteSidebar(item: RequestSide, pid?: string) {
       const arr = Sidestate.sidebarArr
       if (item.navigation?.id) {
         Sidestate.sidebarArr = arr.filter(v => v.navigation?.id !== item.navigation?.id)
+      }
+      if (pid) {
+        const curState: RequestSide | undefined = arr.find(
+          v => v.navigation?.id === pid
+        )
+        if (curState && Array.isArray(curState?.sub_navigation))
+          curState.sub_navigation = curState.sub_navigation?.filter(
+            (v: RequestSide) => v.navigation?.id !== item.navigation?.id
+          )
       }
     }
     return {

@@ -22,10 +22,10 @@ import appStore from '@/store'
 import { useRouter } from 'vue-router'
 const properties = appStore.setBuilder.pageState.basic.schema.properties || []
 interface Props {
-  index?: number,
+  site?: number,
 }
 const props = withDefaults(defineProps<Props>(), {
-  index: 0
+  site: 0
 })
 const edit = (index: number):void => {
   if (index === 2) {

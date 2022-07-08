@@ -1,4 +1,4 @@
-import Page from '@/views/homePage/pageTemplate/Designers.vue'
+import Page from '@/views/homePage/pageTemplate/Page.vue'
 import Plp from '@/views/homePage/pageTemplate/Plp.vue'
 import Article from '@/views/homePage/pageTemplate/Article.vue'
 import { Component } from 'vue'

@@ -5,7 +5,8 @@
       <div v-for="(item, index) in pageTemplate.properties" :key="index">
         <component
           :is="pageComponents[item.componentName]"
-          :index="index"
+          :basic="item"
+          :site="index"
         ></component>
       </div>
       <AddModule />

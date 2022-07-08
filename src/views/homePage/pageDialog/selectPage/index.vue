@@ -82,20 +82,20 @@ const onClose = () => {
   closeWin()
 }
 const addpage = async (item: SideItem) => {
-  await navigationCreate({
-    location: origin,
-    content_type: item.title,
-    name: `NEW ${item.title}`,
-    page_title: 'das',
-    slug: 'cds',
-    status: 'dsa',
-    search_disabled: true,
-    position: 1,
-    inject_code: 'das',
-    search_tags: ["tag","search"],
-    is_home_page: false,
-    parent_code: 'dsa',
-  })
+  // await navigationCreate({
+  //   location: origin,
+  //   content_type: item.title,
+  //   name: `NEW ${item.title}`,
+  //   page_title: 'das',
+  //   slug: 'dscd',
+  //   status: 'dsa',
+  //   search_disabled: true,
+  //   position: 1,
+  //   inject_code: 'das',
+  //   search_tags: ["tag","search"],
+  //   is_home_page: false,
+  //   parent_code: 'dsa',
+  // })
   setBuilder.getSetBuilderList()
   if (sideEmit) sideEmit(origin, { ...item, ...route.query })
   showWin.value = false

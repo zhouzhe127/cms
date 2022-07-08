@@ -19,7 +19,7 @@ import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 // import { useEventBus } from '@vueuse/core'
 import store from '@/store'
-import { SITE_MENUS, SideItem, EVENT_KEY } from './type'
+import { SITE_MENUS, SideItem, RequestSide, EVENT_KEY } from './type'
 import { emitSideEvent, onSideEvent } from './utils/regesterEvent'
 import { addFunc, deleteFunc } from '@/store/setBuilder/navigation'
 import { PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
@@ -77,8 +77,10 @@ const addPage = () => {
 const chickEditWin = (item: SideItem) => {
   toEditionModel(item)
 }
-const deleteItem = (item: SideItem) => {
-  showDeleteModel(item, () => {})
+const deleteItem = (item: RequestSide) => {
+  showDeleteModel(item.navigation, () => {
+    setBuilder.sideState[deleteFunc](item)
+  })
 }
 const onEndCallback = (evt: any) => {
   isDragging.value = false

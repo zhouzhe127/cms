@@ -10,6 +10,7 @@ interface ReturnType {
   basic: Basic
   addNewPage: (title?: string) => void
   addNewPlp: (title?: string) => void
+  addChildModle: (item: ComponentsSchema, site: number, index: number) => void
   addNewArticle: (title?: string) => void
   addPageModle: (item: ComponentsSchema | Array<ComponentsSchema>, index: number) => void
 }
@@ -48,8 +49,19 @@ export const pageTemplate = defineStore(
         basic.schema.properties?.splice(index, 0, item)
       }
     }
+    function addChildModle (
+      item: ComponentsSchema,
+      site: number,
+      index: number
+    ) {
+      const pt = basic.schema.properties || []
+      if (pt[site]) {
+        const mn = pt[site] || {}
+        mn.properties?.splice(index, 0, item)
+      }
+    }
 
-    return { basic, addNewPage, addPageModle, addNewPlp, addNewArticle }
+    return { basic, addNewPage, addPageModle, addNewPlp, addChildModle, addNewArticle }
   },
   {
     persist: true

@@ -1,6 +1,7 @@
 export interface SideItem {
   id?: string
   type?: string
+  code?: string
   title?: string
   name?: string
   leftIcon?: string
@@ -10,8 +11,8 @@ export interface SideItem {
   children?: SideItem[]
 }
 export interface RequestSide {
-  navigation?: SideItem,
-  sub_navigation?: Array<SideItem>,
+  navigation: SideItem,
+  sub_navigation?: Array<RequestSide>,
 }
 export interface SideInterPort {
   title?: string

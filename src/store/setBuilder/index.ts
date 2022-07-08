@@ -5,12 +5,11 @@ import { pageTemplate } from './pageTemplate'
 import { sidebar as footerSlidebar } from './footerNavigation'
 import { getNavigationList } from '@/api/siteBuilder/navigation'
 import { disposeSideDate } from '@/utils/siteBuilder'
-import { SITE_MENUS, RequestSide } from '@/components/SiteBuilderMenu/type/index'
+import { SITE_MENUS } from '@/components/SiteBuilderMenu/type/index'
 interface Basic {
   platformState: string,
   loading: boolean
 }
-type stringKey = Record<string, Object>
 export const setBuilder = defineStore(
   'setBuilder',
   () => {
