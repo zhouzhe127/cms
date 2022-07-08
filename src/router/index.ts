@@ -117,6 +117,12 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
             component: () =>
               import('@/views/homePage/pageDialog/infoBlockSettings/index.vue')
           },
+          {
+            path: 'footerSettings',
+            name: 'siteBuilder_footerSettings',
+            component: () =>
+              import('@/views/homePage/pageDialog/footerSettings/index.vue')
+          },
         ]
       },
       {
