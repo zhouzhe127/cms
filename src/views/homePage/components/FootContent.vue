@@ -1,5 +1,5 @@
 <template>
-  <CmsEdit :options="['tool']">
+  <CmsEdit :options="['tool']" @option-click="onOpClick">
     <div class="foot-box">
       <div class="links">
         <div v-for="(item, index) in links" :key="index" class="links_items">
@@ -41,6 +41,7 @@
 
 <script setup lang="ts">
 import CmsEdit from '@/components/CmsEdit/index.vue'
+import { useRouter } from 'vue-router'
 
 interface Msd {
   text: string
@@ -89,6 +90,12 @@ const links: Array<Msd> = [
     ]
   }
 ]
+const router = useRouter()
+const onOpClick = () => {
+  router.push({
+    path: '/siteBuilder/footerSettings'
+  })
+}
 </script>
 
 <style lang="scss" scoped>
