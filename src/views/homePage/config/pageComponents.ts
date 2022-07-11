@@ -1,5 +1,6 @@
 import Pagetop from '@/views/homePage/components/Pagetop.vue'
 import Cinema from '@/views/homePage/components/Cinema/index.vue'
+import Titlebar from '@/views/homePage/components/Titlebar/index.vue'
 import AddModule from '@/views/homePage/components/AddModule.vue'
 import Newsletter from '@/views/homePage/components/Newsletter.vue'
 import InfoBlock from '@/views/homePage/components/InfoBlock.vue'
@@ -12,6 +13,7 @@ export enum SITE_MODULES {
   FOOTCONTENT = 'FootContent',
   NEWSLETTER = 'Newsletter',
   INFOBLOCK = 'InfoBlock',
+  TITLEBAR = 'TitleBar',
 }
 type stringKey = Record<string, Component>
 const ComponentsMap: stringKey = {
@@ -21,5 +23,6 @@ const ComponentsMap: stringKey = {
   [SITE_MODULES.FOOTCONTENT]: FootContent,
   [SITE_MODULES.NEWSLETTER]: Newsletter,
   [SITE_MODULES.INFOBLOCK]: InfoBlock,
+  [SITE_MODULES.TITLEBAR]: Titlebar,
 }
 export default ComponentsMap

@@ -1,9 +1,23 @@
 <template>
   <div>
     <SideMenu title="NAVIGATION" @add-click="addPage">
-      <draggable v-model="sidearr" v-bind="dragOptions" :component-data="{ tag: 'div', name: 'flip-list', type: 'transition', sideState: SITE_MENUS.NAVIGATION }" group="side" item-key="title" @start="isDragging = true" @end="onEndCallback">
+      <draggable
+        v-model="sidearr"
+        v-bind="dragOptions"
+        :component-data="{ tag: 'div', name: 'flip-list', type: 'transition', sideState: SITE_MENUS.NAVIGATION }"
+        group="side"
+        item-key="title"
+        @start="isDragging = true"
+        @end="onEndCallback">
         <template #item="{element, index}">
-          <MenuItem :title="element.navigation.name" :has-child="element.navigation.hasChild" :key="index" :center-icon="element.navigation.icon" @left-click="() => {deleteItem(element)}" @right-click="chickEditWin(element)">
+          <MenuItem
+            :title="element.navigation.name"
+            :has-child="element.navigation.hasChild"
+            :key="element.navigation.id"
+            :is-empty="element.sub_navigation && element.sub_navigation.length <= 0"
+            :center-icon="element.navigation.icon"
+            @left-click="() => {deleteItem(element)}"
+            @right-click="chickEditWin(element)">
             <nested-draggable :draglist="element.sub_navigation" :parentId="element.navigation.id" :reset="dragSetSide" />
           </MenuItem>
         </template>
