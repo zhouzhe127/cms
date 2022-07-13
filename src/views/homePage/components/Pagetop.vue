@@ -1,8 +1,6 @@
 <template>
   <div class="topcontant">
-    <div class="aside">
-      <img src="@/assets/image/top.png" alt="" />
-    </div>
+    <NavBar />
     <div class="tab">
       <div v-for="(item, index) in itemArr" :key="index" class="tabitem">
         {{ item }}
@@ -12,6 +10,7 @@
 </template>
 
 <script setup lang="ts">
+import NavBar from '@/views/homePage/components/NavBar.vue'
 const itemArr = [
   'NEW IN',
   'JEWELRY',

@@ -1,5 +1,5 @@
 <template>
-  <div class="plpregular">
+  <div class="plpregular" @click="onPlpRegular">
     <div class="topoption">
       <div>
         Filter
@@ -60,10 +60,20 @@
 <script setup lang="ts">
 import CmsEdit from '@/components/CmsEdit/index.vue'
 import Pagination from '@/components/TfrPagination/index.vue'
+import { useRoute, useRouter } from 'vue-router';
+
+const router = useRouter()
+
+const onPlpRegular = () => {
+  router.push({
+    path: '/siteBuilder/plpSettings'
+  })
+}
 </script>
 <style lang="scss" scoped>
 .plpregular {
   padding: 0 20px;
+  cursor: pointer;
   .topoption {
     display: flex;
     justify-content: space-between;

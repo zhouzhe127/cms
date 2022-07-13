@@ -10,6 +10,7 @@ interface Basic {
 interface ReturnType {
   basic: Basic
   addNewPage: (title?: string) => void
+  addHomePage: (title?: string) => void
   addNewPlp: (title?: string) => void
   addChildModle: (item: ComponentsSchema, site: number, index: number) => void
   addNewArticle: (title?: string) => void
@@ -50,6 +51,11 @@ export const pageTemplate = defineStore(
       basic.schema.title = title
       basic.schema.properties = []
     }
+    function addHomePage(title?: string) {
+      basic.schema.template = SITE_PAGETEMPLATE.HOME_PAGE
+      basic.schema.title = title
+      basic.schema.properties = []
+    }
     function addPageModle(
       item: ComponentsSchema | Array<ComponentsSchema>,
       index: number
@@ -79,7 +85,8 @@ export const pageTemplate = defineStore(
       addPageModle,
       addNewPlp,
       addChildModle,
-      addNewArticle
+      addNewArticle,
+      addHomePage
     }
   },
   {
