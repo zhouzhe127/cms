@@ -2,7 +2,8 @@ import { defineStore } from 'pinia'
 import { reactive } from 'vue'
 import { PageSchema, ComponentsSchema } from '@/views/homePage/type/index'
 import { SITE_PAGETEMPLATE } from '@/views/homePage/config/templateMap'
-
+import { pageContentDetail } from '@/api/siteBuilder/page'
+import { disposeTemplateDate } from '@/utils/siteBuilder'
 interface Basic {
   schema: PageSchema
 }
@@ -12,7 +13,11 @@ interface ReturnType {
   addNewPlp: (title?: string) => void
   addChildModle: (item: ComponentsSchema, site: number, index: number) => void
   addNewArticle: (title?: string) => void
-  addPageModle: (item: ComponentsSchema | Array<ComponentsSchema>, index: number) => void
+  getPageDetail: (code?: string) => void
+  addPageModle: (
+    item: ComponentsSchema | Array<ComponentsSchema>,
+    index: number
+  ) => void
 }
 export const pageTemplate = defineStore(
   'pageTemplate',
@@ -24,6 +29,12 @@ export const pageTemplate = defineStore(
         properties: []
       }
     })
+    async function getPageDetail(code?: string) {
+      const data:any = await pageContentDetail({ site_navigation_code: code })
+      data.template = 'page'
+      basic.schema = disposeTemplateDate(data)
+      console.log('data: ', disposeTemplateDate(data))
+    }
     function addNewPage(title?: string) {
       basic.schema.template = SITE_PAGETEMPLATE.PAGE
       basic.schema.title = title
@@ -49,7 +60,7 @@ export const pageTemplate = defineStore(
         basic.schema.properties?.splice(index, 0, item)
       }
     }
-    function addChildModle (
+    function addChildModle(
       item: ComponentsSchema,
       site: number,
       index: number
@@ -61,7 +72,15 @@ export const pageTemplate = defineStore(
       }
     }
 
-    return { basic, addNewPage, addPageModle, addNewPlp, addChildModle, addNewArticle }
+    return {
+      basic,
+      getPageDetail,
+      addNewPage,
+      addPageModle,
+      addNewPlp,
+      addChildModle,
+      addNewArticle
+    }
   },
   {
     persist: true

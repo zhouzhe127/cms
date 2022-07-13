@@ -88,7 +88,7 @@
 import { ref, reactive } from 'vue'
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import WidthOption from '@/views/homePage/components/RadioInput/WidthOption.vue'
-import InfoBlockItem from '../../components/InfoBlockItem.vue'
+import InfoBlockItem from '@/views/homePage/components/InfoBlock/InfoBlockItem.vue'
 import generalwin from '../../generalwin'
 import TfrUpload from '@/components/TfrUpload/index.vue'
 import TfrEditor from '@/components/TfrEditor/index.vue'

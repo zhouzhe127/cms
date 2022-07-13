@@ -2,18 +2,18 @@ import Pagetop from '@/views/homePage/components/Pagetop.vue'
 import Cinema from '@/views/homePage/components/Cinema/index.vue'
 import Titlebar from '@/views/homePage/components/Titlebar/index.vue'
 import AddModule from '@/views/homePage/components/AddModule.vue'
-import Newsletter from '@/views/homePage/components/Newsletter.vue'
-import InfoBlock from '@/views/homePage/components/InfoBlock.vue'
+import Newsletter from '@/views/homePage/components/Newsletter/index.vue'
+import InfoBlock from '@/views/homePage/components/InfoBlock/index.vue'
 import FootContent from '@/views/homePage/components/FootContent.vue'
 import { Component } from 'vue'
 export enum SITE_MODULES {
-  PAGETOP = 'Pagetop',
-  CINEMA = 'Cinema',
-  ADDMODULE = 'AddModule',
-  FOOTCONTENT = 'FootContent',
-  NEWSLETTER = 'Newsletter',
-  INFOBLOCK = 'InfoBlock',
-  TITLEBAR = 'TitleBar',
+  PAGETOP = 'pagetop',
+  CINEMA = 'cinema',
+  ADDMODULE = 'addmodule',
+  FOOTCONTENT = 'footer',
+  NEWSLETTER = 'newsletter',
+  INFOBLOCK = 'info_block',
+  TITLEBAR = 'title_bar',
 }
 type stringKey = Record<string, Component>
 const ComponentsMap: stringKey = {

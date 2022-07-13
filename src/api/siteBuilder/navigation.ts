@@ -11,7 +11,7 @@ export function getNavigationList(data?: unknown) {
   return request({
     url: '/v3/cms/navigation/list',
     method: 'get',
-    data
+    params: data
   })
 }
 

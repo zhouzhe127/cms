@@ -16,6 +16,7 @@
             :key="element.navigation.id"
             :is-empty="element.sub_navigation && element.sub_navigation.length <= 0"
             :center-icon="element.navigation.icon"
+            @click-item="getPageData(element)"
             @left-click="() => {deleteItem(element)}"
             @right-click="chickEditWin(element)">
             <nested-draggable :draglist="element.sub_navigation" :parentId="element.navigation.id" :reset="dragSetSide" />
@@ -84,6 +85,9 @@ const dragSetSide = (value: any, parentId?: string) => {
   } else {
     setBuilder.sideState[addFunc](value)
   }
+}
+const getPageData = (item: SideItem) => {
+  setBuilder.pageState.getPageDetail(item.code)
 }
 const addPage = () => {
   toSeletPage({ origin: SITE_MENUS.NAVIGATION })

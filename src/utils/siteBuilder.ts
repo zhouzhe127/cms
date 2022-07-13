@@ -18,3 +18,26 @@ export function disposeSideDate<T>(list:T[]) {
   }
   return arr
 }
+type stringKey = Record<string, any>
+enum APIDATEMAP {
+  list = 'properties',
+  component_type = 'componentName'
+}
+type TYPES = keyof typeof APIDATEMAP
+export function disposeTemplateDate<T>(data:any) {
+  const dataKeys = Object.keys(data)
+  const mapdata:stringKey = {}
+  dataKeys.forEach((v: TYPES | string) => {
+    // @ts-ignore
+    if (APIDATEMAP[v]) {
+      if (v === 'list' && Array.isArray(data.list)) {
+        data.list = data.list.map((v: any) => disposeTemplateDate(v))
+      }
+      // @ts-ignore
+      mapdata[APIDATEMAP[v]] = data[v]
+    } else {
+      mapdata[v] = data[v]
+    }
+  })
+  return mapdata
+}

@@ -1,11 +1,16 @@
 <template>
   <div class="container">
-    <Newsletter />
+    <CmsEdit :options="['edit_cms', 'add_white']">
+      <div class="condbox">
+        <NewsletterUI />
+      </div>
+    </CmsEdit>
   </div>
 </template>
 
 <script setup lang="ts">
-import Newsletter from '@/views/homePage/components/Newsletter.vue'
+import CmsEdit from '@/components/CmsEdit/index.vue'
+import NewsletterUI from '@/views/homePage/components/Newsletter/NewsletterUI.vue'
 import appStore from '@/store'
 import { defineExpose } from 'vue'
 import { useRoute } from 'vue-router'
@@ -38,5 +43,8 @@ defineExpose({
   display: flex;
   justify-content: center;
   align-items: center;
+  .condbox {
+    border: 1px black dashed;
+  }
 }
 </style>

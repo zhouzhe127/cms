@@ -70,10 +70,11 @@ const props = withDefaults(defineProps<Props>(), {
   hasChild: false
 })
 const showChild = ref(false)
+const emit = defineEmits(['leftClick', 'rightClick', 'centerIconClick', 'clickItem', 'add'])
 const clickItems = () => {
   showChild.value = !showChild.value
+  emit('clickItem')
 }
-const emit = defineEmits(['leftClick', 'rightClick', 'centerIconClick', 'add'])
 const leftClick = () => {
   if (props.hasLeftIcon) emit('leftClick')
 }
