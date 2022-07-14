@@ -19,7 +19,7 @@
 <script setup lang="ts">
 interface Props {
   options?: Array<string>,
-  style: Object
+  style?: Object
 }
 const props = withDefaults(defineProps<Props>(), {
   options: () => ['suspended', 'edit_cms', 'add_white'],

@@ -19,7 +19,7 @@ const TemplateMap:stringKey = {
   [SITE_PAGETEMPLATE.PAGE]: Page,
   [SITE_PAGETEMPLATE.PLP]: Plp,
   [SITE_PAGETEMPLATE.ARTICLE]: Article,
-  [SITE_PAGETEMPLATE.HOME_PAGE]: HomePage 
+  [SITE_PAGETEMPLATE.HOME_PAGE]: HomePage
 }
 
 export default TemplateMap
