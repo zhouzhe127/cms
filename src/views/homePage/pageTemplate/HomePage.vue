@@ -2,6 +2,7 @@
   <div class="template_box">
     <Pagetop />
     <Newsletter />
+    <InfoBlock />
     <PhotoListBlock />
     <CultureBlock />
     <div class="pagecontent">
@@ -24,6 +25,7 @@ import AddModule from '@/views/homePage/components/AddModule.vue'
 import appStore from '@/store'
 import pageComponents from '@/views/homePage/config/pageComponents'
 import Newsletter from '@/views/homePage/components/Newsletter.vue'
+import InfoBlock from '@/views/homePage/components/InfoBlock/index.vue'
 import CultureBlock from '@/views/homePage/components/Culture/index.vue'
 import PhotoListBlock from '../components/PhotoList/index.vue'
 const pageTemplate = appStore.setBuilder.pageState.basic.schema
