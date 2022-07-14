@@ -18,7 +18,7 @@
       >
         <template #item="{ element, index }">
           <MenuItem
-            :class="{'drag-item': element.type !== PAGE_SELECT.LEGAL}"
+            :class="{ 'drag-item': element.type !== PAGE_SELECT.LEGAL }"
             :key="index"
             :title="element.navigation.name"
             :has-child="element.navigation.hasChild"
@@ -29,7 +29,11 @@
             @right-click="() => chickEditWin(element)"
             @add="() => onAdd(element)"
           >
-          <nested-draggable :draglist="element.sub_navigation" :parentId="element.navigation.id" :reset="dragSetSide"></nested-draggable>
+            <nested-draggable
+              :draglist="element.sub_navigation"
+              :parentId="element.navigation.id"
+              :reset="dragSetSide"
+            ></nested-draggable>
             <DeleteDialog :visible="false" />
           </MenuItem>
         </template>
@@ -85,6 +89,10 @@ onSideEvent(SITE_MENUS.FOOTER, (e: string, item: any) => {
     case PAGE_SELECT.ARTICLE:
       setBuilder.pageState.addNewArticle()
       break
+    case PAGE_SELECT.HOME:
+    case PAGE_SELECT.CLIP:
+      setBuilder.pageState.addHomePage()
+      break
   }
   // if (item.parentId) {
   //   setBuilder.sideState[addChildFunc](decodeURIComponent(item.parentId))(item)
@@ -111,18 +119,16 @@ const onEndCallback = (evt: any) => {
       newModule: evt.to.getAttribute('sideState')
     })
 }
-const sidearr = computed(
-  {
-    get() {
-      return store.setBuilder.sideState[SITE_MENUS.FOOTER].sidebarArr
-    },
-    set(value: any) {
-      dragSetSide(value)
-    }
+const sidearr = computed({
+  get() {
+    return store.setBuilder.sideState[SITE_MENUS.FOOTER].sidebarArr
+  },
+  set(value: any) {
+    dragSetSide(value)
   }
-)
+})
 const dragSetSide = (value: any, parentId?: string) => {
-  if(parentId) {
+  if (parentId) {
     sidearr.value.forEach((v: any) => {
       if (v.navigation.id === parentId) {
         v.sub_navigation = value
