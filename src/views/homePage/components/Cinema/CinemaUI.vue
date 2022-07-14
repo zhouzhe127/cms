@@ -1,33 +1,20 @@
 <template>
   <div class="cinema">
     <swiper :modules="[Pagination]" :pagination="pagination">
-      <swiper-slide>
+      <swiper-slide v-for="(item, index) in cinema_items" :key="index">
         <div class="slidebox">
           <video
-            src="https://framerusercontent.com/modules/qAxyUgdzgkINJGI0AxxB/uHziABuy0VXWHbXCY7Ow/assets/RKTWhevPDx7sSt5NwHTElJVdLqc.mp4"
+            v-if="item.medias?.type"
+            :src="item.medias?.path"
             muted
             autoplay
             loop
             class="showitem"
           />
+          <el-image :src="item.medias?.path" fit="cover" class="showitem" />
           <div class="textdec">
-            <div class="br">First Diamond</div>
-            <div class="tb">new rocks for new experiences</div>
-          </div>
-        </div>
-      </swiper-slide>
-      <swiper-slide>
-        <div class="slidebox">
-          <video
-            src="https://framerusercontent.com/modules/qAxyUgdzgkINJGI0AxxB/uHziABuy0VXWHbXCY7Ow/assets/RKTWhevPDx7sSt5NwHTElJVdLqc.mp4"
-            muted
-            autoplay
-            loop
-            class="showitem"
-          />
-          <div class="textdec">
-            <div class="br">First Diamond</div>
-            <div class="tb">new rocks for new experiences</div>
+            <div class="br">{{ item.title }}</div>
+            <div class="tb">{{ item.content }}</div>
           </div>
         </div>
       </swiper-slide>
@@ -39,19 +26,27 @@
 <script setup lang="ts">
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Pagination } from 'swiper'
-import { defineExpose } from 'vue'
-import appStore from '@/store'
-import { useRoute } from 'vue-router'
-import { SITE_MODULES } from '@/views/homePage/config/pageComponents'
 import { generateUUID } from '@/utils/uuid'
 import 'swiper/css'
+interface LooseObject {
+  [key: string]: any
+}
 interface Props {
-  close?: Function
+  info?: LooseObject
 }
 const props = withDefaults(defineProps<Props>(), {
-  close: () => {}
+  info: () => ({}),
 })
-const route = useRoute()
+const defaultItem = [{
+  medias: {
+    path: 'https://framerusercontent.com/modules/qAxyUgdzgkINJGI0AxxB/uHziABuy0VXWHbXCY7Ow/assets/RKTWhevPDx7sSt5NwHTElJVdLqc.mp4',
+    type: 'video'
+  },
+  title: 'First Diamond',
+  content: 'new rocks for new experiences'
+}]
+const cinema_items = props.info.cinema_items || defaultItem
+console.log(props.info)
 const paginationClass = `barbox${generateUUID()}`
 const pagination = {
   el: `.${paginationClass}`,
@@ -59,22 +54,6 @@ const pagination = {
   bulletActiveClass: 'active',
   bulletClass: 'baritem'
 }
-const site = route.query.site
-const confirm = () => {
-  appStore.setBuilder.pageState.addPageModle(
-    {
-      componentName: SITE_MODULES.CINEMA,
-      properties: [{
-        componentName: SITE_MODULES.CINEMA,
-      }]
-    },
-    Number(site)
-  )
-  if (props.close) props.close()
-}
-defineExpose({
-  confirm
-})
 </script>
 
 <style lang="scss" scoped>

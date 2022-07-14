@@ -14,16 +14,18 @@ import appStore from '@/store'
 import { useRouter } from 'vue-router'
 const properties = appStore.setBuilder.pageState.basic.schema.properties || []
 interface Props {
-  site?: number
+  site?: number,
+  pageLength?: number,
 }
 const props = withDefaults(defineProps<Props>(), {
-  site: 0
+  site: 0,
+  pageLength: 0,
 })
 const router = useRouter()
 const addModule = () => {
   router.push({
     path: '/siteBuilder/editModules',
-    query: { site: properties?.length }
+    query: { site: props.pageLength }
   })
 }
 </script>

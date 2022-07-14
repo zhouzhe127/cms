@@ -44,6 +44,7 @@
                     :is="cacheAside[selectd].component"
                     v-if="cacheAside[selectd]"
                     ref="modulsNode"
+                    :info="cacheAside[selectd].info"
                     :close="close"
                   />
                 </el-scrollbar>

@@ -17,7 +17,6 @@ router.beforeEach(async (to, from, next) => {
       next()
     } else {
       try {
-        console.log(useUserStore.user)
         if (JSON.stringify(useUserStore.user) === '{}') {
           // 检查用户是否已获得权限角色
           await useUserStore.getInfoHttp()

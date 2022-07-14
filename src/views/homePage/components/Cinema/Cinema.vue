@@ -1,6 +1,6 @@
 <template>
   <CmsEdit @optionClick="edit">
-    <CinemaUI />
+    <CinemaUI :info="basic.cinema" />
   </CmsEdit>
 </template>
 
@@ -9,14 +9,23 @@ import CmsEdit from '@/components/CmsEdit/index.vue'
 import CinemaUI from './CinemaUI.vue'
 import appStore from '@/store'
 import { useRouter } from 'vue-router'
-const properties = appStore.setBuilder.pageState.basic.schema.properties || []
+const properties = appStore.setBuilder.pageState.basic.schema?.properties || []
+interface LooseObject {
+  [key: string]: any
+}
 interface Props {
   site?: number,
-  childSite?: number
+  childSite?: number,
+  basic?: LooseObject,
 }
 const props = withDefaults(defineProps<Props>(), {
   site: 0,
-  childSite: 0
+  childSite: 0,
+  basic: () => ({
+    componentName: '',
+    cinema: {},
+    properties: []
+  })
 })
 const edit = (index: number):void => {
   if (index === 2) {

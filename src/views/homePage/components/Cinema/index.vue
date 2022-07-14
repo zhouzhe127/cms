@@ -1,7 +1,7 @@
 <template>
   <div class="cinemabox">
     <div v-for="(item, index) in basic.properties" :key="index" class="citem">
-      <Cinema :site="site" :child-site="index" />
+      <Cinema :site="site" :child-site="index" :basic="item" />
     </div>
   </div>
 </template>
@@ -17,6 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
   site: 0,
   basic: () => ({
     componentName: '',
+    cinema: {},
     properties: []
   })
 })
@@ -32,6 +33,9 @@ const props = withDefaults(defineProps<Props>(), {
     margin-bottom: 30px;
     &:nth-child(2n) {
       margin-left: 30px;
+    }
+    &:last-child {
+      margin-bottom: initial;
     }
   }
 }

@@ -27,7 +27,10 @@ const site = route.query.site
 const confirm = () => {
   appStore.setBuilder.pageState.addPageModle(
     {
-      componentName: SITE_MODULES.INFOBLOCK
+      componentName: SITE_MODULES.INFOBLOCK,
+      properties: [{
+        componentName: SITE_MODULES.INFOBLOCK,
+      }]
     },
     Number(site)
   )

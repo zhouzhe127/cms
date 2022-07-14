@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { PageSchema, ComponentsSchema } from '@/views/homePage/type/index'
 import { SITE_PAGETEMPLATE } from '@/views/homePage/config/templateMap'
 import { pageContentDetail } from '@/api/siteBuilder/page'
@@ -32,8 +32,8 @@ export const pageTemplate = defineStore(
     async function getPageDetail(code?: string) {
       const data:any = await pageContentDetail({ site_navigation_code: code })
       data.template = 'page'
-      basic.schema = disposeTemplateDate(data)
-      console.log('data: ', disposeTemplateDate(data))
+      // basic.schema = disposeTemplateDate(data)
+      Object.assign(basic.schema, disposeTemplateDate(data))
     }
     function addNewPage(title?: string) {
       basic.schema.template = SITE_PAGETEMPLATE.PAGE

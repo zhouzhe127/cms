@@ -17,10 +17,11 @@ import { SITE_MODULES } from '@/views/homePage/config/pageComponents'
 import CinemaUI from '@/views/homePage/components/Cinema/CinemaUI.vue'
 
 interface Props {
-  close?: Function
+  close?: Function,
+  rightbtn: string
 }
 const props = withDefaults(defineProps<Props>(), {
-  close: () => {}
+  close: () => {},
 })
 const route = useRoute()
 const site = route.query.site

@@ -9,14 +9,14 @@
           :site="index"
         ></component>
       </div>
-      <AddModule />
+      <AddModule :page-length="mContent?.length || 0" />
     </div>
     <FootContent />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watchEffect } from 'vue'
 import Pagetop from '@/views/homePage/components/Pagetop.vue'
 import FootContent from '@/views/homePage/components/FootContent.vue'
 import AddModule from '@/views/homePage/components/AddModule.vue'

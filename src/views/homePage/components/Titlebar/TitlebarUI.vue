@@ -1,7 +1,7 @@
 <template>
   <div class="titlebarmain">
     <span class="text">LOREM IPSUM</span>
-    <span>SEE ALL</span>
+    <!-- <span>SEE ALL</span> -->
   </div>
 </template>
 
