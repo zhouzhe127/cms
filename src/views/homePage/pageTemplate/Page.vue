@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watchEffect } from 'vue'
+import { computed } from 'vue'
 import Pagetop from '@/views/homePage/components/Pagetop.vue'
 import FootContent from '@/views/homePage/components/FootContent.vue'
 import AddModule from '@/views/homePage/components/AddModule.vue'

@@ -2,9 +2,8 @@
   <div class="template_box">
     <Pagetop />
     <Newsletter />
-    <PhotoListBlock /> 
-    <CultureBlock /> 
-    <InfoBlock />
+    <PhotoListBlock />
+    <CultureBlock />
     <div class="pagecontent">
       <div v-for="(item, index) in pageTemplate.properties" :key="index">
         <component
@@ -25,7 +24,6 @@ import AddModule from '@/views/homePage/components/AddModule.vue'
 import appStore from '@/store'
 import pageComponents from '@/views/homePage/config/pageComponents'
 import Newsletter from '@/views/homePage/components/Newsletter.vue'
-import InfoBlock from '@/views/homePage/components/InfoBlock.vue'
 import CultureBlock from '@/views/homePage/components/Culture/index.vue'
 import PhotoListBlock from '../components/PhotoList/index.vue'
 const pageTemplate = appStore.setBuilder.pageState.basic.schema

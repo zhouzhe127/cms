@@ -11,7 +11,7 @@ import CmsEdit from '@/components/CmsEdit/index.vue'
 import TitlebarUI from './TitlebarUI.vue'
 import appStore from '@/store'
 
-const properties = appStore.setBuilder.pageState.basic.schema.properties || []
+// const properties = appStore.setBuilder.pageState.basic.schema.properties || []
 interface Props {
   site?: number,
   childSite?: number

@@ -10,6 +10,35 @@
 
 <script setup lang="ts">
 import CmsEdit from '@/components/CmsEdit/index.vue'
+import { defineExpose } from 'vue'
+import appStore from '@/store'
+import { useRoute } from 'vue-router'
+import { SITE_MODULES } from '@/views/homePage/config/pageComponents'
+
+interface Props {
+  close?: Function,
+  rightbtn: string
+}
+const props = withDefaults(defineProps<Props>(), {
+  close: () => {},
+})
+const route = useRoute()
+const site = route.query.site
+const confirm = () => {
+  appStore.setBuilder.pageState.addPageModle(
+    {
+      componentName: SITE_MODULES.MEDIA,
+      properties: [{
+        componentName: SITE_MODULES.MEDIA,
+      }]
+    },
+    Number(site)
+  )
+  if (props.close) props.close()
+}
+defineExpose({
+  confirm
+})
 </script>
 
 <style lang="scss" scoped>
