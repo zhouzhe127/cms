@@ -8,7 +8,7 @@
       <div v-for="(item, index) in pageTemplate.properties" :key="index">
         <component
           :is="pageComponents[item.componentName]"
-          :index="index"
+          :site="index"
         ></component>
       </div>
       <AddModule />
@@ -25,12 +25,10 @@ import AddModule from '@/views/homePage/components/AddModule.vue'
 import appStore from '@/store'
 import pageComponents from '@/views/homePage/config/pageComponents'
 import Newsletter from '@/views/homePage/components/Newsletter.vue'
-import InfoBlock from '@/views/homePage/components/InfoBlock.vue'
+import InfoBlock from '@/views/homePage/components/InfoBlock/index.vue'
 
-const pageTemplate = appStore.setBuilder.basic.pageTemplate
+const pageTemplate = appStore.setBuilder.pageState.basic.schema
 </script>
 
 <style lang="scss" scoped>
-.template_box {
-}
 </style>

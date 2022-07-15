@@ -10,7 +10,7 @@
 import Empty from '@/views/homePage/components/Empty.vue'
 import appStore from '@/store'
 import TemplateMap from '@/views/homePage/config/templateMap'
-const pageTemplate = appStore.setBuilder.basic.pageTemplate
+const pageTemplate = appStore.setBuilder.pageState.basic.schema
 </script>
 
 <style lang="scss" scoped>

@@ -12,18 +12,20 @@
 import CmsEdit from '@/components/CmsEdit/index.vue'
 import appStore from '@/store'
 import { useRouter } from 'vue-router'
-const properties = appStore.setBuilder.basic.pageTemplate.properties || []
+const properties = appStore.setBuilder.pageState.basic.schema.properties || []
 interface Props {
-  index?: number
+  site?: number,
+  pageLength?: number,
 }
 const props = withDefaults(defineProps<Props>(), {
-  index: 0
+  site: 0,
+  pageLength: 0,
 })
 const router = useRouter()
 const addModule = () => {
   router.push({
     path: '/siteBuilder/editModules',
-    query: { site: properties?.length }
+    query: { site: props.pageLength }
   })
 }
 </script>

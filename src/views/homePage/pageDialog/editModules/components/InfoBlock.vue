@@ -1,15 +1,21 @@
 <template>
   <div class="container">
-    <InfoBlock />
+    <CmsEdit :options="['edit_cms', 'add_white']">
+      <div class="infobox_container">
+        <InfoBlockItem />
+      </div>
+    </CmsEdit>
   </div>
 </template>
 
 <script setup lang="ts">
-import InfoBlock from '@/views/homePage/components/InfoBlock.vue'
+import InfoBlockItem from '@/views/homePage/components/InfoBlock/InfoBlockItem.vue'
 import appStore from '@/store'
 import { defineExpose } from 'vue'
 import { useRoute } from 'vue-router'
 import { SITE_MODULES } from '@/views/homePage/config/pageComponents'
+import CmsEdit from '@/components/CmsEdit/index.vue'
+
 interface Props {
   close?: Function
 }
@@ -19,9 +25,12 @@ const props = withDefaults(defineProps<Props>(), {
 const route = useRoute()
 const site = route.query.site
 const confirm = () => {
-  appStore.setBuilder.addPageModle(
+  appStore.setBuilder.pageState.addPageModle(
     {
-      componentName: SITE_MODULES.INFOBLOCK
+      componentName: SITE_MODULES.INFOBLOCK,
+      properties: [{
+        componentName: SITE_MODULES.INFOBLOCK,
+      }]
     },
     Number(site)
   )
@@ -38,5 +47,9 @@ defineExpose({
   display: flex;
   justify-content: center;
   align-items: center;
+  .infobox_container {
+    padding: 16px;
+    border: 1px $theme dashed;
+  }
 }
 </style>

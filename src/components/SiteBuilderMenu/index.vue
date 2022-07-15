@@ -1,6 +1,6 @@
 <template>
   <div>
-    <second-side>
+    <second-side v-loading="loading">
       <div class="scroll-affix-con">
         <Navigation />
         <FooterNavigation />
@@ -16,11 +16,12 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import SecondSide from '@/components/SecondSide/index.vue'
 import Navigation from '@/components/SiteBuilderMenu/Navigation.vue'
 import FooterNavigation from '@/components/SiteBuilderMenu/components/footerNavigation/index.vue'
 import { useRouter } from 'vue-router'
-
+import store from '@/store'
 const router = useRouter()
 
 const toClear = () => {
@@ -28,6 +29,11 @@ const toClear = () => {
     path: '/siteBuilder/editclearbin'
   })
 }
+const setBuilder = store.setBuilder
+const loading = setBuilder.basic.loading
+onMounted(() => {
+  setBuilder.getSetBuilderList()
+})
 </script>
 
 <style lang="scss" scoped>

@@ -107,9 +107,21 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
           },
           {
             path: 'gridSettings',
-            name: 'siteBuilder_plpSettings',
+            name: 'siteBuilder_gridSettings',
             component: () =>
               import('@/views/homePage/pageDialog/gridBlockSettings/index.vue')
+          },
+          {
+            path: 'infoSettings',
+            name: 'siteBuilder_infoSettings',
+            component: () =>
+              import('@/views/homePage/pageDialog/infoBlockSettings/index.vue')
+          },
+          {
+            path: 'footerSettings',
+            name: 'siteBuilder_footerSettings',
+            component: () =>
+              import('@/views/homePage/pageDialog/footerSettings/index.vue')
           },
         ]
       },

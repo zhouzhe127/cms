@@ -1,5 +1,5 @@
 <template>
-  <div class="optionmain">
+  <div class="optionmain" :style="style">
     <div class="contant">
       <div class="optionbox">
         <div
@@ -18,10 +18,12 @@
 
 <script setup lang="ts">
 interface Props {
-  options?: Array<string>
+  options?: Array<string>,
+  style?: Object
 }
 const props = withDefaults(defineProps<Props>(), {
-  options: () => ['suspended', 'edit_cms', 'add_white']
+  options: () => ['suspended', 'edit_cms', 'add_white'],
+  style: () => ({})
 })
 const emit = defineEmits(['optionClick'])
 const optionClick = (index: number) => {

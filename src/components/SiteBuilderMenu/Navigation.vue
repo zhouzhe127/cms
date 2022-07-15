@@ -1,10 +1,25 @@
 <template>
   <div>
     <SideMenu title="NAVIGATION" @add-click="addPage">
-      <draggable v-model="sidearr" v-bind="dragOptions" :component-data="{ tag: 'div', name: 'flip-list', type: 'transition', sideState: SITE_MENUS.NAVIGATION }" group="side" item-key="title" @start="isDragging = true" @end="onEndCallback">
+      <draggable
+        v-model="sidearr"
+        v-bind="dragOptions"
+        :component-data="{ tag: 'div', name: 'flip-list', type: 'transition', sideState: SITE_MENUS.NAVIGATION }"
+        group="side"
+        item-key="title"
+        @start="isDragging = true"
+        @end="onEndCallback">
         <template #item="{element, index}">
-          <MenuItem :title="element.title" :key="index" :center-icon="element.icon" @left-click="() => {deleteItem(element)}" @right-click="chickEditWin(element)">
-            <ItemChild title="mnns" />
+          <MenuItem
+            :title="element.navigation.name"
+            :has-child="element.navigation.hasChild"
+            :key="element.navigation.id"
+            :is-empty="element.sub_navigation && element.sub_navigation.length <= 0"
+            :center-icon="element.navigation.icon"
+            @click-item="getPageData(element)"
+            @left-click="() => {deleteItem(element)}"
+            @right-click="chickEditWin(element)">
+            <nested-draggable :draglist="element.sub_navigation" :parentId="element.navigation.id" :reset="dragSetSide" />
           </MenuItem>
         </template>
       </draggable>
@@ -17,26 +32,25 @@ import draggable from 'vuedraggable'
 import { ref, computed } from 'vue'
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
-import ItemChild from '@/components/SecondSide/ItemChild.vue'
 // import { useEventBus } from '@vueuse/core'
 import store from '@/store'
-import { SITE_MENUS, SideItem, EVENT_KEY } from './type'
+import { SITE_MENUS, SideItem, RequestSide, EVENT_KEY } from './type'
 import { emitSideEvent, onSideEvent } from './utils/regesterEvent'
 import { addFunc, deleteFunc } from '@/store/setBuilder/navigation'
 import { PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
 import { showDeleteModel } from './utils/deleteUtils'
 import { toEditionModel, toSeletPage } from './utils/router'
+import NestedDraggable from './components/NestedDraggable.vue'
 onSideEvent(SITE_MENUS.NAVIGATION, (e: string, item: SideItem) => {
-  setBuilder.sideState[addFunc](item)
   switch (item.title) {
     case PAGE_SELECT.PAGE:
-      setBuilder.addNewPage()
+      setBuilder.pageState.addNewPage()
       break
     case PAGE_SELECT.PLP:
-      setBuilder.addNewPlp()
+      setBuilder.pageState.addNewPlp()
       break
     case PAGE_SELECT.ARTICLE:
-      setBuilder.addNewArticle()
+      setBuilder.pageState.addNewArticle()
       break
   }
 })
@@ -58,32 +72,48 @@ const sidearr = computed({
     return setBuilder.sideState[SITE_MENUS.NAVIGATION].sidebarArr
   },
   set(value: any) {
-    console.log(value)
+    dragSetSide(value)
   }
 })
+const dragSetSide = (value: any, parentId?: string) => {
+  if(parentId) {
+    sidearr.value.forEach((v: any) => {
+      if (v.navigation.id === parentId) {
+        v.sub_navigation = value
+      }
+    })
+  } else {
+    setBuilder.sideState[addFunc](value)
+  }
+}
+const getPageData = (item: SideItem) => {
+  setBuilder.pageState.getPageDetail(item.code)
+}
 const addPage = () => {
   toSeletPage({ origin: SITE_MENUS.NAVIGATION })
 }
 const chickEditWin = (item: SideItem) => {
   toEditionModel(item)
 }
-const deleteItem = (item: SideItem) => {
-  showDeleteModel(item, () => {})
+const deleteItem = (item: RequestSide) => {
+  showDeleteModel(item.navigation, () => {
+    setBuilder.sideState[deleteFunc](item)
+  })
 }
 const onEndCallback = (evt: any) => {
   isDragging.value = false
-  const item = {
-    ...sidearr.value[evt.oldIndex]
-  }
-  setBuilder.sideState[deleteFunc](item)
-  const dragEmit = emitSideEvent(EVENT_KEY.DRAG)
-  if (dragEmit)
-    dragEmit(EVENT_KEY.DRAG, {
-      item,
-      newIndex: evt.newIndex,
-      oldModule: SITE_MENUS.NAVIGATION,
-      newModule: evt.to.getAttribute('sideState')
-    })
+  // const item = {
+  //   ...sidearr.value[evt.oldIndex]
+  // }
+  // setBuilder.sideState[deleteFunc](item)
+  // const dragEmit = emitSideEvent(EVENT_KEY.DRAG)
+  // if (dragEmit)
+  //   dragEmit(EVENT_KEY.DRAG, {
+  //     item,
+  //     newIndex: evt.newIndex,
+  //     oldModule: SITE_MENUS.NAVIGATION,
+  //     newModule: evt.to.getAttribute('sideState')
+  //   })
 }
 </script>
 

@@ -13,7 +13,7 @@
 <script setup lang="ts">
 interface PropsType {
   width?: string,
-  hasClear: boolean
+  hasClear?: boolean
 }
 // eslint-disable-next-line no-undef
 const inputProps = withDefaults(defineProps<PropsType>(), {

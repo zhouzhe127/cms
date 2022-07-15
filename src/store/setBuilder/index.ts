@@ -1,57 +1,44 @@
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
-import { sidebar } from './navigation'
-import { sidebar as footerSlidebar } from './footerNavigation'
-import { PageSchema, ComponentsSchema } from '@/views/homePage/type/index'
-import { SITE_PAGETEMPLATE } from '@/views/homePage/config/templateMap'
+import { sidebar, addFunc } from './navigation'
+import { pageTemplate } from './pageTemplate'
+import { sidebar as footerSlidebar, addFunc as footerAddFunc } from './footerNavigation'
+import { getNavigationList } from '@/api/siteBuilder/navigation'
+import { disposeSideDate } from '@/utils/siteBuilder'
+import { SITE_MENUS } from '@/components/SiteBuilderMenu/type/index'
 interface Basic {
-  platformState: string
-  pageTemplate: PageSchema
+  platformState: string,
+  loading: boolean
 }
-
 export const setBuilder = defineStore(
   'setBuilder',
   () => {
     const sideState = { ...sidebar(), ...footerSlidebar() }
-
+    const pageState = { ...pageTemplate() }
     const basic = reactive<Basic>({
+      loading: false,
       platformState: 'pc',
-      pageTemplate: {
-        title: '',
-        template: '',
-        properties: []
-      }
     })
-    function addNewPage(title?: string) {
-      basic.pageTemplate.template = SITE_PAGETEMPLATE.PAGE
-      basic.pageTemplate.title = title
-      basic.pageTemplate.properties = []
-    }
-    function addNewPlp(title?: string) {
-      basic.pageTemplate.template = SITE_PAGETEMPLATE.PLP
-      basic.pageTemplate.title = title
-      basic.pageTemplate.properties = []
-    }
-    function addNewArticle(title?: string) {
-      basic.pageTemplate.template = SITE_PAGETEMPLATE.ARTICLE
-      basic.pageTemplate.title = title
-      basic.pageTemplate.properties = []
-    }
-    function addPageModle(
-      item: ComponentsSchema | Array<ComponentsSchema>,
-      index: number
-    ) {
-      if (Array.isArray(item)) {
-        basic.pageTemplate.properties = item
-      } else {
-        basic.pageTemplate.properties?.splice(index, 0, item)
-      }
-    }
 
     function setItem(type: string): void {
       basic.platformState = type
     }
-    return { basic, setItem, addNewPage, addPageModle, addNewPlp, addNewArticle, sideState }
+    async function getSetBuilderList() {
+      basic.loading = true
+      try {
+        const data:any = await getNavigationList()
+        if (data) {
+          const navigation: any = disposeSideDate(data[SITE_MENUS.NAVIGATION])
+          const footerArr: any = disposeSideDate(data[SITE_MENUS.FOOTER])
+          sideState[addFunc](navigation)
+          sideState[footerAddFunc](footerArr)
+        }
+        basic.loading = false
+      } catch (error) {
+        basic.loading = false
+      }
+    }
+    return { basic, setItem, getSetBuilderList, sideState, pageState }
   },
   {
     persist: true

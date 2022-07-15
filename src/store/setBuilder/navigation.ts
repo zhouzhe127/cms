@@ -1,52 +1,50 @@
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
-import { SideItem, SITE_MENUS } from '@/components/SiteBuilderMenu/type/index'
-import {
-  PAGE_ICONS,
-  PAGE_SELECT
-} from '@/views/homePage/pageDialog/selectPage/index.type'
+import { RequestSide, SITE_MENUS } from '@/components/SiteBuilderMenu/type/index'
 
 export const addFunc = Symbol(`add${SITE_MENUS.NAVIGATION}`)
 export const deleteFunc = Symbol(`delete${SITE_MENUS.NAVIGATION}`)
 interface Basic {
-  sidebarArr: Array<SideItem>
+  sidebarArr: Array<RequestSide>
 }
 
 interface ReturnType {
   [SITE_MENUS.NAVIGATION]: Basic
-  [addFunc]: (item: SideItem, index?: number) => void
-  [deleteFunc]: (item: SideItem) => void
+  [addFunc]: (item: RequestSide, index?: number) => void
+  [deleteFunc]: (item: RequestSide) => void
 }
 
 export const sidebar = defineStore(
   'sidebar',
   (): ReturnType => {
     const Sidestate = reactive<Basic>({
-      sidebarArr: [
-        {
-          title: 'New In',
-          icon: PAGE_ICONS[PAGE_SELECT.HOME],
-          type: PAGE_SELECT.HOME
-        },
-        {
-          title: 'Jewelry',
-          icon: PAGE_ICONS[PAGE_SELECT.PLP],
-          type: PAGE_SELECT.PLP
-        }
-      ]
+      sidebarArr: []
     })
 
-    function addSidebar(item: SideItem, index?: number) {
+    function addSidebar(item: RequestSide | Array<RequestSide>, index?: number) {
+      if (Array.isArray(item)) {
+        Sidestate.sidebarArr = item
+        return
+      }
       if (typeof index === 'number') {
         Sidestate.sidebarArr.splice(index, 0, item)
       } else {
         Sidestate.sidebarArr.unshift(item)
       }
     }
-    function deleteSidebar(item: SideItem) {
+    function deleteSidebar(item: RequestSide, pid?: string) {
       const arr = Sidestate.sidebarArr
-      if (item.title) {
-        Sidestate.sidebarArr = arr.filter(v => v.title !== item.title)
+      if (item.navigation?.id) {
+        Sidestate.sidebarArr = arr.filter(v => v.navigation?.id !== item.navigation?.id)
+      }
+      if (pid) {
+        const curState: RequestSide | undefined = arr.find(
+          v => v.navigation?.id === pid
+        )
+        if (curState && Array.isArray(curState?.sub_navigation))
+          curState.sub_navigation = curState.sub_navigation?.filter(
+            (v: RequestSide) => v.navigation?.id !== item.navigation?.id
+          )
       }
     }
     return {

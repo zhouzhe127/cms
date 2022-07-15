@@ -3,7 +3,7 @@ import { SideItem } from '../type'
 import { TfrMessageBox } from '@/components/TfrMessageBox'
 import { h } from 'vue'
 import LinkShowCon from '../components/LinkShowCon.vue'
-
+import { navigationDelete } from '@/api/siteBuilder/navigation'
 export const showDeleteModel = (item: SideItem, fn: Function) => {
   if (item?.type === PAGE_SELECT.SMART) {
     TfrMessageBox.confirm(
@@ -11,7 +11,10 @@ export const showDeleteModel = (item: SideItem, fn: Function) => {
       { secTitle: `${item.type}?` }
     )
       .then((res: string) => {
-        if (res === 'confirm') fn()
+        if (res === 'confirm') {
+          sendDeleteApi(item.code)
+          fn()
+        }
       })
       .catch(() => {})
     return
@@ -21,7 +24,15 @@ export const showDeleteModel = (item: SideItem, fn: Function) => {
     { secTitle: `${item.type}?` }
   )
     .then((res: string) => {
-      if (res === 'confirm') fn()
+      if (res === 'confirm') {
+        sendDeleteApi(item.code)
+        fn()
+      }
     })
     .catch(() => {})
+}
+
+export const sendDeleteApi = async (code?: string) => {
+  console.log(code)
+  await navigationDelete({ code })
 }

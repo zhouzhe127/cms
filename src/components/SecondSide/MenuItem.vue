@@ -28,18 +28,20 @@
         </div>
       </div>
     </div>
-    <el-collapse-transition>
-      <div v-show="showChild">
-        <slot />
-        <div v-if="isEmpty" class="emptybox">
-          <div class="empty">Empty</div>
+    <div v-if="hasChild">
+      <el-collapse-transition>
+        <div v-show="showChild">
+          <slot />
+          <div v-if="isEmpty" class="emptybox">
+            <div class="empty">Empty</div>
+          </div>
+          <div class="addbox" @click="onAdd">
+            <svg-icon icon-class="add_black" class="sicon" />
+            <span class="addtext">Add</span>
+          </div>
         </div>
-        <div class="addbox" @click="onAdd">
-          <svg-icon icon-class="add_black" class="sicon" />
-          <span class="addtext">Add</span>
-        </div>
-      </div>
-    </el-collapse-transition>
+      </el-collapse-transition>
+    </div>
   </div>
 </template>
 
@@ -54,6 +56,7 @@ interface Props {
   active?: boolean
   hasLeftIcon?: boolean
   hasRightIcon?: boolean
+  hasChild?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   title: '--',
@@ -63,13 +66,15 @@ const props = withDefaults(defineProps<Props>(), {
   isEmpty: false,
   active: false,
   hasLeftIcon: true,
-  hasRightIcon: true
+  hasRightIcon: true,
+  hasChild: false
 })
 const showChild = ref(false)
+const emit = defineEmits(['leftClick', 'rightClick', 'centerIconClick', 'clickItem', 'add'])
 const clickItems = () => {
   showChild.value = !showChild.value
+  emit('clickItem')
 }
-const emit = defineEmits(['leftClick', 'rightClick', 'centerIconClick', 'add'])
 const leftClick = () => {
   if (props.hasLeftIcon) emit('leftClick')
 }

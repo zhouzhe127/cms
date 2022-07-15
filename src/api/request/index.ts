@@ -7,7 +7,7 @@ import qs from 'qs'
 import { getToken } from '@/utils/cookies'
 const { VITE_APP_API_ADDRESS, VITE_APP_MOCK_ADDRESS, VITE_APP_DEMO_ADDRESS } =
   import.meta.env
-const apiAddress = VITE_APP_API_ADDRESS
+const apiAddress = VITE_APP_API_ADDRESS.replace('dev', 'pre')
 const mockAddress = VITE_APP_MOCK_ADDRESS
 const demoAddress = VITE_APP_DEMO_ADDRESS
 const { apiAddress: testAddress } = qs.parse(location.search, {
@@ -80,7 +80,6 @@ const requestHandler = (config: RequestConfig) => {
   //   axiosPromiseCancel.push(cancel)
   //   store.dispatch('app/axiosPromiseCancel', axiosPromiseCancel)
   // })
-  console.log(config, 'kkk888')
   return {
     ...config,
     params: {
@@ -135,11 +134,10 @@ interface TSRequestConfig<T, R> extends RequestConfig<TSZResponse<R>> {
   params?: T
 }
 const tszRequest = <D = any, T = any>(config: TSRequestConfig<D, T>) => {
-  const { method = 'GET' } = config
-  if (method === 'get' || method === 'GET') {
-    console.log(config)
-    config.params = config.params // method:get 统一用params
-  }
+  // const { method = 'GET' } = config
+  // if (method === 'get' || method === 'GET') {
+  //   config.params = config.data
+  // }
   return request.request<TSZResponse<T>>(config)
 }
 // 取消请求
