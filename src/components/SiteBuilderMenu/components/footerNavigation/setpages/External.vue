@@ -30,13 +30,13 @@
 <script setup lang="ts">
 import { ref, toRaw } from 'vue'
 import RowSetItem from '@/components/RowSetItem/index.vue'
-import { SETPAGETYPE } from '../utils'
+import { EditLinkData, ExternalForm, SETPAGETYPE } from '../type'
 interface Props {
-  value?: any
+  value?: EditLinkData
 }
 const props = withDefaults(defineProps<Props>(), {})
 const type = SETPAGETYPE.EXTERNAL
-const ruleForm = ref({
+const ruleForm = ref<ExternalForm>({
   title: '',
   link: '',
   open_new: false

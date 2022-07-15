@@ -31,9 +31,9 @@
 
 <script setup lang="ts">
 import { onMounted, ref, toRaw } from 'vue'
-import { SETPAGETYPE } from '../utils'
+import { EditLinkData, SETPAGETYPE } from '../type'
 interface Props {
-  value?: any
+  value?: EditLinkData
 }
 const props = withDefaults(defineProps<Props>(), {})
 const type = SETPAGETYPE.EMAIL

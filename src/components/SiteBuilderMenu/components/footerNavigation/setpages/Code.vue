@@ -30,13 +30,13 @@
 <script setup lang="ts">
 import { ref, toRaw } from 'vue'
 import RowSetItem from '@/components/RowSetItem/index.vue'
-import { SETPAGETYPE } from '../utils'
+import { CodeForm, EditLinkData, SETPAGETYPE } from '../type'
 interface Props {
-  value?: any
+  value?: EditLinkData
 }
 const props = withDefaults(defineProps<Props>(), {})
 const type = SETPAGETYPE.CODE
-const ruleForm = ref({
+const ruleForm = ref<CodeForm>({
   title: '',
   code: '',
   open_new: false

@@ -7,9 +7,9 @@
 <script setup lang="ts">
 import TfrUpload from '@/components/TfrUpload/index.vue'
 import { ref, toRaw } from 'vue'
-import { SETPAGETYPE } from '../utils'
+import { EditLinkData, SETPAGETYPE } from '../type'
 interface Props {
-  value?: any
+  value?: EditLinkData
 }
 const ruleForm = ref(null)
 const props = withDefaults(defineProps<Props>(), {})

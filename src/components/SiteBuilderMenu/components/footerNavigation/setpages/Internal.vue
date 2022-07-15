@@ -31,13 +31,13 @@
 import Search from '@/components/SiteBuilderMenu/components/footerNavigation/setpages/InternalSerch.vue'
 import { ref, toRaw } from 'vue'
 import RowSetItem from '@/components/RowSetItem/index.vue'
-import { SETPAGETYPE } from '../utils'
+import { EditLinkData, InternalForm, SETPAGETYPE } from '../type'
 interface Props {
-  value?: any
+  value?: EditLinkData
 }
 const props = withDefaults(defineProps<Props>(), {})
 const type = SETPAGETYPE.INTERNAL
-const ruleForm = ref({
+const ruleForm = ref<InternalForm>({
   title: '',
   open_new: false
 })
