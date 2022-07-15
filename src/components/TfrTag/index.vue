@@ -4,7 +4,7 @@
     <svg-icon
       v-if="tagProps.closeable"
       icon-class="close"
-      @click="handleClose"
+      @click.stop.prevent="handleClose"
     />
   </span>
 </template>

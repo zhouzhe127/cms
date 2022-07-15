@@ -93,7 +93,8 @@
 // import { parseTimeToEn } from '@/utils'
 import TfrSelect from '@/components/TfrSelect/index.vue'
 import momentTimezone from 'moment-timezone'
-import { ref, computed, onMounted, reactive } from 'vue'
+import moment from 'moment'
+import { ref, computed, onMounted, reactive, getCurrentInstance } from 'vue'
 import { FormInstance, FormRules } from 'element-plus'
 
 interface PropsType {
@@ -114,6 +115,8 @@ const datePickerRangeProps = withDefaults(defineProps<PropsType>(), {
   endDate: '',
   zt: ''
 })
+const $tfrMessage: any =
+  getCurrentInstance()?.appContext?.config?.globalProperties?.$tfrMessage
 const timeRef = ref<FormInstance>()
 const weekList = ref([
   { label: 'Sun', value: 0 },
@@ -451,11 +454,81 @@ const preMonthHandle = () => {
     tmpMonth.value -= 1
   }
 }
+// 根据时区计算出时间偏移量
+// const getTimeZoneCode = (tz: string) => {
+//   // 当前时区的偏移量
+//   const offset = momentTimezone.tz.zone(tz).utcOffset(Date.now()) / 60
+//   let mark = ''
+//   if (offset > 0) {
+//     mark = '-'
+//   } else if (offset < 0) {
+//     mark = '+'
+//   }
+//
+//   let val = ''
+//   const offsetVal = Math.abs(offset)
+//   if (offsetVal < 10 && offsetVal > 0) {
+//     val = `0${offsetVal}`
+//   } else if (offsetVal > 9) {
+//     val = `${offsetVal}`
+//   }
+//   return `GMT${mark}${val}`
+// }
 const validateStartDate = () => {
   if (!startYear.value && !startMonth.value && !startDay.value) return true
 }
 const validateEndDate = () => {
   if (!endYear.value && !endMonth.value && !endDay.value) return true
+}
+const commitDateParams = async () => {
+  if (!startDate.value) {
+    $tfrMessage({
+      type: 'error',
+      message: 'Please select the start time'
+    })
+    return false
+  } else if (!endDate.value) {
+    $tfrMessage({
+      type: 'error',
+      message: 'Please select the end time'
+    })
+    return false
+  }
+  const valid = await timeRef.value?.validate()
+  if (valid) {
+    const startDateFormat = moment(startDate.value).format('YYYY-MM-DD')
+    const endDateFormat = moment(endDate.value).format('YYYY-MM-DD')
+    const { timeZone, timePoint } = timeForm
+    // const startTime = new Date(
+    //   `${startDateFormat.replace(/-/g, '/')} ${timePoint} ${getTimeZoneCode(
+    //     timeZone
+    //   )}`
+    // ).valueOf()
+    // const endTime = new Date(
+    //   `${endDateFormat.replace(/-/g, '/')} ${timePoint} ${getTimeZoneCode(
+    //     timeZone
+    //   )}`
+    // ).valueOf()
+    const startTime = momentTimezone.tz(
+      `${startDateFormat} ${timePoint}`,
+      timeZone
+    )
+    const endTime = momentTimezone.tz(`${endDateFormat} ${timePoint}`, timeZone)
+    // const newYork = momentTimezone.tz('2014-06-01 12:00', 'America/New_York')
+    // console.log(
+    //   newYork.format(),
+    //   startTime,
+    //   endTime,
+    //   startDateFormat,
+    //   endDateFormat
+    // )
+    return {
+      startTime: startTime.format(),
+      endTime: endTime.format(),
+      timeZone
+    }
+  }
+  return false
 }
 // const applyHandle = () => {
 //   if (!this.startDate) {
@@ -485,9 +558,7 @@ const validateEndDate = () => {
 //   this.$emit('clearHandle')
 // }
 defineExpose({
-  timeRef,
-  startDate,
-  endDate
+  commitDateParams
 })
 </script>
 

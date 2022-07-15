@@ -42,7 +42,7 @@ import TfrDialog from '@/components/TfrDialog/index.vue'
 import TfrCheckbox from '@/components/TfrCheckbox/index.vue'
 import TfrButton from '@/components/TfrButton/index.vue'
 import { ref, computed, onMounted, getCurrentInstance } from 'vue'
-import { getRegionAll } from '@/api/marketing'
+import { getRegionList } from '@/api/marketing'
 
 interface RegionItem {
   checked: boolean
@@ -83,7 +83,7 @@ const visibleDialog = computed({
 })
 
 onMounted(async () => {
-  const list: any = await getRegionAll()
+  const list: any = await getRegionList()
   regionList.value = [
     { region_code: 'all', region_name: 'All Region', checked: false },
     ...list
@@ -94,6 +94,14 @@ onMounted(async () => {
     if (firstRegionCode === 'all') {
       regionList.value.forEach(item => {
         item.checked = true
+      })
+    } else {
+      regionList.value.forEach(item => {
+        if (
+          dialogProps.regionList.find(i => i.region_code === item.region_code)
+        ) {
+          item.checked = true
+        }
       })
     }
   }
@@ -118,7 +126,11 @@ const confirmHandle = () => {
     })
     return
   }
-  dialogEmits('confirmHandle', regionList.value)
+  if (checkedItem.region_code === 'all') {
+    dialogEmits('confirmHandle', [checkedItem])
+  } else {
+    dialogEmits('confirmHandle', regionList.value)
+  }
 }
 
 const regionChange = (region: RegionItem) => {
@@ -130,7 +142,7 @@ const regionChange = (region: RegionItem) => {
 }
 
 const getRegionHandle = async () => {
-  const list: any = await getRegionAll({ keyword: keyword.value })
+  const list: any = await getRegionList({ keyword: keyword.value })
   regionList.value = list
   if (!keyword.value) {
     regionList.value = [
