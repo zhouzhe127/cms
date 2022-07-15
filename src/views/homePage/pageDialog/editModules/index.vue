@@ -7,6 +7,7 @@
       aside-width="240px"
       rightbtn="APPLY"
       :side-arr="modulesArr"
+      @getdata="() => {}"
       @close="closeWin"
     />
   </div>

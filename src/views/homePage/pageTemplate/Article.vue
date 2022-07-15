@@ -2,6 +2,7 @@
   <div class="template_box">
     <Pagetop />
     <ArticleRegular />
+    <ArticleDiscover />
     <div class="pagecontent">
       <div v-for="(item, index) in pageTemplate.properties" :key="index">
         <component :is='pageComponents[item.componentName]' :site="index"></component>
@@ -17,6 +18,7 @@ import Pagetop from '@/views/homePage/components/Pagetop.vue'
 import FootContent from '@/views/homePage/components/FootContent.vue'
 import AddModule from '@/views/homePage/components/AddModule.vue'
 import ArticleRegular from '@/views/homePage/components/ArticleRegular.vue'
+import ArticleDiscover from '@/views/homePage/components/ArticleDiscover.vue'
 import appStore from '@/store'
 import pageComponents from '@/views/homePage/config/pageComponents'
 const pageTemplate = appStore.setBuilder.pageState.basic.schema
