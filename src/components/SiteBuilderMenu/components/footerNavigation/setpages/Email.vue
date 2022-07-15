@@ -9,8 +9,8 @@
         label-position="top"
         class="tfr-form-required"
       >
-        <el-form-item label="Send To" prop="sendto">
-          <tfr-input v-model="ruleForm.sendto" width="100%" />
+        <el-form-item label="Send To" prop="send_to">
+          <tfr-input v-model="ruleForm.send_to" width="100%" />
         </el-form-item>
         <el-form-item label="Subject" prop="subject">
           <tfr-input v-model="ruleForm.subject" width="100%" />
@@ -30,16 +30,22 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
-const ruleForm = reactive({
-  sendto: '',
+import { onMounted, ref, toRaw } from 'vue'
+import { SETPAGETYPE } from '../utils'
+interface Props {
+  value?: any
+}
+const props = withDefaults(defineProps<Props>(), {})
+const type = SETPAGETYPE.EMAIL
+const ruleForm = ref({
+  send_to: '',
   subject: '',
   body: '',
   cc: '',
   bcc: ''
 })
 const rules = {
-  sendto: {
+  send_to: {
     required: true,
     message: ' ',
     trigger: 'blur'
@@ -50,21 +56,42 @@ const rules = {
     trigger: 'blur'
   },
   body: {
+    required: false,
     message: ' ',
     trigger: 'blur'
   },
   cc: {
+    required: false,
     message: ' ',
     trigger: 'blur'
   },
   bcc: {
+    required: false,
     message: ' ',
     trigger: 'blur'
   }
 }
-const switchChange = (e: boolean) => {
-  // ruleForm.hide = e
+onMounted(() => {
+  if (props?.value) {
+    ruleForm.value = { ...ruleForm.value, ...props?.value[type] }
+  }
+})
+const ruleFormNode = ref()
+const confirm = async () => {
+  try {
+    const allVaild = await ruleFormNode.value.validate()
+    if (allVaild) {
+      return Promise.resolve({
+        [type]: toRaw(ruleForm)
+      })
+    }
+  } catch (e) {
+    console.log(e)
+  }
 }
+defineExpose({
+  confirm
+})
 </script>
 
 <style lang="scss" scoped>

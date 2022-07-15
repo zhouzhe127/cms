@@ -6,9 +6,26 @@
 
 <script setup lang="ts">
 import TfrUpload from '@/components/TfrUpload/index.vue'
-import { ref } from 'vue'
-
+import { ref, toRaw } from 'vue'
+import { SETPAGETYPE } from '../utils'
+interface Props {
+  value?: any
+}
+const ruleForm = ref(null)
+const props = withDefaults(defineProps<Props>(), {})
+const type = SETPAGETYPE.DOWNLOAD_MEDIA
+if (props?.value) {
+  ruleForm.value = props?.value[type] || {}
+}
 const downList = ref<any[]>([])
+const confirm = () => {
+  return Promise.resolve({
+    [type]: toRaw({})
+  })
+}
+defineExpose({
+  confirm
+})
 </script>
 
 <style lang="scss">

@@ -46,6 +46,7 @@
                     ref="modulsNode"
                     :info="cacheAside[selectd].info"
                     :close="close"
+                    :value="componentVal"
                   />
                 </el-scrollbar>
               </el-main>
@@ -91,6 +92,7 @@ interface Props {
   title?: string
   leftbtn?: string
   rightbtn?: string
+  componentVal?: any
 }
 const props = withDefaults(defineProps<Props>(), {
   width: '728px',
@@ -121,7 +123,7 @@ const inputSearch = (e: string) => {
     cacheAside.value = props.sideArr
   }
 }
-const Emits = defineEmits(['update:modelValue', 'close'])
+const Emits = defineEmits(['update:modelValue', 'close', 'dataChange'])
 const cancelHandle = () => {
   close()
 }
@@ -131,7 +133,10 @@ const close = () => {
 }
 const clickRightBtn = async () => {
   rightBtnLoading.value = true
-  if (modulsNode.value.confirm) await modulsNode.value.confirm()
+  if (modulsNode.value.confirm) {
+    const data = await modulsNode.value.confirm()
+    if (data) Emits('dataChange', data)
+  }
   rightBtnLoading.value = false
 }
 onUnmounted(() => {
