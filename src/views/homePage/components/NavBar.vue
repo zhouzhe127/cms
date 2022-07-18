@@ -85,8 +85,9 @@
     background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20width%3D%2226%22%20height%3D%2230%22%3E%3Csvg%20width%3D%22100%25%22%20height%3D%22100%25%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20style%3D%22position%3Aabsolute%3Bwidth%3A26px%3Bheight%3A30px%3Boverflow%3Avisible%3Bdisplay%3Ablock%3Btransform%3Atranslate(0px%2C%200px)%22%3E%3Cpath%20d%3D%22M%2023.111%207.143%20L%2020.222%207.143%20C%2020.222%203.2%2016.987%200%2013%200%20C%209.013%200%205.778%203.2%205.778%207.143%20L%202.889%207.143%20C%201.3%207.143%200%208.429%200%2010%20L%200%2027.143%20C%200%2028.714%201.3%2030%202.889%2030%20L%2023.111%2030%20C%2024.7%2030%2026%2028.714%2026%2027.143%20L%2026%2010%20C%2026%208.429%2024.7%207.143%2023.111%207.143%20Z%20M%2013%202.857%20C%2015.398%202.857%2017.333%204.771%2017.333%207.143%20L%208.667%207.143%20C%208.667%204.771%2010.602%202.857%2013%202.857%20Z%22%20fill%3D%22var(--token-e59a380a-257f-4a9c-b4d5-79e578382472%2C%20rgb(27%2C%2043%2C%2039))%20%2F*%20%7B%26quot%3Bname%26quot%3B%3A%26quot%3BFuture%20black%26quot%3B%7D%20*%2F%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E%3C%2Fsvg%3E');
   }
 }
-
-@media screen and (max-width:1200px) {
+</style>
+<style lang="scss">
+@mixin platform {
   .navbar {
     .phone {
       display: block;
@@ -95,6 +96,11 @@
     .web {
       display: none;
     }
-  } 
+  }
+}
+
+.mobile_platform,
+.tablet_platform {
+  @include platform;
 }
 </style>

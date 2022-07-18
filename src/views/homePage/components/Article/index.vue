@@ -14,8 +14,8 @@ import { ComponentsSchema } from '@/views/homePage/type/index'
 import Culture from './Culture.vue'
 import ArticleList from './ArticleList.vue'
 interface Props {
-  site?: number,
-  basic?: ComponentsSchema,
+  site?: number
+  basic?: ComponentsSchema
 }
 const props = withDefaults(defineProps<Props>(), {
   site: 0,
@@ -34,6 +34,22 @@ const props = withDefaults(defineProps<Props>(), {
     grid-column-gap: 30px;
     grid-row-gap: 20px;
     padding: 15px;
+  }
+}
+</style>
+<style lang="scss">
+.mobile_platform {
+  .articlebox {
+    .listbox {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+}
+.tablet_platform {
+  .articlebox {
+    .listbox {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 }
 </style>
