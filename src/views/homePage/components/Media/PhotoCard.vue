@@ -4,7 +4,7 @@
       <div class="tip-card" v-if="tips">
         {{ tips.toLocaleUpperCase() }}
       </div>
-      <div class="describ">
+      <div class="describ" v-if="tips && (describ || describ_title)">
         <div class="con">{{ describ }}</div>
         <div class="title">{{ describ_title }}</div>
       </div>

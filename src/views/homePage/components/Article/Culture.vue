@@ -12,8 +12,8 @@
 </template>
 
 <script setup lang="ts">
-import CardView from '@/views/homePage/components/PhotoList/CardView.vue'
-import PhotoCard from '@/views/homePage/components/PhotoList/PhotoCard.vue'
+import CardView from '@/views/homePage/components/Media/CardView.vue'
+import PhotoCard from '@/views/homePage/components/Media/PhotoCard.vue'
 import HomeText from '@/views/homePage/components/Culture/HomeText.vue'
 import { getAssetsImage } from '@/utils/fileSource'
 import CmsEdit from '@/components/CmsEdit/index.vue'
