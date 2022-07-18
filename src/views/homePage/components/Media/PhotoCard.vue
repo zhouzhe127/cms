@@ -38,6 +38,7 @@ withDefaults(defineProps<IProps>(), {
   margin-bottom: 20px;
   height: 0;
   display: inline-block;
+  overflow: hidden;
   position: relative;
   background-size: cover;
   background-repeat: no-repeat;
