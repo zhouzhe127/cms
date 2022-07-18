@@ -28,6 +28,7 @@
   .container {
     display: inline-block;
     width: 418px;
+    text-align: center;
     .top {
       width: 100%;
       .nimg {

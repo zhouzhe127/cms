@@ -50,6 +50,7 @@ withDefaults(defineProps<IProps>(), {
     left: 0;
     bottom: 0;
     transition: transform 1s ;
+    font-size: 0px;
   }
   .tip-card {
     position: absolute;
@@ -86,7 +87,7 @@ withDefaults(defineProps<IProps>(), {
 
 .photo-card:hover .footer {
   transform: translateY(-100%);
-  transition: transform 0.5s ;
+  transition: transform 0.5s;
   .describ {
     transform: translateY(100%);
     visibility: visible;
