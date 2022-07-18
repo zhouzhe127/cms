@@ -6,3 +6,11 @@ export function pageContentDetail(params?: unknown) {
     params
   })
 }
+
+export function pageContentCreate(data?: unknown) {
+  return request({
+    url: '/v3/cms/page/content/create',
+    method: 'post',
+    data
+  })
+}

@@ -35,9 +35,6 @@ useMenuStore.setCurrentMenuComponent()
 useMenuStore.setShowMobileSubMenu()
 const scrollRoot = ref(null)
 provide('scrollRef', scrollRoot)
-// const scroll = () => {
-//   console.log(111)
-// }
 const router = useRouter()
 const route = useRoute()
 const backHandle = () => {

@@ -157,6 +157,7 @@ onMounted(() => {
       scoll.$.emitsOptions.scroll = (target: any) => {
         baseFunc(target, currentInstance)
         addEventHandleScroll(target, currentInstance)
+        return true
       }
     }
   }

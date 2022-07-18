@@ -9,6 +9,7 @@ export interface SideItem {
   icon?: string
   url?: string
   children?: SideItem[]
+  [key: string]: any
 }
 export interface RequestSide {
   navigation: SideItem,

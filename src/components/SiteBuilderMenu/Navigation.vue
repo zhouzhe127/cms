@@ -16,6 +16,7 @@
             :key="element.navigation.id"
             :is-empty="element.sub_navigation && element.sub_navigation.length <= 0"
             :center-icon="element.navigation.icon"
+            :active="element.navigation.isActive"
             @click-item="getPageData(element)"
             @left-click="() => {deleteItem(element)}"
             @right-click="chickEditWin(element)">
@@ -67,6 +68,7 @@ const dragOptions = computed(() => {
 })
 const isDragging = ref(false)
 const setBuilder = store.setBuilder
+const setActiveSide = store.setBuilder.setActiveSide
 const sidearr = computed({
   get() {
     return setBuilder.sideState[SITE_MENUS.NAVIGATION].sidebarArr
@@ -80,14 +82,17 @@ const dragSetSide = (value: any, parentId?: string) => {
     sidearr.value.forEach((v: any) => {
       if (v.navigation.id === parentId) {
         v.sub_navigation = value
+        const cd = value.filter((s: any) => s.navigation.isActive)
+        if (cd[0]) setActiveSide([v.id, cd[0].id])
       }
     })
   } else {
     setBuilder.sideState[addFunc](value)
   }
 }
-const getPageData = (item: SideItem) => {
-  setBuilder.pageState.getPageDetail(item.code)
+const getPageData = (item: RequestSide) => {
+  setBuilder.pageState.getPageDetail(item.navigation.code)
+  setActiveSide([item.navigation.id || ''])
 }
 const addPage = () => {
   toSeletPage({ origin: SITE_MENUS.NAVIGATION })

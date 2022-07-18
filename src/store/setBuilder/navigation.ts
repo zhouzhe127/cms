@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
 import { RequestSide, SITE_MENUS } from '@/components/SiteBuilderMenu/type/index'
-
+import { setActiveRespose } from './utils'
 export const addFunc = Symbol(`add${SITE_MENUS.NAVIGATION}`)
 export const deleteFunc = Symbol(`delete${SITE_MENUS.NAVIGATION}`)
+export const setActive = Symbol(`setActiveSide`)
 interface Basic {
   sidebarArr: Array<RequestSide>
 }
@@ -12,6 +13,7 @@ interface ReturnType {
   [SITE_MENUS.NAVIGATION]: Basic
   [addFunc]: (item: RequestSide, index?: number) => void
   [deleteFunc]: (item: RequestSide) => void
+  [setActive]: (seleted:Array<string | number>) => void
 }
 
 export const sidebar = defineStore(
@@ -47,10 +49,14 @@ export const sidebar = defineStore(
           )
       }
     }
+    function setActiveSide(seleted:Array<string | number>) {
+      Sidestate.sidebarArr = setActiveRespose(Sidestate.sidebarArr, seleted)
+    }
     return {
       [SITE_MENUS.NAVIGATION]: Sidestate,
       [addFunc]: addSidebar,
-      [deleteFunc]: deleteSidebar
+      [deleteFunc]: deleteSidebar,
+      [setActive]: setActiveSide
     }
   },
   {

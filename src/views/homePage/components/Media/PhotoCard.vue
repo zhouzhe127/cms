@@ -12,8 +12,8 @@ import { getAssetsImage } from '@/utils/fileSource'
 import CmsEdit from '@/components/CmsEdit/index.vue'
 import appStore from '@/store'
 interface IProps {
-  imgurl: string
-  tips: string
+  imgurl?: string
+  tips?: string
   site?: number
   childSite?: number
 }

@@ -1,9 +1,13 @@
 <template>
   <div>
     <div class="menu_item">
-      <div class="itemlist">
+      <div
+        class="itemlist"
+        :class="{ active: active }"
+        @click="clickItems"
+      >
         <div class="hidden" @click="leftClick">
-          <svg-icon :icon-class="prop.leftIcon" class="sicon" />
+          <svg-icon :icon-class="leftIcon" class="sicon" />
         </div>
         <div class="nextmi" @change="centerIconClick">
           <svg-icon
@@ -13,13 +17,13 @@
           />
         </div>
         <div @change="centerIconClick">
-          <svg-icon :icon-class="prop.centerIcon" class="sicon" />
+          <svg-icon :icon-class="centerIcon" class="sicon" />
         </div>
         <div>
-          {{ prop.title }}
+          {{ title }}
         </div>
         <div class="hidden" @click="rightClick">
-          <svg-icon :icon-class="prop.rightIcon" class="sicon" />
+          <svg-icon :icon-class="rightIcon" class="sicon" />
         </div>
       </div>
     </div>
@@ -32,14 +36,19 @@ interface Props {
   leftIcon?: string
   rightIcon?: string
   centerIcon?: string
+  active?: boolean
 }
-const prop = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   title: '--',
   leftIcon: 'delete_red',
   rightIcon: 'tool_gray',
-  centerIcon: 'scratchable'
+  centerIcon: 'scratchable',
+  active: false,
 })
-const emit = defineEmits(['leftClick', 'rightClick', 'centerIconClick'])
+const emit = defineEmits(['leftClick', 'rightClick', 'centerIconClick', 'clickItem'])
+const clickItems = () => {
+  emit('clickItem')
+}
 const leftClick = () => {
   emit('leftClick')
 }
@@ -80,6 +89,12 @@ const centerIconClick = () => {
       .hidden {
         opacity: 1;
       }
+    }
+  }
+  .active {
+    background-color: #ffffff;
+    .hidden {
+      opacity: 1;
     }
   }
 }

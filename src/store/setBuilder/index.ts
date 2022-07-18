@@ -1,15 +1,20 @@
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
-import { sidebar, addFunc } from './navigation'
+import { sidebar, addFunc, setActive } from './navigation'
 import { pageTemplate } from './pageTemplate'
-import { sidebar as footerSlidebar, addFunc as footerAddFunc } from './footerNavigation'
+import {
+  sidebar as footerSlidebar,
+  addFunc as footerAddFunc
+} from './footerNavigation'
 import { getNavigationList } from '@/api/siteBuilder/navigation'
 import { disposeSideDate } from '@/utils/siteBuilder'
 import { SITE_MENUS } from '@/components/SiteBuilderMenu/type/index'
 interface Basic {
-  platformState: string,
+  platformState: string
   loading: boolean
+  sideSelectd: Array<string | number>
 }
+const SIDECONTENT = [SITE_MENUS.NAVIGATION, SITE_MENUS.FOOTER]
 export const setBuilder = defineStore(
   'setBuilder',
   () => {
@@ -18,15 +23,20 @@ export const setBuilder = defineStore(
     const basic = reactive<Basic>({
       loading: false,
       platformState: 'pc',
+      sideSelectd: []
     })
 
     function setItem(type: string): void {
       basic.platformState = type
     }
+    function setActiveSide(value: Array<string | number>) {
+      basic.sideSelectd = value
+      sideState[setActive](value)
+    }
     async function getSetBuilderList() {
       basic.loading = true
       try {
-        const data:any = await getNavigationList()
+        const data: any = await getNavigationList()
         if (data) {
           const navigation: any = disposeSideDate(data[SITE_MENUS.NAVIGATION])
           const footerArr: any = disposeSideDate(data[SITE_MENUS.FOOTER])
@@ -38,7 +48,14 @@ export const setBuilder = defineStore(
         basic.loading = false
       }
     }
-    return { basic, setItem, getSetBuilderList, sideState, pageState }
+    return {
+      basic,
+      setItem,
+      getSetBuilderList,
+      sideState,
+      pageState,
+      setActiveSide
+    }
   },
   {
     persist: true

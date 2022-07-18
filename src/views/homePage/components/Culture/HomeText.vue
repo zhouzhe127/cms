@@ -16,8 +16,8 @@
 import { getAssetsImage } from '@/utils/fileSource'
 
 interface IProps {
-  imgurl: string
-  tips: string
+  imgurl?: string
+  tips?: string
 }
 
 withDefaults(defineProps<IProps>(), {

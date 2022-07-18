@@ -8,6 +8,7 @@ import FootContent from '@/views/homePage/components/FootContent.vue'
 import Shelve from '@/views/homePage/components/Shelve/index.vue'
 import Media from '@/views/homePage/components/Media/index.vue'
 import Article from '@/views/homePage/components/Article/index.vue'
+import Campaign from '@/views/homePage/components/Campaign/index.vue'
 import { Component } from 'vue'
 export enum SITE_MODULES {
   PAGETOP = 'pagetop',
@@ -20,6 +21,7 @@ export enum SITE_MODULES {
   SHELVE = 'shelf',
   MEDIA = 'media',
   ARTICLE = 'article',
+  CAMPAIGN = 'campaign',
 }
 type stringKey = Record<string, Component>
 const ComponentsMap: stringKey = {
@@ -33,5 +35,6 @@ const ComponentsMap: stringKey = {
   [SITE_MODULES.SHELVE]: Shelve,
   [SITE_MODULES.MEDIA]: Media,
   [SITE_MODULES.ARTICLE]: Article,
+  [SITE_MODULES.CAMPAIGN]: Campaign,
 }
 export default ComponentsMap
