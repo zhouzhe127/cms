@@ -27,6 +27,11 @@ const keyupEnterPrevent = () => {
 </script>
 
 <style lang="scss" scoped>
+.el-form-item.is-error .tfr-input {
+  ::v-deep(.el-input__wrapper) {
+    box-shadow: 0 0 0 1px var(--el-color-danger) inset;
+  }
+}
 .tfr-input {
   ::v-deep(.el-input__wrapper) {
     height: 50px;

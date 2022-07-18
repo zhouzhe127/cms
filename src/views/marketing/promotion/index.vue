@@ -161,6 +161,7 @@
   <target-dialog
     :visible="targetVisible"
     :width="dialogWidth"
+    :params="targetObject"
     @update:visible="targetVisible = $event"
     @cancelHandle="targetDialogCancelHandle"
     @confirmHandle="targetDialogConfirmHandle"
@@ -195,6 +196,7 @@ import { storeToRefs } from 'pinia'
 import { menuStore } from '@/store/modules/menu'
 import { appStore } from '@/store/modules/app'
 import type { FormInstance, FormRules } from 'element-plus'
+import { TargetParams } from '@/views/marketing/types'
 const promoFormRef = ref<FormInstance>()
 const datePickerRangeRef = ref()
 const route = useRoute()
@@ -238,6 +240,13 @@ const promoRules = reactive<FormRules>({
 const effectiveRegionList = ref([{ name: 'All Region', code: 'all' }])
 const effectiveRegionDialog = ref(<boolean>false)
 const targetVisible = ref(<boolean>false)
+const targetObject = ref<TargetParams>({
+  target_type: '',
+  target_condition: {
+    user_sources: [''],
+    keyword: ''
+  }
+})
 const applyLimitVisible = ref(<boolean>false)
 const regionData = ref([
   { name: 'All Region', code: 'all', checked: false },

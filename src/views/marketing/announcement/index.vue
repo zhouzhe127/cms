@@ -104,12 +104,29 @@
             >Set Link</el-radio
           >
         </tfr-radio-group>
-        <div v-if="linkType === 'setLink'" class="link"></div>
       </el-form-item>
-      <el-form-item label="Target">
-        <tfr-radio-group v-model="targetCustomer" @change="targetChange">
-          <el-radio label="all">All Customers</el-radio>
-          <el-radio label="setTarget">Set Target</el-radio>
+      <div v-if="linkType === 'setLink'" class="link-content">
+        <div class="title">
+          {{ link.external?.title }}
+          <svg-icon icon-class="tablet" />
+        </div>
+        <div class="link">
+          {{ link.external?.link }}
+        </div>
+      </div>
+      <el-form-item label="Target" class="target-item">
+        <tfr-radio-group v-model="targetType">
+          <el-radio label="all" @click="setTargetAllHandle"
+            >All Customers</el-radio
+          >
+          <el-radio label="setTarget" @click="setTargetHandle"
+            >Set Target
+            <tfr-tag
+              v-if="targetType === 'setTarget' && targetObject.total"
+              @close="removeCustomers"
+              >{{ targetObject.total }} Customers
+            </tfr-tag>
+          </el-radio>
         </tfr-radio-group>
       </el-form-item>
       <el-form-item label="Expiration">
@@ -124,9 +141,9 @@
       >
         <date-picker-range
           ref="datePickerRangeRef"
-          start-date="2022-06-08T14:21:35+08:00"
-          end-date="2022-06-18T14:21:35+08:00"
-          zt="America/Denver"
+          :start-date="startTime"
+          :end-date="endTime"
+          :zt="timeZone"
         />
       </el-form-item>
     </el-form>
@@ -136,7 +153,9 @@
     >
       <template v-if="target === 'add'">
         <tfr-button type="gray">DELETE</tfr-button>
-        <tfr-button type="primary" @click="saveHandle">SAVE</tfr-button>
+        <tfr-button type="primary" :loading="saveLoading" @click="saveHandle"
+          >SAVE</tfr-button
+        >
       </template>
     </div>
     <effective-region-dialog
@@ -154,8 +173,11 @@
       :side-arr="sideArr"
     />
     <target-dialog
+      v-if="targetVisible"
       :visible="targetVisible"
+      type="announcement"
       :width="dialogWidth"
+      :params="targetObject"
       @update:visible="targetVisible = $event"
       @cancelHandle="targetDialogCancelHandle"
       @confirmHandle="targetDialogConfirmHandle"
@@ -176,60 +198,69 @@ import EffectiveRegionDialog from '@/views/marketing/components/EffectiveRegionD
 import sideArr from '@/views/homePage/pageDialog/editLinkPage/setModules'
 import TargetDialog from '@/views/marketing/components/TargetDialog/index.vue'
 import DatePickerRange from '@/components/DatePickerRange/index.vue'
-import { getPromotionList } from '@/api/marketing'
-import { reactive, ref, onMounted } from 'vue'
+import { getPromotionList, saveAnnouncement } from '@/api/marketing'
+import { reactive, ref, onMounted, getCurrentInstance } from 'vue'
 import { FormInstance, FormRules } from 'element-plus'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { appStore } from '@/store/modules/app'
 import { menuStore } from '@/store/modules/menu'
+import type {
+  TargetParams,
+  PromotionItem,
+  RegionItem,
+  AnnouncementData
+} from '../types'
 
-interface PromotionItem {
-  name: string
-  promo_code_id: number
-  [key: string]: any
-}
-
-interface RegionItem {
-  checked: boolean
-  currency_code?: string
-  flag?: string
-  phone_code?: string
-  region_code: string
-  region_name: string
-}
+// interface PromotionItem {
+//   name: string
+//   promo_code_id: number
+//   [key: string]: any
+// }
+//
+// interface RegionItem {
+//   checked: boolean
+//   currency_code?: string
+//   flag?: string
+//   phone_code?: string
+//   region_code: string
+//   region_name: string
+// }
 
 interface Link {
   type: string
-  external: {
+  external?: {
     title: string
     link: string
     open_new: boolean
   }
-  internal: {
+  internal?: {
     title: string
     page: string
     open_new: boolean
   }
-  code: {
+  code?: {
     title: string
     code: string
     open_new: string
   }
-  email: {
+  email?: {
     send_to: string
     subject: string
     body: string
     cc: string
     bcc: string
   }
-  download_media: {
+  download_media?: {
     type: string
     path: string
   }
 }
 
+const $tfrMessage: any =
+  getCurrentInstance()?.appContext?.config?.globalProperties?.$tfrMessage
 const announcementFormRef = ref<FormInstance>()
+const datePickerRangeRef = ref()
 const route = useRoute()
 const { target } = route.params
 const { device } = storeToRefs(appStore())
@@ -265,8 +296,8 @@ const announcementRules = reactive<FormRules>({
     }
   ]
 })
-const bannerPicture = ref([])
-const mobileBannerPicture = ref([])
+const bannerPicture = ref<any[]>([])
+const mobileBannerPicture = ref<any[]>([])
 let promoList = ref<PromotionItem[]>()
 const promoCode = ref('')
 const legalList = ref([
@@ -295,9 +326,27 @@ const effectiveRegionDialog = ref(false)
 const linkType = ref('none')
 const linkVisibleDialog = ref(false)
 const targetVisible = ref(false)
-const targetCustomer = ref('all')
+const targetType = ref('all')
+const targetObject = ref<TargetParams>({
+  target_type: '',
+  target_condition: {
+    user_sources: [''],
+    keyword: ''
+  }
+})
 const expirationType = ref<string>('none')
-const link = ref<Link>()
+const startTime = ref() //2022-06-08T14:21:35+08:00
+const endTime = ref() //2022-06-18T14:21:35+08:00
+const timeZone = ref() //America/Denver
+const link = ref<Link>({
+  type: '',
+  external: {
+    title: 'The Future Rocks',
+    link: 'www.thefutureRocks.com/path',
+    open_new: false
+  }
+})
+const saveLoading = ref(false)
 
 onMounted(async () => {
   const { list }: any = await getPromotionList()
@@ -306,6 +355,13 @@ onMounted(async () => {
 
 const removeRegionHandle = (index: number) => {
   effectiveRegionList.value.splice(index, 1)
+  if (effectiveRegionList.value.length === 0) {
+    effectiveRegionList.value.push({
+      region_code: 'all',
+      region_name: 'All Region',
+      checked: true
+    })
+  }
 }
 const editRegionHandle = () => {
   effectiveRegionDialog.value = true
@@ -320,12 +376,6 @@ const effectiveRegionDialogConfirmHandle = (regionList: RegionItem[]) => {
   effectiveRegionList.value = regionChecked
   effectiveRegionDialog.value = false
 }
-// const linkTypeChange = (label: string) => {
-//   console.log(label, 'nihao')
-//   if (label === 'setLink') {
-//     linkVisibleDialog.value = true
-//   }
-// }
 
 const setLinkNoneHandle = () => {
   linkType.value = 'none'
@@ -336,18 +386,114 @@ const setLinkHandle = () => {
   linkVisibleDialog.value = true
 }
 
-const targetChange = (label: string) => {
-  if (label === 'setTarget') {
-    targetVisible.value = true
-  }
+const setTargetAllHandle = () => {
+  targetType.value = 'all'
 }
+
+const setTargetHandle = () => {
+  targetType.value = 'setTarget'
+  targetVisible.value = true
+}
+
 const targetDialogCancelHandle = () => {
   targetVisible.value = false
 }
 
-const targetDialogConfirmHandle = () => {}
-const saveHandle = () => {
-  console.log(bannerPicture)
+const targetDialogConfirmHandle = (backParams: TargetParams) => {
+  targetVisible.value = false
+  targetObject.value = backParams
+}
+
+const removeCustomers = () => {
+  targetObject.value = {
+    target_type: '',
+    target_condition: {
+      user_sources: [''],
+      keyword: ''
+    }
+  }
+}
+const saveHandle = async () => {
+  const valid = await announcementFormRef.value?.validate()
+  if (valid) {
+    const data: AnnouncementData = {
+      name: announcementForm.name,
+      description: announcementForm.description,
+      message: announcementForm.message,
+      promotion_code_id: promoCode.value,
+      legal: legal.value,
+      region_range: 'all',
+      target_type: 'all',
+      expire_type: 'none'
+    }
+    // banner
+    if (bannerPicture.value.length > 0) {
+      const media = {
+        path: bannerPicture.value[0]?.link,
+        media_type: bannerPicture.value[0]?.content_type
+      }
+      data.media = media
+    }
+    // mobile banner
+    if (mobileBannerPicture.value.length > 0) {
+      const media = {
+        path: bannerPicture.value[0]?.link,
+        media_type: bannerPicture.value[0]?.content_type
+      }
+      data.mobile_media = media
+    }
+    // region
+    const firstRegionCode = effectiveRegionList.value[0].region_code
+    if (firstRegionCode === 'all') {
+      data.region_range = 'all'
+    } else {
+      data.region_range = 'multiple'
+      data.regions = []
+      effectiveRegionList.value.forEach(item => {
+        data.regions?.push(item.region_code)
+      })
+    }
+    // link
+    if (linkType.value === 'setLink') {
+      data.link = link.value
+    }
+    // target
+    if (targetType.value === 'setTarget') {
+      if (!targetObject.value.target_type) {
+        $tfrMessage({
+          type: 'error',
+          message: 'Please select customer'
+        })
+        return
+      }
+      data.target_type = targetObject.value.target_type
+      data.target_condition = targetObject.value.target_condition
+      if (targetObject.value.target_type === 'customers') {
+        data.target_customers = targetObject.value.target_customers
+      }
+    }
+    // expiration
+    if (expirationType.value === 'setExpiration') {
+      try {
+        const getDateParams: any =
+          await datePickerRangeRef.value.commitDateParams()
+        if (getDateParams) {
+          data.expire_type = 'date'
+          data.start_time = getDateParams.startTime
+          data.end_time = getDateParams.endTime
+          data.time_zone = getDateParams.timeZone
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    //saveLoading.value = true
+    await saveAnnouncement(data)
+    console.log(data)
+  }
+  // announcementFormRef.value.validate(async (valid: boolean) => {
+  //
+  // })
 }
 </script>
 
@@ -465,9 +611,15 @@ const saveHandle = () => {
   }
   .region-list {
     display: flex;
+    flex-wrap: wrap;
     .tfr-tag {
       margin-right: 10px;
       margin-bottom: 10px;
+    }
+  }
+  .target-item {
+    ::v-deep(.tfr-tag) {
+      margin-left: 10px;
     }
   }
   .tfr-radio-group {
@@ -506,6 +658,24 @@ const saveHandle = () => {
       ::v-deep(.el-radio__label) {
         display: flex;
       }
+    }
+  }
+  .link-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: $bg;
+    margin-bottom: 20px;
+    .title {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      svg {
+        font-size: 20px;
+      }
+    }
+    .link {
+      font-family: 'Brown Light', serif;
     }
   }
   .btn-group {

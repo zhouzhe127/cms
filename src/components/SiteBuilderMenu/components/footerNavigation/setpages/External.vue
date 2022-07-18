@@ -1,15 +1,26 @@
 <template>
   <div class="form_container">
     <div class="formcontant tfr-form">
-      <el-form ref="ruleFormNode" :model="ruleForm" :rules="rules" label-width="80px" label-position="top" class="tfr-form-required">
-        <el-form-item label="Link Title" prop="linkTitle">
-          <tfr-input v-model="ruleForm.linkTitle" width="100%" />
+      <el-form
+        ref="ruleFormNode"
+        :model="ruleForm"
+        :rules="rules"
+        label-width="80px"
+        label-position="top"
+        class="tfr-form-required"
+      >
+        <el-form-item label="Link Title" prop="title">
+          <tfr-input v-model="ruleForm.title" width="100%" />
         </el-form-item>
         <el-form-item label="Link" prop="link">
           <tfr-input v-model="ruleForm.link" width="100%" />
         </el-form-item>
         <RowSetItem title="Open In New Window">
-          <el-switch v-model="ruleForm.isNewWindow" active-color="#1B2B27" inactive-color="#F8F8F8" @change="switchChange" />
+          <el-switch
+            v-model="ruleForm.open_new"
+            active-color="#1B2B27"
+            inactive-color="#F8F8F8"
+          />
         </RowSetItem>
       </el-form>
     </div>
@@ -17,15 +28,21 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
-import RowSetItem from '@/components/RowSetItem/index.vue';
-const ruleForm = reactive({
-  linkTitle: '',
+import { ref, toRaw } from 'vue'
+import RowSetItem from '@/components/RowSetItem/index.vue'
+import { EditLinkData, ExternalForm, SETPAGETYPE } from '../type'
+interface Props {
+  value?: EditLinkData
+}
+const props = withDefaults(defineProps<Props>(), {})
+const type = SETPAGETYPE.EXTERNAL
+const ruleForm = ref<ExternalForm>({
+  title: '',
   link: '',
-  isNewWindow: false 
+  open_new: false
 })
 const rules = {
-  linkTitle: {
+  title: {
     required: true,
     message: ' ',
     trigger: 'blur'
@@ -34,11 +51,27 @@ const rules = {
     required: true,
     message: ' ',
     trigger: 'blur'
-  },
+  }
 }
-const switchChange = (e: boolean) => {
-  // ruleForm.hide = e
+if (props?.value) {
+  ruleForm.value = { ...ruleForm.value, ...props?.value[type] }
 }
+const ruleFormNode = ref()
+const confirm = async () => {
+  try {
+    const allVaild = await ruleFormNode.value.validate()
+    if (allVaild) {
+      return Promise.resolve({
+        [type]: toRaw(ruleForm)
+      })
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+defineExpose({
+  confirm
+})
 </script>
 
 <style lang="scss" scoped>

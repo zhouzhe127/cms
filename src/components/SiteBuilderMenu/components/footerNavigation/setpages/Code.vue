@@ -9,18 +9,17 @@
         label-position="top"
         class="tfr-form-required"
       >
-        <el-form-item label="Link Title" prop="linkTitle">
-          <tfr-input v-model="ruleForm.linkTitle" width="100%" />
+        <el-form-item label="Link Title" prop="title">
+          <tfr-input v-model="ruleForm.title" width="100%" />
         </el-form-item>
         <el-form-item label="Code" prop="code">
           <tfr-input v-model="ruleForm.code" width="100%" />
         </el-form-item>
         <RowSetItem title="Open In New Window">
           <el-switch
-            v-model="ruleForm.isNewWindow"
+            v-model="ruleForm.open_new"
             active-color="#1B2B27"
             inactive-color="#F8F8F8"
-            @change="switchChange"
           />
         </RowSetItem>
       </el-form>
@@ -29,15 +28,21 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref, toRaw } from 'vue'
 import RowSetItem from '@/components/RowSetItem/index.vue'
-const ruleForm = reactive({
-  linkTitle: '',
+import { CodeForm, EditLinkData, SETPAGETYPE } from '../type'
+interface Props {
+  value?: EditLinkData
+}
+const props = withDefaults(defineProps<Props>(), {})
+const type = SETPAGETYPE.CODE
+const ruleForm = ref<CodeForm>({
+  title: '',
   code: '',
-  isNewWindow: false
+  open_new: false
 })
 const rules = {
-  linkTitle: {
+  title: {
     required: true,
     message: ' ',
     trigger: 'blur'
@@ -48,9 +53,25 @@ const rules = {
     trigger: 'blur'
   }
 }
-const switchChange = (e: boolean) => {
-  // ruleForm.hide = e
+if (props?.value) {
+  ruleForm.value = { ...ruleForm.value, ...props?.value[type] }
 }
+const ruleFormNode = ref()
+const confirm = async () => {
+  try {
+    const allVaild = await ruleFormNode.value.validate()
+    if (allVaild) {
+      return Promise.resolve({
+        [type]: toRaw(ruleForm)
+      })
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+defineExpose({
+  confirm
+})
 </script>
 
 <style lang="scss" scoped>
