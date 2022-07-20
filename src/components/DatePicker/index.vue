@@ -321,6 +321,9 @@ const selected = (currentDay: string | number) => {
     currentDay === selectedDay.value
   )
 }
+const commitDateParams = () => {
+  
+}
 // 根据时区计算出时间偏移量
 // const getTimeZoneCode = tz => {
 //   // 当前时区的偏移量
@@ -396,7 +399,8 @@ const selected = (currentDay: string | number) => {
 //   }
 // }
 defineExpose({
-  timeRef
+  timeRef,
+  commitDateParams
 })
 </script>
 

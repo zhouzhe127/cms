@@ -10,14 +10,20 @@
       append-to-body
       @before-close="closeWin"
     >
-      <div class="body">
+      <div class="body tfr-form">
         <header>
           <span> PLP SETTINGS </span>
         </header>
         <el-scrollbar ref="scrollRoot" style="padding: 20px">
-          <el-form :rules="rules" label-position="top">
+          <el-form
+            :model="ruleForm"
+            :rules="rules"
+            label-width="80px"
+            label-position="top"
+            class="tfr-form-required"
+          >
             <RowSetItem title="HIDE PLP" :has-padding="false">
-              <TfrSwitch />
+              <TfrSwitch v-model="hide" />
             </RowSetItem>
             <div class="tips-row">
               Toggle to disable PLP from public domain.
@@ -50,57 +56,77 @@
               <TfrSwitch />
             </RowSetItem>
 
-            <el-form-item label="Title" props="title">
-              <tfr-input v-model="ruleForm.title" width="100%" />
+            <el-form-item label="Title" prop="title">
+              <tfr-input v-model="ruleForm.title" placeholder="LOREM IPSUM" width="100%" />
             </el-form-item>
 
-            <el-form-item label="Body" props="body">
-              <TfrEditor />
+            <el-form-item label="Body" prop="body">
+              <TfrEditor
+                v-model="ruleForm.body"
+                :placeholder="defaultDoc"
+                height="140px"
+                width="100%"
+              />
             </el-form-item>
 
-            <el-form-item label="Background" props="background">
-              <tfr-upload :picture-list="ruleForm.background" />
+            <el-form-item label="Background">
+              <tfr-upload :is-only-one="true" :picture-list="ruleForm.background" />
             </el-form-item>
 
-            <el-form-item label="Mobile Alterntive" props="background">
+            <el-form-item label="Mobile Alterntive">
               <div class="mobile-upload">
-                <tfr-upload :picture-list="ruleForm.background" />
+                <tfr-upload :is-only-one="true" :picture-list="ruleForm.mobileBackground" />
               </div>
             </el-form-item>
 
-            <el-form-item label="Title" props="title">
+            <el-form-item label="Title" props="launch_title">
               <tfr-input
                 placeholder="Launches"
-                v-model="ruleForm.title"
+                v-model="ruleForm.launch_title"
                 width="100%"
               />
             </el-form-item>
 
-            <el-form-item label="Button" props="title">
+            <el-form-item label="Button" props="lunch_button">
               <tfr-input
                 placeholder="NOTIFY ME"
-                v-model="ruleForm.title"
+                v-model="ruleForm.lunch_button"
                 width="100%"
               />
             </el-form-item>
 
-            <el-form-item label="Submit To" props="title">
+            <el-form-item label="Submit To" prop="submit_to">
               <tfr-input
                 placeholder="sales@thefuturerocks.com"
-                v-model="ruleForm.title"
+                v-model="ruleForm.submit_to"
                 width="100%"
               />
             </el-form-item>
 
             <RowSetItem title="Launch Date" :has-padding="false">
-              <TfrSwitch />
+              <TfrSwitch v-model="launch" />
             </RowSetItem>
 
             <div class="date">
-              <DatePicker width="100%" time-width="330px"></DatePicker>
+              <DatePicker ref="pickerNode" width="100%" time-width="330px"></DatePicker>
             </div>
           </el-form>
         </el-scrollbar>
+      </div>
+      <div slot="footer">
+        <div class="footerbox">
+          <div>
+            <tfr-button class="btn" @click="closeWin">CANCEL</tfr-button>
+          </div>
+          <div>
+            <tfr-button
+              class="btn black"
+              :loading="rightBtnLoading"
+              @click="clickRightBtn"
+              >SAVE</tfr-button
+            >
+          </div>
+        </div>
       </div>
     </TfrDialog>
   </div>
@@ -120,21 +146,83 @@ import SkuInput from '@/views/homePage/components/FormCommon/SkuInput.vue'
 import Preannouncement from './component/Preannouncement.vue'
 import Filter from './component/Filter.vue'
 const { showWin, closeWin } = generalwin()
-
+const defaultDoc = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
 enum PLPTYPE {
   PREANNOUNCEMENT = 'Preannouncement',
   FILTER = 'Filter',
   CUSTOM = 'Custom'
 }
-
+const hide = ref(false)
+const launch = ref(false)
 const ruleForm = reactive({
   title: '',
-  background: [] as any
+  body: '',
+  launch_title: '',
+  lunch_button: '',
+  submit_to: '',
+  background: [{}] as any,
+  mobileBackground: [{}] as any,
 })
-const rules = {}
-
+const rules = {
+  title: {
+    required: true,
+    message: ' ',
+    trigger: 'blur'
+  },
+  body: {
+    required: true,
+    message: ' ',
+    trigger: 'blur'
+  },
+  launch_title: {
+    required: true,
+    message: ' ',
+    trigger: 'blur'
+  },
+  lunch_button: {
+    required: true,
+    message: ' ',
+    trigger: 'blur'
+  },
+  submit_to: {
+    required: true,
+    message: ' ',
+    trigger: 'blur'
+  },
+}
+const pickerNode = ref<any>(null)
 const plpVisible = ref<boolean>(true)
 const typeCheck = ref<string>(PLPTYPE.PREANNOUNCEMENT)
+const rightBtnLoading = ref(false)
+const clickRightBtn = () => {
+  const background = ruleForm.background[0]
+  const mobileBackground = ruleForm.mobileBackground[0]
+  const obj = {
+    hide: hide.value,
+    type: typeCheck.value,
+    launch_title: ruleForm.launch_title,
+    lunch_button: ruleForm.lunch_button,
+    submit_to: ruleForm.submit_to,
+    launch,
+    background: {
+      path: background.link,
+      media_type: background.content_type
+    },
+    mobile_background: {
+      path: mobileBackground.link,
+      media_type: mobileBackground.content_type
+    },
+  }
+  if (pickerNode.value.timeRef.validate) {
+    pickerNode.value.timeRef.validate((valid: any) => {
+      if (valid) {
+        console.log(valid)
+      }
+    })
+  }
+  console.log(pickerNode.value.timeRef)
+  console.log(obj)
+}
 </script>
 <style lang="scss">
 .tips-row {
@@ -184,6 +272,27 @@ const typeCheck = ref<string>(PLPTYPE.PREANNOUNCEMENT)
     width: 100%;
     display: flex;
     justify-content: center;
+  }
+  .footerbox {
+    width: 100%;
+    padding: 10px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    line-height: 50px;
+    .btn {
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      background-color: #f8f8f8;
+      color: black;
+      cursor: pointer;
+    }
+    .black {
+      background-color: $theme;
+      color: #ffffff;
+    }
   }
 }
 </style>
