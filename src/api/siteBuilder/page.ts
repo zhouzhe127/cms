@@ -14,3 +14,11 @@ export function pageContentCreate(data?: unknown) {
     data
   })
 }
+
+export function pageContentUpdate(data?: unknown) {
+  return request({
+    url: '/v3/cms/page/content/update',
+    method: 'put',
+    data
+  })
+}

@@ -26,7 +26,10 @@
   align-items: center;
   justify-content: center;
   .container {
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 418px;
     .top {
       width: 100%;

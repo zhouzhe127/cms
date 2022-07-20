@@ -1,5 +1,5 @@
 import { PAGE_ICONS, FILEPAGE } from '@/views/homePage/pageDialog/selectPage/index.type'
-export function disposeSideDate<T>(list:T[]) {
+export function disposeSideData<T>(list:T[]) {
   const arr: Array<Object> = []
   if (Array.isArray(list)) {
     list.forEach((e: any) => {
@@ -11,7 +11,7 @@ export function disposeSideDate<T>(list:T[]) {
       }
       if (e.sub_navigation) {
         const tp = e.sub_navigation.map((v: any) => ({ navigation: v })) // 格式化数据
-        e.sub_navigation = disposeSideDate(tp)
+        e.sub_navigation = disposeSideData(tp)
       }
       arr.push(e)
     })
@@ -24,17 +24,40 @@ enum APIDATEMAP {
   component_type = 'componentName'
 }
 type TYPES = keyof typeof APIDATEMAP
-export function disposeTemplateDate<T>(data:any) {
+export function disposeTemplateData<T>(data:any) {
   const dataKeys = Object.keys(data)
   const mapdata:stringKey = {}
   dataKeys.forEach((v: TYPES | string) => {
     // @ts-ignore
     if (APIDATEMAP[v]) {
       if (v === 'list' && Array.isArray(data.list)) {
-        data.list = data.list.map((v: any) => disposeTemplateDate(v))
+        data.list = data.list.map((v: any) => disposeTemplateData(v))
       }
       // @ts-ignore
       mapdata[APIDATEMAP[v]] = data[v]
+    } else {
+      mapdata[v] = data[v]
+    }
+  })
+  return mapdata
+}
+
+enum SENDMAPKEY {
+  properties = 'list',
+  componentName = 'component_type',
+  page_type = 'template'
+}
+export function disposeSendData(data: any) {
+  const dataKeys = Object.keys(data)
+  const mapdata:stringKey = {}
+  dataKeys.forEach((v: TYPES | string) => {
+    // @ts-ignore
+    if (SENDMAPKEY[v]) {
+      if (v === 'list' && Array.isArray(data.list)) {
+        data.list = data.list.map((v: any) => disposeTemplateData(v))
+      }
+      // @ts-ignore
+      mapdata[SENDMAPKEY[v]] = data[v]
     } else {
       mapdata[v] = data[v]
     }

@@ -13,23 +13,23 @@
 
 <style lang="scss" scoped>
 .el-switch {
+  line-height: 32px;
+  height: 32px;
   &::v-deep(.el-switch__core) {
+    width: 54px !important;
     height: 32px;
     border-radius: 16px;
   }
   ::v-deep(.el-switch__action) {
+    top: 3px;
+    left: 2px;
     width: 24px;
     height: 24px;
-    top: 3px;
-    left: 3px;
-    margin-left: auto;
   }
 }
 .el-switch.is-checked {
   ::v-deep(.el-switch__action) {
-    top: 3px;
-    left: 26px;
-    margin-left: auto;
+    margin-left: -26px !important;
   }
 }
 </style>

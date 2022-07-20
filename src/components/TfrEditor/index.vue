@@ -15,15 +15,18 @@ import { ref, computed } from 'vue'
 
 interface PropsType {
   editorValue: string
+  placeholder: string
 }
 
 const editorProps = withDefaults(defineProps<PropsType>(), {
-  editorValue: '' // 默认值
+  editorValue: '', // 默认值
+  placeholder: ''
 })
 
 const editorOptions = {
   minHeight: '200px',
   language: 'en-US',
+  placeholder: editorProps.placeholder,
   useCommandShortcut: true,
   usageStatistics: true,
   hideModeSwitch: false,

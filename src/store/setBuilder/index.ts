@@ -7,7 +7,7 @@ import {
   addFunc as footerAddFunc
 } from './footerNavigation'
 import { getNavigationList } from '@/api/siteBuilder/navigation'
-import { disposeSideDate } from '@/utils/siteBuilder'
+import { disposeSideData } from '@/utils/siteBuilder'
 import { SITE_MENUS } from '@/components/SiteBuilderMenu/type/index'
 interface Basic {
   platformState: string
@@ -38,8 +38,8 @@ export const setBuilder = defineStore(
       try {
         const data: any = await getNavigationList()
         if (data) {
-          const navigation: any = disposeSideDate(data[SITE_MENUS.NAVIGATION])
-          const footerArr: any = disposeSideDate(data[SITE_MENUS.FOOTER])
+          const navigation: any = disposeSideData(data[SITE_MENUS.NAVIGATION])
+          const footerArr: any = disposeSideData(data[SITE_MENUS.FOOTER])
           sideState[addFunc](navigation)
           sideState[footerAddFunc](footerArr)
         }

@@ -23,7 +23,4 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <style scoped>
-.campainbox {
-
-}
 </style>

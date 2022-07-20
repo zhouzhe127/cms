@@ -45,7 +45,7 @@ import NestedDraggable from './components/NestedDraggable.vue'
 onSideEvent(SITE_MENUS.NAVIGATION, (e: string, item: SideItem) => {
   switch (item.title) {
     case PAGE_SELECT.PAGE:
-      setBuilder.pageState.addNewPage()
+      setBuilder.pageState.addNewPage(item)
       break
     case PAGE_SELECT.PLP:
       setBuilder.pageState.addNewPlp()
