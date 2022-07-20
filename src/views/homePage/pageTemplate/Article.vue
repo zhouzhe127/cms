@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import Pagetop from '@/views/homePage/components/Pagetop.vue'
-import FootContent from '@/views/homePage/components/FootContent.vue'
+import FootContent from '@/views/homePage/components/Footer/index.vue'
 import AddModule from '@/views/homePage/components/AddModule.vue'
 import ArticleRegular from '@/views/homePage/components/ArticleRegular.vue'
 import appStore from '@/store'

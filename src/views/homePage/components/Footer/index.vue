@@ -1,7 +1,7 @@
 <template>
   <CmsEdit :options="['tool']" @option-click="onOpClick">
-    <div class="foot-box">
-      <div class="links">
+    <div class="footer-box">
+      <div class="links pc">
         <div v-for="(item, index) in links" :key="index" class="links_items">
           <div class="pt">{{ item.text }}</div>
           <div
@@ -12,6 +12,24 @@
             {{ list.text }}
           </div>
         </div>
+      </div>
+
+      <div class="links mobile">
+        <TfrCollapse modelValue="about">
+          <template :key="index" v-for="(item, index) in links">
+            <TfrCollapseItem :name="item.text">
+              <div class="list-con">
+                <div
+                  v-for="(list, i) in item.children"
+                  :key="list.text + i"
+                  class="list-item"
+                >
+                  {{ list.text }}
+                </div>
+              </div>
+            </TfrCollapseItem>
+          </template>
+        </TfrCollapse>
       </div>
       <div class="sndc">
         <span
@@ -42,6 +60,8 @@
 <script setup lang="ts">
 import CmsEdit from '@/components/CmsEdit/index.vue'
 import { useRouter } from 'vue-router'
+import TfrCollapse from '@/components/TfrCollapse/index.vue'
+import TfrCollapseItem from '@/components/TfrCollapse/TfrCollapseItem.vue'
 
 interface Msd {
   text: string
@@ -60,7 +80,7 @@ const links: Array<Msd> = [
     ]
   },
   {
-    text: 'about',
+    text: 'about1',
     link: 'aaaa',
     children: [
       {
@@ -70,7 +90,7 @@ const links: Array<Msd> = [
     ]
   },
   {
-    text: 'about',
+    text: 'about2',
     link: 'aaaa',
     children: [
       {
@@ -80,7 +100,7 @@ const links: Array<Msd> = [
     ]
   },
   {
-    text: 'about',
+    text: 'about3',
     link: 'aaaa',
     children: [
       {
@@ -99,12 +119,18 @@ const onOpClick = () => {
 </script>
 
 <style lang="scss" scoped>
-.foot-box {
+.footer-box {
   width: 100%;
   padding: 30px 20px;
   background-color: #f8f8f8;
   font-family: 'Brown Regular';
   font-size: 14px;
+  .mobile {
+    display: none;
+    &.links {
+      display: none;
+    }
+  }
   .links {
     display: flex;
     justify-content: center;
@@ -147,6 +173,35 @@ const onOpClick = () => {
     font-family: 'Brown Light', serif;
     line-height: 16px;
     text-align: center;
+  }
+}
+::v-deep(.header_con span) {
+  text-transform: uppercase;
+}
+</style>
+
+<style lang="scss">
+.mobile_platform {
+  .footer-box {
+    padding-top: 60px;
+    .pc {
+      display: none;
+    }
+    .mobile {
+      display: block;
+      &.links {
+        display: block;
+      }
+      .list-con {
+        padding: 20px;
+        .list-item {
+          font-family: 'Brown Light', serif;
+          color: rgb(27, 43, 39);
+          font-size: 14px;
+          margin-bottom: 10px;
+        }
+      }
+    }
   }
 }
 </style>
