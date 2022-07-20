@@ -31,6 +31,7 @@
     align-items: center;
     justify-content: center;
     width: 418px;
+    text-align: center;
     .top {
       width: 100%;
       .nimg {

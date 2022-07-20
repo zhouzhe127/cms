@@ -52,6 +52,7 @@ device.value === 'mobile' && useMenuStore.setMobileMainPaddingTop()
     display: flex;
     flex-direction: column;
     background-color: $bg;
+    z-index: 999;
   }
   .el-header {
     position: fixed;

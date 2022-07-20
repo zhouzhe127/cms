@@ -1,6 +1,6 @@
 <template>
   <div class="down-container">
-    <tfr-upload :picture-list="downList" />
+    <tfr-upload :is-only-one="true" :picture-list="downList" />
   </div>
 </template>
 
