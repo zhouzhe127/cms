@@ -1,17 +1,19 @@
 <template>
   <div class="announcement-page">
-    <div v-if="target === 'add'" class="preview-here">
+    <div v-if="bannerPicture.length === 0" class="preview-here">
       <span>PREVIEW HERE</span>
     </div>
     <div v-else class="preview-here-edit">
       <div class="image">
-        <img
-          src="https://img-dev.tfrcdn.com/test/product/brand/1016/629dc7293d2b140008054f76/caeseed7l1hqd56qhlbg.jpeg"
-          alt=""
-        />
+        <img :src="bannerPicture[0].link" alt="" />
       </div>
       <div class="preview-here">
-        <span>PREVIEW HERE</span>
+        <span v-if="announcementForm.message || promoName || legalCode">
+          {{ announcementForm.message }}
+          {{ promoName }}
+          {{ legalName }}
+        </span>
+        <p v-else>PREVIEW HERE</p>
       </div>
     </div>
     <el-form
@@ -63,7 +65,12 @@
       </el-form-item>
       <div class="form-item-inline">
         <el-form-item label="Promo code">
-          <tfr-select v-model="promoCode" width="100%">
+          <tfr-select
+            v-model="promoCode"
+            width="100%"
+            @change="promoCodeChange"
+          >
+            <el-option label="-" value="" />
             <el-option
               v-for="promo in promoList"
               :key="promo.promotion_code_id"
@@ -73,7 +80,7 @@
           </tfr-select>
         </el-form-item>
         <el-form-item label="Legal">
-          <tfr-select v-model="legal" width="100%">
+          <tfr-select v-model="legalCode" width="100%" @change="legalChange">
             <el-option
               v-for="legal in legalList"
               :key="legal.code"
@@ -105,13 +112,20 @@
           >
         </tfr-radio-group>
       </el-form-item>
-      <div v-if="linkType === 'setLink'" class="link-content">
+      <div
+        v-if="
+          linkType === 'setLink' &&
+          setLinkType &&
+          (setLinkType === 'external' || setLinkType === 'internal')
+        "
+        class="link-content"
+      >
         <div class="title">
-          {{ link.external?.title }}
+          {{ linkObject[setLinkType]?.title }}
           <svg-icon icon-class="tablet" />
         </div>
-        <div class="link">
-          {{ link.external?.link }}
+        <div v-if="setLinkType === 'external'" class="link">
+          {{ linkObject[setLinkType]?.link }}
         </div>
       </div>
       <el-form-item label="Target" class="target-item">
@@ -157,6 +171,12 @@
           >SAVE</tfr-button
         >
       </template>
+      <template v-if="target === 'detail'">
+        <tfr-button type="gray">DELETE</tfr-button>
+        <tfr-button type="gray" :loading="duplicateLoading" @click="saveHandle"
+          >DUPLICATE</tfr-button
+        >
+      </template>
     </div>
     <effective-region-dialog
       v-if="effectiveRegionDialog"
@@ -171,6 +191,8 @@
       v-model="linkVisibleDialog"
       title="Edit Link"
       :side-arr="sideArr"
+      :component-val="linkObject"
+      @dataChange="updateLinkData"
     />
     <target-dialog
       v-if="targetVisible"
@@ -198,10 +220,23 @@ import EffectiveRegionDialog from '@/views/marketing/components/EffectiveRegionD
 import sideArr from '@/views/homePage/pageDialog/editLinkPage/setModules'
 import TargetDialog from '@/views/marketing/components/TargetDialog/index.vue'
 import DatePickerRange from '@/components/DatePickerRange/index.vue'
-import { getPromotionList, saveAnnouncement } from '@/api/marketing'
-import { reactive, ref, onMounted, getCurrentInstance } from 'vue'
+import {
+  getPromotionList,
+  saveAnnouncement,
+  getAnnouncementDetail,
+  getRegionList,
+  getAnnouncementUserList
+} from '@/api/marketing'
+import {
+  reactive,
+  ref,
+  onMounted,
+  getCurrentInstance,
+  watch,
+  inject
+} from 'vue'
 import { FormInstance, FormRules } from 'element-plus'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { appStore } from '@/store/modules/app'
 import { menuStore } from '@/store/modules/menu'
@@ -228,7 +263,7 @@ import type {
 // }
 
 interface Link {
-  type: string
+  type?: string
   external?: {
     title: string
     link: string
@@ -236,7 +271,7 @@ interface Link {
   }
   internal?: {
     title: string
-    page: string
+    page?: string
     open_new: boolean
   }
   code?: {
@@ -257,15 +292,18 @@ interface Link {
   }
 }
 
+const reload: any = inject('reload')
 const $tfrMessage: any =
   getCurrentInstance()?.appContext?.config?.globalProperties?.$tfrMessage
 const announcementFormRef = ref<FormInstance>()
 const datePickerRangeRef = ref()
 const route = useRoute()
+const router = useRouter()
 const { target } = route.params
 const { device } = storeToRefs(appStore())
 const offsetTop = ref(device.value === 'mobile' ? 140 : 60)
 const dialogWidth = ref(device.value === 'mobile' ? '100%' : '728px')
+const useMenuStore = menuStore()
 const { menuWidth } = storeToRefs(menuStore())
 const announcementForm = reactive({
   disabled: false,
@@ -300,7 +338,12 @@ const bannerPicture = ref<any[]>([])
 const mobileBannerPicture = ref<any[]>([])
 let promoList = ref<PromotionItem[]>()
 const promoCode = ref('')
+const promoName = ref('')
 const legalList = ref([
+  {
+    name: '-',
+    code: ''
+  },
   {
     name: 'Privacy policy',
     code: '1'
@@ -318,12 +361,15 @@ const legalList = ref([
     code: '4'
   }
 ])
-const legal = ref('')
+const legalCode = ref('')
+const legalName = ref('')
+let regionList = ref<RegionItem[]>()
 const effectiveRegionList = ref([
   { region_name: 'All Region', region_code: 'all', checked: true }
 ])
 const effectiveRegionDialog = ref(false)
 const linkType = ref('none')
+const setLinkType = ref('')
 const linkVisibleDialog = ref(false)
 const targetVisible = ref(false)
 const targetType = ref('all')
@@ -338,20 +384,152 @@ const expirationType = ref<string>('none')
 const startTime = ref() //2022-06-08T14:21:35+08:00
 const endTime = ref() //2022-06-18T14:21:35+08:00
 const timeZone = ref() //America/Denver
-const link = ref<Link>({
-  type: '',
-  external: {
-    title: 'The Future Rocks',
-    link: 'www.thefutureRocks.com/path',
-    open_new: false
-  }
-})
+const linkObject = ref<Link>()
 const saveLoading = ref(false)
+const duplicateLoading = ref(false)
 
+watch(
+  () => route.params,
+  () => {
+    reload()
+  }
+)
+const getRegionName = (code: string) => {
+  const item: RegionItem | undefined = regionList.value?.find(
+    i => i.region_code === code
+  )
+  if (item) {
+    return item.region_name
+  }
+  return ''
+}
+const setPromoName = (code: string) => {
+  const item: PromotionItem | undefined = promoList.value?.find(
+    i => i.promotion_code_id === code
+  )
+  if (item) {
+    promoName.value = item.name
+  }
+}
+
+const setLegalName = (code: string) => {
+  const item:
+    | {
+        name: string
+        code: string
+      }
+    | undefined = legalList.value.find(i => i.code === code)
+  if (item) {
+    legalName.value = item.name
+  }
+}
 onMounted(async () => {
   const { list }: any = await getPromotionList()
   promoList.value = list
+  const id: any = route.params.id
+  if (target === 'detail' && id) {
+    const {
+      name,
+      description,
+      message,
+      media,
+      mobile_media,
+      promotion_code_id,
+      legal,
+      region_range,
+      regions,
+      link,
+      target_type,
+      target_condition,
+      target_customers,
+      expire_type,
+      start_time,
+      end_time,
+      time_zone
+    }: any = await getAnnouncementDetail({ id })
+    announcementForm.name = name
+    announcementForm.description = description
+    announcementForm.message = message
+    if (media.path) {
+      console.log(bannerPicture.value, 'bannerPicture')
+      bannerPicture.value[0] = {
+        link: media.path,
+        content_type: media.media_type
+      }
+      console.log(bannerPicture.value[0])
+    }
+    if (mobile_media.path) {
+      mobileBannerPicture.value[0] = {
+        link: mobile_media.path,
+        content_type: mobile_media.media_type
+      }
+    }
+    if (promotion_code_id) {
+      promoCode.value = promotion_code_id
+      setPromoName(promotion_code_id)
+    }
+    if (legal) {
+      legalCode.value = legal
+      setLegalName(legal)
+    }
+    if (region_range === 'multiple') {
+      const rList: any = await getRegionList()
+      regionList.value = [...rList]
+      effectiveRegionList.value = []
+      regions.forEach((item: string) => {
+        effectiveRegionList.value.push({
+          region_code: item,
+          region_name: getRegionName(item),
+          checked: true
+        })
+      })
+    }
+    if (link) {
+      linkType.value = 'setLink'
+      setLinkType.value = link.type || 'external'
+      linkObject.value = { [setLinkType.value]: link[setLinkType.value] }
+      console.log(linkObject.value)
+    }
+    if (target_condition) {
+      targetType.value = 'setTarget'
+      targetObject.value = {
+        target_type,
+        target_condition
+      }
+      if (target_type === 'customers') {
+        targetObject.value.target_customers = target_customers
+        targetObject.value.total = target_customers.length
+      }
+      if (
+        target_type === 'all' &&
+        !target_condition.keyword &&
+        !target_condition.user_sources[0]
+      ) {
+        const { info }: any = await getAnnouncementUserList()
+        targetObject.value.total = info.total
+      }
+    }
+    if (expire_type === 'date') {
+      expirationType.value = 'setExpiration'
+      // const startTime = ref() //2022-06-08T14:21:35+08:00
+      // const endTime = ref() //2022-06-18T14:21:35+08:00
+      // const timeZone = ref() //America/Denver
+      startTime.value = start_time
+      endTime.value = end_time
+      timeZone.value = time_zone
+    }
+  }
+
+  console.log(route.params)
 })
+
+const promoCodeChange = (value: any) => {
+  setPromoName(value)
+}
+
+const legalChange = (value: any) => {
+  setLegalName(value)
+}
 
 const removeRegionHandle = (index: number) => {
   effectiveRegionList.value.splice(index, 1)
@@ -384,6 +562,23 @@ const setLinkNoneHandle = () => {
 const setLinkHandle = () => {
   linkType.value = 'setLink'
   linkVisibleDialog.value = true
+}
+
+const updateLinkData = (data: any) => {
+  console.log(
+    data,
+    'linkData',
+    data.hasOwnProperty('external'),
+    Object.keys(data)
+  )
+  linkVisibleDialog.value = false
+  const keyArray: string[] = Object.keys(data)
+  const key = keyArray[0]
+  setLinkType.value = key
+  linkObject.value = {
+    external: data[key]?.value
+  }
+  console.log(linkObject.value)
 }
 
 const setTargetAllHandle = () => {
@@ -421,7 +616,7 @@ const saveHandle = async () => {
       description: announcementForm.description,
       message: announcementForm.message,
       promotion_code_id: promoCode.value,
-      legal: legal.value,
+      legal: legalCode.value,
       region_range: 'all',
       target_type: 'all',
       expire_type: 'none'
@@ -455,7 +650,17 @@ const saveHandle = async () => {
     }
     // link
     if (linkType.value === 'setLink') {
-      data.link = link.value
+      if (!setLinkType.value) {
+        $tfrMessage({
+          type: 'error',
+          message: 'Please set link'
+        })
+        return
+      }
+      data.link = {
+        type: setLinkType.value,
+        ...linkObject.value
+      }
     }
     // target
     if (targetType.value === 'setTarget') {
@@ -487,9 +692,11 @@ const saveHandle = async () => {
         console.log(e)
       }
     }
-    //saveLoading.value = true
+    saveLoading.value = true
     await saveAnnouncement(data)
-    console.log(data)
+    saveLoading.value = false
+    router.replace({ path: '/marketing' })
+    useMenuStore.updateMarketingMenuList('announcement')
   }
   // announcementFormRef.value.validate(async (valid: boolean) => {
   //
@@ -516,13 +723,13 @@ const saveHandle = async () => {
     }
   }
   .preview-here-edit {
-    font-size: 0;
     &:hover {
       .image {
         padding-top: 40%;
       }
     }
     .image {
+      font-size: 0;
       width: 100%;
       height: 0;
       position: relative;
@@ -537,6 +744,21 @@ const saveHandle = async () => {
     }
     .preview-here {
       z-index: 1;
+      span {
+        padding: 0 10px;
+        opacity: 1;
+      }
+      p {
+        height: 100%;
+        line-height: 50px;
+        text-align: center;
+        padding: 0 128px;
+        margin: 0;
+        color: rgb(248, 248, 248);
+        opacity: 0.5;
+        border-right: 1px dashed rgb(248, 248, 248);
+        border-left: 1px dashed rgb(248, 248, 248);
+      }
     }
   }
   .announcement-form {

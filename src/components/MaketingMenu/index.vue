@@ -5,15 +5,40 @@
         v-for="(menuItem, index) in marketingMenuList"
         :key="'marketingMenu' + index"
       >
-        <div class="menu-title">
+        <div
+          class="menu-title"
+          @click="expandToggle(menuItem.expand, menuItem.type)"
+        >
           {{ menuItem.name }}
           <svg-icon
             icon-class="down"
             :class="[menuItem.expand ? 'expand' : '']"
-            @click="expandToggle(menuItem.expand, index)"
           />
         </div>
         <div v-if="menuItem.expand" class="menu-content">
+          <div
+            v-for="(item, index) in menuItem.list"
+            :key="menuItem.type + index"
+            @click="reviewHandle(menuItem.type, item.announcement_id)"
+          >
+            <div
+              v-if="menuItem.type === 'announcement'"
+              class="item"
+              :class="{ active: id === item.announcement_id + '' }"
+            >
+              <div class="left">
+                <svg-icon icon-class="announcement_active" />
+                <div>
+                  <h5>{{ item.name }}</h5>
+                  <span>{{ item.description }}</span>
+                </div>
+              </div>
+              <div class="right">
+                {{ myUpperCaseFirstLetter(item.region_range) }}
+              </div>
+            </div>
+          </div>
+
           <div class="add" @click="addHandle(menuItem.type)">
             <svg-icon icon-class="add_black" />
             Add
@@ -49,30 +74,52 @@ import { ref, onMounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter, useRoute } from 'vue-router'
 import TfrDialog from '@/components/TfrDialog/index.vue'
+import { upperCaseFirstLetter } from '@/utils'
+//import { getAnnouncementList } from '@/api/marketing'
 import { menuStore } from '@/store/modules/menu'
+const useMenuStore = menuStore()
 const router = useRouter()
 const route = useRoute()
 const addVisible = ref(false)
 const { marketingMenuList } = storeToRefs(menuStore())
+const target = ref<any>('add')
+const id = ref<any>('')
 
 onMounted(() => {
   const routeName = route.name
+  target.value = route.params.target
+  if (target.value === 'detail') {
+    id.value = route.params.id
+  }
   setMarketingMenuListExpand(routeName)
   watch(
     () => route.name,
     name => {
       const routeName: any = name
+      target.value = route.params.target
+      if (target.value === 'detail') {
+        id.value = route.params.id
+      } else {
+        id.value = ''
+      }
       setMarketingMenuListExpand(routeName)
     }
   )
 })
 
-const expandToggle = (expand: boolean, index: number) => {
-  marketingMenuList.value[index].expand = !expand
+const myUpperCaseFirstLetter = upperCaseFirstLetter
+
+const expandToggle = async (expand: boolean, type: string) => {
+  useMenuStore.updateMarketingMenuList(type)
+  // if (type === 'announcement') {
+  //   const data: any = await getAnnouncementList()
+  //   marketingMenuList.value[index].list = data.list
+  //   console.log(data)
+  // }
+  //marketingMenuList.value[index].expand = !expand
 }
 
 const addHandle = (type: string) => {
-  console.log(type)
   if (type === 'promotion') {
     addVisible.value = true
   } else if (type === 'giftCard') {
@@ -80,6 +127,7 @@ const addHandle = (type: string) => {
   } else {
     jumpTo('/marketing/announcement/add')
   }
+  id.value = ''
   // addVisible.value = true
 }
 // const closeAddDialog = () => {
@@ -90,10 +138,13 @@ const jumpTo = (path: string) => {
   addVisible.value = false
 }
 
-const setMarketingMenuListExpand = (routeName: any) => {
-  marketingMenuList.value.forEach(item => {
-    item.expand = item.type === routeName
-  })
+const setMarketingMenuListExpand = async (routeName: any) => {
+  useMenuStore.updateMarketingMenuList(routeName)
+}
+
+const reviewHandle = (type: string, itemId: string) => {
+  jumpTo(`/marketing/${type}/detail/${itemId}`)
+  id.value = itemId
 }
 </script>
 
@@ -109,9 +160,9 @@ const setMarketingMenuListExpand = (routeName: any) => {
     padding: 5px 5px 5px 10px;
     height: 40px;
     border-bottom: 1px solid $theme;
+    cursor: pointer;
     > svg {
       font-size: 20px;
-      cursor: pointer;
     }
     .expand {
       margin-top: 12px;
@@ -119,9 +170,38 @@ const setMarketingMenuListExpand = (routeName: any) => {
     }
   }
   .menu-content {
+    .item {
+      display: flex;
+      align-items: flex-start;
+      padding: 10px;
+      margin-top: 10px;
+      cursor: pointer;
+      &.active,
+      &:hover {
+        background-color: #fff;
+        border-radius: 8px;
+      }
+      .left {
+        display: flex;
+        .svg-icon {
+          font-size: 20px;
+          margin-right: 10px;
+        }
+        h5 {
+          margin: 0 0 10px 0;
+        }
+        span {
+          font-family: 'Brown Light', serif;
+        }
+      }
+      .right {
+        font-family: 'Brown Light', serif;
+      }
+    }
     .add {
       width: 116px;
       padding-left: 40px;
+      margin-top: 10px;
       height: 40px;
       display: flex;
       align-items: center;

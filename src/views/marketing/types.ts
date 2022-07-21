@@ -17,8 +17,9 @@ export interface DateParams {
 }
 
 export interface PromotionItem {
+  id: number
   name: string
-  promo_code_id: number
+  promo_code_id: string
   [key: string]: any
 }
 

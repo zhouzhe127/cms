@@ -36,7 +36,7 @@
     height: 30px;
     margin: 0 20px;
   }
-  .phone {
+  .mobile {
     display: none;
   }
   .web {
@@ -89,7 +89,7 @@
 <style lang="scss">
 @mixin platform {
   .navbar {
-    .phone {
+    .mobile {
       display: block;
     }
 
