@@ -60,8 +60,14 @@
 <script setup lang="ts">
 import CmsEdit from '@/components/CmsEdit/index.vue'
 import Pagination from '@/components/TfrPagination/index.vue'
-import { useRoute, useRouter } from 'vue-router';
-
+import { useRoute, useRouter } from 'vue-router'
+interface Props {
+  info?: any
+}
+const props = withDefaults(defineProps<Props>(), {
+  info: {}
+})
+console.log(props.info)
 const router = useRouter()
 
 const onPlpRegular = () => {

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { reactive, ref } from 'vue'
 import { PageSchema, ComponentsSchema } from '@/views/homePage/type/index'
+import { PLPDEFAULT } from '@/views/homePage/type/constant'
 import { SideItem } from '@/components/SiteBuilderMenu/type/index'
 import { SITE_PAGETEMPLATE } from '@/views/homePage/config/templateMap'
 import { pageContentDetail, pageContentCreate, pageContentUpdate } from '@/api/siteBuilder/page'
@@ -13,6 +14,7 @@ interface ReturnType {
   addNewPage: (item: SideItem) => void
   addHomePage: (title?: string) => void
   addNewPlp: (title?: string) => void
+  setPlpData: (data?: any) => void
   addChildModle: (item: ComponentsSchema, site: number, index: number) => void
   setChildModle: (item: ComponentsSchema, site: number, index: number) => void
   addNewArticle: (title?: string) => void
@@ -47,8 +49,13 @@ export const pageTemplate = defineStore(
       createPageContent(basic.schema)
     }
 
+    function setPlpData(data: any) {
+      basic.schema.plp = data
+    }
+
     function addNewPlp(title?: string) {
       basic.schema.template = SITE_PAGETEMPLATE.PLP
+      basic.schema.plp = PLPDEFAULT
       basic.schema.title = title
       basic.schema.properties = []
     }
@@ -117,10 +124,11 @@ export const pageTemplate = defineStore(
       addNewPage,
       addPageModle,
       addNewPlp,
+      setPlpData,
       addChildModle,
       addNewArticle,
       addHomePage,
-      setChildModle
+      setChildModle,
     }
   },
   {

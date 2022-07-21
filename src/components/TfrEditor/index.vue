@@ -1,7 +1,7 @@
 <template>
   <editor
     ref="toastuiEditor"
-    :initial-value="editorValue"
+    :initial-value="modelValue"
     :options="editorOptions"
     preview-style="vertical"
     v-bind="$attrs"
@@ -14,12 +14,12 @@ import Editor from './Editor.vue'
 import { ref, computed } from 'vue'
 
 interface PropsType {
-  editorValue: string
+  modelValue: string
   placeholder: string
 }
 
 const editorProps = withDefaults(defineProps<PropsType>(), {
-  editorValue: '', // 默认值
+  modelValue: '', // 默认值
   placeholder: ''
 })
 
@@ -37,20 +37,20 @@ const editorOptions = {
     ['table']
   ]
 }
-const editorEmits = defineEmits(['update:editorValue'])
+const editorEmits = defineEmits(['update:modelValue'])
 // const editorText = ref('')
 const toastuiEditor = ref<any>(null)
 
-const editorValue = computed({
-  get: () => editorProps.editorValue,
+const modelValue = computed({
+  get: () => editorProps.modelValue,
   set: newEditorValue => {
-    editorEmits('update:editorValue', newEditorValue)
+    editorEmits('update:modelValue', newEditorValue)
   }
 })
 const editorChange = () => {
   const html = toastuiEditor.value.invoke('getHTML')
-  console.log(toastuiEditor.value)
-  editorEmits('update:editorValue', html)
+  console.log(html)
+  editorEmits('update:modelValue', html)
 }
 </script>
 

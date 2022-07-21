@@ -22,3 +22,11 @@ export function pageContentUpdate(data?: unknown) {
     data
   })
 }
+
+export function productCondition(data?: unknown) {
+  return request({
+    url: '/v3/search/product/condition',
+    method: 'post',
+    data
+  })
+}

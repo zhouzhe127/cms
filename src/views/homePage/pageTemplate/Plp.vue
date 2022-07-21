@@ -1,7 +1,7 @@
 <template>
   <div class="template_box">
     <Pagetop />
-    <PlpRegular />
+    <PlpRegular :info="plp" />
     <div class="pagecontent">
       <div v-for="(item, index) in pageTemplate.properties" :key="index">
         <component :is='pageComponents[item.componentName]' :site="index"></component>
@@ -19,7 +19,8 @@ import AddModule from '@/views/homePage/components/AddModule.vue'
 import PlpRegular from '@/views/homePage/components/PlpRegular.vue'
 import appStore from '@/store'
 import pageComponents from '@/views/homePage/config/pageComponents'
-const pageTemplate = appStore.setBuilder.pageState.basic.schema
+const pageTemplate = appStore.setBuilder?.pageState.basic.schema
+const plp = pageTemplate.plp
 </script>
 
 <style lang="scss" scoped>
