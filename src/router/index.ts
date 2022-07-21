@@ -122,7 +122,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
             name: 'siteBuilder_footerSettings',
             component: () =>
               import('@/views/homePage/pageDialog/footerSettings/index.vue')
-          },
+          }
         ]
       },
       {
@@ -137,12 +137,12 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
             component: () => import('@/views/marketing/promotion/index.vue')
           },
           {
-            path: 'giftCard/:target',
+            path: 'giftCard/:target/:id?',
             name: 'giftCard',
             component: () => import('@/views/marketing/giftCard/index.vue')
           },
           {
-            path: 'announcement/:target',
+            path: 'announcement/:target/:id?',
             name: 'announcement',
             component: () => import('@/views/marketing/announcement/index.vue')
           }

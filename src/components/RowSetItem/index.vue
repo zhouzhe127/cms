@@ -1,5 +1,9 @@
 <template>
-  <div class="row-setting-item" :style="{margin: margin}" :class="{ 'p10': hasPadding }">
+  <div
+    class="row-setting-item"
+    :style="{ margin: margin }"
+    :class="{ p10: hasPadding }"
+  >
     <span>{{ title }}</span>
     <div class="line" />
     <div class="bg-switch">
@@ -11,8 +15,8 @@
 <script setup lang="ts">
 interface Props {
   title: string
-  hasPadding: boolean,
-  margin: string
+  hasPadding?: boolean
+  margin?: string
 }
 
 withDefaults(defineProps<Props>(), {
@@ -24,7 +28,7 @@ withDefaults(defineProps<Props>(), {
 
 <style lang="scss">
 .p10 {
-  padding: 0 10px
+  padding: 0 10px;
 }
 .row-setting-item {
   display: flex;

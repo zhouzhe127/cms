@@ -13,6 +13,19 @@ import SiteBuilderMenu from '@/components/SiteBuilderMenu/index.vue'
 import MarketingMenu from '@/components/MaketingMenu/index.vue'
 import Default from '@/components/Default/index.vue'
 import UpdateMenu from '@/components/UpdateMenu/index.vue'
+import { getAnnouncementList } from '@/api/marketing'
+//import {promotionItem} from '@/views/marketing/types'
+
+interface IMarketingItem {
+  name: string
+  type: string
+  expand: boolean
+  list: any[]
+}
+interface IMenuState {
+  marketingMenuList: IMarketingItem[]
+  [key: string]: any
+}
 
 /**
  * 1. 定义容器并导出
@@ -27,7 +40,7 @@ export const menuStore = defineStore('menu', {
    *    1.必须是函数, 为了在服务端渲染的时候避免交叉请求导致的数据交叉污染
    *    2.必须是箭头函数, 为了更好的 TS 类型推导
    */
-  state: () => {
+  state: (): IMenuState => {
     return {
       menuWidth: 213, // 左侧菜单宽度
       marketingMenuList: [
@@ -160,6 +173,19 @@ export const menuStore = defineStore('menu', {
           this.computedMobileMainPaddingTop(routeName)
         }
       )
+    },
+    // 更新
+    async updateMarketingMenuList(type: string) {
+      const index: number = this.marketingMenuList.findIndex(
+        item => item.type === type
+      )
+      if (index < 0) return
+      let data: any
+      if (type === 'announcement') {
+        data = await getAnnouncementList()
+      }
+      this.marketingMenuList[index].list = data?.list
+      this.marketingMenuList[index].expand = true
     }
   }
 })

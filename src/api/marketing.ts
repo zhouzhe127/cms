@@ -10,6 +10,7 @@ export function getRegionList(params?: any) {
   })
 }
 
+// 获取promotionList
 export function getPromotionList(params?: any) {
   return request({
     url: '/v3/promotion/list',
@@ -25,6 +26,7 @@ export function getPromotionList(params?: any) {
 //     params
 //   })
 // }
+// 获取promotion的用户列表
 export function getPromotionUserList(params?: any) {
   return request({
     url: '/v3/promotion/user/list',
@@ -32,6 +34,7 @@ export function getPromotionUserList(params?: any) {
     params
   })
 }
+// 获取announcement的用户列表
 export function getAnnouncementUserList(params?: any) {
   return request({
     url: '/v3/announcement/user/list',
@@ -39,11 +42,28 @@ export function getAnnouncementUserList(params?: any) {
     params
   })
 }
-
+// 创建announcement
 export function saveAnnouncement(data: any) {
   return request({
     url: '/v3/announcement/create',
     method: 'post',
     data
+  })
+}
+// 获取announcement列表
+export function getAnnouncementList(params?: any) {
+  return request({
+    url: '/v3/announcement/list',
+    method: 'get',
+    params
+  })
+}
+
+// 获取announcement详情
+export function getAnnouncementDetail(params: any) {
+  return request({
+    url: '/v3/announcement/query',
+    method: 'get',
+    params
   })
 }
