@@ -1,7 +1,9 @@
-import { SideItem } from '@/components/SiteBuilderMenu/type'
+import { SideItem, RequestSide } from '@/components/SiteBuilderMenu/type'
 import { PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
+import { onSideEvent } from './regesterEvent'
 import store from '@/store'
 const setBuilder = store.setBuilder
+const setActiveSide = store.setBuilder.setActiveSide
 export function createPage(e: string, item: SideItem) {
   switch (item.title) {
     case PAGE_SELECT.PAGE:
@@ -14,4 +16,13 @@ export function createPage(e: string, item: SideItem) {
       setBuilder.pageState.addNewArticle()
       break
   }
+}
+
+export function getPageData(item: RequestSide) {
+  setBuilder.pageState.getPageDetail(item.navigation.code)
+  setActiveSide([item.navigation.id || ''])
+}
+
+export function sideEvent(name: string) {
+  onSideEvent(name, createPage)
 }

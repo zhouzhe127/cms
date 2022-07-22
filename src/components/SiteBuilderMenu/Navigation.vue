@@ -25,21 +25,15 @@
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import store from '@/store'
-import { SITE_MENUS, SideItem, RequestSide, EVENT_KEY } from './type'
-import { onSideEvent } from './utils/regesterEvent'
+import { SITE_MENUS, SideItem, RequestSide } from './type'
 import { addFunc, deleteFunc } from '@/store/setBuilder/navigation'
 import { showDeleteModel } from './utils/deleteUtils'
 import { toEditionModel, toSeletPage } from './utils/router'
 import NestedDraggable from './components/NestedDraggable.vue'
 import SideDraggable from './components/SideDraggable.vue'
-import { createPage } from './utils/common'
-onSideEvent(SITE_MENUS.NAVIGATION, createPage)
+import { getPageData, sideEvent } from './utils/common'
+sideEvent(SITE_MENUS.NAVIGATION)
 const setBuilder = store.setBuilder
-const setActiveSide = store.setBuilder.setActiveSide
-const getPageData = (item: RequestSide) => {
-  setBuilder.pageState.getPageDetail(item.navigation.code)
-  setActiveSide([item.navigation.id || ''])
-}
 const addPage = () => {
   toSeletPage({ origin: SITE_MENUS.NAVIGATION })
 }
