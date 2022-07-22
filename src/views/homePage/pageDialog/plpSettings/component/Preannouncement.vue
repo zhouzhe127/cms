@@ -12,7 +12,7 @@
       cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
       est laborum. -->
     </section>
-    <time> {{ info.launch_title }} {{ info.start_time }} </time>
+    <time>{{ info.launch_title }} {{ info.start_time }}</time>
     <div class="inputbox">
       <div class="ueb">{{ info.submit_to }}</div>
       <div class="ibt">{{ info.lunch_button }}</div>

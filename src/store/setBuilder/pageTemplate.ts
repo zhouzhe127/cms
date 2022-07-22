@@ -50,7 +50,7 @@ export const pageTemplate = defineStore(
     }
 
     function setPlpData(data: any) {
-      basic.schema.plp = data
+      Object.assign(basic.schema.plp, data)
     }
 
     function addNewPlp(title?: string) {
