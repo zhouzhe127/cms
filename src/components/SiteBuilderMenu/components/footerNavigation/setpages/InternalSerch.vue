@@ -19,7 +19,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { getSlugList } from '@/api/siteBuilder/editlink';
+import { computed, onMounted, ref } from 'vue'
 
 interface SearchItem {
   icon: string
@@ -68,6 +69,13 @@ const uiList: SearchItem[] = [
     url: '/jewelry/necklaces'
   }
 ]
+
+onMounted(async () => {
+  // TODO: 这里有一点需求需要被反馈，跟进完成后对接
+  const {data} = await getSlugList()
+})
+
+
 
 const onClear = () => {
   inputVal.value = ''

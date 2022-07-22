@@ -1,4 +1,5 @@
 import request from "../request"
+import { UpdateRequest } from "./navigation.type"
 export function navigationCreate(data?: unknown) {
   return request({
     url: '/v3/cms/navigation/create',
@@ -20,5 +21,13 @@ export function navigationDelete(data?: unknown) {
     url: '/v3/cms/navigation/delete',
     method: 'delete',
     data
+  })
+}
+
+export function navigationUpdate(data?: UpdateRequest) {
+  return request({
+    url: '/v3/cms/navigation/update',
+    method: 'put',
+    data 
   })
 }

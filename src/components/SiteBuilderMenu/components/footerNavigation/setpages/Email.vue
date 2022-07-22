@@ -82,7 +82,7 @@ const confirm = async () => {
     const allVaild = await ruleFormNode.value.validate()
     if (allVaild) {
       return Promise.resolve({
-        [type]: toRaw(ruleForm)
+        [type]: toRaw(ruleForm.value)
       })
     }
   } catch (e) {
