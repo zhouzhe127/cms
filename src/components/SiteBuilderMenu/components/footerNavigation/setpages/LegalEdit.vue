@@ -11,15 +11,15 @@
       >
         <el-form-item prop="linkTitle">
           <tfr-select
-            v-model="ruleForm.country"
+            v-model="ruleForm.region_code"
             :has-border="false"
             width="100%"
           >
             <el-option
               v-for="zone in countryList"
-              :key="zone.value"
-              :value="zone.value"
-              :label="zone.label"
+              :key="zone.region_code"
+              :value="zone.region_code"
+              :label="zone.region_name"
             />
           </tfr-select>
         </el-form-item>
@@ -46,8 +46,8 @@
           />
           <span class="tips"> The unique location slug for this page. </span>
         </el-form-item>
-        <el-form-item label="Policy Body" prop="areaText">
-          <tfr-editor v-model="ruleForm.areaText" />
+        <el-form-item label="Policy Body" prop="body">
+          <tfr-editor v-model="ruleForm.body" />
         </el-form-item>
       </el-form>
     </div>
@@ -55,14 +55,31 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { onMounted, ref, toRaw } from 'vue'
 import TfrEditor from '@/components/TfrEditor/index.vue'
-const ruleForm = reactive({
-  country: '',
+import { getRegionList, pageContentUpdate } from '@/api/siteBuilder/footer'
+import { RegionItem } from '@/api/marketing.type'
+import { useRoute } from 'vue-router'
+import { PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
+
+const route = useRoute()
+
+interface Props {
+  close?: Function
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  close: () => {}
+})
+
+const ruleForm = ref({
+  region_code: '',
+  region_name: '',
   slug: '',
   title: '',
-  areaText: false
+  body: ''
 })
+
 const rules = {
   title: {
     required: true,
@@ -74,30 +91,51 @@ const rules = {
     message: ' ',
     trigger: 'blur'
   },
-  areaText: {
+  body: {
     required: true,
     message: ' ',
     trigger: 'blur'
   }
 }
 
-const countryList = [
-  {
-    value: 'Au',
-    label: 'Region: Australia'
-  },
-  {
-    value: 'EN',
-    label: 'Region: English'
-  },
-  {
-    value: 'ZH',
-    label: 'Region: China'
+const countryList = ref<RegionItem[]>([])
+onMounted(async () => {
+  const list: any = await getRegionList({ keyword: '' })
+  countryList.value = list
+  if (!countryList.value) {
+    countryList.value = [
+      { region_code: 'all', region_name: 'All Region', checked: false },
+      ...list
+    ]
   }
-]
-const switchChange = (e: boolean) => {
-  // ruleForm.hide = e
+  ruleForm.value.region_code = countryList.value[0].region_code
+})
+
+const ruleFormNode = ref()
+const confirm = async () => {
+  try {
+    const allVaild = await ruleFormNode.value.validate()
+    if (allVaild) {
+      const regionItem = countryList.value.filter(
+        (item: RegionItem) => item.region_code === ruleForm.value.region_code
+      )
+      ruleForm.value.region_name = regionItem[0]?.region_name || ''
+      await pageContentUpdate({
+        page_type: PAGE_SELECT.POLICY.toLocaleLowerCase(),
+        id: <string>route.query.id,
+        legal: toRaw(ruleForm.value)
+      })
+      if (props.close) props.close()
+    }
+  } catch (e) {
+    console.log(e)
+  }
+  
 }
+
+defineExpose({
+  confirm
+})
 </script>
 
 <style lang="scss" scoped>

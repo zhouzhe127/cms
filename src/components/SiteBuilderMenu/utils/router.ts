@@ -20,7 +20,7 @@ export const toEditionModel = (item: SideItem) => {
     case PAGE_SELECT.LINK:
       router.push({
         path: '/siteBuilder/editLinkPage',
-        query: {id: item.id, code: item.code, location: item.location}
+        query: { id: item.id, code: item.code, location: item.location }
       })
       break
     case PAGE_SELECT.FOLDER:
@@ -31,7 +31,8 @@ export const toEditionModel = (item: SideItem) => {
     case PAGE_SELECT.LEGAL:
     case PAGE_SELECT.POLICY:
       router.push({
-        path: '/siteBuilder/editLegal'
+        path: '/siteBuilder/editLegal',
+        query: { id: item.id }
       })
       break
     default:

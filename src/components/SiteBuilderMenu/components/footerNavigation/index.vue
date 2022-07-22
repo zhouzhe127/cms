@@ -163,7 +163,13 @@ const onAdd = async (item: SideItem) => {
       type: PAGE_SELECT.POLICY,
       icon: PAGE_ICONS[PAGE_SELECT.POLICY]
     }
-    setBuilder.sideState[addChildFunc](decodeURIComponent('Legal'))(baseLegal)
+    const create = await navigationCreate({
+      page_title: 'Policy Title',
+      content_type: PAGE_SELECT.POLICY.toLocaleLowerCase(),
+      // icon: PAGE_ICONS[PAGE_SELECT.POLICY],
+      parent_code: item.code,
+    })
+    setBuilder.getSetBuilderList()
     return
   }
   toSeletPage({

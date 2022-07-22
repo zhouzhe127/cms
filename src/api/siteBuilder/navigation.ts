@@ -1,6 +1,6 @@
 import request from "../request"
-import { UpdateRequest } from "./navigation.type"
-export function navigationCreate(data?: unknown) {
+import { CreateRequest, UpdateRequest } from "./navigation.type"
+export function navigationCreate(data?: CreateRequest) {
   return request({
     url: '/v3/cms/navigation/create',
     method: 'post',
