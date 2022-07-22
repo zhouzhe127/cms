@@ -11,7 +11,7 @@ export function toSeletPage(query?: LocationQueryRaw) {
 }
 
 export const toEditionModel = (item: SideItem) => {
-  switch (item.type) {
+  switch (item.content_type?.toLocaleUpperCase()) {
     case PAGE_SELECT.SMART:
       router.push({
         path: '/siteBuilder/editSmart'
@@ -19,7 +19,8 @@ export const toEditionModel = (item: SideItem) => {
       break
     case PAGE_SELECT.LINK:
       router.push({
-        path: '/siteBuilder/editLinkPage'
+        path: '/siteBuilder/editLinkPage',
+        query: {id: item.id, code: item.code, location: item.location}
       })
       break
     case PAGE_SELECT.FOLDER:

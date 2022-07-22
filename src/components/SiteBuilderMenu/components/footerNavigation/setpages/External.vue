@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, toRaw } from 'vue'
+import { markRaw, ref, toRaw } from 'vue'
 import RowSetItem from '@/components/RowSetItem/index.vue'
 import { EditLinkData, ExternalForm, SETPAGETYPE } from '../type'
 interface Props {
@@ -61,8 +61,9 @@ const confirm = async () => {
   try {
     const allVaild = await ruleFormNode.value.validate()
     if (allVaild) {
+    console.log(toRaw(ruleForm.value))
       return Promise.resolve({
-        [type]: toRaw(ruleForm)
+        [type]: toRaw(ruleForm.value)
       })
     }
   } catch (e) {

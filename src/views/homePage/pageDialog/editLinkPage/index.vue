@@ -15,10 +15,24 @@
 import HasSidebarWin from '@/components/TfrDialog/HasSidebarWin.vue'
 import sideArr from './setModules'
 import generalwin from '@/views/homePage/generalwin'
-import { SETPAGETYPE } from '@/components/SiteBuilderMenu/components/footerNavigation/type';
+import { EditLinkData, SETPAGETYPE } from '@/components/SiteBuilderMenu/components/footerNavigation/type';
+import { useRoute } from 'vue-router';
+import { UpdateRequest } from '@/api/siteBuilder/navigation.type';
+import { navigationUpdate } from '@/api/siteBuilder/navigation';
+const route = useRoute()
 const { showWin, closeWin } = generalwin()
-const onChange = (data: any) => {
-  console.log(data)
+const onChange = async (data: EditLinkData) => {
+  const queryData = route.query
+  if (queryData) {
+    const updateData: UpdateRequest = {
+        code: <string>queryData.code,
+        location: <string>queryData.location,
+        link: { ...data }
+      } 
+      const { data: navigationRequest } =  await navigationUpdate(updateData)
+      if (navigationRequest) closeWin()
+  }
+  
 }
 
 </script>

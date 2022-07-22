@@ -1,6 +1,6 @@
 export interface SideItem {
   id?: string
-  type?: string
+  content_type?: string
   code?: string
   title?: string
   name?: string
