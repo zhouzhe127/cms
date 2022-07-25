@@ -4,19 +4,33 @@
       v-for="(item, index) in tpArr"
       :key="index"
       class="sitems"
-      :class="{ active: item === select }"
-      @click="changeType(item)"
+      :class="{ active: item.key === select }"
+      @click="changeType(item.key)"
     >
-      <svg-icon :icon-class="item" :class="{ rot: item === 'mobile' }" />
+      <svg-icon :icon-class="item.icon" :class="{ rot: item.key === 'mobile' }" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { DEVICE } from '@/config/constant'
 import appStore from '@/store'
-const tpArr: Array<string> = ['mobile', 'tablet', 'pc']
-const select = ref('mobile')
+interface DEVI {
+  key: string,
+  icon: string
+}
+const tpArr: Array<DEVI> = [{
+  key: DEVICE.MOBILE,
+  icon: 'mobile'
+}, {
+  key: DEVICE.IPAD,
+  icon: 'tablet'
+}, {
+  key: DEVICE.DESKTOP,
+  icon: 'pc'
+}]
+const select = ref(DEVICE.MOBILE as string)
 const changeType = (type: string): void => {
   select.value = type
   appStore.setBuilder.setItem(type)

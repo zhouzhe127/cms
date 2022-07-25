@@ -111,7 +111,14 @@
             </RowSetItem>
 
             <div class="date">
-              <DatePicker ref="pickerNode" width="100%" time-width="330px" @change="timeSelectChange" />
+              <DatePicker
+                ref="pickerNode"
+                width="100%"
+                time-width="330px"
+                :time="ruleForm.start_time"
+                :zt="ruleForm.time_zone"
+                @change="timeSelectChange"
+              />
             </div>
           </el-form>
         </el-scrollbar>
@@ -167,6 +174,7 @@ const ruleForm = reactive({
   lunch_button: '',
   submit_to: '',
   start_time: '',
+  time_zone: '',
   background: [] as any,
   mobileBackground: [] as any,
   productList: [] as any
@@ -216,6 +224,7 @@ const getPlpData = () => {
     ruleForm.body = plpdata.body
     ruleForm.submit_to = plpdata.submit_to
     ruleForm.start_time = plpdata.start_time
+    ruleForm.time_zone = plpdata.time_zone
     if (plpdata.background) {
       ruleForm.background = [{
         link: plpdata.background.path,
@@ -235,11 +244,10 @@ const timeSelectChange = (value: any) => {
   ruleForm.start_time = value.date
 }
 
-const clickRightBtn = () => {
+const clickRightBtn = async () => {
   const background = ruleForm.background[0] || {}
   const mobileBackground = ruleForm.mobileBackground[0] || {}
-  const launchDate = pickerNode.value.commitDateParams()
-  console.log(filter.value.getSelected())
+  const launchDate = await pickerNode.value.commitDateParams()
   if (!launchDate) {
     return false
   }
@@ -276,7 +284,6 @@ const clickRightBtn = () => {
     })
   }
   store.setBuilder.pageState.setPlpData(obj)
-  console.log(pickerNode.value.commitDateParams())
   console.log(obj)
 }
 onMounted(() => {

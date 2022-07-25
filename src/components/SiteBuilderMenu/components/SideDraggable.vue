@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import draggable from 'vuedraggable'
-import { ref, computed, defineExpose } from 'vue'
+import { ref, computed } from 'vue'
 import store from '@/store'
 const isDragging = ref(false)
 interface Props {
