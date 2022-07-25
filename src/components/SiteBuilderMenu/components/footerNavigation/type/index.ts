@@ -4,7 +4,8 @@ export const enum SETPAGETYPE {
   INTERNAL = 'internal',
   CODE = 'code',
   EMAIL = 'email',
-  DOWNLOAD_MEDIA = 'download_media'
+  DOWNLOAD_MEDIA = 'download_media',
+  LEGAL = 'legal'
 }
 
 export interface ExternalForm {

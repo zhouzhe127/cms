@@ -13,7 +13,6 @@
 import HasSidebarWin from '@/components/TfrDialog/HasSidebarWin.vue'
 import sideArr from './setModules'
 import generalwin from '@/views/homePage/generalwin'
-import { ref } from 'vue'
 const { showWin, closeWin } = generalwin()
 
 </script>

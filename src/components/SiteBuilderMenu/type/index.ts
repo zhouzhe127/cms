@@ -38,5 +38,4 @@ export const EventKey: stringKey = {
   navigation: Symbol('NAVIGATION'),
   legal: Symbol('LEGAL'),
   footer: Symbol('FOOTER'),
-  [EVENT_KEY.DRAG]: Symbol('DRAG')
 }

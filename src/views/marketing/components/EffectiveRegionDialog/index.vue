@@ -43,15 +43,7 @@ import TfrCheckbox from '@/components/TfrCheckbox/index.vue'
 import TfrButton from '@/components/TfrButton/index.vue'
 import { ref, computed, onMounted, getCurrentInstance } from 'vue'
 import { getRegionList } from '@/api/marketing'
-
-interface RegionItem {
-  checked: boolean
-  currency_code?: string
-  flag?: string
-  phone_code?: string
-  region_code: string
-  region_name: string
-}
+import { RegionItem } from '@/api/marketing.type'
 
 interface PropsType {
   visible: boolean
