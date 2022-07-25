@@ -33,7 +33,7 @@
         </div>
       </div>
       <CmsEdit class-name="editbox" :options="['edit_cms', 'lock_white']">
-        <SquareImage :src="info.background.path" />
+        <SquareImage :src="info?.background?.path" />
       </CmsEdit>
     </div>
     <div class="pagebox">

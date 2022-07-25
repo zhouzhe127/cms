@@ -42,6 +42,7 @@ const dragOptions = computed(() => {
 })
 const sidearr = computed({
   get() {
+    console.log(setBuilder.sideState[props.name].sidebarArr)
     // @ts-ignore
     return setBuilder.sideState[props.name].sidebarArr
   },
