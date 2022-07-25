@@ -3,12 +3,15 @@
     v-model="sidearr"
     v-bind="dragOptions"
     :component-data="{ tag: 'div', name: 'flip-list', type: 'transition', sideState: name }"
+    filter=".ignoreElements"
     group="side"
     item-key="title"
     @start="isDragging = true"
   >
     <template #item="{element, index}">
-      <div>
+      <div :class="{
+        ignoreElements: element.disable
+      }">
         <slot :element="element" :index="index" :dragSetSide="dragSetSide" />
       </div>
     </template>
@@ -42,7 +45,6 @@ const dragOptions = computed(() => {
 })
 const sidearr = computed({
   get() {
-    console.log(setBuilder.sideState[props.name].sidebarArr)
     // @ts-ignore
     return setBuilder.sideState[props.name].sidebarArr
   },
