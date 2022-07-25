@@ -55,17 +55,28 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, toRaw } from 'vue'
+import { onMounted, ref, toRaw, watchEffect } from 'vue'
 import TfrEditor from '@/components/TfrEditor/index.vue'
 import { getRegionList, pageContentUpdate } from '@/api/siteBuilder/footer'
 import { RegionItem } from '@/api/marketing.type'
 import { useRoute } from 'vue-router'
 import { PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
+import { pageContentCreate } from '@/api/siteBuilder/page'
+import store from '@/store'
 
 const route = useRoute()
 
+interface EditLegal {
+  region_code: string
+  region_name: string
+  title: string
+  slug: string
+  body: string
+}
+
 interface Props {
   close?: Function
+  value?: EditLegal
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -98,6 +109,12 @@ const rules = {
   }
 }
 
+watchEffect(() => {
+  if(props?.value && !ruleForm.value.title) {
+    ruleForm.value = props.value
+  }
+})
+
 const countryList = ref<RegionItem[]>([])
 onMounted(async () => {
   const list: any = await getRegionList({ keyword: '' })
@@ -120,17 +137,30 @@ const confirm = async () => {
         (item: RegionItem) => item.region_code === ruleForm.value.region_code
       )
       ruleForm.value.region_name = regionItem[0]?.region_name || ''
-      await pageContentUpdate({
-        page_type: PAGE_SELECT.POLICY.toLocaleLowerCase(),
-        id: <string>route.query.id,
-        legal: toRaw(ruleForm.value)
-      })
+      const quertData = route.query
+      try {
+        if (!quertData.page_code) {
+          await pageContentCreate({
+            page_type: PAGE_SELECT.POLICY.toLocaleLowerCase(),
+            legal: toRaw(ruleForm.value),
+            site_navigation_code: quertData.code
+          })
+          store.setBuilder.getSetBuilderList()
+        } else {
+          await pageContentUpdate({
+            page_type: PAGE_SELECT.POLICY.toLocaleLowerCase(),
+            site_navigation_code: <string>quertData.code,
+            legal: toRaw(ruleForm.value)
+          })
+        }
+      } catch (e) {
+        console.log(e)
+      }
       if (props.close) props.close()
     }
   } catch (e) {
     console.log(e)
   }
-  
 }
 
 defineExpose({

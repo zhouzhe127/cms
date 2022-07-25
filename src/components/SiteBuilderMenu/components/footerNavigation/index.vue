@@ -2,7 +2,7 @@
   <div>
     <SideMenu title="FOOTER" @add-click="addPage">
       <SideDraggable :name="SITE_MENUS.FOOTER" :add-func="addFunc">
-        <template #item="{ element, index, dragSetSide }">
+        <template #default="{ element, index, dragSetSide }">
           <MenuItem
             :class="{
               'drag-item': element.navigation.content_type !== PAGE_SELECT.LEGAL
@@ -74,13 +74,14 @@ const deleteItem = (item: SideItem, pid?: string) => {
 const onSecAdd = async (item: SideItem) => {
   if (isLegal(item)) {
     const baseLegal = {
-      title: 'Policy Title',
-      type: PAGE_SELECT.POLICY,
-      icon: PAGE_ICONS[PAGE_SELECT.POLICY]
+      location: SITE_MENUS.FOOTER.toLocaleLowerCase(),
+      page_title: 'Policy Title',
+      name: 'Policy Title',
+      content_type: PAGE_SELECT.POLICY.toLocaleLowerCase()
+      // icon: PAGE_ICONS[PAGE_SELECT.POLICY]
     }
     const create = await navigationCreate({
-      page_title: 'Policy Title',
-      content_type: PAGE_SELECT.POLICY.toLocaleLowerCase(),
+      ...baseLegal,
       // icon: PAGE_ICONS[PAGE_SELECT.POLICY],
       parent_code: item.code
     })

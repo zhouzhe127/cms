@@ -1,5 +1,5 @@
 export interface UpdatePageRequest {
-  id: string
+  id?: string
   site_navigation_code?:string
   page_type: string
   legal: LegalPageData
