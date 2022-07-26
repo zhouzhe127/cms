@@ -106,7 +106,6 @@ class Request {
           if (config.interceptors?.responseInterceptors) {
             res = config.interceptors.responseInterceptors(res)
           }
-          console.log(res, 'res')
           resolve(res)
         })
         .catch((err: any) => {

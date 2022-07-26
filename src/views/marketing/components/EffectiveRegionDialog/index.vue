@@ -43,15 +43,12 @@ import TfrCheckbox from '@/components/TfrCheckbox/index.vue'
 import TfrButton from '@/components/TfrButton/index.vue'
 import { ref, computed, onMounted, getCurrentInstance } from 'vue'
 import { getRegionList } from '@/api/marketing'
-import { RegionItem } from '@/api/marketing.type'
+import { RegionItem, UsRegionItem } from '@/api/marketing.type'
 
-interface CurrentRegionItem extends RegionItem {
-  checked?: boolean
-}
 interface PropsType {
   visible: boolean
   width?: string
-  regionList: CurrentRegionItem[]
+  regionList: UsRegionItem[]
 }
 
 const $tfrMessage: any =
@@ -67,7 +64,7 @@ const dialogEmits = defineEmits([
   'confirmHandle'
 ])
 
-let regionList = ref<CurrentRegionItem[]>()
+let regionList = ref<UsRegionItem[]>()
 const keyword = ref<string>('')
 
 const visibleDialog = computed({
@@ -111,8 +108,8 @@ const cancelHandle = () => {
 }
 
 const confirmHandle = () => {
-  const checkedItem: CurrentRegionItem | undefined = regionList.value?.find(
-    (item: CurrentRegionItem) => item.checked
+  const checkedItem: UsRegionItem | undefined = regionList.value?.find(
+    (item: UsRegionItem) => item.checked
   )
   if (!checkedItem) {
     $tfrMessage({
@@ -128,16 +125,25 @@ const confirmHandle = () => {
   }
 }
 
-const regionChange = (region: CurrentRegionItem) => {
+const regionChange = (region: UsRegionItem) => {
   if (region.region_code === 'all') {
     regionList.value!.forEach(item => {
       item.checked = region.checked
     })
+  } else {
+    if (region.checked) {
+      const checkedArray = regionList.value!.filter(item => item.checked)
+      if (checkedArray.length === regionList.value!.length - 1) {
+        regionList.value![0].checked = true
+      }
+    } else {
+      regionList.value![0].checked = false
+    }
   }
 }
 
 const getRegionHandle = async () => {
-  const list: any = await getRegionList({ keyword: keyword.value })
+  const list: RegionItem[] = await getRegionList({ keyword: keyword.value })
   regionList.value = list
   if (!keyword.value) {
     regionList.value = [

@@ -235,6 +235,12 @@ import {
   updateAnnouncement
 } from '@/api/marketing'
 import {
+  RegionItem,
+  UsRegionItem,
+  PagingBack,
+  AnnouncementUserListItem
+} from '@/api/marketing.type'
+import {
   reactive,
   ref,
   onMounted,
@@ -248,28 +254,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { appStore } from '@/store/modules/app'
 import { menuStore } from '@/store/modules/menu'
-import type {
-  TargetParams,
-  PromotionItem,
-  RegionItem,
-  AnnouncementData
-} from '../types'
-import { sendDeleteApi } from '@/components/SiteBuilderMenu/utils/deleteUtils'
-
-// interface PromotionItem {
-//   name: string
-//   promo_code_id: number
-//   [key: string]: any
-// }
-//
-// interface RegionItem {
-//   checked: boolean
-//   currency_code?: string
-//   flag?: string
-//   phone_code?: string
-//   region_code: string
-//   region_name: string
-// }
+import { PromotionItem, AnnouncementItem } from '@/api/marketing.type'
+import type { TargetParams } from '../types'
 
 interface Link {
   type?: string
@@ -374,8 +360,8 @@ const legalList = ref([
 ])
 const legalCode = ref('')
 const legalName = ref('')
-let regionList = ref<RegionItem[]>()
-const effectiveRegionList = ref([
+let regionList = ref<UsRegionItem[]>()
+const effectiveRegionList = ref<UsRegionItem[]>([
   { region_name: 'All Region', region_code: 'all', checked: true }
 ])
 const effectiveRegionDialog = ref(false)
@@ -406,7 +392,7 @@ watch(
   }
 )
 const getRegionName = (code: string) => {
-  const item: RegionItem | undefined = regionList.value?.find(
+  const item: UsRegionItem | undefined = regionList.value?.find(
     i => i.region_code === code
   )
   if (item) {
@@ -435,7 +421,7 @@ const setLegalName = (code: string) => {
   }
 }
 onMounted(async () => {
-  const { list }: any = await getPromotionList()
+  const { list }: PagingBack<PromotionItem[]> = await getPromotionList()
   promoList.value = list
   const id: any = route.params.id
   if (target === 'detail' && id) {
@@ -457,7 +443,7 @@ onMounted(async () => {
       start_time,
       end_time,
       time_zone
-    }: AnnouncementData = await getAnnouncementDetail({ id: id as string })
+    }: AnnouncementItem = await getAnnouncementDetail({ id: id as string })
     announcementForm.name = name
     announcementForm.description = description
     announcementForm.message = message
@@ -484,7 +470,7 @@ onMounted(async () => {
       setLegalName(legal)
     }
     if (region_range === 'multiple') {
-      const rList: any = await getRegionList()
+      const rList: RegionItem[] = await getRegionList()
       regionList.value = [...rList]
       effectiveRegionList.value = []
       regions?.forEach((item: string) => {
@@ -515,8 +501,10 @@ onMounted(async () => {
         !target_condition.keyword &&
         !target_condition.user_sources[0]
       ) {
-        const { info }: any = await getAnnouncementUserList()
-        targetObject.value.total = info.total
+        const { info, list: userList }: PagingBack<AnnouncementUserListItem[]> =
+          await getAnnouncementUserList()
+        targetObject.value.total = info?.total as number
+        console.log(userList)
       }
     }
     if (expire_type === 'date') {
@@ -555,9 +543,9 @@ const editRegionHandle = () => {
 const effectiveRegionDialogCancelHandle = () => {
   effectiveRegionDialog.value = false
 }
-const effectiveRegionDialogConfirmHandle = (regionList: RegionItem[]) => {
-  const regionChecked: RegionItem[] = regionList.filter(
-    (item: RegionItem) => item.checked
+const effectiveRegionDialogConfirmHandle = (regionList: UsRegionItem[]) => {
+  const regionChecked: UsRegionItem[] = regionList.filter(
+    (item: UsRegionItem) => item.checked
   )
   effectiveRegionList.value = regionChecked
   effectiveRegionDialog.value = false
@@ -603,7 +591,6 @@ const targetDialogCancelHandle = () => {
 }
 
 const targetDialogConfirmHandle = (backParams: TargetParams) => {
-  console.log(backParams)
   targetVisible.value = false
   targetObject.value = backParams
 }
@@ -619,7 +606,6 @@ const removeCustomers = () => {
 }
 
 const expirationChange = (value: string) => {
-  console.log(value)
   if (value === 'none') {
     startTime.value = ''
     endTime.value = ''
@@ -629,7 +615,7 @@ const expirationChange = (value: string) => {
 const saveHandle = async () => {
   const valid = await announcementFormRef.value?.validate()
   if (valid) {
-    const data: AnnouncementData = {
+    const data: AnnouncementItem = {
       name: announcementForm.name,
       description: announcementForm.description,
       message: announcementForm.message,

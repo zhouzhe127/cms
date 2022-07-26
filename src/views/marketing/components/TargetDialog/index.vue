@@ -77,43 +77,20 @@ import TfrDialog from '@/components/TfrDialog/index.vue'
 import TfrSelect from '@/components/TfrSelect/index.vue'
 import TfrCheckbox from '@/components/TfrCheckbox/index.vue'
 import TfrButton from '@/components/TfrButton/index.vue'
-import {
-  getRegionList,
-  getAnnouncementUserList,
-  getPromotionUserList
-} from '@/api/marketing'
+import { getAnnouncementUserList, getPromotionUserList } from '@/api/marketing'
 import { ref, reactive, computed, onMounted, getCurrentInstance } from 'vue'
-import type { TargetParams, RegionItem } from '../../types'
+import type {
+  GetAnnouncementUserListParams,
+  AnnouncementUserListItem,
+  PagingBack
+} from '@/api/marketing.type'
+import type { TargetParams } from '../../types'
 
 interface PropsType {
   visible: boolean
   type?: string
   width?: string
   params: TargetParams
-}
-
-interface UserItem {
-  contact_code: string
-  id: number
-  checked?: boolean
-  first_name: string
-  last_name: string
-  email: string
-  source: string
-  [key: string]: any
-}
-
-// interface Info {
-//   page: number
-//   size: number
-//   total: number
-// }
-
-interface GetUserListParams {
-  page: number
-  size: number
-  keyword: string
-  user_sources?: string[]
 }
 
 const $tfrMessage: any =
@@ -159,8 +136,8 @@ const accountList = reactive([
   }
 ])
 const targetRegionSelect = ref('')
-const regionList = ref<RegionItem[]>([])
-const userList = ref<UserItem[]>([])
+//const regionList = ref<RegionItem[]>([])
+const userList = ref<AnnouncementUserListItem[]>([])
 const keyword = ref('')
 
 const visibleDialog = computed({
@@ -191,7 +168,7 @@ onMounted(async () => {
   }
   // const rList: any = await getRegionList()
   // regionList.value = [{ region_name: 'All REGION', region_code: '' }, ...rList]
-  const uList: any = await getUserListHandle()
+  const uList: AnnouncementUserListItem[] = await getUserListHandle()
   userList.value = [...userList.value, ...uList]
   userList.value.forEach(item => {
     if (targetType === 'customers') {
@@ -204,7 +181,7 @@ onMounted(async () => {
   })
 })
 
-const getUserList = (params?: any) => {
+const getUserList = <T>(params?: any): Promise<T> => {
   if (dialogProps.type === 'announcement') {
     return getAnnouncementUserList(params)
   }
@@ -216,8 +193,8 @@ const cancelHandle = (): void => {
 }
 
 const confirmHandle = (): void => {
-  const checkedItemArray: UserItem[] = userList.value?.filter(
-    (item: UserItem) => item.checked
+  const checkedItemArray: AnnouncementUserListItem[] = userList.value?.filter(
+    (item: AnnouncementUserListItem) => item.checked
   )
   if (checkedItemArray.length === 0) {
     $tfrMessage({
@@ -264,20 +241,20 @@ const confirmHandle = (): void => {
     backParams.target_type !== 'all' ? accountOriginSelect.value : ['']
   dialogEmits('confirmHandle', backParams)
 }
-const getUserListHandle = async () => {
+const getUserListHandle = async <T>(): Promise<T> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const params: GetUserListParams = {
+      const params: GetAnnouncementUserListParams = {
         page: page.value,
         size: size.value,
         keyword: keyword.value
       }
       if (accountOriginSelect.value.length > 0)
         params.user_sources = accountOriginSelect.value
-      const { list, info }: any = await getUserList(params)
+      const { list, info }: PagingBack<T> = await getUserList(params)
       //userList.value = list
-      page.value = info.page
-      total.value = info.total
+      page.value = info?.page as number
+      total.value = info?.total as number
       resolve(list)
     } catch (e) {
       reject(e)
@@ -288,7 +265,7 @@ const searchUserList = async () => {
   loading.value = true
   page.value = 1
   userAllChecked.value = false
-  const uList: any = await getUserListHandle()
+  const uList: AnnouncementUserListItem[] = await getUserListHandle()
   userList.value = uList
   loading.value = false
 }
@@ -298,7 +275,7 @@ const clearHandle = async () => {
   page.value = 1
   keyword.value = ''
   userAllChecked.value = false
-  const uList: any = await getUserListHandle()
+  const uList: AnnouncementUserListItem[] = await getUserListHandle()
   userList.value = uList
   loading.value = false
 }
@@ -312,12 +289,12 @@ const accountOriginChange = async (userSources: string[]) => {
   loading.value = true
   page.value = 1
   userAllChecked.value = false
-  const uList: any = await getUserListHandle()
+  const uList: AnnouncementUserListItem[] = await getUserListHandle()
   userList.value = uList
   loading.value = false
 }
 const userAllCheckedHandle = (checked: boolean) => {
-  userList.value?.forEach((item: UserItem) => {
+  userList.value?.forEach((item: AnnouncementUserListItem) => {
     item.checked = checked
   })
 }
@@ -325,9 +302,9 @@ const userAllCheckedHandle = (checked: boolean) => {
 const loadMoreHandle = async () => {
   loadingMore.value = true
   page.value++
-  const uList: any = await getUserListHandle()
+  const uList: AnnouncementUserListItem[] = await getUserListHandle()
   if (userAllChecked.value) {
-    uList.forEach((item: UserItem) => {
+    uList.forEach((item: AnnouncementUserListItem) => {
       item.checked = true
     })
   }

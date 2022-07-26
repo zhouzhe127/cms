@@ -1,4 +1,9 @@
-import { RegionListParams } from './marketing.type'
+import {
+  RegionListParams,
+  PagingParams,
+  GetAnnouncementUserListParams,
+  AnnouncementItem
+} from './marketing.type'
 import request from './request'
 
 //获取国家列表
@@ -11,7 +16,7 @@ export function getRegionList<T>(params?: RegionListParams): Promise<T> {
 }
 
 // 获取promotionList
-export function getPromotionList(params?: any) {
+export function getPromotionList<T>(params?: PagingParams): Promise<T> {
   return request({
     url: '/v3/promotion/list',
     method: 'get',
@@ -27,7 +32,7 @@ export function getPromotionList(params?: any) {
 //   })
 // }
 // 获取promotion的用户列表
-export function getPromotionUserList(params?: any) {
+export function getPromotionUserList<T>(params?: PagingParams): Promise<T> {
   return request({
     url: '/v3/promotion/user/list',
     method: 'get',
@@ -35,7 +40,9 @@ export function getPromotionUserList(params?: any) {
   })
 }
 // 获取announcement的用户列表
-export function getAnnouncementUserList(params?: any) {
+export function getAnnouncementUserList<T>(
+  params?: GetAnnouncementUserListParams
+): Promise<T> {
   return request({
     url: '/v3/announcement/user/list',
     method: 'get',
@@ -43,7 +50,7 @@ export function getAnnouncementUserList(params?: any) {
   })
 }
 // 创建announcement
-export function saveAnnouncement(data: any) {
+export function saveAnnouncement<T>(data: AnnouncementItem): Promise<T> {
   return request({
     url: '/v3/announcement/create',
     method: 'post',
@@ -51,7 +58,7 @@ export function saveAnnouncement(data: any) {
   })
 }
 // 获取announcement列表
-export function getAnnouncementList(params?: any) {
+export function getAnnouncementList<T>(params?: PagingParams): Promise<T> {
   return request({
     url: '/v3/announcement/list',
     method: 'get',
@@ -69,7 +76,7 @@ export function getAnnouncementDetail<T>(params: { id: string }): Promise<T> {
 }
 
 //删除announcement
-export function deleteAnnouncement(params: any) {
+export function deleteAnnouncement<T>(params: { id: string }): Promise<T> {
   return request({
     url: '/v3/announcement/delete',
     method: 'delete',
@@ -78,7 +85,7 @@ export function deleteAnnouncement(params: any) {
 }
 
 //删除announcement
-export function updateAnnouncement(data: any) {
+export function updateAnnouncement<T>(data: AnnouncementItem): Promise<T> {
   return request({
     url: '/v3/announcement/update',
     method: 'put',

@@ -14,13 +14,17 @@ import MarketingMenu from '@/components/MaketingMenu/index.vue'
 import Default from '@/components/Default/index.vue'
 import UpdateMenu from '@/components/UpdateMenu/index.vue'
 import { getAnnouncementList } from '@/api/marketing'
-//import {promotionItem} from '@/views/marketing/types'
+import {
+  PromotionItem,
+  AnnouncementItem,
+  PagingBack
+} from '@/api/marketing.type'
 
 interface IMarketingItem {
   name: string
   type: string
   expand: boolean
-  list: any[]
+  list: PromotionItem[] | AnnouncementItem[]
 }
 interface IMenuState {
   marketingMenuList: IMarketingItem[]
@@ -180,7 +184,7 @@ export const menuStore = defineStore('menu', {
         item => item.type === type
       )
       if (index < 0) return
-      let data: any
+      let data!: PagingBack<AnnouncementItem[]>
       if (type === 'announcement') {
         data = await getAnnouncementList()
       }
