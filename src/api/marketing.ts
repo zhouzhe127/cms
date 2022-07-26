@@ -1,10 +1,9 @@
-import { RegionItem } from './marketing.type'
+import { RegionListParams } from './marketing.type'
 import request from './request'
 
 //获取国家列表
-export function getRegionList(params?: any) {
-  console.log(params, 'kk')
-  return request<any, RegionItem[]>({
+export function getRegionList<T>(params?: RegionListParams): Promise<T> {
+  return request({
     url: '/v3/region/list',
     method: 'get',
     params

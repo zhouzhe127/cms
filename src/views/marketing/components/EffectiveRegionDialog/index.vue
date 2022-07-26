@@ -45,10 +45,13 @@ import { ref, computed, onMounted, getCurrentInstance } from 'vue'
 import { getRegionList } from '@/api/marketing'
 import { RegionItem } from '@/api/marketing.type'
 
+interface CurrentRegionItem extends RegionItem {
+  checked?: boolean
+}
 interface PropsType {
   visible: boolean
   width?: string
-  regionList: RegionItem[]
+  regionList: CurrentRegionItem[]
 }
 
 const $tfrMessage: any =
@@ -64,7 +67,7 @@ const dialogEmits = defineEmits([
   'confirmHandle'
 ])
 
-let regionList = ref<RegionItem[]>()
+let regionList = ref<CurrentRegionItem[]>()
 const keyword = ref<string>('')
 
 const visibleDialog = computed({
@@ -75,7 +78,7 @@ const visibleDialog = computed({
 })
 
 onMounted(async () => {
-  const list: any = await getRegionList()
+  const list: RegionItem[] = await getRegionList()
   regionList.value = [
     { region_code: 'all', region_name: 'All Region', checked: false },
     ...list
@@ -108,8 +111,8 @@ const cancelHandle = () => {
 }
 
 const confirmHandle = () => {
-  const checkedItem: RegionItem | undefined = regionList.value?.find(
-    (item: RegionItem) => item.checked
+  const checkedItem: CurrentRegionItem | undefined = regionList.value?.find(
+    (item: CurrentRegionItem) => item.checked
   )
   if (!checkedItem) {
     $tfrMessage({
@@ -125,7 +128,7 @@ const confirmHandle = () => {
   }
 }
 
-const regionChange = (region: RegionItem) => {
+const regionChange = (region: CurrentRegionItem) => {
   if (region.region_code === 'all') {
     regionList.value!.forEach(item => {
       item.checked = region.checked
