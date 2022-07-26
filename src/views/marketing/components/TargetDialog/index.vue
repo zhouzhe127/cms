@@ -25,7 +25,8 @@
       <div class="select-inline">
         <tfr-select
           v-model="accountOriginSelect"
-          width="339px"
+          multiple
+          width="100%"
           @change="accountOriginChange"
         >
           <el-option
@@ -35,14 +36,14 @@
             :label="account.name"
           />
         </tfr-select>
-        <tfr-select v-model="targetRegionSelect" width="339px">
-          <el-option
-            v-for="region in regionList"
-            :key="region.region_code"
-            :value="region.region_code"
-            :label="region.region_name"
-          />
-        </tfr-select>
+        <!--        <tfr-select v-model="targetRegionSelect" width="339px">-->
+        <!--          <el-option-->
+        <!--            v-for="region in regionList"-->
+        <!--            :key="region.region_code"-->
+        <!--            :value="region.region_code"-->
+        <!--            :label="region.region_name"-->
+        <!--          />-->
+        <!--        </tfr-select>-->
       </div>
       <div v-if="userList.length > 0" v-loading="loading" class="user-list">
         <div class="user-item">
@@ -112,7 +113,7 @@ interface GetUserListParams {
   page: number
   size: number
   keyword: string
-  user_sources?: string
+  user_sources?: string[]
 }
 
 const $tfrMessage: any =
@@ -130,7 +131,7 @@ const dialogEmits = defineEmits([
 const loading = ref(false)
 
 const userAllChecked = ref(false)
-const accountOriginSelect = ref('')
+const accountOriginSelect = ref<string[]>([])
 const accountList = reactive([
   {
     name: 'All ACCOUNTS',
@@ -178,17 +179,18 @@ const disabled = computed(() => loadingMore.value || noMore.value)
 onMounted(async () => {
   const targetType = dialogProps.params.target_type
   console.log(targetType, dialogProps.params)
-  if (targetType) {
-    if (targetType === 'all') {
-      userAllChecked.value = true
-    } else {
-      keyword.value = dialogProps.params.target_condition?.keyword
-      accountOriginSelect.value =
-        dialogProps.params.target_condition?.user_sources[0]
-    }
+  if (targetType === 'all' || targetType === '') {
+    if (targetType === 'all') userAllChecked.value = true
+    accountOriginSelect.value = accountList
+      .map(item => item.code && item.code)
+      .filter(item => item)
+  } else {
+    keyword.value = dialogProps.params.target_condition?.keyword
+    accountOriginSelect.value =
+      dialogProps.params.target_condition?.user_sources
   }
-  const rList: any = await getRegionList()
-  regionList.value = [{ region_name: 'All REGION', region_code: '' }, ...rList]
+  // const rList: any = await getRegionList()
+  // regionList.value = [{ region_name: 'All REGION', region_code: '' }, ...rList]
   const uList: any = await getUserListHandle()
   userList.value = [...userList.value, ...uList]
   userList.value.forEach(item => {
@@ -239,7 +241,10 @@ const confirmHandle = (): void => {
 
   if (userAllChecked.value) {
     backParams.target_type =
-      !accountOriginSelect.value && !keyword.value ? 'all' : 'condition'
+      accountOriginSelect.value.length === accountList.length - 1 &&
+      !keyword.value
+        ? 'all'
+        : 'condition'
     backParams.total = total.value
   } else {
     backParams.target_type = 'customers'
@@ -254,8 +259,9 @@ const confirmHandle = (): void => {
   console.log(backParams.target_type, keyword.value)
   if (backParams.target_type !== 'all') {
     backParams.target_condition.keyword = keyword.value
-    backParams.target_condition.user_sources = [accountOriginSelect.value]
   }
+  backParams.target_condition.user_sources =
+    backParams.target_type !== 'all' ? accountOriginSelect.value : ['']
   dialogEmits('confirmHandle', backParams)
 }
 const getUserListHandle = async () => {
@@ -266,7 +272,7 @@ const getUserListHandle = async () => {
         size: size.value,
         keyword: keyword.value
       }
-      if (accountOriginSelect.value)
+      if (accountOriginSelect.value.length > 0)
         params.user_sources = accountOriginSelect.value
       const { list, info }: any = await getUserList(params)
       //userList.value = list
@@ -296,7 +302,13 @@ const clearHandle = async () => {
   userList.value = uList
   loading.value = false
 }
-const accountOriginChange = async () => {
+const accountOriginChange = async (userSources: string[]) => {
+  console.log(userSources)
+  if (userSources.length === 0 || userSources.includes('')) {
+    accountOriginSelect.value = accountList
+      .map(item => item.code && item.code)
+      .filter(item => item)
+  }
   loading.value = true
   page.value = 1
   userAllChecked.value = false

@@ -3,6 +3,7 @@
     :class="['tfr-select', !selectProps.hasBorder ? 'border-less-select' : '']"
     v-bind="$attrs"
     :style="{ width: selectProps.width }"
+    @change="change"
   >
     <slot></slot>
   </el-select>
@@ -18,6 +19,10 @@ const selectProps = withDefaults(defineProps<PropsType>(), {
   width: 'auto', // 默认值
   hasBorder: true
 })
+const selectEmits = defineEmits(['change'])
+const change = () => {
+  selectEmits('change')
+}
 </script>
 
 <style lang="scss" scoped>

@@ -59,11 +59,29 @@ export function getAnnouncementList(params?: any) {
   })
 }
 
-// 获取announcement详情
-export function getAnnouncementDetail(params: any) {
+// 获取announcement信息
+export function getAnnouncementDetail<T>(params: { id: string }): Promise<T> {
   return request({
     url: '/v3/announcement/query',
     method: 'get',
     params
+  })
+}
+
+//删除announcement
+export function deleteAnnouncement(params: any) {
+  return request({
+    url: '/v3/announcement/delete',
+    method: 'delete',
+    params
+  })
+}
+
+//删除announcement
+export function updateAnnouncement(data: any) {
+  return request({
+    url: '/v3/announcement/update',
+    method: 'put',
+    data
   })
 }

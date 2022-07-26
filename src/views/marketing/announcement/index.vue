@@ -144,7 +144,7 @@
         </tfr-radio-group>
       </el-form-item>
       <el-form-item label="Expiration">
-        <tfr-radio-group v-model="expirationType">
+        <tfr-radio-group v-model="expirationType" @change="expirationChange">
           <el-radio label="none">None</el-radio>
           <el-radio label="setExpiration">Set Expiration</el-radio>
         </tfr-radio-group>
@@ -172,10 +172,13 @@
         >
       </template>
       <template v-if="target === 'detail'">
-        <tfr-button type="gray">DELETE</tfr-button>
-        <tfr-button type="gray" :loading="duplicateLoading" @click="saveHandle"
-          >DUPLICATE</tfr-button
+        <tfr-button type="gray" @click="deleteHandle">DELETE</tfr-button>
+        <tfr-button type="primary" :loading="saveLoading" @click="saveHandle"
+          >SAVE</tfr-button
         >
+        <!--        <tfr-button type="gray" :loading="duplicateLoading" @click="saveHandle"-->
+        <!--          >DUPLICATE</tfr-button-->
+        <!--        >-->
       </template>
     </div>
     <effective-region-dialog
@@ -204,6 +207,7 @@
       @cancelHandle="targetDialogCancelHandle"
       @confirmHandle="targetDialogConfirmHandle"
     />
+    <!--    <tfr-message-box title="Delete" sec-title="ANNOUNCEMENT?" message="" />-->
   </div>
 </template>
 
@@ -220,12 +224,15 @@ import EffectiveRegionDialog from '@/views/marketing/components/EffectiveRegionD
 import sideArr from '@/views/homePage/pageDialog/editLinkPage/setModules'
 import TargetDialog from '@/views/marketing/components/TargetDialog/index.vue'
 import DatePickerRange from '@/components/DatePickerRange/index.vue'
+import { TfrMessageBox } from '@/components/TfrMessageBox'
 import {
   getPromotionList,
   saveAnnouncement,
   getAnnouncementDetail,
   getRegionList,
-  getAnnouncementUserList
+  getAnnouncementUserList,
+  deleteAnnouncement,
+  updateAnnouncement
 } from '@/api/marketing'
 import {
   reactive,
@@ -233,7 +240,8 @@ import {
   onMounted,
   getCurrentInstance,
   watch,
-  inject
+  inject,
+  h
 } from 'vue'
 import { FormInstance, FormRules } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
@@ -246,6 +254,7 @@ import type {
   RegionItem,
   AnnouncementData
 } from '../types'
+import { sendDeleteApi } from '@/components/SiteBuilderMenu/utils/deleteUtils'
 
 // interface PromotionItem {
 //   name: string
@@ -264,11 +273,13 @@ import type {
 
 interface Link {
   type?: string
-  external?: {
-    title: string
-    link: string
-    open_new: boolean
-  }
+  external?:
+    | {
+        title: string
+        link: string
+        open_new: boolean
+      }
+    | undefined
   internal?: {
     title: string
     page?: string
@@ -446,11 +457,11 @@ onMounted(async () => {
       start_time,
       end_time,
       time_zone
-    }: any = await getAnnouncementDetail({ id })
+    }: AnnouncementData = await getAnnouncementDetail({ id: id as string })
     announcementForm.name = name
     announcementForm.description = description
     announcementForm.message = message
-    if (media.path) {
+    if (media?.path) {
       console.log(bannerPicture.value, 'bannerPicture')
       bannerPicture.value[0] = {
         link: media.path,
@@ -458,7 +469,7 @@ onMounted(async () => {
       }
       console.log(bannerPicture.value[0])
     }
-    if (mobile_media.path) {
+    if (mobile_media?.path) {
       mobileBannerPicture.value[0] = {
         link: mobile_media.path,
         content_type: mobile_media.media_type
@@ -476,7 +487,7 @@ onMounted(async () => {
       const rList: any = await getRegionList()
       regionList.value = [...rList]
       effectiveRegionList.value = []
-      regions.forEach((item: string) => {
+      regions?.forEach((item: string) => {
         effectiveRegionList.value.push({
           region_code: item,
           region_name: getRegionName(item),
@@ -487,8 +498,7 @@ onMounted(async () => {
     if (link) {
       linkType.value = 'setLink'
       setLinkType.value = link.type || 'external'
-      linkObject.value = { [setLinkType.value]: link[setLinkType.value] }
-      console.log(linkObject.value)
+      linkObject.value = { ...link }
     }
     if (target_condition) {
       targetType.value = 'setTarget'
@@ -498,7 +508,7 @@ onMounted(async () => {
       }
       if (target_type === 'customers') {
         targetObject.value.target_customers = target_customers
-        targetObject.value.total = target_customers.length
+        targetObject.value.total = target_customers?.length
       }
       if (
         target_type === 'all' &&
@@ -519,8 +529,6 @@ onMounted(async () => {
       timeZone.value = time_zone
     }
   }
-
-  console.log(route.params)
 })
 
 const promoCodeChange = (value: any) => {
@@ -595,6 +603,7 @@ const targetDialogCancelHandle = () => {
 }
 
 const targetDialogConfirmHandle = (backParams: TargetParams) => {
+  console.log(backParams)
   targetVisible.value = false
   targetObject.value = backParams
 }
@@ -606,6 +615,15 @@ const removeCustomers = () => {
       user_sources: [''],
       keyword: ''
     }
+  }
+}
+
+const expirationChange = (value: string) => {
+  console.log(value)
+  if (value === 'none') {
+    startTime.value = ''
+    endTime.value = ''
+    timeZone.value = ''
   }
 }
 const saveHandle = async () => {
@@ -679,28 +697,60 @@ const saveHandle = async () => {
     }
     // expiration
     if (expirationType.value === 'setExpiration') {
-      try {
-        const getDateParams: any =
-          await datePickerRangeRef.value.commitDateParams()
-        if (getDateParams) {
-          data.expire_type = 'date'
-          data.start_time = getDateParams.startTime
-          data.end_time = getDateParams.endTime
-          data.time_zone = getDateParams.timeZone
-        }
-      } catch (e) {
-        console.log(e)
-      }
+      const getDateParams: any =
+        await datePickerRangeRef.value.commitDateParams()
+      if (!getDateParams) return
+      data.expire_type = 'date'
+      data.start_time = getDateParams.startTime
+      data.end_time = getDateParams.endTime
+      data.time_zone = getDateParams.timeZone
+    } else {
+      data.expire_type = 'none'
+      delete data.start_time
+      delete data.end_time
+      delete data.time_zone
+      startTime.value = ''
+      endTime.value = ''
+      timeZone.value = ''
     }
     saveLoading.value = true
-    await saveAnnouncement(data)
-    saveLoading.value = false
-    router.replace({ path: '/marketing' })
-    useMenuStore.updateMarketingMenuList('announcement')
+    try {
+      if (route.params.id || target === 'detail') {
+        data.id = route.params.id as string
+        await updateAnnouncement(data)
+        $tfrMessage({
+          type: 'success',
+          message: 'Update successfully！'
+        })
+      } else {
+        await saveAnnouncement(data)
+        router.replace({ path: '/marketing' })
+      }
+      saveLoading.value = false
+      useMenuStore.updateMarketingMenuList('announcement')
+    } catch (e) {
+      saveLoading.value = false
+    }
   }
   // announcementFormRef.value.validate(async (valid: boolean) => {
   //
   // })
+}
+const deleteHandle = () => {
+  TfrMessageBox.confirm(h('div', ''), {
+    title: 'Delete',
+    secTitle: 'ANNOUNCEMENT?',
+    confirmButtonText: 'DELETE'
+  })
+    .then(async (res: string) => {
+      if (res === 'confirm') {
+        const id: any = route.params.id
+        await deleteAnnouncement({ id })
+        router.replace({ path: '/marketing' })
+        useMenuStore.updateMarketingMenuList('announcement')
+      }
+    })
+    .catch(() => {})
 }
 </script>
 

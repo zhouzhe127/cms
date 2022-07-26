@@ -33,6 +33,7 @@ export interface RegionItem {
 }
 
 export interface AnnouncementData {
+  id?: string
   name: string
   description: string
   message: string

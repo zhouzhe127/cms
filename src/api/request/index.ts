@@ -21,10 +21,7 @@ const errorHandler = (error: RequestResponse) => {
       error.message = 'Request error'
       break
     case 401:
-      $tfrMessage({
-        message: 'Unauthorized, Please Login',
-        type: 'error'
-      })
+      error.message = 'Unauthorized, Please Login'
       router.push({ path: '/login' })
       break
     case 403:
@@ -54,6 +51,11 @@ const errorHandler = (error: RequestResponse) => {
     default:
       break
   }
+  error.message &&
+    $tfrMessage({
+      message: error.message,
+      type: 'error'
+    })
   return Promise.reject(error)
 }
 
@@ -126,19 +128,18 @@ export interface TSZResponse<T> {
   status: number
   msg: string
   data?: T
-  params?: T
 }
 // 重写返回类型
-interface TSRequestConfig<T, R> extends RequestConfig<TSZResponse<R>> {
+interface TSRequestConfig<T> extends RequestConfig<T> {
   data?: T
   params?: T
 }
-const tszRequest = <D = any, T = any>(config: TSRequestConfig<D, T>) => {
+const tszRequest = <T>(config: TSRequestConfig<any>) => {
   // const { method = 'GET' } = config
   // if (method === 'get' || method === 'GET') {
   //   config.params = config.data
   // }
-  return request.request<TSZResponse<T>>(config)
+  return request.request<T>(config)
 }
 // 取消请求
 export const cancelRequest = (url: string | string[]) => {
