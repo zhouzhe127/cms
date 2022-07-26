@@ -43,18 +43,21 @@
               <div class="show-type-con">
                 <div v-if="typeCheck === PLPTYPE.PREANNOUNCEMENT">
                   <div style="width: 335px; margin: 0 auto">
-                    <Preannouncement />
+                    <Preannouncement :info="ruleForm" />
                   </div>
                 </div>
-                <div v-if="typeCheck === PLPTYPE.FILTER"><Filter /></div>
-                <div v-if="typeCheck === PLPTYPE.CUSTOM">
-                  <SkuInput />
+                <div v-show="typeCheck === PLPTYPE.FILTER"><Filter ref="filter" /></div>
+                <div v-show="typeCheck === PLPTYPE.CUSTOM">
+                  <SkuInput :has-add="true" @add-click="addSku" />
                 </div>
               </div>
             </el-form-item>
-            <RowSetItem title="Title Block" :has-padding="false">
-              <TfrSwitch />
-            </RowSetItem>
+
+            <div class="titleblock">
+              <RowSetItem v-show="typeCheck !== PLPTYPE.PREANNOUNCEMENT" title="Title Block" :has-padding="false">
+                <TfrSwitch v-model="titleBlock" />
+              </RowSetItem>
+            </div>
 
             <el-form-item label="Title" prop="title">
               <tfr-input v-model="ruleForm.title" placeholder="LOREM IPSUM" width="100%" />
@@ -108,7 +111,14 @@
             </RowSetItem>
 
             <div class="date">
-              <DatePicker ref="pickerNode" width="100%" time-width="330px"></DatePicker>
+              <DatePicker
+                ref="pickerNode"
+                width="100%"
+                time-width="330px"
+                :time="ruleForm.start_time"
+                :zt="ruleForm.time_zone"
+                @change="timeSelectChange"
+              />
             </div>
           </el-form>
         </el-scrollbar>
@@ -133,7 +143,8 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
+import store from '@/store'
 import TfrSwitch from '@/components/TfrSwitch/index.vue'
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import RowSetItem from '@/components/RowSetItem/index.vue'
@@ -154,14 +165,19 @@ enum PLPTYPE {
 }
 const hide = ref(false)
 const launch = ref(false)
+const titleBlock = ref(false)
+const filter = ref<any>(null)
 const ruleForm = reactive({
   title: '',
   body: '',
   launch_title: '',
   lunch_button: '',
   submit_to: '',
-  background: [{}] as any,
-  mobileBackground: [{}] as any,
+  start_time: '',
+  time_zone: '',
+  background: [] as any,
+  mobileBackground: [] as any,
+  productList: [] as any
 })
 const rules = {
   title: {
@@ -194,16 +210,59 @@ const pickerNode = ref<any>(null)
 const plpVisible = ref<boolean>(true)
 const typeCheck = ref<string>(PLPTYPE.PREANNOUNCEMENT)
 const rightBtnLoading = ref(false)
-const clickRightBtn = () => {
-  const background = ruleForm.background[0]
-  const mobileBackground = ruleForm.mobileBackground[0]
+
+const addSku = (e: string) => {
+  ruleForm.productList.push(e)
+}
+
+const getPlpData = () => {
+  const plpdata = store.setBuilder.pageState.basic.schema.plp
+  if (plpdata) {
+    ruleForm.title = plpdata.title
+    ruleForm.lunch_button = plpdata.lunch_button
+    ruleForm.launch_title = plpdata.launch_title
+    ruleForm.body = plpdata.body
+    ruleForm.submit_to = plpdata.submit_to
+    ruleForm.start_time = plpdata.start_time
+    ruleForm.time_zone = plpdata.time_zone
+    if (plpdata.background) {
+      ruleForm.background = [{
+        link: plpdata.background.path,
+        content_type: plpdata.background.media_type
+      }]
+    }
+    if (plpdata.mobile_background) {
+      ruleForm.mobileBackground = [{
+        link: plpdata.mobile_background.path,
+        content_type: plpdata.mobile_background.media_type
+      }]
+    }
+  }
+}
+
+const timeSelectChange = (value: any) => {
+  ruleForm.start_time = value.date
+}
+
+const clickRightBtn = async () => {
+  const background = ruleForm.background[0] || {}
+  const mobileBackground = ruleForm.mobileBackground[0] || {}
+  const launchDate = await pickerNode.value.commitDateParams()
+  if (!launchDate) {
+    return false
+  }
   const obj = {
     hide: hide.value,
     type: typeCheck.value,
+    title: ruleForm.title,
+    body: ruleForm.body,
+    title_block: titleBlock,
     launch_title: ruleForm.launch_title,
     lunch_button: ruleForm.lunch_button,
     submit_to: ruleForm.submit_to,
     launch,
+    start_time: launchDate.date,
+    time_zone: launchDate.timeZone,
     background: {
       path: background.link,
       media_type: background.content_type
@@ -213,16 +272,23 @@ const clickRightBtn = () => {
       media_type: mobileBackground.content_type
     },
   }
-  if (pickerNode.value.timeRef.validate) {
-    pickerNode.value.timeRef.validate((valid: any) => {
-      if (valid) {
-        console.log(valid)
-      }
+  if (typeCheck.value === PLPTYPE.FILTER) {
+    Object.assign(obj, {
+      product_filters: filter.value.getSelected()
     })
   }
-  console.log(pickerNode.value.timeRef)
+
+  if (typeCheck.value === PLPTYPE.CUSTOM) {
+    Object.assign(obj, {
+      custom_product_list: ruleForm.productList
+    })
+  }
+  store.setBuilder.pageState.setPlpData(obj)
   console.log(obj)
 }
+onMounted(() => {
+  getPlpData()
+})
 </script>
 <style lang="scss">
 .tips-row {
@@ -267,7 +333,9 @@ const clickRightBtn = () => {
   .el-form-item__label {
     color: $theme;
   }
-
+  .titleblock {
+    margin-bottom: 20px;
+  }
   .date {
     width: 100%;
     display: flex;

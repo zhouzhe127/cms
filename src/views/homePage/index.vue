@@ -3,9 +3,9 @@
     v-if="pageTemplate.template"
     :class="{
       pagemain: true,
-      pc_platform: platformState === 'pc',
+      pc_platform: platformState === 'desktop',
       mobile_platform: platformState === 'mobile',
-      tablet_platform: platformState === 'tablet'
+      tablet_platform: platformState === 'ipad'
     }"
   >
     <component :is="TemplateMap[pageTemplate.template]"></component>

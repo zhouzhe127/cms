@@ -24,7 +24,7 @@ const messageInstance = new Map<
   {
     options: any
     callback?: Callback
-    resolve: (res: any) => void
+    resolve: (res?: any) => void
     reject: (reason?: any) => void
   }
 >()

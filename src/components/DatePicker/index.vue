@@ -44,7 +44,7 @@
     <div class="zone-time-panel">
       <el-form ref="timeRef" label-width="80px" label-position="top" :model="timeForm" :rules="timeRules">
         <el-form-item prop="timeZone" label="Time zone">
-          <tfr-select v-model="timeForm.timeZone" width="100%">
+          <tfr-select v-model="timeForm.timeZone" width="100%" @change="timeSelectChange">
             <el-option
               v-for="zone in timeZoneData"
               :key="zone.value"
@@ -54,7 +54,7 @@
           </tfr-select>
         </el-form-item>
         <el-form-item prop="timePoint">
-          <tfr-select v-model="timeForm.timePoint" width="100%">
+          <tfr-select v-model="timeForm.timePoint" width="100%" @change="timeSelectChange">
             <el-option
               v-for="time in timePointOption"
               :key="time.value"
@@ -80,7 +80,7 @@ import momentTimezone from 'moment-timezone'
 import { ref, computed, onMounted, reactive } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 const timeRef = ref<FormInstance>()
-
+const emit = defineEmits(['change'])
 interface PropsType {
   time?: string | number
   width?: string
@@ -313,6 +313,7 @@ const selectDate = (currentDay: string | number) => {
   selectedYear.value = tmpYear.value
   selectedMonth.value = tmpMonth.value
   selectedDay.value = currentDay
+  emit('change', disableTime())
 }
 const selected = (currentDay: string | number) => {
   return (
@@ -321,8 +322,24 @@ const selected = (currentDay: string | number) => {
     currentDay === selectedDay.value
   )
 }
-const commitDateParams = () => {
-  
+
+const timeSelectChange = () => {
+  emit('change', disableTime())
+}
+
+const commitDateParams = async () => {
+  const valid = await timeRef.value?.validate()
+  if (valid) {
+    return disableTime()
+  }
+  return false
+}
+
+const disableTime = () => {
+  return {
+    date: `${selectedYear.value}-${selectedMonth.value}-${selectedDay.value} ${timeForm.timePoint}`,
+    timeZone: timeForm.timeZone
+  }
 }
 // 根据时区计算出时间偏移量
 // const getTimeZoneCode = tz => {

@@ -28,6 +28,7 @@ const inputEmits = defineEmits([
   'clear'
 ])
 const input = (e: any) => {
+  inputEmits('update:modelValue', e)
   inputEmits('input', e)
 }
 const clearClick = () => {

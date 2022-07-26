@@ -1,6 +1,6 @@
 export interface SideItem {
   id?: string
-  type?: string
+  content_type?: string
   code?: string
   title?: string
   name?: string
@@ -38,5 +38,4 @@ export const EventKey: stringKey = {
   navigation: Symbol('NAVIGATION'),
   legal: Symbol('LEGAL'),
   footer: Symbol('FOOTER'),
-  [EVENT_KEY.DRAG]: Symbol('DRAG')
 }

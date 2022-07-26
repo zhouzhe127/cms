@@ -3,9 +3,12 @@
     <draggable v-model="complist" v-bind="dragOptions" :component-data="{ tag: 'div', name: 'flip-list', type: 'transition', sideState: SITE_MENUS.NAVIGATION }" group="side" item-key="title" @start="isDragging = true" @end="onEndCallback">
       <template #item="{element, index}">
         <ItemChild
-          :active="element.navigation.isActive"
           :title="element.navigation.name"
+          :active="element.navigation.isActive"
+          :center-icon="element.navigation.icon || PAGE_ICONS[element.navigation.content_type]"
           @clickItem="clickItem(element)"
+          @right-click="emits('rightClick', element.navigation)"
+          @left-click="emits('leftClick', element.navigation)"
        />
       </template>
     </draggable>
@@ -18,6 +21,7 @@ import { ref, computed } from 'vue'
 import { SITE_MENUS } from '../type'
 import ItemChild from '@/components/SecondSide/ItemChild.vue'
 import store from '@/store'
+import { PAGE_ICONS } from '@/views/homePage/pageDialog/selectPage/index.type'
 interface Props {
   draglist?: Array<string>,
   parentId: string | number,
@@ -38,7 +42,8 @@ const dragOptions = computed(() => {
     ghostClass: 'ghost'
   }
 })
-const clickItem = (element) => {
+const emits = defineEmits(['rightClick', 'leftClick'])
+const clickItem = (element: any) => {
   setActiveSide([props.parentId, element.navigation.id])
 }
 const complist = computed({

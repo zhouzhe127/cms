@@ -7,7 +7,7 @@
           :is="pageComponents[item.componentName]"
           :basic="item"
           :site="index"
-        ></component>
+        />
       </div>
       <AddModule :page-length="mContent?.length || 0" />
     </div>

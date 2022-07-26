@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { reactive } from 'vue'
 import { sidebar, addFunc, setActive } from './navigation'
 import { pageTemplate } from './pageTemplate'
+import { DEVICE } from '@/config/constant'
 import {
   sidebar as footerSlidebar,
   addFunc as footerAddFunc
@@ -22,7 +23,7 @@ export const setBuilder = defineStore(
     const pageState = { ...pageTemplate() }
     const basic = reactive<Basic>({
       loading: false,
-      platformState: 'pc',
+      platformState: DEVICE.DESKTOP,
       sideSelectd: []
     })
 

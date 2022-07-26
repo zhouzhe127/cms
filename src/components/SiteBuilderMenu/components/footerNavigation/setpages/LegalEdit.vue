@@ -11,15 +11,15 @@
       >
         <el-form-item prop="linkTitle">
           <tfr-select
-            v-model="ruleForm.country"
+            v-model="ruleForm.region_code"
             :has-border="false"
             width="100%"
           >
             <el-option
               v-for="zone in countryList"
-              :key="zone.value"
-              :value="zone.value"
-              :label="zone.label"
+              :key="zone.region_code"
+              :value="zone.region_code"
+              :label="zone.region_name"
             />
           </tfr-select>
         </el-form-item>
@@ -46,8 +46,8 @@
           />
           <span class="tips"> The unique location slug for this page. </span>
         </el-form-item>
-        <el-form-item label="Policy Body" prop="areaText">
-          <tfr-editor v-model="ruleForm.areaText" />
+        <el-form-item label="Policy Body" prop="body">
+          <tfr-editor v-model="ruleForm.body" />
         </el-form-item>
       </el-form>
     </div>
@@ -55,14 +55,42 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { onMounted, ref, toRaw, watchEffect } from 'vue'
 import TfrEditor from '@/components/TfrEditor/index.vue'
-const ruleForm = reactive({
-  country: '',
+import { getRegionList, pageContentUpdate } from '@/api/siteBuilder/footer'
+import { RegionItem } from '@/api/marketing.type'
+import { useRoute } from 'vue-router'
+import { PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
+import { pageContentCreate } from '@/api/siteBuilder/page'
+import store from '@/store'
+
+const route = useRoute()
+
+interface EditLegal {
+  region_code: string
+  region_name: string
+  title: string
+  slug: string
+  body: string
+}
+
+interface Props {
+  close?: Function
+  value?: EditLegal
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  close: () => {}
+})
+
+const ruleForm = ref({
+  region_code: '',
+  region_name: '',
   slug: '',
   title: '',
-  areaText: false
+  body: ''
 })
+
 const rules = {
   title: {
     required: true,
@@ -74,30 +102,70 @@ const rules = {
     message: ' ',
     trigger: 'blur'
   },
-  areaText: {
+  body: {
     required: true,
     message: ' ',
     trigger: 'blur'
   }
 }
 
-const countryList = [
-  {
-    value: 'Au',
-    label: 'Region: Australia'
-  },
-  {
-    value: 'EN',
-    label: 'Region: English'
-  },
-  {
-    value: 'ZH',
-    label: 'Region: China'
+watchEffect(() => {
+  if(props?.value && !ruleForm.value.title) {
+    ruleForm.value = props.value
   }
-]
-const switchChange = (e: boolean) => {
-  // ruleForm.hide = e
+})
+
+const countryList = ref<RegionItem[]>([])
+onMounted(async () => {
+  const list: any = await getRegionList({ keyword: '' })
+  countryList.value = list
+  if (!countryList.value) {
+    countryList.value = [
+      { region_code: 'all', region_name: 'All Region', checked: false },
+      ...list
+    ]
+  }
+  ruleForm.value.region_code = countryList.value[0].region_code
+})
+
+const ruleFormNode = ref()
+const confirm = async () => {
+  try {
+    const allVaild = await ruleFormNode.value.validate()
+    if (allVaild) {
+      const regionItem = countryList.value.filter(
+        (item: RegionItem) => item.region_code === ruleForm.value.region_code
+      )
+      ruleForm.value.region_name = regionItem[0]?.region_name || ''
+      const quertData = route.query
+      try {
+        if (!quertData.page_code) {
+          await pageContentCreate({
+            page_type: PAGE_SELECT.POLICY.toLocaleLowerCase(),
+            legal: toRaw(ruleForm.value),
+            site_navigation_code: quertData.code
+          })
+          store.setBuilder.getSetBuilderList()
+        } else {
+          await pageContentUpdate({
+            page_type: PAGE_SELECT.POLICY.toLocaleLowerCase(),
+            site_navigation_code: <string>quertData.code,
+            legal: toRaw(ruleForm.value)
+          })
+        }
+      } catch (e) {
+        console.log(e)
+      }
+      if (props.close) props.close()
+    }
+  } catch (e) {
+    console.log(e)
+  }
 }
+
+defineExpose({
+  confirm
+})
 </script>
 
 <style lang="scss" scoped>

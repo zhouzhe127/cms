@@ -1,4 +1,4 @@
-import { PAGE_ICONS, FILEPAGE } from '@/views/homePage/pageDialog/selectPage/index.type'
+import { PAGE_ICONS, FILEPAGE, PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
 export function disposeSideData<T>(list:T[]) {
   const arr: Array<Object> = []
   if (Array.isArray(list)) {
@@ -8,6 +8,8 @@ export function disposeSideData<T>(list:T[]) {
         const type = vd.content_type.toLocaleUpperCase() || 'PAGE'
         vd.icon = PAGE_ICONS[type]
         vd.hasChild = FILEPAGE.includes(type)
+        // legal 类型无拖拽效果
+        vd.disable = vd.content_type === PAGE_SELECT.LEGAL.toLocaleLowerCase() || vd.content_type === PAGE_SELECT.POLICY 
       }
       if (e.sub_navigation) {
         const tp = e.sub_navigation.map((v: any) => ({ navigation: v })) // 格式化数据

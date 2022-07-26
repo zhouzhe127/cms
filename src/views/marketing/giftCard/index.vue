@@ -136,10 +136,11 @@
           />
         </el-form-item>
         <el-form-item label="SEO Description">
-          <editor
+          <!-- <editor
             :editor-value="seoDescription"
             @update:editorValue="seoDescription = $event"
-          />
+          /> -->
+          <editor v-model="seoDescription" />
         </el-form-item>
       </div>
       <div class="hide-research-result">

@@ -1,5 +1,5 @@
 <template>
-  <div class="optionmain" :style="style">
+  <div class="optionmain" :class="className" :style="style">
     <div class="contant">
       <div class="optionbox">
         <div
@@ -18,10 +18,12 @@
 
 <script setup lang="ts">
 interface Props {
+  className?: string,
   options?: Array<string>,
   style?: Object
 }
 const props = withDefaults(defineProps<Props>(), {
+  className: '',
   options: () => ['suspended', 'edit_cms', 'add_white'],
   style: () => ({})
 })

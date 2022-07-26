@@ -1,54 +1,71 @@
 <template>
-  <div class="filter">
+  <div v-loading="loading" class="filter">
     <TfrSelect
       style="width: 100%"
-      v-for="item in AllSelect"
-      :key="item.placeholder"
-      :placeholder="item.placeholder"
+      v-for="item in state.seq"
+      v-model="item.selected"
+      :key="item.key"
+      :placeholder="item.option_prefix"
       :has-border="false"
+      @change="condSelect(item)"
     >
-      <el-option v-for="option in item.selectList">{{ option }}</el-option>
+      <el-option v-for="option in state.cond[item.key]" :label="option.label" :value="option.key" />
     </TfrSelect>
     <div class="clear">CLEAR ALL</div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref, reactive, onMounted, defineExpose } from 'vue'
 import TfrSelect from '@/components/TfrSelect/index.vue'
-const AllSelect = [
-  {
-    placeholder: 'ALL categories',
-    selectList: ['1111']
-  },
-  {
-    placeholder: 'ALL designers',
-    selectList: ['1111']
-  },
-  {
-    placeholder: 'ALL materials',
-    selectList: ['1111']
-  },
-  {
-    placeholder: 'ALL colors',
-    selectList: ['1111']
-  },
-  {
-    placeholder: 'ALL cuts',
-    selectList: ['1111']
-  },
-  {
-    placeholder: 'ALL clarity',
-    selectList: ['1111']
-  },
-  {
-    placeholder: 'ALL carats',
-    selectList: ['1111']
-  },
-  {
-    placeholder: 'ALL prices',
-    selectList: ['1111']
-  }
-]
+import { productCondition } from '@/api/siteBuilder/page'
+interface SEQFACE {
+  key: string
+  name: string
+  option_prefix: string
+}
+const loading = ref(false)
+const state = reactive<any>({
+  seq: [],
+  cond: {}
+})
+const getCondition = async () => {
+  loading.value = true
+  const data:any = await productCondition()
+  data.seq.forEach((v: any) => {
+    const c = data.cond
+    if (c[v.key] && Array.isArray(c[v.key])) {
+      c[v.key].forEach((s: any) => {
+        s.label = `${ v.option_prefix }: ${ s.key }`
+      })
+      c[v.key].unshift({
+        key: 'All',
+        label: `All ${ v.key }`
+      })
+    }
+  })
+  state.cond = data.cond
+  state.seq = data.seq
+  loading.value = false
+}
+
+const condSelect = (item: any) => {
+  console.log('item: ', item)
+}
+const getSelected = () => {
+  const sd = state.seq
+  const obj = {} as any
+  sd.forEach((v: any) => {
+    if (v.selected) obj[v.key] = [v.selected]
+  })
+  return obj
+}
+onMounted(() => {
+  getCondition()
+})
+defineExpose({
+  getSelected
+})
 </script>
 
 <style lang="scss" scoped>

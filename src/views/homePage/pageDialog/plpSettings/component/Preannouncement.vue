@@ -1,24 +1,34 @@
 <template>
   <div class="preannouncement">
-    <header class="title">LOREM IPSUM</header>
+    <header class="title">{{ info.title }}</header>
     <section>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      <div v-html="info.body">
+      </div>
+      <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
       veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
       commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
       velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
       cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
+      est laborum. -->
     </section>
-    <time> Launches 2022年7月7日 </time>
+    <time>{{ info.launch_title }} {{ info.start_time }}</time>
     <div class="inputbox">
-      <div class="ueb">Your email address</div>
-      <div class="ibt">NOTIFY ME</div>
+      <div class="ueb">{{ info.submit_to }}</div>
+      <div class="ibt">{{ info.lunch_button }}</div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+interface PropsType {
+  info?: any
+}
+// eslint-disable-next-line no-undef
+const props = withDefaults(defineProps<PropsType>(), {
+  info: {}
+})
+</script>
 <style lang="scss" scoped>
 .preannouncement {
     font-family: 'Brown Light', serif;

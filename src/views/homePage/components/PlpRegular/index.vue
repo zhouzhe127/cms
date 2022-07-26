@@ -24,23 +24,16 @@
     </div>
     <div class="content-main">
       <div class="text-content">
-        <div class="title">LOREM IPSUM</div>
-        <div class="doc">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim
-          veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat.Duis aute irure dolor in reprehenderit in voluptuous velit
-          esse cillum dolore eu fugiat nulla pariatur.Excepteur are occaecat cupidatat
-          non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
-        <div class="laun">Launches 2022年7月1日</div>
+        <div class="title">{{ info.title }}</div>
+        <div v-html="info.body" class="doc" />
+        <div class="laun">{{ info.launch_title }} {{ info.start_time }}</div>
         <div class="inputbox">
-          <div class="ueb">Your email address</div>
-          <div class="ibt">NOTIFY ME</div>
+          <div class="ueb">{{ info.submit_to }}</div>
+          <div class="ibt">{{ info.lunch_button }}</div>
         </div>
       </div>
-      <CmsEdit class="editbox" :options="['edit_cms', 'lock_white']">
-        <div></div>
+      <CmsEdit class-name="editbox" :options="['edit_cms', 'lock_white']">
+        <SquareImage :src="info?.background?.path" />
       </CmsEdit>
     </div>
     <div class="pagebox">
@@ -60,8 +53,15 @@
 <script setup lang="ts">
 import CmsEdit from '@/components/CmsEdit/index.vue'
 import Pagination from '@/components/TfrPagination/index.vue'
-import { useRoute, useRouter } from 'vue-router';
-
+import SquareImage from '@/components/TfrImage/SquareImage.vue'
+import { useRoute, useRouter } from 'vue-router'
+interface Props {
+  info?: any
+}
+const props = withDefaults(defineProps<Props>(), {
+  info: {}
+})
+console.log(props.info)
 const router = useRouter()
 
 const onPlpRegular = () => {
@@ -100,10 +100,11 @@ const onPlpRegular = () => {
   }
   .content-main {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 20px;
     .text-content {
-      width: 50%;
+      flex: 1;
       margin-right: 30px;
       display: flex;
       flex-direction: column;
@@ -121,8 +122,8 @@ const onPlpRegular = () => {
       }
     }
     .editbox {
-      width: 50%;
-      height: 534px;
+      flex: 1 ;
+      min-width: 400px;
       border: 1px black dashed;
     }
     .inputbox {

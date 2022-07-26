@@ -29,9 +29,10 @@
 
 <script setup lang="ts">
 import Search from '@/components/SiteBuilderMenu/components/footerNavigation/setpages/InternalSerch.vue'
-import { ref, toRaw } from 'vue'
+import { onMounted, ref, toRaw } from 'vue'
 import RowSetItem from '@/components/RowSetItem/index.vue'
 import { EditLinkData, InternalForm, SETPAGETYPE } from '../type'
+import { getSlugList } from '@/api/siteBuilder/editlink';
 interface Props {
   value?: EditLinkData
 }
@@ -57,7 +58,7 @@ const confirm = async () => {
     const allVaild = await ruleFormNode.value.validate()
     if (allVaild) {
       return Promise.resolve({
-        [type]: toRaw(ruleForm)
+        [type]: toRaw(ruleForm.value)
       })
     }
   } catch (e) {

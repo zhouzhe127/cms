@@ -133,6 +133,7 @@ const close = () => {
 }
 const clickRightBtn = async () => {
   rightBtnLoading.value = true
+  console.log(modulsNode.value)
   if (modulsNode.value.confirm) {
     const data = await modulsNode.value.confirm()
     if (data) Emits('dataChange', data)
