@@ -32,7 +32,7 @@ export const toEditionModel = (item: SideItem) => {
     case PAGE_SELECT.POLICY:
       router.push({
         path: '/siteBuilder/editLegal',
-        query: { id: item.id }
+        query: { id: item.id, page_code: item.page_content_id, code: item.code }
       })
       break
     default:

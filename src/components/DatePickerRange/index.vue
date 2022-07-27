@@ -286,6 +286,8 @@ onMounted(() => {
     const formatStartTimeArray = formatStartTime.split(' ')
     const sDate = new Date(formatStartTime.replace(/-/g, '/'))
     const eDate = new Date(formatEndTime.replace(/-/g, '/'))
+    startDate.value = moment(formatStartTime).format('YYYY-MM-DD')
+    endDate.value = moment(formatEndTime).format('YYYY-MM-DD')
     timeForm.timePoint = formatStartTimeArray[1]
     startYear.value = sDate.getFullYear()
     startMonth.value = sDate.getMonth()
@@ -481,6 +483,7 @@ const validateEndDate = () => {
   if (!endYear.value && !endMonth.value && !endDay.value) return true
 }
 const commitDateParams = async () => {
+  console.log(startDate.value)
   if (!startDate.value) {
     $tfrMessage({
       type: 'error',

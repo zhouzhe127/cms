@@ -144,7 +144,7 @@
         </tfr-radio-group>
       </el-form-item>
       <el-form-item label="Expiration">
-        <tfr-radio-group v-model="expirationType">
+        <tfr-radio-group v-model="expirationType" @change="expirationChange">
           <el-radio label="none">None</el-radio>
           <el-radio label="setExpiration">Set Expiration</el-radio>
         </tfr-radio-group>
@@ -172,10 +172,13 @@
         >
       </template>
       <template v-if="target === 'detail'">
-        <tfr-button type="gray">DELETE</tfr-button>
-        <tfr-button type="gray" :loading="duplicateLoading" @click="saveHandle"
-          >DUPLICATE</tfr-button
+        <tfr-button type="gray" @click="deleteHandle">DELETE</tfr-button>
+        <tfr-button type="primary" :loading="saveLoading" @click="saveHandle"
+          >SAVE</tfr-button
         >
+        <!--        <tfr-button type="gray" :loading="duplicateLoading" @click="saveHandle"-->
+        <!--          >DUPLICATE</tfr-button-->
+        <!--        >-->
       </template>
     </div>
     <effective-region-dialog
@@ -204,6 +207,7 @@
       @cancelHandle="targetDialogCancelHandle"
       @confirmHandle="targetDialogConfirmHandle"
     />
+    <!--    <tfr-message-box title="Delete" sec-title="ANNOUNCEMENT?" message="" />-->
   </div>
 </template>
 
@@ -220,55 +224,48 @@ import EffectiveRegionDialog from '@/views/marketing/components/EffectiveRegionD
 import sideArr from '@/views/homePage/pageDialog/editLinkPage/setModules'
 import TargetDialog from '@/views/marketing/components/TargetDialog/index.vue'
 import DatePickerRange from '@/components/DatePickerRange/index.vue'
+import { TfrMessageBox } from '@/components/TfrMessageBox'
 import {
   getPromotionList,
   saveAnnouncement,
   getAnnouncementDetail,
   getRegionList,
-  getAnnouncementUserList
+  getAnnouncementUserList,
+  deleteAnnouncement,
+  updateAnnouncement
 } from '@/api/marketing'
+import {
+  RegionItem,
+  UsRegionItem,
+  PagingBack,
+  AnnouncementUserListItem
+} from '@/api/marketing.type'
 import {
   reactive,
   ref,
   onMounted,
   getCurrentInstance,
   watch,
-  inject
+  inject,
+  h
 } from 'vue'
 import { FormInstance, FormRules } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { appStore } from '@/store/modules/app'
 import { menuStore } from '@/store/modules/menu'
-import type {
-  TargetParams,
-  PromotionItem,
-  RegionItem,
-  AnnouncementData
-} from '../types'
-
-// interface PromotionItem {
-//   name: string
-//   promo_code_id: number
-//   [key: string]: any
-// }
-//
-// interface RegionItem {
-//   checked: boolean
-//   currency_code?: string
-//   flag?: string
-//   phone_code?: string
-//   region_code: string
-//   region_name: string
-// }
+import { PromotionItem, AnnouncementItem } from '@/api/marketing.type'
+import type { TargetParams } from '../types'
 
 interface Link {
   type?: string
-  external?: {
-    title: string
-    link: string
-    open_new: boolean
-  }
+  external?:
+    | {
+        title: string
+        link: string
+        open_new: boolean
+      }
+    | undefined
   internal?: {
     title: string
     page?: string
@@ -363,8 +360,8 @@ const legalList = ref([
 ])
 const legalCode = ref('')
 const legalName = ref('')
-let regionList = ref<RegionItem[]>()
-const effectiveRegionList = ref([
+let regionList = ref<UsRegionItem[]>()
+const effectiveRegionList = ref<UsRegionItem[]>([
   { region_name: 'All Region', region_code: 'all', checked: true }
 ])
 const effectiveRegionDialog = ref(false)
@@ -395,7 +392,7 @@ watch(
   }
 )
 const getRegionName = (code: string) => {
-  const item: RegionItem | undefined = regionList.value?.find(
+  const item: UsRegionItem | undefined = regionList.value?.find(
     i => i.region_code === code
   )
   if (item) {
@@ -424,7 +421,7 @@ const setLegalName = (code: string) => {
   }
 }
 onMounted(async () => {
-  const { list }: any = await getPromotionList()
+  const { list }: PagingBack<PromotionItem[]> = await getPromotionList()
   promoList.value = list
   const id: any = route.params.id
   if (target === 'detail' && id) {
@@ -446,11 +443,11 @@ onMounted(async () => {
       start_time,
       end_time,
       time_zone
-    }: any = await getAnnouncementDetail({ id })
+    }: AnnouncementItem = await getAnnouncementDetail({ id: id as string })
     announcementForm.name = name
     announcementForm.description = description
     announcementForm.message = message
-    if (media.path) {
+    if (media?.path) {
       console.log(bannerPicture.value, 'bannerPicture')
       bannerPicture.value[0] = {
         link: media.path,
@@ -458,7 +455,7 @@ onMounted(async () => {
       }
       console.log(bannerPicture.value[0])
     }
-    if (mobile_media.path) {
+    if (mobile_media?.path) {
       mobileBannerPicture.value[0] = {
         link: mobile_media.path,
         content_type: mobile_media.media_type
@@ -473,10 +470,10 @@ onMounted(async () => {
       setLegalName(legal)
     }
     if (region_range === 'multiple') {
-      const rList: any = await getRegionList()
+      const rList: RegionItem[] = await getRegionList()
       regionList.value = [...rList]
       effectiveRegionList.value = []
-      regions.forEach((item: string) => {
+      regions?.forEach((item: string) => {
         effectiveRegionList.value.push({
           region_code: item,
           region_name: getRegionName(item),
@@ -487,8 +484,7 @@ onMounted(async () => {
     if (link) {
       linkType.value = 'setLink'
       setLinkType.value = link.type || 'external'
-      linkObject.value = { [setLinkType.value]: link[setLinkType.value] }
-      console.log(linkObject.value)
+      linkObject.value = { ...link }
     }
     if (target_condition) {
       targetType.value = 'setTarget'
@@ -498,15 +494,17 @@ onMounted(async () => {
       }
       if (target_type === 'customers') {
         targetObject.value.target_customers = target_customers
-        targetObject.value.total = target_customers.length
+        targetObject.value.total = target_customers?.length
       }
       if (
         target_type === 'all' &&
         !target_condition.keyword &&
         !target_condition.user_sources[0]
       ) {
-        const { info }: any = await getAnnouncementUserList()
-        targetObject.value.total = info.total
+        const { info, list: userList }: PagingBack<AnnouncementUserListItem[]> =
+          await getAnnouncementUserList()
+        targetObject.value.total = info?.total as number
+        console.log(userList)
       }
     }
     if (expire_type === 'date') {
@@ -519,8 +517,6 @@ onMounted(async () => {
       timeZone.value = time_zone
     }
   }
-
-  console.log(route.params)
 })
 
 const promoCodeChange = (value: any) => {
@@ -547,9 +543,9 @@ const editRegionHandle = () => {
 const effectiveRegionDialogCancelHandle = () => {
   effectiveRegionDialog.value = false
 }
-const effectiveRegionDialogConfirmHandle = (regionList: RegionItem[]) => {
-  const regionChecked: RegionItem[] = regionList.filter(
-    (item: RegionItem) => item.checked
+const effectiveRegionDialogConfirmHandle = (regionList: UsRegionItem[]) => {
+  const regionChecked: UsRegionItem[] = regionList.filter(
+    (item: UsRegionItem) => item.checked
   )
   effectiveRegionList.value = regionChecked
   effectiveRegionDialog.value = false
@@ -608,10 +604,18 @@ const removeCustomers = () => {
     }
   }
 }
+
+const expirationChange = (value: string) => {
+  if (value === 'none') {
+    startTime.value = ''
+    endTime.value = ''
+    timeZone.value = ''
+  }
+}
 const saveHandle = async () => {
   const valid = await announcementFormRef.value?.validate()
   if (valid) {
-    const data: AnnouncementData = {
+    const data: AnnouncementItem = {
       name: announcementForm.name,
       description: announcementForm.description,
       message: announcementForm.message,
@@ -679,28 +683,60 @@ const saveHandle = async () => {
     }
     // expiration
     if (expirationType.value === 'setExpiration') {
-      try {
-        const getDateParams: any =
-          await datePickerRangeRef.value.commitDateParams()
-        if (getDateParams) {
-          data.expire_type = 'date'
-          data.start_time = getDateParams.startTime
-          data.end_time = getDateParams.endTime
-          data.time_zone = getDateParams.timeZone
-        }
-      } catch (e) {
-        console.log(e)
-      }
+      const getDateParams: any =
+        await datePickerRangeRef.value.commitDateParams()
+      if (!getDateParams) return
+      data.expire_type = 'date'
+      data.start_time = getDateParams.startTime
+      data.end_time = getDateParams.endTime
+      data.time_zone = getDateParams.timeZone
+    } else {
+      data.expire_type = 'none'
+      delete data.start_time
+      delete data.end_time
+      delete data.time_zone
+      startTime.value = ''
+      endTime.value = ''
+      timeZone.value = ''
     }
     saveLoading.value = true
-    await saveAnnouncement(data)
-    saveLoading.value = false
-    router.replace({ path: '/marketing' })
-    useMenuStore.updateMarketingMenuList('announcement')
+    try {
+      if (route.params.id || target === 'detail') {
+        data.id = route.params.id as string
+        await updateAnnouncement(data)
+        $tfrMessage({
+          type: 'success',
+          message: 'Update successfully！'
+        })
+      } else {
+        await saveAnnouncement(data)
+        router.replace({ path: '/marketing' })
+      }
+      saveLoading.value = false
+      useMenuStore.updateMarketingMenuList('announcement')
+    } catch (e) {
+      saveLoading.value = false
+    }
   }
   // announcementFormRef.value.validate(async (valid: boolean) => {
   //
   // })
+}
+const deleteHandle = () => {
+  TfrMessageBox.confirm(h('div', ''), {
+    title: 'Delete',
+    secTitle: 'ANNOUNCEMENT?',
+    confirmButtonText: 'DELETE'
+  })
+    .then(async (res: string) => {
+      if (res === 'confirm') {
+        const id: any = route.params.id
+        await deleteAnnouncement({ id })
+        router.replace({ path: '/marketing' })
+        useMenuStore.updateMarketingMenuList('announcement')
+      }
+    })
+    .catch(() => {})
 }
 </script>
 

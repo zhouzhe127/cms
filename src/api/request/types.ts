@@ -16,6 +16,7 @@ export interface RequestConfig<T = AxiosResponse> extends AxiosRequestConfig {
   url?: string
   baseURL?: string
   params?: TAxiosRequestConfig
+  data?: TAxiosRequestConfig
   headers?: any
 }
 export interface CancelRequestSource {

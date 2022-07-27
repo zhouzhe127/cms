@@ -35,6 +35,7 @@ import { useRoute } from 'vue-router'
 import { emitSideEvent } from '@/components/SiteBuilderMenu/utils/regesterEvent'
 const route = useRoute()
 const origin = route.query.origin as string
+const parentCode = route.query.parent_code as string
 const sideEmit = emitSideEvent(origin)
 // import { addFunc as addNavigateFun } from '@/store/setBuilder/sidebar';
 // import { addFunc as addFooterFun } from '@/store/setBuilder/footerNavigation';
@@ -82,10 +83,13 @@ const onClose = () => {
   closeWin()
 }
 const addpage = async (item: SideItem) => {
+  const createSubItem = { parent_code: parentCode }
   await navigationCreate({
     location: origin,
-    content_type: item.title,
+    content_type: item.title!,
     name: `NEW ${item.title}`,
+    page_title: `NEW ${item.title}`, 
+    ...createSubItem
     // page_title: 'das',
     // slug: `dsa${Math.random()}`,
     // status: 'dsa',
