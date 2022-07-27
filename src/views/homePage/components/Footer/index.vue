@@ -3,13 +3,13 @@
     <div class="footer-box">
       <div class="links pc">
         <div v-for="(item, index) in links" :key="index" class="links_items">
-          <div class="pt">{{ item.text }}</div>
+          <div class="pt">{{ item.navigation?.name }}</div>
           <div
-            v-for="(list, i) in item.children"
-            :key="list.text + i"
+            v-for="(list, i) in item.sub_navigation"
+            :key="`${list.navigation?.code} - ${i}`"
             class="ct"
           >
-            {{ list.text }}
+            {{ list.navigation?.name }}
           </div>
         </div>
       </div>
@@ -17,14 +17,14 @@
       <div class="links mobile">
         <TfrCollapse modelValue="about">
           <template :key="index" v-for="(item, index) in links">
-            <TfrCollapseItem :name="item.text">
+            <TfrCollapseItem :name="item.navigation?.name || 'Phone item'">
               <div class="list-con">
                 <div
-                  v-for="(list, i) in item.children"
-                  :key="list.text + i"
+                  v-for="(list, i) in item.sub_navigation"
+                  :key="`${list.navigation?.code} - ${i}`"
                   class="list-item"
                 >
-                  {{ list.text }}
+                  {{ list.navigation?.name }}
                 </div>
               </div>
             </TfrCollapseItem>
@@ -38,10 +38,13 @@
         >
       </div>
       <div class="pagetab">
-        <span>Privacy Policy</span>
+        <div v-for="(item, index) in legalList" :key="index">
+          <span v-for="polic in item.sub_navigation" :key="polic.navigation.code">{{polic.navigation.name}}</span>
+        </div>
+        <!-- <span>Privacy Policy</span>
         <span>Terms & Conditions</span>
         <span>Cookies Policy</span>
-        <span>Return & Refunds Policy</span>
+        <span>Return & Refunds Policy</span> -->
       </div>
       <div class="labdc">
         <span
@@ -62,60 +65,40 @@ import CmsEdit from '@/components/CmsEdit/index.vue'
 import { useRouter } from 'vue-router'
 import TfrCollapse from '@/components/TfrCollapse/index.vue'
 import TfrCollapseItem from '@/components/TfrCollapse/TfrCollapseItem.vue'
+import { computed, onMounted, ref } from 'vue'
+import { getFooterContent } from '@/api/siteBuilder/footer'
+import { isLegal } from '@/components/SiteBuilderMenu/components/footerNavigation/utils'
+import { FooterListItem } from '@/api/siteBuilder/footer.type'
+import store from '@/store'
+import { SITE_MENUS } from '@/components/SiteBuilderMenu/type'
 
-interface Msd {
-  text: string
-  link: string
-  children?: Array<Msd>
-}
-const links: Array<Msd> = [
-  {
-    text: 'about',
-    link: 'aaaa',
-    children: [
-      {
-        text: 'about',
-        link: 'aaaa'
-      }
-    ]
-  },
-  {
-    text: 'about1',
-    link: 'aaaa',
-    children: [
-      {
-        text: 'about',
-        link: 'aaaa'
-      }
-    ]
-  },
-  {
-    text: 'about2',
-    link: 'aaaa',
-    children: [
-      {
-        text: 'about',
-        link: 'aaaa'
-      }
-    ]
-  },
-  {
-    text: 'about3',
-    link: 'aaaa',
-    children: [
-      {
-        text: 'about',
-        link: 'aaaa'
-      }
-    ]
-  }
-]
 const router = useRouter()
 const onOpClick = () => {
   router.push({
     path: '/siteBuilder/footerSettings'
   })
 }
+
+const links = computed(() => {
+  const sidebarArr = store.setBuilder.sideState[SITE_MENUS.FOOTER].sidebarArr
+  return sidebarArr?.filter(item => !isLegal(item.navigation?.content_type))
+})
+
+const legalList = computed(() => {
+  const sidebarArr = store.setBuilder.sideState[SITE_MENUS.FOOTER].sidebarArr
+  return sidebarArr?.filter(item => (isLegal(item.navigation?.content_type) && item?.sub_navigation?.length))
+})
+
+onMounted(async () => {
+  const data = await getFooterContent()
+  if (data) {
+    console.log(data)
+    // links.value = data?.footer_list.filter(
+    //   item => !isLegal(item.navigation?.content_type)
+    // )
+    // console.log(links)
+  }
+})
 </script>
 
 <style lang="scss" scoped>

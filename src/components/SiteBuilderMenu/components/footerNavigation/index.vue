@@ -14,13 +14,13 @@
               element.sub_navigation && element.sub_navigation.length <= 0
             "
             :center-icon="
-              isLegal(element.navigation)
+              isLegal(element.navigation.content_type)
                 ? PAGE_ICONS[PAGE_SELECT.LEGAL]
                 : element.navigation.icon
             "
             :active="element.navigation.isActive"
-            :has-left-icon="!isLegal(element.navigation)"
-            :has-right-icon="!isLegal(element.navigation)"
+            :has-left-icon="!isLegal(element.navigation.content_type)"
+            :has-right-icon="!isLegal(element.navigation.content_type)"
             @left-click="() => deleteItem(element.navigation)"
             @right-click="() => chickEditWin(element.navigation)"
             @add="() => onSecAdd(element.navigation)"
@@ -72,7 +72,7 @@ const deleteItem = (item: SideItem, pid?: string) => {
   })
 }
 const onSecAdd = async (item: SideItem) => {
-  if (isLegal(item)) {
+  if (isLegal(item.content_type)) {
     const baseLegal = {
       location: SITE_MENUS.FOOTER.toLocaleLowerCase(),
       page_title: 'Policy Title',
@@ -90,7 +90,8 @@ const onSecAdd = async (item: SideItem) => {
   }
   toSeletPage({
     origin: SITE_MENUS.FOOTER,
-    parentId: encodeURIComponent(item.id || item.title || '')
+    parentId: encodeURIComponent(item.id || item.title || ''),
+    parent_code: item?.code
   })
 }
 </script>

@@ -8,6 +8,7 @@ export interface UpdateRequest {
 
 export interface CreateRequest {
   location?: string,
+  name?: string,
   content_type: string,
   page_title: string,
   parent_code?: string,
