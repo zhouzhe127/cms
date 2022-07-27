@@ -24,29 +24,29 @@
               Toggle to disable block on this page.
             </p>
             <el-form-item label="Width">
-              <WidthOption />
+              <WidthOption ref="widthOption" />
             </el-form-item>
             <el-form-item label="Aspect Ratio">
-              <AspectRatio />
+              <AspectRatio ref="aspectRatio" />
             </el-form-item>
-            <el-form-item label="Title" prop="pageTitle">
+            <el-form-item label="Title" prop="title">
               <div class="optionbox">
-                <tfr-input v-model="ruleForm.pageTitle" width="100%" />
+                <tfr-input v-model="ruleForm.title" width="100%" />
               </div>
             </el-form-item>
-            <el-form-item label="Action" prop="pageTitle">
-              <tfr-input v-model="ruleForm.pageTitle" width="100%" />
+            <el-form-item label="Action" prop="action">
+              <tfr-input v-model="ruleForm.action" width="100%" />
             </el-form-item>
             <div class="choosepage">
               <div class="choosetop">
                 <span>Page</span>
                 <span>CHOOSE</span>
               </div>
-              <EdgeInput :has-clear="false" placeholder="Enter URL..." />
+              <EdgeInput v-model="ruleForm.url_title" :has-clear="false" placeholder="Enter URL..." />
               <div class="swbox">
                 <RowSetItem :has-padding="false" margin="0" title="Open in new window">
                   <el-switch
-                    v-model="ruleForm.hide"
+                    v-model="ruleForm.open"
                     active-color="#1B2B27"
                     inactive-color="#F8F8F8"
                     @change="switchChange"
@@ -56,17 +56,15 @@
             </div>
             <el-form-item label="Feature" prop="pageTitle">
               <div>
-                <SkuInput />
-                <SkuInput />
-                <SkuInput />
+                <SkuInput v-for="(item, index) in skuArr" :key="index" v-model="item.code" />
               </div>
             </el-form-item>
             <el-form-item label="Background" prop="pageTitle">
-              <TfrUpload />
+              <TfrUpload :is-only-one="true" :picture-list="ruleForm.background" />
             </el-form-item>
             <el-form-item label="Mobile Alternative" prop="pageTitle">
               <div class="mbupload">
-                <TfrUpload />
+                <TfrUpload :is-only-one="true" :picture-list="ruleForm.mobileBackground" />
               </div>
             </el-form-item>
           </el-form>
@@ -82,8 +80,7 @@
               class="btn black"
               :loading="rightBtnLoading"
               @click="clickRightBtn"
-              >SAVE</tfr-button
-            >
+              >SAVE</tfr-button>
           </div>
         </div>
       </div>
@@ -101,21 +98,82 @@ import AspectRatio from '@/views/homePage/components/RadioInput/AspectRatio.vue'
 import EdgeInput from '@/components/TfrInput/EdgeInput.vue'
 import SkuInput from '@/views/homePage/components/FormCommon/SkuInput.vue'
 import TfrUpload from '@/components/TfrUpload/index.vue'
+import store from '@/store'
+import { ARTICLE_REGULAR } from '../../type'
+const { showWin, closeWin } = generalwin()
+
 const ruleForm = reactive({
-  pageTitle: '',
+  title: '',
+  action: '',
+  url_title: '',
   seoDes: '',
-  hide: false
+  hide: false,
+  open: false,
+  background: [] as any,
+  mobileBackground: [] as any,
 })
+const skuArr = reactive([
+  {
+    code: ''
+  }, {
+    code: ''
+  }, {
+    code: ''
+  }
+])
 const rules = {
-  pageTitle: {
+  title: {
     required: true,
     message: ' ',
     trigger: 'blur'
-  }
+  },
+  action: {
+    required: true,
+    message: ' ',
+    trigger: 'blur'
+  },
 }
-const { showWin, closeWin } = generalwin()
+const widthOption = ref<any>(null)
+const aspectRatio = ref<any>(null)
 const rightBtnLoading = ref(false)
-const clickRightBtn = () => {}
+const clickRightBtn = () => {
+  const background = ruleForm.background[0] || {}
+  const mobileBackground = ruleForm.mobileBackground[0] || {}
+  const model = {
+    componentName: 'brand',
+    style: {}
+  }
+  const widthValue = widthOption.value.form
+  const full_width = widthOption.value.type
+  const product_ids = skuArr.map(v => (v.code)).filter(v => v)
+  const obj = {
+    hide: ruleForm.hide,
+    title: ruleForm.title,
+    url_title: ruleForm.url_title,
+    open: ruleForm.open,
+    action: ruleForm.action,
+    product_ids,
+    full_width,
+    background: {
+      path: background.link,
+      media_type: background.content_type
+    },
+    mobile_background: {
+      path: mobileBackground.link,
+      media_type: mobileBackground.content_type
+    },
+  }
+  if (full_width === ARTICLE_REGULAR.PADDING) {
+    Object.assign(obj, {
+      padding_desktop_px: widthValue.pcWidth,
+      padding_desktop_max: widthValue.pcMax,
+      padding_mobile_px: widthValue.mbWidth,
+      padding_mobile_max: widthValue.mbMax
+    })
+  }
+  model.style = obj
+  store.setBuilder.pageState.setChildModle(model, 0, 0)
+}
 const switchChange = (e: boolean) => {
   // ruleForm.hide = e
 }

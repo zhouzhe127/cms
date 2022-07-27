@@ -1,17 +1,18 @@
 <template>
   <div class="optionbox">
-    <el-radio-group v-model="regularType" @change="onChange">
-      <tfr-radio :label="ARTICLE_REGULAR.FULL_WIDTH"> Full Width </tfr-radio>
-      <div class="falmu">
+    <el-radio-group v-model="modelValue" v-bind="$attrs" @change="onChange">
+      <div :class="{
+        'active': modelValue !== ARTICLE_REGULAR.FULL_WIDTH
+      }">
+        <tfr-radio :label="ARTICLE_REGULAR.FULL_WIDTH"> {{ textOne }} </tfr-radio>
+      </div>
+      <div class="falmu" :class="{
+        'active': modelValue !== ARTICLE_REGULAR.PADDING
+      }">
         <div class="fullradio">
-          <tfr-radio :label="ARTICLE_REGULAR.PADDING"> Padding </tfr-radio>
+          <tfr-radio :label="ARTICLE_REGULAR.PADDING"> {{ textTwo }} </tfr-radio>
         </div>
-        <div
-          :class="{
-            'screen-form': true,
-            'is-checked': regularType === ARTICLE_REGULAR.PADDING
-          }"
-        >
+        <div class="screen-form">
           <slot />
         </div>
       </div>
@@ -20,12 +21,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { ARTICLE_REGULAR } from '../../type'
-const emit = defineEmits(['change'])
-const regularType = ref<string>()
-const onChange = () => {
-  emit('change')
+interface PropsType {
+  modelValue?: string,
+  textOne?: string,
+  textTwo?: string,
+}
+
+const editorProps = withDefaults(defineProps<PropsType>(), {
+  modelValue: '', // 默认值
+  textOne: 'Full Width',
+  textTwo: 'Padding'
+})
+const emit = defineEmits(['change', 'update:modelValue'])
+const onChange = (v: string) => {
+  emit('update:modelValue', v)
+  emit('change', v)
 }
 </script>
 
@@ -33,34 +44,9 @@ const onChange = () => {
 .optionbox {
   .el-radio-group {
     display: block;
-    .tfr-radio {
-      ::v-deep(.el-radio) {
-        .el-radio__inner {
-          border: 1px solid #c6c9c9;
-        }
-        .el-radio__label {
-          color: #c6c9c9;
-        }
-      }
-    }
-    .tfr-radio {
-      ::v-deep(.el-radio) {
-        .is-checked {
-          color: $theme;
-          .el-radio__inner {
-            border: 1px solid $theme;
-            &::after {
-              width: 8px;
-              height: 8px;
-              background-color: $theme;
-            }
-          }
-          & + .el-radio__label {
-            color: $theme;
-          }
-        }
-      }
-    }
+  }
+  .active {
+    opacity: .4;
   }
   .falmu {
     display: flex;

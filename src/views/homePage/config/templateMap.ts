@@ -1,4 +1,5 @@
 import Page from '@/views/homePage/pageTemplate/Page.vue'
+import Designer from '@/views/homePage/pageTemplate/Designers.vue'
 import Plp from '@/views/homePage/pageTemplate/Plp.vue'
 import Article from '@/views/homePage/pageTemplate/Article.vue'
 import HomePage from '@/views/homePage/pageTemplate/HomePage.vue'
@@ -7,6 +8,7 @@ import { Component } from 'vue'
 export enum SITE_PAGETEMPLATE {
   HOME_PAGE = 'home_page',
   PAGE = 'page',
+  DESIGNER = 'designer',
   ARTICLE = 'article',
   PLP = 'plp',
   LINK = 'link',
@@ -19,6 +21,7 @@ const TemplateMap:stringKey = {
   [SITE_PAGETEMPLATE.PAGE]: Page,
   [SITE_PAGETEMPLATE.PLP]: Plp,
   [SITE_PAGETEMPLATE.ARTICLE]: Article,
+  [SITE_PAGETEMPLATE.DESIGNER]: Designer,
   [SITE_PAGETEMPLATE.HOME_PAGE]: HomePage
 }
 

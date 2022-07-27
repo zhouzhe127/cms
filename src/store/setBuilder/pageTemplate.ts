@@ -6,6 +6,7 @@ import { SideItem } from '@/components/SiteBuilderMenu/type/index'
 import { SITE_PAGETEMPLATE } from '@/views/homePage/config/templateMap'
 import { pageContentDetail, pageContentCreate, pageContentUpdate } from '@/api/siteBuilder/page'
 import { disposeTemplateData, disposeSendData } from '@/utils/siteBuilder'
+import { UpdatePageRequest } from '@/api/siteBuilder/page.type'
 interface Basic {
   schema: PageSchema
 }
@@ -114,7 +115,7 @@ export const pageTemplate = defineStore(
     }
 
     async function updatePageContent(data: any) {
-      const reps = disposeSendData(data)
+      const reps:any = disposeSendData(data)
       await pageContentUpdate(reps)
     }
 

@@ -11,7 +11,7 @@
 <script setup lang="ts">
 interface PropsType {
   width?: string
-  src: string
+  src?: string
 }
 const props = withDefaults(defineProps<PropsType>(), {
   width: '100%',

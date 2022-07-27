@@ -1,25 +1,25 @@
 <template>
   <div class="wpdfull">
-    <RadioInput>
+    <RadioInput v-model="type" @change="rdChange">
       <div>
         <div class="itemfox">
           <svg-icon icon-class="pc" class="svgicon" />
-          <input type="text" class="pdipt" />
+          <input v-model="form.pcWidth" type="text" class="pdipt" />
           <span>PX</span>
         </div>
         <div class="itemfox">
           <svg-icon icon-class="straighten" class="svgicon" />
-          <input type="text" class="pdipt" />
+          <input v-model="form.mbMax" type="text" class="pdipt" />
           <span>Max</span>
         </div>
         <div class="itemfox">
           <svg-icon icon-class="mobile" class="svgicon rot" />
-          <input type="text" class="pdipt" />
+          <input v-model="form.mbWidth" type="text" class="pdipt" />
           <span>PX</span>
         </div>
         <div class="itemfox">
           <svg-icon icon-class="straighten" class="svgicon" />
-          <input type="text" class="pdipt" />
+          <input v-model="form.mbMax" type="text" class="pdipt" />
           <span>Max</span>
         </div>
       </div>
@@ -28,7 +28,26 @@
 </template>
 
 <script setup lang="ts">
+import { reactive, ref, defineExpose } from 'vue'
 import RadioInput from './index.vue'
+import { ARTICLE_REGULAR } from '../../type'
+const form = reactive({
+  pcWidth: '',
+  pcMax: '',
+  mbWidth: '',
+  mbMax: ''
+})
+const type = ref(ARTICLE_REGULAR.FULL_WIDTH)
+const rdChange = (v: string) => {
+  // form.pcWidth = ''
+  // form.pcMax = ''
+  // form.mbWidth = ''
+  // form.mbMax = ''
+}
+defineExpose({
+  type,
+  form
+})
 </script>
 
 <style lang="scss" scoped>
@@ -47,23 +66,23 @@ import RadioInput from './index.vue'
     }
     .svgicon {
       font-size: 20px;
-      &.svg-icon {
-        fill: #c6c9c9;
-      }
     }
     .rot {
       transform: rotate(90deg);
     }
-  }
-
-  ::v-deep(.is-checked) {
-    .pdipt {
-      border: 1px $theme solid;
-    }
-
-    .svgicon.svg-icon {
-      fill: $theme;
+    span {
+      font-size: 14px;
     }
   }
+
+  // ::v-deep(.is-checked) {
+  //   .pdipt {
+  //     border: 1px $theme solid;
+  //   }
+
+  //   .svgicon.svg-icon {
+  //     fill: $theme;
+  //   }
+  // }
 }
 </style>

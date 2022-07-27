@@ -1,12 +1,12 @@
 <template>
   <div class="wpdfull">
-    <RadioInput>
+    <RadioInput v-model="type" text-one="1:1 Square" text-two="Custom">
       <div>
         <div class="itemfox">
           <svg-icon icon-class="aspect_ratio" class="svgicon" />
-          <input type="text" class="pdipt" />
+          <input v-model="form.lf" type="text" class="pdipt" />
           <span>:</span>
-          <input type="text" class="pdipt" />
+          <input v-model="form.rt" type="text" class="pdipt" />
         </div>
       </div>
     </RadioInput>
@@ -15,6 +15,18 @@
 
 <script setup lang="ts">
 import RadioInput from './index.vue'
+import { reactive, ref, defineExpose } from 'vue'
+import { ARTICLE_REGULAR } from '../../type'
+const form = reactive({
+  lf: '',
+  rt: ''
+})
+const type = ref(ARTICLE_REGULAR.FULL_WIDTH)
+defineExpose({
+  type,
+  width: type.value === ARTICLE_REGULAR.FULL_WIDTH ? 1 : form.lf,
+  height: type.value === ARTICLE_REGULAR.FULL_WIDTH ? 1 : form.rt,
+})
 </script>
 
 <style lang="scss" scoped>
@@ -38,6 +50,7 @@ import RadioInput from './index.vue'
       }
     }
     span {
+      font-size: 14px;
       display: inline-block;
       margin: 0 4px;
     }

@@ -2,7 +2,7 @@
   <div class="contentbox">
     <div class="imgbox"></div>
     <div class="inpbox">
-      <EdgeInput v-model="sku" :has-clear="false" placeholder="Enter TFRID..." />
+      <EdgeInput v-model="modelValue" v-bind="$attrs" :has-clear="false" placeholder="Enter TFRID..." />
       <span v-if="hasAdd" class="add" @click="addClick">ADD</span>
     </div>
     <svg-icon v-if="!hasAdd" icon-class="drag_indicator" class="svgicon" />
@@ -10,21 +10,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import EdgeInput from '@/components/TfrInput/EdgeInput.vue'
 interface PropsType {
-  hasAdd?: boolean
+  hasAdd?: boolean,
+  modelValue?: string,
 }
 // eslint-disable-next-line no-undef
 const props = withDefaults(defineProps<PropsType>(), {
-  hasAdd: false
+  hasAdd: false,
+  modelValue: ''
 })
-const sku = ref('')
 const inputEmits = defineEmits([
   'addClick',
 ])
 const addClick = () => {
-  inputEmits('addClick', sku)
+  inputEmits('addClick', props.modelValue)
 }
 </script>
 
