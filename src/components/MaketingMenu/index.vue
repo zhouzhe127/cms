@@ -7,7 +7,7 @@
       >
         <div
           class="menu-title"
-          @click="expandToggle(menuItem.expand, menuItem.type)"
+          @click="expandToggle(menuItem.expand, menuItem.type, index)"
         >
           {{ menuItem.name }}
           <svg-icon
@@ -72,7 +72,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute, RouteRecordName } from 'vue-router'
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import { upperCaseFirstLetter } from '@/utils'
 //import { getAnnouncementList } from '@/api/marketing'
@@ -82,8 +82,9 @@ const router = useRouter()
 const route = useRoute()
 const addVisible = ref(false)
 const { marketingMenuList } = storeToRefs(menuStore())
-const target = ref<any>('add')
-const id = ref<any>('')
+const target = ref<string | string[]>('add')
+const id = ref<string | string[]>('')
+type RouterNameType = RouteRecordName | string | null | undefined
 
 onMounted(() => {
   const routeName = route.name
@@ -91,26 +92,44 @@ onMounted(() => {
   if (target.value === 'detail') {
     id.value = route.params.id
   }
-  setMarketingMenuListExpand(routeName)
+  if (typeof routeName === 'string') {
+    setMarketingMenuListExpand(routeName)
+  }
   watch(
     () => route.name,
     name => {
-      const routeName: any = name
+      console.log('name', name)
       target.value = route.params.target
       if (target.value === 'detail') {
         id.value = route.params.id
       } else {
         id.value = ''
       }
-      setMarketingMenuListExpand(routeName)
+      if (typeof name === 'string') {
+        setMarketingMenuListExpand(name)
+      }
+    }
+  )
+  watch(
+    () => route.params,
+    params => {
+      console.log(params, 'params')
+      if (params.target === 'detail' && params.id && id.value !== params.id) {
+        id.value = params.id
+      }
     }
   )
 })
 
 const myUpperCaseFirstLetter = upperCaseFirstLetter
 
-const expandToggle = async (expand: boolean, type: string) => {
-  useMenuStore.updateMarketingMenuList(type)
+const expandToggle = async (expand: boolean, type: string, index: number) => {
+  if (expand) {
+    marketingMenuList.value[index].expand = false
+  } else {
+    useMenuStore.updateMarketingMenuList(type)
+  }
+
   // if (type === 'announcement') {
   //   const data: any = await getAnnouncementList()
   //   marketingMenuList.value[index].list = data.list
@@ -138,7 +157,7 @@ const jumpTo = (path: string) => {
   addVisible.value = false
 }
 
-const setMarketingMenuListExpand = async (routeName: any) => {
+const setMarketingMenuListExpand = async (routeName: string) => {
   useMenuStore.updateMarketingMenuList(routeName)
 }
 

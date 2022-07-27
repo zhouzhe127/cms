@@ -8,7 +8,7 @@
 import { markRaw, defineComponent } from 'vue'
 import { defineStore } from 'pinia'
 import { watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, RouteRecordName } from 'vue-router'
 import SiteBuilderMenu from '@/components/SiteBuilderMenu/index.vue'
 import MarketingMenu from '@/components/MaketingMenu/index.vue'
 import Default from '@/components/Default/index.vue'
@@ -30,6 +30,8 @@ interface IMenuState {
   marketingMenuList: IMarketingItem[]
   [key: string]: any
 }
+
+type RouterNameType = RouteRecordName | string | null | undefined
 
 /**
  * 1. 定义容器并导出
@@ -100,8 +102,8 @@ export const menuStore = defineStore('menu', {
    */
   actions: {
     // 获取菜单宽度
-    getMenuWidth(routeName: any) {
-      const menuWidth: any = this.menuWidthMap.has(routeName)
+    getMenuWidth(routeName: RouterNameType) {
+      const menuWidth: number = this.menuWidthMap.has(routeName)
         ? this.menuWidthMap.get(routeName)
         : 213
       return menuWidth
@@ -109,30 +111,38 @@ export const menuStore = defineStore('menu', {
     // 设置菜单宽度
     setMenuWidth() {
       const route = useRoute()
-      const routeName: any = route.name
-      this.menuWidth = this.getMenuWidth(routeName.split('_')[0])
+      const routeName: RouterNameType = route.name
+      if (typeof routeName === 'string') {
+        this.menuWidth = this.getMenuWidth(routeName?.split('_')[0])
+      }
       watch(
         () => route.name,
         name => {
-          const routeName: any = name
-          this.menuWidth = this.getMenuWidth(routeName.split('_')[0])
+          const routeName: RouterNameType = name
+          if (typeof routeName === 'string') {
+            this.menuWidth = this.getMenuWidth(routeName?.split('_')[0])
+          }
         }
       )
     },
     // 设置二级菜单
     setCurrentMenuComponent() {
       const route = useRoute()
-      const routeName: any = route.name
-      this.currentMenuComponent = this.submenuComponent.get(
-        routeName.split('_')[0]
-      )
+      const routeName: RouterNameType = route.name
+      if (typeof routeName === 'string') {
+        this.currentMenuComponent = this.submenuComponent.get(
+          routeName.split('_')[0]
+        )
+      }
       watch(
         () => route.name,
         name => {
-          const routeName: any = name
-          this.currentMenuComponent = this.submenuComponent.get(
-            routeName.split('_')[0]
-          )
+          const routeName: RouterNameType = name
+          if (typeof routeName === 'string') {
+            this.currentMenuComponent = this.submenuComponent.get(
+              routeName.split('_')[0]
+            )
+          }
         }
       )
     },
@@ -143,18 +153,18 @@ export const menuStore = defineStore('menu', {
     // 设置且监听是否显示二级菜单，用于移动端
     setShowMobileSubMenu() {
       const route = useRoute()
-      const routeName: any = route.name
+      const routeName: RouterNameType = route.name
       this.showMobileSubMenu = !this.outSideMenuRouteName.includes(routeName)
       watch(
         () => route.name,
         name => {
-          const routeName: any = name
+          const routeName: RouterNameType = name
           this.showMobileSubMenu =
             !this.outSideMenuRouteName.includes(routeName)
         }
       )
     },
-    computedMobileMainPaddingTop(routeName: string) {
+    computedMobileMainPaddingTop(routeName: RouterNameType) {
       if (routeName === 'home') {
         this.mobileMainPaddingTop = this.showMobileMenuItem ? 340 : 80
       } else {
@@ -168,12 +178,12 @@ export const menuStore = defineStore('menu', {
     // 设置手机端主要区域底部内边距
     setMobileMainPaddingTop() {
       const route = useRoute()
-      const routeName: any = route.name
+      const routeName: RouterNameType = route.name
       this.computedMobileMainPaddingTop(routeName)
       watch(
         () => route.name,
         name => {
-          const routeName: any = name
+          const routeName: RouterNameType = name
           this.computedMobileMainPaddingTop(routeName)
         }
       )
