@@ -92,3 +92,12 @@ export function updateAnnouncement<T>(data: AnnouncementItem): Promise<T> {
     data
   })
 }
+
+// 复制announcement
+export function duplicationAnnouncement<T>(data: { id: string }): Promise<T> {
+  return request({
+    url: '/v3/announcement/duplicate',
+    method: 'post',
+    data
+  })
+}

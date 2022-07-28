@@ -176,7 +176,10 @@
         <tfr-button type="primary" :loading="saveLoading" @click="saveHandle"
           >SAVE</tfr-button
         >
-        <!--        <tfr-button type="gray" :loading="duplicateLoading" @click="saveHandle"-->
+        <!--        <tfr-button-->
+        <!--          type="gray"-->
+        <!--          :loading="duplicateLoading"-->
+        <!--          @click="duplicationHandle"-->
         <!--          >DUPLICATE</tfr-button-->
         <!--        >-->
       </template>
@@ -232,7 +235,8 @@ import {
   getRegionList,
   getAnnouncementUserList,
   deleteAnnouncement,
-  updateAnnouncement
+  updateAnnouncement,
+  duplicationAnnouncement
 } from '@/api/marketing'
 import {
   RegionItem,
@@ -737,6 +741,22 @@ const deleteHandle = () => {
       }
     })
     .catch(() => {})
+}
+const duplicationHandle = async () => {
+  try {
+    duplicateLoading.value = true
+    const id: string | string[] = route.params.id
+    const { id: announcementId }: AnnouncementItem =
+      await duplicationAnnouncement({
+        id: id as string
+      })
+    console.log(announcementId)
+    duplicateLoading.value = false
+    useMenuStore.updateMarketingMenuList('announcement')
+    router.replace({ path: `/marketing/announcement/detail/${announcementId}` })
+  } catch (e) {
+    duplicateLoading.value = false
+  }
 }
 </script>
 

@@ -28,7 +28,7 @@ interface PropsType {
   textTwo?: string,
 }
 
-const editorProps = withDefaults(defineProps<PropsType>(), {
+withDefaults(defineProps<PropsType>(), {
   modelValue: '', // 默认值
   textOne: 'Full Width',
   textTwo: 'Padding'

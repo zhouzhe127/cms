@@ -15,6 +15,14 @@ export interface FooterConfig {
   disclaimer?: string
 }
 
+export interface FooterSettingRequest {
+  location?: string
+  content_type?: string
+  page_title?: string
+  name?: string
+  footer?: FooterSettingItem
+}
+
 export interface FooterListItem {
   navigation?: Navigation,
   sub_navigation?: Navigation[]
@@ -37,4 +45,16 @@ export interface Navigation {
   status?: string
   translate_status?: string
   position?: number
+}
+
+export interface FooterSettingItem {
+  copyright?: string
+  company_name?: string
+  disclaimer?: string
+  hide?: boolean
+  full_width?: boolean
+  padding_desktop?: string
+  padding_desktop_max?: string
+  padding_mobile_px?: string
+  padding_mobile_max?: string
 }

@@ -32,19 +32,20 @@
         </TfrCollapse>
       </div>
       <div class="sndc">
-        <span
-          >Copyright © 2022 The Future Rocks Company Limited. All Rights
-          Reserved.</span
-        >
+        <!-- Copyright © 2022 The Future Rocks Company Limited. All Rights
+          Reserved. -->
+        <span>{{ footerCon?.copyright }}</span>
+        <span>{{ footerCon?.company_name }}</span>
+        <span>{{ footerCon?.disclaimer }}</span>
       </div>
       <div class="pagetab">
         <div v-for="(item, index) in legalList" :key="index">
-          <span v-for="polic in item.sub_navigation" :key="polic.navigation.code">{{polic.navigation.name}}</span>
+          <span
+            v-for="polic in item.sub_navigation"
+            :key="polic.navigation.code"
+            >{{ polic.navigation.name }}</span
+          >
         </div>
-        <!-- <span>Privacy Policy</span>
-        <span>Terms & Conditions</span>
-        <span>Cookies Policy</span>
-        <span>Return & Refunds Policy</span> -->
       </div>
       <div class="labdc">
         <span
@@ -68,17 +69,32 @@ import TfrCollapseItem from '@/components/TfrCollapse/TfrCollapseItem.vue'
 import { computed, onMounted, ref } from 'vue'
 import { getFooterContent } from '@/api/siteBuilder/footer'
 import { isLegal } from '@/components/SiteBuilderMenu/components/footerNavigation/utils'
-import { FooterListItem } from '@/api/siteBuilder/type/footer.type'
 import store from '@/store'
 import { SITE_MENUS } from '@/components/SiteBuilderMenu/type'
+import { onRegesterEvent } from '@/components/SiteBuilderMenu/utils/regesterEvent'
+import { FOOTER_SETTING_KEY } from './index'
+import { FooterConfig } from '@/api/siteBuilder/type/footer.type'
 
 const router = useRouter()
+const footerCon = ref<FooterConfig>()
 const onOpClick = () => {
+  localStorage.setItem(
+    'settingModelInsert',
+    JSON.stringify(footerCon.value || '')
+  )
   router.push({
     path: '/siteBuilder/footerSettings'
   })
 }
-
+const getSetting = async () => {
+  const data = await getFooterContent()
+  if (data) {
+    footerCon.value = data?.footer_config
+  }
+}
+onRegesterEvent(FOOTER_SETTING_KEY, async () => {
+  await getSetting()
+})
 const links = computed(() => {
   const sidebarArr = store.setBuilder.sideState[SITE_MENUS.FOOTER].sidebarArr
   return sidebarArr?.filter(item => !isLegal(item.navigation?.content_type))
@@ -86,18 +102,14 @@ const links = computed(() => {
 
 const legalList = computed(() => {
   const sidebarArr = store.setBuilder.sideState[SITE_MENUS.FOOTER].sidebarArr
-  return sidebarArr?.filter(item => (isLegal(item.navigation?.content_type) && item?.sub_navigation?.length))
+  return sidebarArr?.filter(
+    item =>
+      isLegal(item.navigation?.content_type) && item?.sub_navigation?.length
+  )
 })
 
 onMounted(async () => {
-  const data = await getFooterContent()
-  if (data) {
-    console.log(data)
-    // links.value = data?.footer_list.filter(
-    //   item => !isLegal(item.navigation?.content_type)
-    // )
-    // console.log(links)
-  }
+  await getSetting()
 })
 </script>
 
