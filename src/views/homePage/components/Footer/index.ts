@@ -1,0 +1,1 @@
+export const FOOTER_SETTING_KEY = Symbol('footerSetting')

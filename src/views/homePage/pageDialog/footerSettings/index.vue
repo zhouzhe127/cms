@@ -3,7 +3,7 @@
     v-model="showWin"
     width="730px"
     class="footer-setting"
-    @before-close="closeWin"
+    @before-close="onClose"
   >
     <div class="container">
       <div class="title">FOOTER SETTINGS</div>
@@ -68,6 +68,9 @@ import { reactive, ref } from 'vue'
 import { updateFooterSetting } from '@/api/siteBuilder/footer'
 import { SITE_MENUS } from '@/components/SiteBuilderMenu/type'
 import { ARTICLE_REGULAR } from '../../type'
+import { emit } from 'process'
+import { emitRegesterEvent } from '@/components/SiteBuilderMenu/utils/regesterEvent'
+import { FOOTER_SETTING_KEY } from '../../components/Footer'
 const { showWin, closeWin } = generalwin()
 const ruleForm = reactive({
   hide: false,
@@ -88,9 +91,9 @@ const widthOptionVal = ref()
 if (settingData) {
   widthOptionVal.value = {
     pcWidth: settingData.padding_desktop_px,
-    pcMax: settingData.padding_desktop_px,
-    mbWidth: settingData.padding_desktop_px,
-    mbMax: settingData.padding_desktop_px,
+    pcMax: settingData.padding_desktop_max,
+    mbWidth: settingData.padding_mobile_px,
+    mbMax: settingData.padding_mobile_max,
     full_width: settingData.full_width
       ? ARTICLE_REGULAR.FULL_WIDTH
       : ARTICLE_REGULAR.PADDING
@@ -105,6 +108,7 @@ const clickSaveBtn = async () => {
   const widthValue = widthOption.value.form
   const full_width = widthOption.value.type
   const obj = {
+    ...ruleForm,
     full_width: full_width === ARTICLE_REGULAR.FULL_WIDTH
   }
   if (full_width === ARTICLE_REGULAR.PADDING) {
@@ -120,6 +124,11 @@ const clickSaveBtn = async () => {
     footer: obj
   })
   localStorage.removeItem('settingModelInsert')
+  onClose() 
+}
+const onClose = () => {
+  const emit = emitRegesterEvent(FOOTER_SETTING_KEY)
+  if (emit) emit()
   closeWin()
 }
 </script>
