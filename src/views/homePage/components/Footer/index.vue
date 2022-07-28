@@ -68,7 +68,6 @@ import TfrCollapseItem from '@/components/TfrCollapse/TfrCollapseItem.vue'
 import { computed, onMounted, ref } from 'vue'
 import { getFooterContent } from '@/api/siteBuilder/footer'
 import { isLegal } from '@/components/SiteBuilderMenu/components/footerNavigation/utils'
-import { FooterListItem } from '@/api/siteBuilder/footer.type'
 import store from '@/store'
 import { SITE_MENUS } from '@/components/SiteBuilderMenu/type'
 
@@ -93,10 +92,7 @@ onMounted(async () => {
   const data = await getFooterContent()
   if (data) {
     console.log(data)
-    // links.value = data?.footer_list.filter(
-    //   item => !isLegal(item.navigation?.content_type)
-    // )
-    // console.log(links)
+    localStorage.setItem("settingModelInsert", JSON.stringify(data?.footer_config || ''))
   }
 })
 </script>
