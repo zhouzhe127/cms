@@ -29,6 +29,8 @@
               :draglist="element.sub_navigation"
               :parentId="element.navigation.id"
               :reset="dragSetSide"
+              :name="SITE_MENUS.NAVIGATION"
+              :parentCode="element.navigation.code"
               @right-click="item => chickEditWin(item, element.navigation.id)"
               @left-click="item => deleteItem(item, element.navigation.id)"
             ></nested-draggable>

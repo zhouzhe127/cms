@@ -1,5 +1,5 @@
 import request from "../request"
-import { UpdatePageRequest } from "./page.type"
+import { UpdatePageRequest } from "./type/page.type"
 export function pageContentDetail(params?: unknown) {
   return request({
     url: '/v3/cms/page/content/detail',

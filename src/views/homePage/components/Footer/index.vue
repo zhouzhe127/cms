@@ -68,7 +68,7 @@ import TfrCollapseItem from '@/components/TfrCollapse/TfrCollapseItem.vue'
 import { computed, onMounted, ref } from 'vue'
 import { getFooterContent } from '@/api/siteBuilder/footer'
 import { isLegal } from '@/components/SiteBuilderMenu/components/footerNavigation/utils'
-import { FooterListItem } from '@/api/siteBuilder/footer.type'
+import { FooterListItem } from '@/api/siteBuilder/type/footer.type'
 import store from '@/store'
 import { SITE_MENUS } from '@/components/SiteBuilderMenu/type'
 

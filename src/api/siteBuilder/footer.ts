@@ -1,6 +1,6 @@
 import { getRegionList } from "../marketing"
 import request from "../request"
-import { FooterDetail } from "./footer.type"
+import { FooterDetail } from "./type/footer.type"
 import { pageContentUpdate } from "./page"
 
 export { pageContentUpdate, getRegionList }

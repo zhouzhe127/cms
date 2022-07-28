@@ -17,8 +17,8 @@ import sideArr from './setModules'
 import generalwin from '@/views/homePage/generalwin'
 import { EditLinkData, SETPAGETYPE } from '@/components/SiteBuilderMenu/components/footerNavigation/type';
 import { useRoute } from 'vue-router';
-import { UpdateRequest } from '@/api/siteBuilder/navigation.type';
-import { navigationUpdate } from '@/api/siteBuilder/navigation';
+import { UpdateRequest } from '@/api/siteBuilder/type/navigation.type'
+import { navigationUpdate } from '@/api/siteBuilder/navigation'
 const route = useRoute()
 const { showWin, closeWin } = generalwin()
 const onChange = async (data: EditLinkData) => {

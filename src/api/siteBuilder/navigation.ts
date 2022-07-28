@@ -1,5 +1,5 @@
 import request from "../request"
-import { CreateRequest, UpdateRequest } from "./navigation.type"
+import { CreateRequest, UpdateRequest } from "./type/navigation.type"
 export function navigationCreate(data?: CreateRequest) {
   return request({
     url: '/v3/cms/navigation/create',
@@ -28,6 +28,14 @@ export function navigationUpdate(data?: UpdateRequest) {
   return request({
     url: '/v3/cms/navigation/update',
     method: 'put',
-    data 
+    data
+  })
+}
+
+export function positionUpdate(data?: unknown) {
+  return request({
+    url: '/v3/cms/navigation/position/update',
+    method: 'post',
+    data
   })
 }
