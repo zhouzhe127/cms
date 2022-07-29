@@ -281,6 +281,7 @@ const clearHandle = async () => {
 }
 const accountOriginChange = async (userSources: string[]) => {
   console.log(userSources)
+  if (!userSources) return
   if (userSources.length === 0 || userSources.includes('')) {
     accountOriginSelect.value = accountList
       .map(item => item.code && item.code)

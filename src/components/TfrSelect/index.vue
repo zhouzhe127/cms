@@ -20,8 +20,8 @@ const selectProps = withDefaults(defineProps<PropsType>(), {
   hasBorder: true
 })
 const selectEmits = defineEmits(['change'])
-const change = () => {
-  selectEmits('change')
+const change = (val: any) => {
+  selectEmits('change', val)
 }
 </script>
 

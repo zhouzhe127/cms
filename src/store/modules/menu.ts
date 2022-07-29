@@ -28,6 +28,7 @@ interface IMarketingItem {
 }
 interface IMenuState {
   marketingMenuList: IMarketingItem[]
+  routeNameRelativeList: any[]
   [key: string]: any
 }
 
@@ -74,6 +75,12 @@ export const menuStore = defineStore('menu', {
       showMobileSubMenu: true, // 手机端是否展示二级菜单
       mobileMainPaddingTop: 80, // 手机端主要区域底部内边距
       outSideMenuRouteName: ['promotion', 'giftCard', 'announcement'],
+      routeNameRelativeList: [
+        {
+          parentRouteName: 'marketing',
+          sunRouteNames: ['promotion', 'giftCard', 'announcement']
+        }
+      ], // 用于mobile点击Dashboard返回时的逻辑
       menuWidthMap: new Map<string, string>([
         ['home', '213px'],
         ['siteBuilder', '320px'],

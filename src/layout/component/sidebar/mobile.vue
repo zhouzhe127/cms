@@ -22,7 +22,7 @@ import TfrLogo from '@/components/TfrLogo/index.vue'
 import MenuItem from './menuItem.vue'
 import User from './user.vue'
 import SubMenuItem from './subMenuItem.vue'
-import { useRoute, useRouter } from 'vue-router'
+import { RouteRecordName, useRoute, useRouter } from 'vue-router'
 import { menuStore } from '@/store/modules/menu'
 import { storeToRefs } from 'pinia'
 const route = useRoute()
@@ -36,6 +36,7 @@ const showMenuItemHandle = () => {
     router.push({ path: '/home' })
   }
 }
+type RouterNameType = RouteRecordName | string | null | undefined
 onMounted(() => {
   computeMenuContainerStyle(route.name)
   watch(
@@ -45,7 +46,7 @@ onMounted(() => {
     }
   )
 })
-const computeMenuContainerStyle = (routerName: any) => {
+const computeMenuContainerStyle = (routerName: RouterNameType) => {
   menuContainerStyle.value = {
     bottom: outSideMenuRouteName.value.includes(routerName) ? 'auto' : 0
   }

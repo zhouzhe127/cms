@@ -3,7 +3,7 @@ import { PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
 import { onSideEvent } from './regesterEvent'
 import store from '@/store'
 const setBuilder = store.setBuilder
-const setActiveSide = store.setBuilder.setActiveSide
+const setActiveSide = store.setBuilder?.setActiveSide
 export function createPage(e: string, item: SideItem) {
   switch (item.title) {
     case PAGE_SELECT.PAGE:

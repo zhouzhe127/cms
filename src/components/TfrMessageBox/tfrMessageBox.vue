@@ -1,8 +1,8 @@
 <template>
   <div>
     <TfrDialog
-      class="tfr-message-box"
       v-model="curVisible"
+      class="tfr-message-box"
       :close-on-click-modal="false"
       :width="props.width"
       :is-close="true"
@@ -137,6 +137,7 @@ const onDelete = () => {
   }
   .message {
     margin-left: 5px;
+    word-break: break-word;
   }
 }
 
