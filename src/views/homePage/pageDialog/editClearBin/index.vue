@@ -23,13 +23,20 @@
         >
       </div>
       <section>
-        <div v-for="item in deleteList" class="delete-item">
-          <PageListItem :title="item.title">
-            <template #icon>
-              <svg-icon icon-class="delete_up" class="delete"></svg-icon>
-            </template>
-          </PageListItem>
-        </div>
+        <el-scrollbar>
+          <div v-for="item in deleteList" class="delete-item">
+            <PageListItem
+              @leftClick="onRevert(item.code)"
+              :title="item.name"
+              :icon-name="PAGE_ICONS[item.content_type]"
+              :date="item.gmt_create"
+            >
+              <template #icon>
+                <svg-icon icon-class="delete_up" class="delete"></svg-icon>
+              </template>
+            </PageListItem>
+          </div>
+        </el-scrollbar>
       </section>
     </div>
     <template #footer>
@@ -45,43 +52,52 @@
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import PageListItem from '@/components/PageListItem/index.vue'
 import generalwin from '@/views/homePage/generalwin'
-import { ref } from 'vue'
-import { UpdateSideListItem } from '@/components/PageListItem/index.type'
-import { generateUUID } from '@/utils/uuid'
+import { onMounted, ref } from 'vue'
+import { EditClearBinItem } from '@/components/PageListItem/index.type'
 import { PAGE_ICONS, PAGE_SELECT } from '../selectPage/index.type'
+import {
+  getTrustList,
+  navigationDeleteTrust,
+  trustDelete
+} from '@/api/siteBuilder/navigation'
+import store from '@/store'
 
 const { showWin, closeWin } = generalwin()
 const visible = ref(true)
-const deleteList: UpdateSideListItem[] = [
-  {
-    id: generateUUID(),
-    title:
-      'publish TFR’s Women: Denni Elias, Lea Naumman On The Power Of Standing Out And Speaking Up',
-    iconName: PAGE_ICONS[PAGE_SELECT.ARTICLE],
-    date: new Date('2022-6-22 10:49').toISOString()
-  },
-  {
-    id: generateUUID(),
-    title: 'publish Inspirations',
-    iconName: PAGE_ICONS[PAGE_SELECT.CLIP],
-    date: new Date('2022-6-22 10:20').toISOString()
-  },
-  {
-    id: generateUUID(),
-    title: 'publish Designers',
-    iconName: PAGE_ICONS[PAGE_SELECT.CLIP],
-    date: new Date('2022-6-22 10:20').toISOString()
-  }
-]
+const deleteList = ref<EditClearBinItem[]>()
 
-// const Emits = defineEmits(['cancel', 'confirm'])
+const getClearList = async () => {
+  const data = await getTrustList()
+  if (data) {
+    console.log(data)
+    deleteList.value = data.list
+  }
+}
+
+onMounted(async () => {
+  getClearList()
+})
+
+const onRevert = async (code: string) => {
+  await navigationDeleteTrust({ code, deleted: 0 })
+  await getClearList()
+  await store.setBuilder.getSetBuilderList()
+  if (deleteList.value?.length === 0) {
+    closeWin()
+  }
+}
 
 const handlerCancel = () => {
   closeWin()
   // Emits('cancel')
 }
 
-const handlerConfirm = () => {
+const handlerConfirm = async () => {
+  const deletCodeList =
+    deleteList.value && deleteList.value.map(item => item.code)
+  if (deletCodeList && deletCodeList?.length > 0) {
+    await trustDelete(deletCodeList)
+  }
   closeWin()
   // Emits('confirm')
 }
@@ -106,6 +122,8 @@ const handlerConfirm = () => {
     width: 100%;
     background-color: #f8f8f8;
     padding: 20px;
+    height: 500px;
+    overflow: hidden;
     .delete {
       width: 30px;
       height: 30px;

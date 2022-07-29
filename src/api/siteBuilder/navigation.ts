@@ -1,3 +1,4 @@
+import { EditClearBinItem } from "@/components/PageListItem/index.type"
 import request from "../request"
 import { CreateRequest, UpdateRequest } from "./type/navigation.type"
 export function navigationCreate(data?: CreateRequest) {
@@ -16,11 +17,14 @@ export function getNavigationList(data?: unknown) {
   })
 }
 
-export function navigationDelete(data?: unknown) {
+export function navigationDeleteTrust(data = {}) {
   return request({
-    url: '/v3/cms/navigation/delete',
-    method: 'delete',
-    data
+    url: '/v3/cms/navigation/trash/operate',
+    method: 'put',
+    data: {
+      deleted: 1, // 0 恢复 1 放入垃圾桶
+      ...data
+    }
   })
 }
 
@@ -38,4 +42,19 @@ export function positionUpdate(data?: unknown) {
     method: 'post',
     data
   })
+}
+
+export function getTrustList(): Promise<{list: EditClearBinItem[]}> {
+  return request({
+    url: '/v3/cms/navigation/trash/list',
+    method: 'get',
+  }) 
+}
+
+export function trustDelete(data: string[]) {
+  return request({
+    url: '/v3/cms/navigation/trash/delete',
+    method: 'put',
+    data: { codes: data } 
+  }) 
 }
