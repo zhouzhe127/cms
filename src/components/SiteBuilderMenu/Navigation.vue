@@ -13,7 +13,13 @@
             @click-item="getPageData(element)"
             @left-click="() => {deleteItem(element)}"
             @right-click="chickEditWin(element)">
-            <nested-draggable :draglist="element.sub_navigation" :parentId="element.navigation.id" :reset="dragSetSide" />
+            <nested-draggable
+              :draglist="element.sub_navigation"
+              :parentId="element.navigation.id"
+              :reset="dragSetSide"
+              :name="SITE_MENUS.NAVIGATION"
+              :parentCode="element.navigation.code"
+            />
           </MenuItem>
         </template>
       </SideDraggable>

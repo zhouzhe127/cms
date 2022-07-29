@@ -3,7 +3,7 @@
     v-model="showWin"
     width="730px"
     class="footer-setting"
-    @before-close="closeWin"
+    @before-close="onClose"
   >
     <div class="container">
       <div class="title">FOOTER SETTINGS</div>
@@ -23,25 +23,21 @@
         </div>
       </el-alert>
       <el-scrollbar>
-        <el-form
-          label-width="80px"
-          label-position="top"
-          class="formbox"
-        >
+        <el-form label-width="80px" label-position="top" class="formbox">
           <el-form-item label="Width">
-            <WidthOption />
+            <WidthOption :value="widthOptionVal" ref="widthOption" />
           </el-form-item>
-          <el-form-item label="Coptyright" prop="pageTitle">
+          <el-form-item label="Coptyright" prop="copyright">
             <div class="optionbox">
               <tfr-input v-model="ruleForm.copyright" width="100%" />
             </div>
           </el-form-item>
-          <el-form-item label="Company Name" prop="pageTitle">
+          <el-form-item label="Company Name" prop="company_name">
             <div class="optionbox">
-              <tfr-input v-model="ruleForm.name" width="100%" />
+              <tfr-input v-model="ruleForm.company_name" width="100%" />
             </div>
           </el-form-item>
-          <el-form-item label="Disclaimer" prop="pageTitle">
+          <el-form-item label="Disclaimer" prop="disclaimer">
             <div class="optionbox">
               <tfr-input v-model="ruleForm.disclaimer" width="100%" />
             </div>
@@ -69,13 +65,17 @@ import TfrDialog from '@/components/TfrDialog/index.vue'
 import generalwin from '@/views/homePage/generalwin'
 import WidthOption from '@/views/homePage/components/RadioInput/WidthOption.vue'
 import { reactive, ref } from 'vue'
+import { updateFooterSetting } from '@/api/siteBuilder/footer'
+import { SITE_MENUS } from '@/components/SiteBuilderMenu/type'
+import { ARTICLE_REGULAR } from '../../type'
+import { emit } from 'process'
+import { emitRegesterEvent } from '@/components/SiteBuilderMenu/utils/regesterEvent'
+import { FOOTER_SETTING_KEY } from '../../components/Footer'
 const { showWin, closeWin } = generalwin()
 const ruleForm = reactive({
-  pageTitle: '',
-  seoDes: '',
   hide: false,
   disclaimer: 'All Right Reserved.',
-  name: 'The Future Rocks Company Limited',
+  company_name: 'The Future Rocks Company Limited',
   copyright: 'Copyright © 2022.'
 })
 const rules = {
@@ -85,11 +85,52 @@ const rules = {
     trigger: 'blur'
   }
 }
+const settingStr = localStorage.getItem('settingModelInsert')
+const settingData: any = settingStr && JSON.parse(settingStr)
+const widthOptionVal = ref()
+if (settingData) {
+  widthOptionVal.value = {
+    pcWidth: settingData.padding_desktop_px,
+    pcMax: settingData.padding_desktop_max,
+    mbWidth: settingData.padding_mobile_px,
+    mbMax: settingData.padding_mobile_max,
+    full_width: settingData.full_width
+      ? ARTICLE_REGULAR.FULL_WIDTH
+      : ARTICLE_REGULAR.PADDING
+  }
+}
+const widthOption = ref<any>(null)
 const saveLoading = ref(false)
 const switchChange = (e: boolean) => {
   // ruleForm.hide = e
 }
-const clickSaveBtn = () => {}
+const clickSaveBtn = async () => {
+  const widthValue = widthOption.value.form
+  const full_width = widthOption.value.type
+  const obj = {
+    ...ruleForm,
+    full_width: full_width === ARTICLE_REGULAR.FULL_WIDTH
+  }
+  if (full_width === ARTICLE_REGULAR.PADDING) {
+    Object.assign(obj, {
+      padding_desktop_px: widthValue.pcWidth,
+      padding_desktop_max: widthValue.pcMax,
+      padding_mobile_px: widthValue.mbWidth,
+      padding_mobile_max: widthValue.mbMax
+    })
+  }
+  await updateFooterSetting({
+    location: SITE_MENUS.FOOTER.toLocaleLowerCase(),
+    footer: obj
+  })
+  localStorage.removeItem('settingModelInsert')
+  onClose() 
+}
+const onClose = () => {
+  const emit = emitRegesterEvent(FOOTER_SETTING_KEY)
+  if (emit) emit()
+  closeWin()
+}
 </script>
 <style lang="scss" scoped>
 .footer-setting {

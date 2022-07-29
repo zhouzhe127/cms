@@ -9,7 +9,7 @@
         </div>
         <div class="itemfox">
           <svg-icon icon-class="straighten" class="svgicon" />
-          <input v-model="form.mbMax" type="text" class="pdipt" />
+          <input v-model="form.pcMax" type="text" class="pdipt" />
           <span>Max</span>
         </div>
         <div class="itemfox">
@@ -28,9 +28,20 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, defineExpose } from 'vue'
+import { reactive, ref, defineExpose, onMounted } from 'vue'
 import RadioInput from './index.vue'
 import { ARTICLE_REGULAR } from '../../type'
+interface OptionItem {
+  pcWidth: string
+  pcMax: string
+  mbWidth: string
+  mbMax: string
+  full_width: ARTICLE_REGULAR
+}
+interface PropsType {
+  value?: OptionItem
+}
+const props = withDefaults(defineProps<PropsType>(), {})
 const form = reactive({
   pcWidth: '',
   pcMax: '',
@@ -38,6 +49,15 @@ const form = reactive({
   mbMax: ''
 })
 const type = ref(ARTICLE_REGULAR.FULL_WIDTH)
+onMounted(() => {
+  if (props.value) {
+    form.pcWidth = props.value.pcWidth
+    form.pcMax = props.value.pcMax
+    form.mbWidth = props.value.mbWidth
+    form.mbMax = props.value.mbMax
+    type.value = props.value.full_width
+  }
+})
 const rdChange = (v: string) => {
   // form.pcWidth = ''
   // form.pcMax = ''

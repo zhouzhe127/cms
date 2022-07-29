@@ -16,7 +16,6 @@ declare module '@vue/runtime-core' {
     Default: typeof import('./src/components/Default/index.vue')['default']
     DeleteDialog: typeof import('./src/components/SiteBuilderMenu/components/footerNavigation/DeleteDialog.vue')['default']
     Download: typeof import('./src/components/SiteBuilderMenu/components/footerNavigation/setpages/Download.vue')['default']
-    DsImage: typeof import('./src/components/TfrImage/dsImage.vue')['default']
     EdgeInput: typeof import('./src/components/TfrInput/EdgeInput.vue')['default']
     Editor: typeof import('./src/components/TfrEditor/Editor.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']

@@ -7,6 +7,7 @@
     group="side"
     item-key="title"
     @start="isDragging = true"
+    @change="draggableChange"
   >
     <template #item="{element, index}">
       <div :class="{
@@ -22,6 +23,7 @@
 import draggable from 'vuedraggable'
 import { ref, computed } from 'vue'
 import store from '@/store'
+import { setChangePosition } from '@/components/SiteBuilderMenu/utils/common'
 const isDragging = ref(false)
 interface Props {
   list?: Array<Object>
@@ -56,15 +58,25 @@ const dragSetSide = (value: any, parentId?: string) => {
   if(parentId) {
     sidearr.value.forEach((v: any) => {
       if (v.navigation.id === parentId) {
-        v.sub_navigation = value
+        v.sub_navigation = value.map((cd: any) => {
+          cd.parent_code = v.navigation.code
+          return cd
+        })
         const cd = value.filter((s: any) => s.navigation.isActive)
         if (cd[0]) setActiveSide([v.id, cd[0].id])
       }
     })
   } else {
+    const arr = value.map((v:any) => {
+      v.navigation.parent_code = ''
+      return v
+    })
     // @ts-ignore
-    setBuilder.sideState[props.addFunc](value)
+    setBuilder.sideState[props.addFunc](arr)
   }
+}
+const draggableChange = (e:any) => {
+  setChangePosition(e, props.name)
 }
 </script>
 

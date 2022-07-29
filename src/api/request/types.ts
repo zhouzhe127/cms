@@ -24,5 +24,5 @@ export interface CancelRequestSource {
 }
 
 export interface RequestResponse extends AxiosResponse {
-  message?: string
+  message?: string,
 }

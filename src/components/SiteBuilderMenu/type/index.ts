@@ -28,6 +28,14 @@ export enum SITE_MENUS {
   OFFLINE = 'offline'
 }
 
+export const SITEARRAY = [
+  SITE_MENUS.NAVIGATION,
+  SITE_MENUS.FOOTER,
+  SITE_MENUS.LEGAL,
+  SITE_MENUS.UNLINKED,
+  SITE_MENUS.OFFLINE
+]
+
 export enum EVENT_KEY {
   DRAG = 'drag'
 }

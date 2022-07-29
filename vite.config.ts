@@ -15,8 +15,8 @@ const envConfig = require('./env.config')
 // @ts-ignore
 export default defineConfig((mode: ConfigEnv) => {
   // @ts-ignore
-  const env = loadEnv(mode, __dirname)
-  console.log(env)
+  // const env = loadEnv(mode, __dirname)
+  // console.log(env)
   return {
     server: {
       host: '0.0.0.0', // resolve vite use `--host` to expose
