@@ -6,6 +6,7 @@ export interface ComponentsSchema {
 export interface PageSchema {
   title?: string
   template?: string
+  site_navigation_code?: string
   plp?: any
   properties?: Array<ComponentsSchema>
 }

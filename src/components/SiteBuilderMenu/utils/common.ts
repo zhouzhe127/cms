@@ -2,6 +2,7 @@ import { SideItem, RequestSide, SITEARRAY } from '@/components/SiteBuilderMenu/t
 import { PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
 import { onSideEvent } from './regesterEvent'
 import { positionUpdate } from '@/api/siteBuilder/navigation'
+import { toSeletPage } from './router'
 import store from '@/store'
 const setBuilder = store.setBuilder
 const setActiveSide = store.setBuilder.setActiveSide
@@ -48,5 +49,13 @@ export function setChangePosition(evt: any, location: string, parent_code?: stri
       // }
       positionUpdate(send)
     }
+  })
+}
+
+export function addSideChild(item: SideItem, origin: string) {
+  toSeletPage({
+    origin,
+    parentId: encodeURIComponent(item.id || item.title || ''),
+    parent_code: item?.code
   })
 }

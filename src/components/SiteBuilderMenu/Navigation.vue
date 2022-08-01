@@ -12,7 +12,9 @@
             :active="element.navigation.isActive"
             @click-item="getPageData(element)"
             @left-click="() => {deleteItem(element)}"
-            @right-click="chickEditWin(element)">
+            @right-click="chickEditWin(element)"
+            @add="addChild(element.navigation)"
+          >
             <nested-draggable
               :draglist="element.sub_navigation"
               :parentId="element.navigation.id"
@@ -37,7 +39,7 @@ import { showDeleteModel } from './utils/deleteUtils'
 import { toEditionModel, toSeletPage } from './utils/router'
 import NestedDraggable from './components/NestedDraggable.vue'
 import SideDraggable from './components/SideDraggable.vue'
-import { getPageData, sideEvent } from './utils/common'
+import { getPageData, sideEvent, addSideChild } from './utils/common'
 sideEvent(SITE_MENUS.NAVIGATION)
 const setBuilder = store.setBuilder
 const addPage = () => {
@@ -50,6 +52,9 @@ const deleteItem = (item: RequestSide) => {
   showDeleteModel(item.navigation, () => {
     setBuilder.sideState[deleteFunc](item)
   })
+}
+const addChild = (item: SideItem) => {
+  addSideChild(item, SITE_MENUS.NAVIGATION)
 }
 </script>
 

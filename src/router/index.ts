@@ -118,6 +118,18 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
               import('@/views/homePage/pageDialog/infoBlockSettings/index.vue')
           },
           {
+            path: 'markdownSettings',
+            name: 'siteBuilder_markdownSettings',
+            component: () =>
+              import('@/views/homePage/pageDialog/markdownSettings/index.vue')
+          },
+          {
+            path: 'mediaSettings',
+            name: 'siteBuilder_markdownSettings',
+            component: () =>
+              import('@/views/homePage/pageDialog/mediaSettings/index.vue')
+          },
+          {
             path: 'footerSettings',
             name: 'siteBuilder_footerSettings',
             component: () =>
