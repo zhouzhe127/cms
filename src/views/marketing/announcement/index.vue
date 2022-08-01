@@ -10,6 +10,7 @@
       <div class="preview-here">
         <span v-if="announcementForm.message || promoName || legalCode">
           {{ announcementForm.message }}
+          <span>Code:</span>
           {{ promoName }}
           {{ legalName }}
         </span>
@@ -767,7 +768,7 @@ const duplicationHandle = async () => {
     background-color: $theme;
     display: flex;
     justify-content: center;
-    span {
+    > span {
       height: 100%;
       line-height: 50px;
       text-align: center;
@@ -776,6 +777,9 @@ const duplicationHandle = async () => {
       opacity: 0.5;
       border-right: 1px dashed rgb(248, 248, 248);
       border-left: 1px dashed rgb(248, 248, 248);
+      span {
+        font-family: 'Brown Light', serif;
+      }
     }
   }
   .preview-here-edit {

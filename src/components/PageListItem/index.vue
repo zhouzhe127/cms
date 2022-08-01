@@ -4,7 +4,7 @@
     @click.prevent="emits('click')"
   >
     <div class="item">
-      <div v-if="!noIcon" class="icon" :style="iconStyle">
+      <div v-if="!noIcon" class="icon" @click="onIconClick" :style="iconStyle">
         <slot name="icon"></slot>
       </div>
       <ListItem :title="title" :date="date" :icon-name="iconName" />
@@ -13,6 +13,7 @@
 </template>
 
 <script setup lang="ts">
+import { emit } from 'process';
 import { UpdateSideListItem } from './index.type'
 import ListItem from './ListItem.vue'
 interface IProps extends UpdateSideListItem {
@@ -24,7 +25,7 @@ interface IProps extends UpdateSideListItem {
   iconName?: string
 }
 
-const emits = defineEmits(['click'])
+const emits = defineEmits(['click', 'leftClick'])
 withDefaults(defineProps<IProps>(), {
   iconStyle: () => {
     return {
@@ -34,6 +35,9 @@ withDefaults(defineProps<IProps>(), {
   disable: false,
   noIcon: false
 })
+const onIconClick = () => {
+  emits("leftClick")
+}
 </script>
 
 <style lang="scss" scoped>
