@@ -59,8 +59,6 @@ export function setChangePosition(
     }
   })
 }
-<<<<<<< HEAD
-=======
 
 export function addSideChild(item: SideItem, origin: string) {
   toSeletPage({
@@ -69,4 +67,3 @@ export function addSideChild(item: SideItem, origin: string) {
     parent_code: item?.code
   })
 }
->>>>>>> 2e416f1e779ff437d55cd68c6e94bf366c59a6c5
