@@ -252,7 +252,8 @@ import {
   getCurrentInstance,
   watch,
   inject,
-  h
+  h,
+  nextTick
 } from 'vue'
 import { FormInstance, FormRules } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
@@ -341,7 +342,7 @@ const mobileBannerPicture = ref<any[]>([])
 let promoList = ref<PromotionItem[]>()
 const promoCode = ref('')
 const promoName = ref('')
-const legalList = ref([
+const legalList = reactive([
   {
     name: '-',
     code: ''
@@ -389,11 +390,41 @@ const timeZone = ref() //America/Denver
 const linkObject = ref<Link>()
 const saveLoading = ref(false)
 const duplicateLoading = ref(false)
+const isMounted = ref(true)
 
 watch(
   () => route.params,
   () => {
     reload()
+  }
+)
+watch(
+  [
+    announcementForm,
+    promoCode,
+    legalCode,
+    bannerPicture,
+    mobileBannerPicture,
+    promoCode,
+    effectiveRegionList,
+    linkType,
+    linkObject,
+    targetType,
+    targetObject,
+    expirationType,
+    startTime,
+    endTime,
+    timeZone
+  ],
+  ([]) => {
+    if (isMounted.value) {
+      console.log('change')
+      useMenuStore.updateMarketingMenuListIsEdit('announcement', true)
+    }
+  },
+  {
+    deep: true,
+    immediate: false
   }
 )
 const getRegionName = (code: string) => {
@@ -420,15 +451,16 @@ const setLegalName = (code: string) => {
         name: string
         code: string
       }
-    | undefined = legalList.value.find(i => i.code === code)
+    | undefined = legalList.find(i => i.code === code)
   if (item) {
     legalName.value = item.name
   }
 }
 onMounted(async () => {
+  isMounted.value = false
   const { list }: PagingBack<PromotionItem[]> = await getPromotionList()
   promoList.value = list
-  const id: any = route.params.id
+  const id: string | string[] = route.params.id
   if (target === 'detail' && id) {
     const {
       name,
@@ -522,6 +554,9 @@ onMounted(async () => {
       timeZone.value = time_zone
     }
   }
+  nextTick(() => {
+    isMounted.value = true
+  })
 })
 
 const promoCodeChange = (value: any) => {
@@ -566,12 +601,6 @@ const setLinkHandle = () => {
 }
 
 const updateLinkData = (data: any) => {
-  console.log(
-    data,
-    'linkData',
-    data.hasOwnProperty('external'),
-    Object.keys(data)
-  )
   linkVisibleDialog.value = false
   const keyArray: string[] = Object.keys(data)
   const key = keyArray[0]
@@ -579,7 +608,6 @@ const updateLinkData = (data: any) => {
   linkObject.value = {
     external: data[key]?.value
   }
-  console.log(linkObject.value)
 }
 
 const setTargetAllHandle = () => {
@@ -719,6 +747,7 @@ const saveHandle = async () => {
       }
       saveLoading.value = false
       useMenuStore.updateMarketingMenuList('announcement')
+      useMenuStore.updateMarketingMenuListIsEdit('announcement')
     } catch (e) {
       saveLoading.value = false
     }
@@ -739,6 +768,7 @@ const deleteHandle = () => {
         await deleteAnnouncement({ id })
         router.replace({ path: '/marketing' })
         useMenuStore.updateMarketingMenuList('announcement')
+        useMenuStore.updateMarketingMenuListIsEdit('announcement')
       }
     })
     .catch(() => {})
@@ -754,6 +784,7 @@ const duplicationHandle = async () => {
     console.log(announcementId)
     duplicateLoading.value = false
     useMenuStore.updateMarketingMenuList('announcement')
+    useMenuStore.updateMarketingMenuListIsEdit('announcement')
     router.replace({ path: `/marketing/announcement/detail/${announcementId}` })
   } catch (e) {
     duplicateLoading.value = false

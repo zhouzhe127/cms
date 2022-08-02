@@ -37,7 +37,7 @@ export interface RegionListParams extends PagingParams {
 export interface PromotionItem {
   id: number
   name: string
-  promo_code_id: string
+  promotion_code_id: string
   [key: string]: any
 }
 
