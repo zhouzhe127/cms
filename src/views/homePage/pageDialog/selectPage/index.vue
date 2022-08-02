@@ -84,11 +84,11 @@ const onClose = () => {
 }
 const addpage = async (item: SideItem) => {
   const createSubItem = { parent_code: parentCode }
-  await navigationCreate({
+  const data:any = await navigationCreate({
     location: origin,
     content_type: item.title!,
     name: `NEW ${item.title}`,
-    page_title: `NEW ${item.title}`, 
+    page_title: `NEW ${item.title}`,
     ...createSubItem
     // page_title: 'das',
     // slug: `dsa${Math.random()}`,
@@ -101,7 +101,7 @@ const addpage = async (item: SideItem) => {
     // parent_code: 'dsa',
   })
   setBuilder.getSetBuilderList()
-  if (sideEmit) sideEmit(origin, { ...item, ...route.query, code: '323321' })
+  if (sideEmit) sideEmit(origin, { ...item, ...route.query, code: data.code })
   showWin.value = false
 }
 </script>

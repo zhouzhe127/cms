@@ -6,9 +6,10 @@ import {
 import { PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
 import { onSideEvent } from './regesterEvent'
 import { positionUpdate } from '@/api/siteBuilder/navigation'
+import { toSeletPage } from './router'
 import store from '@/store'
 const setBuilder = store.setBuilder
-const setActiveSide = store.setBuilder?.setActiveSide
+const setActiveSide = store.setBuilder.setActiveSide
 export function createPage(e: string, item: SideItem) {
   switch (item.title) {
     case PAGE_SELECT.PAGE:
@@ -58,3 +59,14 @@ export function setChangePosition(
     }
   })
 }
+<<<<<<< HEAD
+=======
+
+export function addSideChild(item: SideItem, origin: string) {
+  toSeletPage({
+    origin,
+    parentId: encodeURIComponent(item.id || item.title || ''),
+    parent_code: item?.code
+  })
+}
+>>>>>>> 2e416f1e779ff437d55cd68c6e94bf366c59a6c5

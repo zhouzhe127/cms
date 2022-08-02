@@ -8,7 +8,6 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import OptimizationPersist from 'vite-plugin-optimize-persist'
 import PkgConfig from 'vite-plugin-package-config'
-
 const path = require('path')
 const envConfig = require('./env.config')
 // https://vitejs.dev/config/

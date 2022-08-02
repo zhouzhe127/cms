@@ -20,7 +20,35 @@
 </template>
 
 <script setup lang="ts">
+import appStore from '@/store'
+import { defineExpose } from 'vue'
+import { useRoute } from 'vue-router'
+import { SITE_MODULES } from '@/views/homePage/config/pageComponents'
 import CmsEdit from '@/components/CmsEdit/index.vue'
+
+interface Props {
+  close?: Function
+}
+const props = withDefaults(defineProps<Props>(), {
+  close: () => {}
+})
+const route = useRoute()
+const site = route.query.site
+const confirm = () => {
+  appStore.setBuilder.pageState.addPageModle(
+    {
+      componentName: SITE_MODULES.MARKDOWN,
+      properties: [{
+        componentName: SITE_MODULES.MARKDOWN,
+      }]
+    },
+    Number(site)
+  )
+  if (props.close) props.close()
+}
+defineExpose({
+  confirm
+})
 </script>
 
 <style lang="scss" scoped>

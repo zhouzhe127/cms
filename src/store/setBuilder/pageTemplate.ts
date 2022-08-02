@@ -32,6 +32,7 @@ export const pageTemplate = defineStore(
       schema: {
         title: '',
         template: '',
+        site_navigation_code: '',
         properties: []
       }
     })
@@ -47,6 +48,7 @@ export const pageTemplate = defineStore(
       basic.schema.template = SITE_PAGETEMPLATE.PAGE
       basic.schema.title = item.title
       basic.schema.properties = []
+      basic.schema.site_navigation_code = item.code
       createPageContent(basic.schema)
     }
 

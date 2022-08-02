@@ -1,4 +1,6 @@
 import { PAGE_ICONS, FILEPAGE, PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
+import { DEVICE } from '@/config/constant'
+import { ARTICLE_REGULAR } from '@/views/homePage/type/index'
 export function disposeSideData<T>(list:T[]) {
   const arr: Array<Object> = []
   if (Array.isArray(list)) {
@@ -65,4 +67,20 @@ export function disposeSendData(data: any) {
     }
   })
   return mapdata
+}
+
+export function getStyle(style: any, device?: string) {
+  if (style.full_width === ARTICLE_REGULAR.FULL_WIDTH) {
+    return {
+      width: '100%'
+    }
+  }
+  const map = {
+    padding: device === DEVICE.MOBILE ? 'padding_mobile_px' : 'padding_desktop_px',
+    maxWidth: device === DEVICE.MOBILE ? 'padding_mobile_max' : 'padding_desktop_max'
+  }
+  return {
+    padding: `${style[map.padding] || 0}px`,
+    maxWidth: `${style[map.maxWidth] || 0}px`
+  }
 }
