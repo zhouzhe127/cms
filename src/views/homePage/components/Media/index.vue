@@ -6,8 +6,10 @@
         :key="index"
         :site="site"
         :child-site="index"
-        :imgurl="getAssetsImage('photoLeft.webp')"
-        tips="Back To Love: This Valentine’s Day, Celebrate Love’s Various Faces"
+        :imgurl="item.style?.background.path || getAssetsImage('photoLeft.webp')"
+        :tips="item.style?.credit"
+        :describ="item.style?.body"
+        :describ_title="item.style?.title"
       />
     </CardView>
   </div>
@@ -27,9 +29,11 @@ const props = withDefaults(defineProps<Props>(), {
   site: 0,
   basic: () => ({
     componentName: '',
+    style: {},
     properties: []
   })
 })
+console.log(props.basic)
 const edit = (index: number):void => {
   if (index === 1) {
     openedit()

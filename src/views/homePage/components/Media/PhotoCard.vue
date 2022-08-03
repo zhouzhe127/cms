@@ -7,7 +7,7 @@
             {{ tips.toLocaleUpperCase() }}
           </div>
           <div class="describ" v-if="tips && (describ || describ_title)">
-            <div class="con">{{ describ }}</div>
+            <div class="con" :v-html="describ" />
             <div class="title">{{ describ_title }}</div>
           </div>
         </div>

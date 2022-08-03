@@ -10,6 +10,8 @@
 import CmsEdit from '@/components/CmsEdit/index.vue'
 import InfoBlockItem from './InfoBlockItem.vue'
 import appStore from '@/store'
+import { useRouter } from 'vue-router'
+
 interface Props {
   site?: number,
   childSite?: number
@@ -18,7 +20,17 @@ const props = withDefaults(defineProps<Props>(), {
   site: 0,
   childSite: 0
 })
+const router = useRouter()
 const edit = (index: number):void => {
+  if (index === 0) {
+    router.push({
+      path: '/siteBuilder/infoSettings',
+      query: {
+        site: props.site,
+        childSite: props.childSite
+      }
+    })
+  }
   if (index === 1) {
     openedit()
   }

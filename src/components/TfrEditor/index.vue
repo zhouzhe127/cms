@@ -49,7 +49,6 @@ const modelValue = computed({
 })
 const editorChange = () => {
   const html = toastuiEditor.value.invoke('getHTML')
-  console.log(html)
   editorEmits('update:modelValue', html)
 }
 </script>
