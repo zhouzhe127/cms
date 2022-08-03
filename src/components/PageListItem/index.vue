@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import { emit } from 'process';
 import { UpdateSideListItem } from './index.type'
 import ListItem from './ListItem.vue'
 interface IProps extends UpdateSideListItem {

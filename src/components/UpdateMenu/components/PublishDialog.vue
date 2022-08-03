@@ -31,18 +31,14 @@
 <script setup lang="ts">
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import PageListItem from '@/components/PageListItem/index.vue'
-import { ref } from 'vue'
-import { UpdateSideListItem } from '@/components/PageListItem/index.type'
+import { computed } from 'vue'
 import store from '@/store'
 
 interface IProps {
   visible: boolean
 }
 
-const checkData = ref<UpdateSideListItem[]>(
-  store.upadte.allModule.checkCardList
-)
-
+const checkData = computed(() => store.upadte.basic.checkCardList)
 withDefaults(defineProps<IProps>(), {
   visible: true
 })

@@ -3,7 +3,11 @@
     <SideMenu title="ALL UPDATES" @add-click="" @head-click="onAllClick">
       <template #header>
         <div>
-          <TfrCheckbox key="all" v-model="isCheckAll" type="large"
+          <TfrCheckbox
+            key="all"
+            v-model="isCheckAll"
+            @change="onAllClick"
+            type="large"
             >ALL UPADTES</TfrCheckbox
           >
         </div>
@@ -15,17 +19,14 @@
         </div>
         <el-checkbox-group v-model="checkAllData">
           <PageListItem
-            v-for="(item, index) in updateList"
+            v-for="(item, index) in publishList"
+            :key="item.code"
             :title="item.title"
             :icon-style="{ marginRight: '0px' }"
             @click="() => onAllClick(item)"
           >
             <template #icon>
-              <TfrCheckbox
-                :key="item.title"
-                type="large"
-                :label="item"
-              ></TfrCheckbox>
+              <TfrCheckbox :label="item.code"></TfrCheckbox>
             </template>
           </PageListItem>
         </el-checkbox-group>
@@ -38,32 +39,62 @@
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import TfrCheckbox from '@/components/TfrCheckbox/index.vue'
 import PageListItem from '@/components/PageListItem/index.vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import store from '@/store'
+import { isBoolean } from 'lodash'
 import { UpdateSideListItem } from '@/components/PageListItem/index.type'
-const updateList = ref<UpdateSideListItem[]>(store.upadte.allModule.updateList)
-const checkAllData = ref<UpdateSideListItem[]>(
-  store.upadte.allModule.updateList
-)
+
+interface IProps {
+  search?: string
+}
+
+const props = withDefaults(defineProps<IProps>(), {
+  search: ''
+})
+
+const publishList = computed(() => {
+  return store.upadte.basic.publishList?.filter(
+    item => item.title.indexOf(props.search || '') > -1
+  )
+})
+
+const updateStore = store.upadte
+const checkAllData = ref<string[]>([])
 const isCheckAll = ref<boolean>(false)
 
 const onAllClick = (item?: any) => {
-  if (!item) {
-    isCheckAll.value = !isCheckAll.value
+  if (!item || isBoolean(item)) {
+    isCheckAll.value = isBoolean(item) ? item : !isCheckAll.value
 
     if (isCheckAll.value) {
-      checkAllData.value = store.upadte.allModule.updateList
+      checkAllData.value =
+        store.upadte.basic.publishList.map(item => item.code || '') || []
+      updateStore.setCheckList(publishList.value)
     } else {
       checkAllData.value = []
+      updateStore.setCheckList([])
     }
     return
   }
-  const index = checkAllData.value.indexOf(item)
+  const index = checkAllData.value.indexOf(item.code)
   if (index >= 0) {
+    isCheckAll.value = false
     checkAllData.value.splice(index, 1)
   } else {
-    checkAllData.value.push(item)
+    checkAllData.value.push(item.code)
+    if (checkAllData.value.length === updateStore.basic.publishList.length)
+      isCheckAll.value = true
   }
+  const checkDataList: UpdateSideListItem[] = []
+  checkAllData.value.forEach((code: string) => {
+    const findItem = updateStore.basic.publishList.find(
+      item => item.code === code
+    )
+    if (findItem) {
+      checkDataList.push(findItem)
+    }
+  })
+  updateStore.setCheckList(checkDataList)
 }
 </script>
 

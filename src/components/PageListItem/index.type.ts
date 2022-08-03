@@ -3,6 +3,7 @@ export interface UpdateSideListItem {
   title: string
   date?: string
   iconName?: string
+  code?: string
 }
 
 export interface EditClearBinItem {
