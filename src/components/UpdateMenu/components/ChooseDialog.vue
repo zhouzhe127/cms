@@ -7,9 +7,9 @@
     :header-less="false"
     :append-to-body="true"
   >
-    <template #header> CHOOSE CONTENT </template>
+    <template #header> SYNCHRONIZED </template>
     <div class="animate-svg"></div>
-    <div class="text-tip">Check pending or individual page(s) to publish.</div>
+    <div class="text-tip">Contents in sync. There's nothing to publish.</div>
     <template #footer>
       <TfrButton type="normal" :board="false" @click="onOK">OK</TfrButton>
     </template>

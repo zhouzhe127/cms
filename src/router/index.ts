@@ -144,7 +144,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
         meta: { title: 'Update', icon: 'marketing' },
         children: [
           {
-            path: 'promotion/:type/:target',
+            path: 'promotion/:target/:id',
             name: 'promotion',
             component: () => import('@/views/marketing/promotion/index.vue')
           },

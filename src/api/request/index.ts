@@ -134,7 +134,7 @@ interface TSRequestConfig<T> extends RequestConfig<T> {
   data?: T
   params?: T
 }
-const tszRequest = <T>(config: TSRequestConfig<any>) => {
+const tszRequest = <D, T = any>(config: TSRequestConfig<D>) => {
   // const { method = 'GET' } = config
   // if (method === 'get' || method === 'GET') {
   //   config.params = config.data

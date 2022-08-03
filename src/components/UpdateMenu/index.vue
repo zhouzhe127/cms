@@ -10,12 +10,13 @@
         >PUBLISH</TfrButton
       >
     </header>
-    <EdgeInput placeholder="SEARCH" width="100%" />
-    <CheckCard />
-    <PublishCard />
-    <ChooseDialog :visible="chooseVisible" @confirm="onChooseClick" />
+    <EdgeInput v-model="searchStr" placeholder="SEARCH" width="100%" />
+    <CheckCard :search="searchStr" />
+    <PublishCard :search="searchStr" />
+    <ChooseDialog :visible="chooseVisible" :close-on-click-modal="false" @confirm="onChooseClick" />
     <PublishDialog
       :visible="publishVisible"
+      :close-on-click-modal="false"
       @check="onChooseClick"
       @down="onChooseClick"
     />
@@ -23,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import store from '@/store'
 import EdgeInput from '@/components/TfrInput/EdgeInput.vue'
 import TfrButton from '@/components/TfrButton/index.vue'
@@ -31,14 +32,28 @@ import CheckCard from '@/components/UpdateMenu/components/CheckCard.vue'
 import PublishCard from '@/components/UpdateMenu/components/PublishCard.vue'
 import ChooseDialog from './components/ChooseDialog.vue'
 import PublishDialog from './components/PublishDialog.vue'
+import { batchPublish } from '@/api/update'
 
+const updateStore = store.upadte
 const chooseVisible = ref<boolean>(false)
 const publishVisible = ref<boolean>(false)
+const searchStr = ref<string>("")
 const isPublishCheck = computed(
-  () => store.upadte.allModule.checkCardList.length > 0
+  () => updateStore.basic.checkCardList.length > 0
 )
 
-const onPublish = () => {
+onMounted(() => {
+  updateStore.publishGetList()
+})
+
+const onPublish = async () => {
+  if (updateStore.basic.checkCardList.length === 0) {
+    chooseVisible.value = true
+    return 
+  }
+  const publishList = updateStore.basic?.checkCardList?.map((item) => <string>item.code) || []
+  await batchPublish(publishList)
+  await updateStore.publishGetList()
   chooseVisible.value = false
   publishVisible.value = true
 }

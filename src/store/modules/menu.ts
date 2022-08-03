@@ -13,7 +13,11 @@ import SiteBuilderMenu from '@/components/SiteBuilderMenu/index.vue'
 import MarketingMenu from '@/components/MaketingMenu/index.vue'
 import Default from '@/components/Default/index.vue'
 import UpdateMenu from '@/components/UpdateMenu/index.vue'
-import { getAnnouncementList } from '@/api/marketing'
+import {
+  getAnnouncementList,
+  getGiftCardList,
+  getPromotionList
+} from '@/api/marketing'
 import {
   PromotionItem,
   AnnouncementItem,
@@ -24,6 +28,7 @@ interface IMarketingItem {
   name: string
   type: string
   expand: boolean
+  isEdit: boolean
   list: PromotionItem[] | AnnouncementItem[]
 }
 interface IMenuState {
@@ -55,18 +60,21 @@ export const menuStore = defineStore('menu', {
           name: 'PROMOTION',
           type: 'promotion',
           expand: false,
+          isEdit: false, // 是否在编辑数据
           list: []
         },
         {
           name: 'GIFT CARD',
           type: 'giftCard',
           expand: false,
+          isEdit: false, // 是否在编辑数据
           list: []
         },
         {
           name: 'ANNOUNCEMENT',
           type: 'announcement',
           expand: false,
+          isEdit: false, // 是否在编辑数据
           list: []
         }
       ], // marketing 二级菜单数据
@@ -195,18 +203,37 @@ export const menuStore = defineStore('menu', {
         }
       )
     },
-    // 更新
+    // 更新菜单列表数据
     async updateMarketingMenuList(type: string) {
       const index: number = this.marketingMenuList.findIndex(
         item => item.type === type
       )
       if (index < 0) return
-      let data!: PagingBack<AnnouncementItem[]>
+      let data!: PagingBack<AnnouncementItem[] | PromotionItem[]>
       if (type === 'announcement') {
         data = await getAnnouncementList()
+        this.marketingMenuList[index].list = data.list as AnnouncementItem[]
+      } else if (type === 'promotion') {
+        data = await getPromotionList()
+        this.marketingMenuList[index].list = data.list as PromotionItem[]
+      } else if (type === 'giftCard') {
+        data = await getGiftCardList()
       }
-      this.marketingMenuList[index].list = data?.list
+      console.log(data, 'data')
       this.marketingMenuList[index].expand = true
+    },
+    updateMarketingMenuListIsEdit(type: string, value?: boolean) {
+      const index: number = this.marketingMenuList.findIndex(
+        item => item.type === type
+      )
+      if (index < 0) return
+      this.marketingMenuList[index].isEdit = Boolean(value)
+    },
+    recoverMarketingMenuList() {
+      this.marketingMenuList.forEach(item => {
+        item.isEdit = false
+        item.expand = false
+      })
     }
   }
 })

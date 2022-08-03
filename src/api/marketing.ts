@@ -84,7 +84,7 @@ export function deleteAnnouncement<T>(params: { id: string }): Promise<T> {
   })
 }
 
-//删除announcement
+//更新announcement
 export function updateAnnouncement<T>(data: AnnouncementItem): Promise<T> {
   return request({
     url: '/v3/announcement/update',
@@ -99,5 +99,23 @@ export function duplicationAnnouncement<T>(data: { id: string }): Promise<T> {
     url: '/v3/announcement/duplicate',
     method: 'post',
     data
+  })
+}
+
+// 删除promotion
+export function deletePromotion<T>(params: { id: string }): Promise<T> {
+  return request({
+    url: '/v3/promotion/delete',
+    method: 'delete',
+    params
+  })
+}
+
+// 获取giftCard列表
+export function getGiftCardList<T>(params?: PagingParams): Promise<T> {
+  return request({
+    url: '/v3/gift_card/templates/list',
+    method: 'get',
+    params
   })
 }

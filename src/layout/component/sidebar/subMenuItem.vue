@@ -31,6 +31,7 @@ const useMenuStore = menuStore()
 const { currentMenuComponent, showMobileSubMenu, outSideMenuRouteName } =
   storeToRefs(menuStore())
 const { device } = storeToRefs(appStore())
+const { marketingMenuList } = storeToRefs(menuStore())
 //const backDialogVisible = ref(false)
 useMenuStore.setCurrentMenuComponent()
 useMenuStore.setShowMobileSubMenu()
@@ -75,11 +76,8 @@ const openLeaveMessageBox = () => {
   )
     .then(async (res: string) => {
       if (res === 'confirm') {
-        /**
-         * 清除二级菜单编辑中的数据
-         * ...
-         */
         directBackHandle()
+        useMenuStore.recoverMarketingMenuList()
       }
     })
     .catch(() => {})
@@ -88,20 +86,28 @@ const openLeaveMessageBox = () => {
 const backHandle = () => {
   /**
    * 1、看是否是mobile端（如果是mobile直接返回二级菜单）
-   * 2、判断是否有编辑数据
+   * 2、判断是否有编辑数据 这里预设一个状态isEdit 通过watch监听是否更新了数据
    */
-
+  const editItem: any = marketingMenuList.value.find((item: any) => item.isEdit)
   if (device.value === 'mobile') {
     // 先判断是否满足条件2
     const routeName: RouterNameType = route.name
     if (outSideMenuRouteName.value.includes(routeName)) {
-      router.push({ path: `/${getParentRouteName(routeName)}` })
+      editItem
+        ? openLeaveMessageBox()
+        : router.push({ path: `/${getParentRouteName(routeName)}` })
     } else {
+      useMenuStore.recoverMarketingMenuList()
       router.push({ path: '/home' })
     }
   } else {
     // 先判断是否满足条件2
-    openLeaveMessageBox()
+    if (editItem) {
+      openLeaveMessageBox()
+    } else {
+      useMenuStore.recoverMarketingMenuList()
+      router.push({ path: '/home' })
+    }
   }
 }
 </script>
