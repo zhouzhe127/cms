@@ -26,7 +26,7 @@ interface IProps {
   tips?: string
   describ?: string
   describ_title?: string,
-  site: number,
+  site?: number,
   childSite?: number
 }
 

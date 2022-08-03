@@ -18,6 +18,7 @@ declare module '@vue/runtime-core' {
     Download: typeof import('./src/components/SiteBuilderMenu/components/footerNavigation/setpages/Download.vue')['default']
     EdgeInput: typeof import('./src/components/TfrInput/EdgeInput.vue')['default']
     Editor: typeof import('./src/components/TfrEditor/Editor.vue')['default']
+    ElAlert: typeof import('element-plus/es')['ElAlert']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
