@@ -8,7 +8,8 @@ export enum PAGE_SELECT {
   SMART = 'SMART',
   HOME = 'HOME',
   LEGAL = 'LEGAL',
-  POLICY = 'POLICY'
+  POLICY = 'POLICY',
+  DISCOVER = 'DISCOVER',
 }
 type stringKey = Record<string, string>
 export const PAGE_ICONS: stringKey = {
@@ -21,7 +22,8 @@ export const PAGE_ICONS: stringKey = {
   [PAGE_SELECT.SMART]: 'smart',
   [PAGE_SELECT.HOME]: 'home',
   [PAGE_SELECT.LEGAL]: 'legal',
-  [PAGE_SELECT.POLICY]: 'legal_item'
+  [PAGE_SELECT.POLICY]: 'legal_item',
+  [PAGE_SELECT.DISCOVER]: 'folder_copy',
 }
 
 export const FILEPAGE = [PAGE_SELECT.FOLDER, PAGE_SELECT.SMART, PAGE_SELECT.LEGAL]

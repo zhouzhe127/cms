@@ -10,6 +10,7 @@ import { defineStore } from 'pinia'
 import { watch } from 'vue'
 import { useRoute, RouteRecordName } from 'vue-router'
 import SiteBuilderMenu from '@/components/SiteBuilderMenu/index.vue'
+import DiscoverMenu from '@/components/DiscoverMenu/index.vue'
 import MarketingMenu from '@/components/MaketingMenu/index.vue'
 import Default from '@/components/Default/index.vue'
 import UpdateMenu from '@/components/UpdateMenu/index.vue'
@@ -82,16 +83,21 @@ export const menuStore = defineStore('menu', {
       showMobileMenuItem: true, // 手机端是否展示一级菜单
       showMobileSubMenu: true, // 手机端是否展示二级菜单
       mobileMainPaddingTop: 80, // 手机端主要区域底部内边距
-      outSideMenuRouteName: ['promotion', 'giftCard', 'announcement'],
+      outSideMenuRouteName: ['promotion', 'giftCard', 'announcement', 'discover'],
       routeNameRelativeList: [
         {
           parentRouteName: 'marketing',
           sunRouteNames: ['promotion', 'giftCard', 'announcement']
-        }
+        },
+        {
+          parentRouteName: 'siteBuilder',
+          sunRouteNames: ['discover']
+        },
       ], // 用于mobile点击Dashboard返回时的逻辑
       menuWidthMap: new Map<string, string>([
         ['home', '213px'],
         ['siteBuilder', '320px'],
+        ['discover', '320px'],
         ['marketing', '40%'],
         ['promotion', '40%'],
         ['giftCard', '40%'],
@@ -100,6 +106,7 @@ export const menuStore = defineStore('menu', {
       submenuComponent: new Map<string, ReturnType<typeof defineComponent>>([
         ['update', markRaw(UpdateMenu)],
         ['siteBuilder', markRaw(SiteBuilderMenu)],
+        ['discover', markRaw(DiscoverMenu)],
         ['marketing', markRaw(MarketingMenu)],
         ['promotion', markRaw(MarketingMenu)],
         ['giftCard', markRaw(MarketingMenu)],

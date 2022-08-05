@@ -1,7 +1,7 @@
 <template>
   <div class="photo-view">
      <CardView>
-       <PhotoCard
+       <!-- <PhotoCard
         v-for="(item, index) in basic.properties"
         :key="index"
         :site="site"
@@ -10,6 +10,13 @@
         :tips="item.style?.credit"
         :describ="item.style?.body"
         :describ_title="item.style?.title"
+      /> -->
+      <Media
+        v-for="(item, index) in basic.properties"
+        :key="index"
+        :site="site"
+        :child-site="index"
+        :info="item"
       />
     </CardView>
   </div>
@@ -20,6 +27,7 @@ import { ComponentsSchema } from '@/views/homePage/type/index'
 import CardView from '@/views/homePage/components/Media/CardView.vue'
 import PhotoCard from '@/views/homePage/components/Media/PhotoCard.vue'
 import { getAssetsImage } from '@/utils/fileSource'
+import Media from '@/views/homePage/components/Media/Media.vue'
 import appStore from '@/store'
 interface Props {
   site?: number,

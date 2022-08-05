@@ -4,6 +4,11 @@ import SeoForm from './components/SeoForm.vue'
 import ImageForm from './components/ImageForm.vue'
 import CodeForm from './components/CodeForm.vue'
 import TagForm from './components/TagForm.vue'
+import { navigationUpdate } from '@/api/siteBuilder/navigation'
+
+export async function setNavigationUpdate (data:any) {
+  await navigationUpdate(data)
+}
 
 export default [
   {

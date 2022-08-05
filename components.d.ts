@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
     DatePickerRange: typeof import('./src/components/DatePickerRange/index.vue')['default']
     Default: typeof import('./src/components/Default/index.vue')['default']
     DeleteDialog: typeof import('./src/components/SiteBuilderMenu/components/footerNavigation/DeleteDialog.vue')['default']
+    DiscoverMenu: typeof import('./src/components/DiscoverMenu/index.vue')['default']
     Download: typeof import('./src/components/SiteBuilderMenu/components/footerNavigation/setpages/Download.vue')['default']
     EdgeInput: typeof import('./src/components/TfrInput/EdgeInput.vue')['default']
     Editor: typeof import('./src/components/TfrEditor/Editor.vue')['default']

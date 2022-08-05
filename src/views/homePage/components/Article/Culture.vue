@@ -1,6 +1,6 @@
 <template>
   <div class="culture-con">
-    <CmsEdit :options="['edit_cms', 'add_white']" @optionClick="edit">
+    <CmsEdit :options="['remove_black', 'edit_cms', 'add_white']" @optionClick="edit">
       <CardView>
         <PhotoCard :imgurl="getAssetsImage('jewely.webp')" tips="" />
         <div class="text-card">

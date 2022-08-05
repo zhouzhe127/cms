@@ -178,21 +178,23 @@ const getInfoData = () => {
   const childList = list.properties || []
   const info:any =  childList[Number(childSite) || 0] || {}
   if (info) {
-    const data = info.info
+    const data = info.info || {}
     ruleForm.pageTitle = data.pageTitle
     ruleForm.hide = data.hide
     ruleForm.caption = data.caption
     ruleForm.action = data.action
     ruleForm.page_url = data.page_url
     ruleForm.full_width = data.full_width
-    widthOptionVal.value = {
-      pcWidth: info.style.padding_desktop_px,
-      pcMax: info.style.padding_desktop_max,
-      mbWidth: info.style.padding_mobile_px,
-      mbMax: info.style.padding_mobile_max,
-      full_width: info.style.full_width
-        ? ARTICLE_REGULAR.FULL_WIDTH
-        : ARTICLE_REGULAR.PADDING
+    if (info.style) {
+      widthOptionVal.value = {
+        pcWidth: info.style.padding_desktop_px,
+        pcMax: info.style.padding_desktop_max,
+        mbWidth: info.style.padding_mobile_px,
+        mbMax: info.style.padding_mobile_max,
+        full_width: info.style.full_width
+          ? ARTICLE_REGULAR.FULL_WIDTH
+          : ARTICLE_REGULAR.PADDING
+      }
     }
     if (data.icon) {
       ruleForm.icon = [{

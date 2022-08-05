@@ -58,7 +58,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
               import('@/views/homePage/pageDialog/editModules/index.vue')
           },
           {
-            path: 'editPage',
+            path: 'editPage/:code?',
             name: 'siteBuilder_editPage',
             component: () =>
               import('@/views/homePage/pageDialog/editPage/index.vue')
@@ -125,7 +125,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
           },
           {
             path: 'mediaSettings',
-            name: 'siteBuilder_markdownSettings',
+            name: 'siteBuilder_mediaSettings',
             component: () =>
               import('@/views/homePage/pageDialog/mediaSettings/index.vue')
           },
@@ -136,6 +136,11 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
               import('@/views/homePage/pageDialog/footerSettings/index.vue')
           }
         ]
+      },
+      {
+        path: 'discover',
+        name: 'discover',
+        component: () => import('@/views/homePage/index.vue')
       },
       {
         path: '/marketing',
