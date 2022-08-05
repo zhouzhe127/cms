@@ -6,7 +6,6 @@ import { SideItem } from '@/components/SiteBuilderMenu/type/index'
 import { SITE_PAGETEMPLATE } from '@/views/homePage/config/templateMap'
 import { pageContentDetail, pageContentCreate, pageContentUpdate } from '@/api/siteBuilder/page'
 import { disposeTemplateData, disposeSendData } from '@/utils/siteBuilder'
-import { UpdatePageRequest } from '@/api/siteBuilder/type/page.type'
 interface Basic {
   schema: PageSchema
 }

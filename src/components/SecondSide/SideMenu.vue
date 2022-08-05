@@ -1,6 +1,6 @@
 <template>
   <div class="menu">
-    <Affix :offset="232" :boundary="'.scroll-affix-con'" :is-scroll-view="true">
+    <Affix :offset="230" :boundary="'.scroll-affix-con'" :is-scroll-view="true">
       <slot name="header">
         <BaseMenuHeader
           :disable="disable"

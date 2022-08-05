@@ -66,7 +66,8 @@ const onChooseClick = () => {
 <style lang="scss" scoped>
 header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; 
+  margin-bottom: 20px;
   .btn {
     flex: 1;
   }

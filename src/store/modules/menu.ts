@@ -101,7 +101,8 @@ export const menuStore = defineStore('menu', {
         ['marketing', '40%'],
         ['promotion', '40%'],
         ['giftCard', '40%'],
-        ['announcement', '40%']
+        ['announcement', '40%'],
+        ['update', '500px']
       ]),
       submenuComponent: new Map<string, ReturnType<typeof defineComponent>>([
         ['update', markRaw(UpdateMenu)],

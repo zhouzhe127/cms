@@ -37,7 +37,7 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
       {
         path: '/update',
         name: 'update',
-        component: () => import('@/views/home/index.vue'),
+        component: () => import('@/views/update/index.vue'),
         meta: { title: 'Update', icon: 'update' }
       },
       {

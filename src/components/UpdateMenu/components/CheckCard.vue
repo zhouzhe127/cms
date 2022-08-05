@@ -2,7 +2,7 @@
   <div>
     <SideMenu title="ALL UPDATES" @add-click="" @head-click="onAllClick">
       <template #header>
-        <div>
+        <div class="header-box">
           <TfrCheckbox
             key="all"
             v-model="isCheckAll"
@@ -99,6 +99,11 @@ const onAllClick = (item?: any) => {
 </script>
 
 <style lang="scss" scoped>
+.header-box {
+  line-height: 50px;
+  border-bottom: 1px solid $theme;
+  padding: 0px 10px;
+}
 .warn {
   width: 100%;
   display: flex;

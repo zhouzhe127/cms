@@ -7,7 +7,7 @@
       @head-click="onAllClick"
     >
       <template #header>
-        <div>PUBLISHED</div>
+        <div class="publish-header"> PUBLISHED </div>
       </template>
       <div :style="{ paddingTop: '10px' }">
         <PageListItem
@@ -48,6 +48,12 @@ const onAllClick = () => {}
 </script>
 
 <style lang="scss" scoped>
+.publish-header {
+  line-height: 50px;
+  border-bottom: 1px solid #8a9290;
+  color: #8a9290;
+  padding: 0px 10px;
+}
 .warn {
   width: 100%;
   display: flex;
