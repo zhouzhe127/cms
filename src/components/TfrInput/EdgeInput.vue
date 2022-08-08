@@ -7,25 +7,31 @@
       @input="input"
     />
     <span v-if="hasClear" class="clear" @click="clearClick">CLEAR</span>
+    <span v-if="otherBtn" class="clear" @click="btnClick">{{ inputProps.btnText }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
 interface PropsType {
   width?: string,
-  hasClear?: boolean
+  hasClear?: boolean,
+  otherBtn?: boolean,
+  btnText?: string
 }
 // eslint-disable-next-line no-undef
 const inputProps = withDefaults(defineProps<PropsType>(), {
   width: '100%', // 默认值
-  hasClear: true
+  hasClear: true,
+  otherBtn: false,
+  btnText: 'ADD'
 })
 // eslint-disable-next-line no-undef
 const inputEmits = defineEmits([
   'input',
   'change',
   'update:modelValue',
-  'clear'
+  'clear',
+  'textClick'
 ])
 const input = (e: any) => {
   inputEmits('update:modelValue', e)
@@ -34,6 +40,9 @@ const input = (e: any) => {
 const clearClick = () => {
   inputEmits('update:modelValue', '')
   inputEmits('clear')
+}
+const btnClick = () => {
+  inputEmits('textClick')
 }
 </script>
 

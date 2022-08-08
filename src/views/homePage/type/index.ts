@@ -1,5 +1,6 @@
 export interface ComponentsSchema {
   componentName: string,
+  style?: any,
   properties?: Array<ComponentsSchema>
 }
 

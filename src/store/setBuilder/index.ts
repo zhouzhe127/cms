@@ -39,7 +39,15 @@ export const setBuilder = defineStore(
       try {
         const data: any = await getNavigationList()
         if (data) {
-          const navigation: any = disposeSideData(data[SITE_MENUS.NAVIGATION])
+          const discover = {
+            navigation: {
+              code: 'sddsadas',
+              content_type: 'DISCOVER',
+              location: "navigation",
+              name: "DISCOVER"
+            }
+          }
+          const navigation: any = disposeSideData([...data[SITE_MENUS.NAVIGATION], discover])
           const footerArr: any = disposeSideData(data[SITE_MENUS.FOOTER])
           sideState[addFunc](navigation)
           sideState[footerAddFunc](footerArr)

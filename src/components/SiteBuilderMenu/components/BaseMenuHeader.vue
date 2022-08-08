@@ -5,7 +5,15 @@
   >
     <slot name="header">
       <div class="header_con">
-        <span>{{ title }}</span>
+        <div>
+          <svg-icon
+            v-if="hasTitleIcon"
+            :icon-class="titleIcon"
+            class="add title_icon"
+            color="black"
+          />
+          <span>{{ title }}</span>
+        </div>
         <svg-icon
           :icon-class="icon"
           class="add"
@@ -20,14 +28,18 @@
 <script setup lang="ts">
 interface Props {
   icon?: string
+  titleIcon?: string
   title: string
   disable?: boolean
+  hasTitleIcon?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   icon: 'add_black',
+  titleIcon: 'smart',
   title: '--',
-  disable: false
+  disable: false,
+  hasTitleIcon: false,
 })
 const emit = defineEmits(['iconClick', 'headClick'])
 const addClick = () => {
@@ -52,6 +64,10 @@ const addClick = () => {
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+  .title_icon {
+    display: inline-block;
+    margin-right: 10px;
   }
   .add {
     font-size: 22px;

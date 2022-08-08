@@ -25,7 +25,10 @@ const site = route.query.site
 const confirm = () => {
   appStore.setBuilder.pageState.addPageModle(
     {
-      componentName: SITE_MODULES.NEWSLETTER
+      componentName: SITE_MODULES.NEWSLETTER,
+      properties: [{
+        componentName: SITE_MODULES.NEWSLETTER,
+      }]
     },
     Number(site)
   )

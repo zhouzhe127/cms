@@ -1,11 +1,12 @@
 <template>
   <div class="menu">
-    <Affix :offset="232" :boundary="'.scroll-affix-con'" :is-scroll-view="true">
+    <Affix :offset="230" :boundary="'.scroll-affix-con'" :is-scroll-view="true">
       <slot name="header">
         <BaseMenuHeader
           :disable="disable"
           :title="title"
           icon="add_black"
+          v-bind="$attrs"
           @head-click="emit('headClick')"
           @icon-click="addClick"
         ></BaseMenuHeader>
@@ -26,7 +27,7 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
   title: '--',
-  disable: false
+  disable: false,
 })
 const emit = defineEmits(['addClick', 'headClick'])
 const addClick = () => {

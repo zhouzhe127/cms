@@ -48,13 +48,29 @@ export function getTrustList(): Promise<{list: EditClearBinItem[]}> {
   return request({
     url: '/v3/cms/navigation/trash/list',
     method: 'get',
-  }) 
+  })
 }
 
 export function trustDelete(data: string[]) {
   return request({
     url: '/v3/cms/navigation/trash/delete',
     method: 'put',
-    data: { codes: data } 
-  }) 
+    data: { codes: data }
+  })
+}
+
+export function getNavigationDetail(params: unknown) {
+  return request({
+    url: '/v3/cms/navigation/detail',
+    method: 'get',
+    params
+  })
+}
+
+export function getNavigationUpdate(data: unknown) {
+  return request({
+    url: '/v3/cms/navigation/update',
+    method: 'put',
+    data
+  })
 }

@@ -1,14 +1,12 @@
-import { UpdateSideListItem } from '@/components/PageListItem/index.type'
-import {
-  PAGE_ICONS,
-  PAGE_SELECT
-} from '@/views/homePage/pageDialog/selectPage/index.type'
 import { defineStore } from 'pinia'
-import { publishCard } from './publishCard'
-import { updateCard } from './updateCard'
+import { updatePageStore } from './page'
 
 export const update = defineStore('update', () => {
-  const allModule = { ...updateCard(), ...publishCard() }
+  const allModule = { ...updatePageStore() }
 
-  return { allModule } as { allModule: typeof allModule }
+  return {
+    basic: allModule.basic,
+    publishGetList: allModule.publishGetList,
+    setCheckList: allModule.setCheckList
+  }
 })

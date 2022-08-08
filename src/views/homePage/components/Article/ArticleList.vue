@@ -1,5 +1,5 @@
 <template>
-  <CmsEdit :options="['edit_cms', 'add_white']" @optionClick="edit">
+  <CmsEdit :options="['remove_black', 'edit_cms', 'add_white']" @optionClick="edit">
     <ArticleListUI />
   </CmsEdit>
 </template>

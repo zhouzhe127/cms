@@ -1,6 +1,8 @@
 import { PAGE_ICONS, FILEPAGE, PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
 import { DEVICE } from '@/config/constant'
 import { ARTICLE_REGULAR } from '@/views/homePage/type/index'
+import { useRoute } from 'vue-router'
+const route = useRoute()
 export function disposeSideData<T>(list:T[]) {
   const arr: Array<Object> = []
   if (Array.isArray(list)) {
@@ -47,7 +49,7 @@ export function disposeTemplateData<T>(data:any) {
 }
 
 enum SENDMAPKEY {
-  properties = 'list',
+  properties = 'items',
   componentName = 'component_type',
   page_type = 'template'
 }
@@ -57,8 +59,8 @@ export function disposeSendData(data: any) {
   dataKeys.forEach((v: TYPES | string) => {
     // @ts-ignore
     if (SENDMAPKEY[v]) {
-      if (v === 'list' && Array.isArray(data.list)) {
-        data.list = data.list.map((v: any) => disposeTemplateData(v))
+      if (v === 'properties' && Array.isArray(data.properties)) {
+        data.properties = data.properties.map((v: any) => disposeTemplateData(v))
       }
       // @ts-ignore
       mapdata[SENDMAPKEY[v]] = data[v]
@@ -70,6 +72,9 @@ export function disposeSendData(data: any) {
 }
 
 export function getStyle(style: any, device?: string) {
+  if (!style) {
+    return {}
+  }
   if (style.full_width === ARTICLE_REGULAR.FULL_WIDTH) {
     return {
       width: '100%'
@@ -82,5 +87,13 @@ export function getStyle(style: any, device?: string) {
   return {
     padding: `${style[map.padding] || 0}px`,
     maxWidth: `${style[map.maxWidth] || 0}px`
+  }
+}
+
+export function getSite() {
+  const { site, childSite } = route.query
+  return {
+    site: Number(site) || 0,
+    childSite: Number(childSite) || 0
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="form_container">
     <div class="headerbox">
-      <div class="carf">THIS IS THE HOMEPAGE</div>
+      <div class="carf" :class="{active: ruleForm.is_home_page}" @click="() => (ruleForm.is_home_page = !ruleForm.is_home_page)">THIS IS THE HOMEPAGE</div>
       <div class="copypage">
         <svg-icon icon-class="content_copy" class="content_copy" />
         <span>Duplicate Page</span>
@@ -42,12 +42,28 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
-import RowSetItem from '@/components/RowSetItem/index.vue';
+import { watchEffect, defineExpose, reactive, ref } from 'vue'
+import RowSetItem from '@/components/RowSetItem/index.vue'
+import { FormInstance } from 'element-plus'
+import { setNavigationUpdate } from '@/views/homePage/pageDialog/editPage/setPage'
+interface Props {
+  value?: any
+}
+const props = withDefaults(defineProps<Props>(), {
+  value: {}
+})
 const ruleForm = reactive({
   pageTitle: '',
   navTitle: '',
-  hide: true
+  hide: false,
+  is_home_page: false,
+})
+watchEffect(() => {
+  const value = props.value
+  ruleForm.pageTitle = value.page_title
+  ruleForm.navTitle = value.name
+  ruleForm.hide = value.search_disabled === true
+  ruleForm.is_home_page = value.is_home_page === true
 })
 const rules = {
   pageTitle: {
@@ -61,14 +77,30 @@ const rules = {
     trigger: 'blur'
   }
 }
+const ruleFormNode = ref<FormInstance>()
+
+const confirm = async () => {
+  const valid = await ruleFormNode.value?.validate()
+  if (!valid) return
+  const send = {
+    page_title: ruleForm.pageTitle,
+    name: ruleForm.navTitle,
+    search_disabled: ruleForm.hide,
+    is_home_page: ruleForm.is_home_page,
+  }
+  await setNavigationUpdate(send)
+}
 const switchChange = (e: boolean) => {
   // ruleForm.hide = e
 }
+defineExpose({
+  confirm
+})
 </script>
 
 <style lang="scss" scoped>
 .form_container {
-  padding: 70px 10px 0;
+  padding: 0 10px 0;
   .headerbox {
     display: flex;
     justify-content: space-between;
@@ -79,6 +111,11 @@ const switchChange = (e: boolean) => {
       background-color: $theme;
       color: #ffffff;
       text-align: center;
+      opacity: .3;
+      cursor: pointer;
+    }
+    .active {
+      opacity: 1;
     }
     .copypage {
       display: flex;

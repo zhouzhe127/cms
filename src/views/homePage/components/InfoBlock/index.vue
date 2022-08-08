@@ -1,7 +1,7 @@
 <template>
   <div class="infoblock">
     <div v-for="(item, index) in basic.properties" :key="index" class="citem">
-      <InfoBlock :site="site" :child-site="index" />
+      <InfoBlock :site="site" :child-site="index" :basic="item" />
     </div>
   </div>
 </template>

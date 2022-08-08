@@ -68,6 +68,7 @@ device.value === 'mobile' && useMenuStore.setMobileMainPaddingTop()
     overflow: unset;
   }
   .main_content {
+    width: 100%;
     height: 100%;
   }
 }

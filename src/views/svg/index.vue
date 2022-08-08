@@ -16,7 +16,6 @@ onMounted(() => {
     let pathArr = path.split('/')
     let length = pathArr.length
     const componentName = pathArr[length - 1].split('.')[0]
-    console.log(componentName)
     svgNames.value.push(componentName)
   }
 })
@@ -26,6 +25,7 @@ onMounted(() => {
 .svg-page {
   display: flex;
   flex-wrap: wrap;
+  background-color: #bbb;
   .svg-item {
     display: flex;
     flex-direction: column;

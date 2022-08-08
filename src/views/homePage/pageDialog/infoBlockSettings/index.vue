@@ -13,11 +13,16 @@
             class="tfr-form-required"
           >
             <el-form-item label="Width">
-              <WidthOption />
+              <WidthOption ref="widthOption" :value="widthOptionVal" />
             </el-form-item>
-            <InfoBlockItem />
-            <el-form-item label="Icon" prop="pageTitle">
-              <TfrUpload />
+            <InfoBlockItem
+              :title="ruleForm.pageTitle"
+              :description="ruleForm.caption"
+              :action="ruleForm.action"
+              :icon="ruleForm.icon[0] && ruleForm.icon[0].link"
+            />
+            <el-form-item label="Icon" prop="icon">
+              <TfrUpload :is-only-one="true" :picture-list="ruleForm.icon" />
             </el-form-item>
             <el-form-item label="Title" prop="pageTitle">
               <div class="optionbox">
@@ -29,13 +34,13 @@
               </div>
             </el-form-item>
             <el-form-item label="Caption" prop="caption">
-              <TfrEditor />
+              <TfrEditor v-model="ruleForm.caption" />
             </el-form-item>
-            <el-form-item label="Action" prop="pageAction">
+            <el-form-item label="Action" prop="action">
               <div class="optionbox">
                 <tfr-input
                   placeholder="LOREM IPSUM"
-                  v-model="ruleForm.pageTitle"
+                  v-model="ruleForm.action"
                   width="100%"
                 />
               </div>
@@ -45,7 +50,7 @@
                 <span>Page</span>
                 <span>CHOOSE</span>
               </div>
-              <EdgeInput :has-clear="false" placeholder="Enter URL..." />
+              <EdgeInput v-model="ruleForm.page_url" :has-clear="false" placeholder="Enter URL..." />
               <div class="swbox">
                 <RowSetItem
                   :has-padding="false"
@@ -85,20 +90,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import WidthOption from '@/views/homePage/components/RadioInput/WidthOption.vue'
 import InfoBlockItem from '@/views/homePage/components/InfoBlock/InfoBlockItem.vue'
 import generalwin from '../../generalwin'
 import TfrUpload from '@/components/TfrUpload/index.vue'
 import TfrEditor from '@/components/TfrEditor/index.vue'
+import { FormInstance, FormRules } from 'element-plus'
+import { ARTICLE_REGULAR } from '../../type'
+import { useRoute } from 'vue-router'
+import store from '@/store'
 const { showWin, closeWin } = generalwin()
 const ruleForm = reactive({
   pageTitle: '',
   seoDes: '',
   hide: false,
   caption: '',
-  pageAction: ''
+  pageAction: '',
+  action: '',
+  page_url: '',
+  full_width: '',
+  icon: [] as any
 })
 const rules = {
   pageTitle: {
@@ -111,14 +124,89 @@ const rules = {
     message: ' ',
     trigger: 'blur'
   },
-  pageAction: {
-    require: true,
+  action: {
+    required: true,
     message: ' ',
     trigger: 'blur'
-  }
+  },
 }
 const rightBtnLoading = ref(false)
-const clickRightBtn = () => {}
+const widthOption = ref<any>(null)
+const ruleFormNode = ref<FormInstance>()
+const route = useRoute()
+const { site, childSite } = route.query
+const clickRightBtn = async () => {
+  const valid = await ruleFormNode.value?.validate()
+  if (valid) {
+    const model = {
+      componentName: 'media',
+      style: {},
+      info: {}
+    }
+    const icon = ruleForm.icon[0] || {}
+    const widthValue = widthOption.value.form
+    const full_width = widthOption.value.type
+    const obj = {
+      title: ruleForm.pageTitle,
+      action: ruleForm.action,
+      caption: ruleForm.caption,
+      page_url: ruleForm.page_url,
+      icon: {
+        path: icon.link,
+        media_type: icon.content_type
+      },
+    }
+    if (full_width === ARTICLE_REGULAR.PADDING) {
+      Object.assign(model, {
+        style: {
+          padding_desktop_px: widthValue.pcWidth,
+          padding_desktop_max: widthValue.pcMax,
+          padding_mobile_px: widthValue.mbWidth,
+          padding_mobile_max: widthValue.mbMax
+        }
+      })
+    }
+    model.info = obj
+    store.setBuilder.pageState.setChildModle(model, Number(site), Number(childSite))
+    closeWin()
+  }
+}
+const widthOptionVal = ref()
+const getInfoData = () => {
+  const properties = store.setBuilder.pageState.basic.schema.properties || []
+  const list = properties[Number(site) || 0] || {}
+  const childList = list.properties || []
+  const info:any =  childList[Number(childSite) || 0] || {}
+  if (info) {
+    const data = info.info || {}
+    ruleForm.pageTitle = data.pageTitle
+    ruleForm.hide = data.hide
+    ruleForm.caption = data.caption
+    ruleForm.action = data.action
+    ruleForm.page_url = data.page_url
+    ruleForm.full_width = data.full_width
+    if (info.style) {
+      widthOptionVal.value = {
+        pcWidth: info.style.padding_desktop_px,
+        pcMax: info.style.padding_desktop_max,
+        mbWidth: info.style.padding_mobile_px,
+        mbMax: info.style.padding_mobile_max,
+        full_width: info.style.full_width
+          ? ARTICLE_REGULAR.FULL_WIDTH
+          : ARTICLE_REGULAR.PADDING
+      }
+    }
+    if (data.icon) {
+      ruleForm.icon = [{
+        link: data.icon.path,
+        content_type: data.icon.media_type
+      }]
+    }
+  }
+}
+onMounted(() => {
+  getInfoData()
+})
 const switchChange = (e: boolean) => {
   // ruleForm.hide = e
 }

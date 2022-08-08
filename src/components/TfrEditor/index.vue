@@ -14,8 +14,8 @@ import Editor from './Editor.vue'
 import { ref, computed } from 'vue'
 
 interface PropsType {
-  modelValue: string
-  placeholder: string
+  modelValue?: string
+  placeholder?: string
 }
 
 const editorProps = withDefaults(defineProps<PropsType>(), {
@@ -49,7 +49,6 @@ const modelValue = computed({
 })
 const editorChange = () => {
   const html = toastuiEditor.value.invoke('getHTML')
-  console.log(html)
   editorEmits('update:modelValue', html)
 }
 </script>

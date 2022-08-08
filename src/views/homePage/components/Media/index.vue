@@ -1,13 +1,22 @@
 <template>
   <div class="photo-view">
      <CardView>
-       <PhotoCard
+       <!-- <PhotoCard
         v-for="(item, index) in basic.properties"
         :key="index"
         :site="site"
         :child-site="index"
-        :imgurl="getAssetsImage('photoLeft.webp')"
-        tips="Back To Love: This Valentine’s Day, Celebrate Love’s Various Faces"
+        :imgurl="item.style?.background.path || getAssetsImage('photoLeft.webp')"
+        :tips="item.style?.credit"
+        :describ="item.style?.body"
+        :describ_title="item.style?.title"
+      /> -->
+      <Media
+        v-for="(item, index) in basic.properties"
+        :key="index"
+        :site="site"
+        :child-site="index"
+        :info="item"
       />
     </CardView>
   </div>
@@ -18,6 +27,7 @@ import { ComponentsSchema } from '@/views/homePage/type/index'
 import CardView from '@/views/homePage/components/Media/CardView.vue'
 import PhotoCard from '@/views/homePage/components/Media/PhotoCard.vue'
 import { getAssetsImage } from '@/utils/fileSource'
+import Media from '@/views/homePage/components/Media/Media.vue'
 import appStore from '@/store'
 interface Props {
   site?: number,
@@ -27,9 +37,11 @@ const props = withDefaults(defineProps<Props>(), {
   site: 0,
   basic: () => ({
     componentName: '',
+    style: {},
     properties: []
   })
 })
+console.log(props.basic)
 const edit = (index: number):void => {
   if (index === 1) {
     openedit()

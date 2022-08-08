@@ -89,7 +89,6 @@ const switchChange = (e: boolean) => {
 
 <style lang="scss" scoped>
 .form_seo {
-  padding-top: 70px;
   height: 100%;
   display: flex;
   flex-direction: column;

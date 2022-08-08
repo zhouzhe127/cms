@@ -7,11 +7,12 @@
       @head-click="onAllClick"
     >
       <template #header>
-        <div>PUBLISHED</div>
+        <div class="publish-header"> PUBLISHED </div>
       </template>
       <div :style="{ paddingTop: '10px' }">
         <PageListItem
-          v-for="(item, index) in publishList"
+          v-for="(item, index) in publishedList"
+          :id="item.code"
           :no-icon="true"
           :disable="true"
           :title="item.title"
@@ -30,18 +31,29 @@
 <script setup lang="ts">
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import PageListItem from '@/components/PageListItem/index.vue'
-import { UpdateSideListItem } from '@/components/PageListItem/index.type'
 import store from '@/store'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
-const publishList = ref<UpdateSideListItem[]>(
-  store.upadte.allModule.publishList
-)
+interface IProps {
+  search?: string
+}
+
+const props = withDefaults(defineProps<IProps>(), {
+  search: ''
+})
+
+const publishedList = computed(() => store.upadte.basic.publishedList?.filter((item) => item.title.indexOf(props.search || '') > -1))
 
 const onAllClick = () => {}
 </script>
 
 <style lang="scss" scoped>
+.publish-header {
+  line-height: 50px;
+  border-bottom: 1px solid #8a9290;
+  color: #8a9290;
+  padding: 0px 10px;
+}
 .warn {
   width: 100%;
   display: flex;

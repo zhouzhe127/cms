@@ -2,18 +2,34 @@
   <div class="infobox">
     <div class="nhes">
       <div class="pictop">
-        <div class="dot" />
+        <img v-if="icon" class="icon-img" :src="icon" alt="">
+        <div v-else class="dot" />
       </div>
-      <div class="nt">LOREM IPSUM</div>
-      <div class="lt">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      </div>
-      <div class="nt">Action</div>
+      <div class="nt">{{ title || dt.title }}</div>
+      <div class="lt" v-html="description || dt.description" />
+      <div class="nt">{{ action || dt.action }}</div>
     </div>
   </div>
 </template>
-
+<script setup lang="ts">
+interface Props {
+  title?: string;
+  description?:  string;
+  action?: string;
+  icon?: string;
+}
+const dt = {
+  title: 'LOREM IPSUM',
+  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+  action: 'action',
+  icon: ''
+}
+const props = withDefaults(defineProps<Props>(), {
+  title: 'LOREM IPSUM',
+  description: '',
+  action: 'Action'
+})
+</script>
 <style lang="scss" scoped>
 .infobox {
   width: 100%;
@@ -37,11 +53,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
     .dot {
       width: 18px;
       height: 18px;
       background-color: $theme;
       border-radius: 50%;
+    }
+    .icon-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
   .nt {

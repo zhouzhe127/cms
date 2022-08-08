@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SideMenu title="NAVIGATION" @add-click="addPage">
+    <SideMenu title="DISCOVER" :has-title-icon="true" @add-click="addPage">
       <SideDraggable :name="SITE_MENUS.NAVIGATION" :add-func="addFunc">
         <template #default="{element, index, dragSetSide}">
           <MenuItem
@@ -10,7 +10,7 @@
             :is-empty="element.sub_navigation && element.sub_navigation.length <= 0"
             :center-icon="element.navigation.icon"
             :active="element.navigation.isActive"
-            @click-item="clickCol(element)"
+            @click-item="getPageData(element)"
             @left-click="() => {deleteItem(element)}"
             @right-click="chickEditWin(element)"
             @add="addChild(element.navigation)"
@@ -33,15 +33,13 @@
 import MenuItem from '@/components/SecondSide/MenuItem.vue'
 import SideMenu from '@/components/SecondSide/SideMenu.vue'
 import store from '@/store'
-import { PAGE_SELECT } from '@/views/homePage/pageDialog/selectPage/index.type'
-
-import { SITE_MENUS, SideItem, RequestSide } from './type'
+import { SITE_MENUS, SideItem, RequestSide } from '@/components/SiteBuilderMenu/type'
 import { addFunc, deleteFunc } from '@/store/setBuilder/navigation'
-import { showDeleteModel } from './utils/deleteUtils'
-import { toEditionModel, toSeletPage, toDiscover } from './utils/router'
-import NestedDraggable from './components/NestedDraggable.vue'
-import SideDraggable from './components/SideDraggable.vue'
-import { getPageData, sideEvent, addSideChild } from './utils/common'
+import { showDeleteModel } from '@/components/SiteBuilderMenu/utils/deleteUtils'
+import { toEditionModel, toSeletPage } from '@/components/SiteBuilderMenu/utils/router'
+import NestedDraggable from '@/components/SiteBuilderMenu/components/NestedDraggable.vue'
+import SideDraggable from '@/components/SiteBuilderMenu/components/SideDraggable.vue'
+import { getPageData, sideEvent, addSideChild } from '@/components/SiteBuilderMenu/utils/common'
 sideEvent(SITE_MENUS.NAVIGATION)
 const setBuilder = store.setBuilder
 const addPage = () => {
@@ -57,13 +55,6 @@ const deleteItem = (item: RequestSide) => {
 }
 const addChild = (item: SideItem) => {
   addSideChild(item, SITE_MENUS.NAVIGATION)
-}
-const clickCol = (item: RequestSide) => {
-  if (item.navigation.content_type === PAGE_SELECT.DISCOVER) {
-    toDiscover()
-    return
-  }
-  getPageData(item)
 }
 </script>
 

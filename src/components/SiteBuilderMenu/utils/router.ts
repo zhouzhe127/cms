@@ -10,6 +10,13 @@ export function toSeletPage(query?: LocationQueryRaw) {
   })
 }
 
+export function toDiscover(query?: LocationQueryRaw) {
+  router.push({
+    path: '/discover',
+    query
+  })
+}
+
 export const toEditionModel = (item: SideItem) => {
   switch (item.content_type?.toLocaleUpperCase()) {
     case PAGE_SELECT.SMART:
@@ -37,7 +44,7 @@ export const toEditionModel = (item: SideItem) => {
       break
     default:
       router.push({
-        path: '/siteBuilder/editPage'
+        path: `/siteBuilder/editPage/${item.code}`
       })
       break
   }
