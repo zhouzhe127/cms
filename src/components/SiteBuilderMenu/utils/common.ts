@@ -9,7 +9,7 @@ import { positionUpdate } from '@/api/siteBuilder/navigation'
 import { toSeletPage } from './router'
 import store from '@/store'
 const setBuilder = store.setBuilder
-const setActiveSide = store.setBuilder.setActiveSide
+const setActiveSide = store.setBuilder?.setActiveSide
 export function createPage(e: string, item: SideItem) {
   switch (item.title) {
     case PAGE_SELECT.PAGE:

@@ -49,13 +49,15 @@ interface PropsType {
   visible: boolean
   width?: string
   regionList: UsRegionItem[]
+  regionData: RegionItem[]
 }
 
 const $tfrMessage: any =
   getCurrentInstance()?.appContext?.config?.globalProperties?.$tfrMessage
 
 const dialogProps = withDefaults(defineProps<PropsType>(), {
-  visible: false // 默认值
+  visible: false, // 默认值
+  regionData: () => []
 })
 
 const dialogEmits = defineEmits([
@@ -75,7 +77,8 @@ const visibleDialog = computed({
 })
 
 onMounted(async () => {
-  const list: RegionItem[] = await getRegionList()
+  console.log(111111111, dialogProps.regionList)
+  const list: RegionItem[] = dialogProps.regionData
   regionList.value = [
     { region_code: 'all', region_name: 'All Region', checked: false },
     ...list
@@ -89,11 +92,9 @@ onMounted(async () => {
       })
     } else {
       regionList.value.forEach(item => {
-        if (
+        item.checked = Boolean(
           dialogProps.regionList.find(i => i.region_code === item.region_code)
-        ) {
-          item.checked = true
-        }
+        )
       })
     }
   }

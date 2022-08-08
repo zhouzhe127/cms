@@ -25,6 +25,10 @@
       <div class="select-inline">
         <tfr-select
           v-model="accountOriginSelect"
+          v-elSelectInput:accounts="{
+            targetValue: accountOriginSelect,
+            targetOptions: accountList
+          }"
           multiple
           width="100%"
           @change="accountOriginChange"

@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineEmits, onMounted, ref, nextTick, VNode } from 'vue'
+import { onMounted, ref, nextTick, VNode } from 'vue'
 import TfrDialog from '@/components/TfrDialog/index.vue'
 import TfrButton from '@/components/TfrButton/index.vue'
 import { MESSAGE_BOX_VARIANTS } from './tfrMessageBox'

@@ -48,10 +48,16 @@ import TfrLogo from '@/components/TfrLogo/index.vue'
 import TfrButton from '@/components/TfrButton/index.vue'
 import TfrCheckbox from '@/components/TfrCheckbox/index.vue'
 import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import {
+  useRouter,
+  useRoute,
+  LocationQuery,
+  LocationQueryValue
+} from 'vue-router'
 import { userStore } from '@/store/modules/user'
 import type { FormInstance, FormRules } from 'element-plus'
 const router = useRouter()
+const route = useRoute()
 const useUserStore = userStore()
 const loginFormRef = ref<FormInstance>()
 const passwordType = ref('password')
@@ -102,7 +108,10 @@ const submitLoginForm = async (formEl: FormInstance | undefined) => {
           password: loginForm.password
         })
         signInLoading.value = false
-        router.push({ path: '/home' })
+        console.log(route.query.redirect, 're')
+        const path: string | LocationQueryValue[] =
+          route.query.redirect || '/home'
+        router.push({ path: path as string })
       } catch (e) {
         signInLoading.value = false
       }

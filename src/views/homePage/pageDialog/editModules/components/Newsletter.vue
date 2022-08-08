@@ -12,7 +12,6 @@
 import CmsEdit from '@/components/CmsEdit/index.vue'
 import NewsletterUI from '@/views/homePage/components/Newsletter/NewsletterUI.vue'
 import appStore from '@/store'
-import { defineExpose } from 'vue'
 import { useRoute } from 'vue-router'
 import { SITE_MODULES } from '@/views/homePage/config/pageComponents'
 interface Props {

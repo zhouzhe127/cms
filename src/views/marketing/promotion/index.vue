@@ -38,17 +38,17 @@
       <el-form-item label="Effective region">
         <div class="region-list">
           <tfr-tag
-            v-for="region in effectiveRegionList"
-            :key="region.code"
-            @close="removeRegionHandle(region)"
-            >{{ region.name }}</tfr-tag
+            v-for="(region, index) in effectiveRegionList"
+            :key="region.region_code"
+            @close="removeRegionHandle(index)"
+            >{{ region.region_name }}</tfr-tag
           >
           <span class="pointer" @click="editRegionHandle">Edit</span>
         </div>
       </el-form-item>
       <el-form-item label="Promotion">
-        <tfr-radio-group v-model="promotion" class="promotion-radio-group">
-          <el-radio label="free shipping">Free Shipping</el-radio>
+        <tfr-radio-group v-model="promotionType" class="promotion-radio-group">
+          <el-radio label="freeShipping">Free Shipping</el-radio>
           <el-radio label="Percent off"
             ><span class="text">Percent Off</span>
             <tfr-input placeholder="10" width="80px" />%</el-radio
@@ -56,10 +56,21 @@
           <el-radio label="amount off"
             ><span class="text">Amount Off</span>
             <div class="off-list">
-              <div><tfr-input placeholder="100" width="80px" />USD $</div>
-              <div><tfr-input placeholder="100" width="80px" />EUR €</div>
-              <div><tfr-input placeholder="1200" width="80px" />JPY ¥</div>
-              <div><tfr-input placeholder="1200" width="80px" />KRW ₩</div>
+              <!--              <div><tfr-input placeholder="100" width="80px" />USD $</div>-->
+              <!--              <div><tfr-input placeholder="100" width="80px" />EUR €</div>-->
+              <!--              <div><tfr-input placeholder="1200" width="80px" />JPY ¥</div>-->
+              <!--              <div><tfr-input placeholder="1200" width="80px" />KRW ₩</div>-->
+              <div
+                v-for="amountItem in spendList"
+                :key="amountItem.region_code"
+              >
+                <tfr-input
+                  v-model="amountItem.value"
+                  placeholder="1200"
+                  width="80px"
+                />{{ amountItem.currency_code?.toUpperCase() }}
+                ₩
+              </div>
             </div>
           </el-radio>
         </tfr-radio-group>
@@ -90,10 +101,21 @@
           <el-radio label="spend"
             ><span class="text">Spend</span>
             <div class="off-list">
-              <div><tfr-input placeholder="100" width="80px" />USD $</div>
-              <div><tfr-input placeholder="100" width="80px" />EUR €</div>
-              <div><tfr-input placeholder="1200" width="80px" />JPY ¥</div>
-              <div><tfr-input placeholder="1200" width="80px" />KRW ₩</div>
+              <!--              <div><tfr-input placeholder="100" width="80px" />USD $</div>-->
+              <!--              <div><tfr-input placeholder="100" width="80px" />EUR €</div>-->
+              <!--              <div><tfr-input placeholder="1200" width="80px" />JPY ¥</div>-->
+              <!--              <div><tfr-input placeholder="1200" width="80px" />KRW ₩</div>-->
+              <div
+                v-for="speedItem in amountOffList"
+                :key="speedItem.region_code"
+              >
+                <tfr-input
+                  v-model="speedItem.value"
+                  placeholder="1200"
+                  width="80px"
+                />{{ speedItem.currency_code?.toUpperCase() }}
+                ₩
+              </div>
             </div>
           </el-radio>
           <el-radio label="purchase">
@@ -123,13 +145,13 @@
         </tfr-radio-group>
       </el-form-item>
       <el-form-item label="Expiration">
-        <tfr-radio-group v-model="expirationRadio">
+        <tfr-radio-group v-model="expirationType">
           <el-radio label="none">None</el-radio>
           <el-radio label="setExpiration">Set Expiration</el-radio>
         </tfr-radio-group>
       </el-form-item>
       <el-form-item
-        v-if="expirationRadio === 'setExpiration'"
+        v-if="expirationType === 'setExpiration'"
         class="date-picker-item"
       >
         <date-picker-range
@@ -151,9 +173,11 @@
     </div>
   </div>
   <effective-region-dialog
+    v-if="effectiveRegionDialog"
     :visible="effectiveRegionDialog"
     :width="dialogWidth"
-    :region-list="[]"
+    :region-list="effectiveRegionList"
+    :region-data="regionData"
     @update:visible="effectiveRegionDialog = $event"
     @cancelHandle="effectiveRegionDialogCancelHandle"
     @confirmHandle="effectiveRegionDialogConfirmHandle"
@@ -177,7 +201,7 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { reactive, ref, watch, inject } from 'vue'
+import { reactive, ref, watch, inject, onMounted } from 'vue'
 import StickFlow from '@/components/StickyFlow/index.vue'
 import TfrSwitch from '@/components/TfrSwitch/index.vue'
 import TfrInput from '@/components/TfrInput/index.vue'
@@ -191,31 +215,25 @@ import DatePickerRange from '@/components/DatePickerRange/index.vue'
 import EffectiveRegionDialog from '@/views/marketing/components/EffectiveRegionDialog/index.vue'
 import AppliesLimitDialog from '@/views/marketing/components/AppliesLimitDialog/index.vue'
 import TargetDialog from '@/views/marketing/components/TargetDialog/index.vue'
-import moment from 'moment'
 import { storeToRefs } from 'pinia'
 import { menuStore } from '@/store/modules/menu'
 import { appStore } from '@/store/modules/app'
 import type { FormInstance, FormRules } from 'element-plus'
 import { TargetParams } from '@/views/marketing/types'
+import { RegionItem, UsRegionItem } from '@/api/marketing.type'
+import { getRegionList } from '@/api/marketing'
+interface AmountItem extends RegionItem {
+  value: string
+}
 const promoFormRef = ref<FormInstance>()
 const datePickerRangeRef = ref()
 const route = useRoute()
-const { type, target } = route.params
-console.log('route', type, target)
+const { type, target, id } = route.params
 const { menuWidth } = storeToRefs(menuStore())
 const reload: any = inject('reload')
 const { device } = storeToRefs(appStore())
 const offsetTop = ref(device.value === 'mobile' ? 140 : 60)
 const dialogWidth = ref(device.value === 'mobile' ? '100%' : '728px')
-
-watch(
-  () => route.params,
-  params => {
-    console.log(params, type)
-    reload()
-  }
-)
-
 const promoForm = reactive({
   disabled: false,
   name: '',
@@ -237,7 +255,10 @@ const promoRules = reactive<FormRules>({
     }
   ]
 })
-const effectiveRegionList = ref([{ name: 'All Region', code: 'all' }])
+const regionData = ref<UsRegionItem[]>()
+const effectiveRegionList = ref<UsRegionItem[]>([
+  { region_name: 'All Region', region_code: 'all', checked: true }
+])
 const effectiveRegionDialog = ref(<boolean>false)
 const targetVisible = ref(<boolean>false)
 const targetObject = ref<TargetParams>({
@@ -248,22 +269,66 @@ const targetObject = ref<TargetParams>({
   }
 })
 const applyLimitVisible = ref(<boolean>false)
-const regionData = ref([
-  { name: 'All Region', code: 'all', checked: false },
-  { name: 'Australia', code: 'as', checked: false }
-])
-const promotion = ref('free shipping')
+const promotionType = ref('freeShipping')
+const amountOffList = ref<AmountItem[]>([])
 const usageLimit = ref('none')
 const customerLimit = ref('none')
 const minimumRequirement = ref('none')
+const spendList = ref<AmountItem[]>()
 const targetCustomer = ref('all')
-
 const applyToRadio = ref('all')
+const expirationType = ref('none')
 
-const expirationRadio = ref('none')
+watch(
+  () => route.params,
+  params => {
+    console.log(params, target)
+    reload()
+  }
+)
 
-const removeRegionHandle = (tag: any) => {
-  console.log(tag)
+watch(
+  [effectiveRegionList],
+  ([regionList]) => {
+    console.log(regionList, 'regionList')
+    const firstRegionCode = regionList[0].region_code
+    console.log(firstRegionCode, 'effectiveRegionList')
+    let currentRegionList: UsRegionItem[]
+    if (firstRegionCode === 'all') {
+      currentRegionList = regionData.value as UsRegionItem[]
+    } else {
+      currentRegionList = regionList
+    }
+    amountOffList.value = currentRegionList.map(item => ({
+      value: '',
+      ...item
+    }))
+    spendList.value = currentRegionList.map(item => ({
+      value: '',
+      ...item
+    }))
+  },
+  {
+    deep: true
+  }
+)
+
+onMounted(async () => {
+  const rd: RegionItem[] = await getRegionList()
+  regionData.value = rd
+  amountOffList.value = rd.map(item => ({ value: '', ...item }))
+  spendList.value = rd.map(item => ({ value: '', ...item }))
+})
+
+const removeRegionHandle = (index: number) => {
+  effectiveRegionList.value.splice(index, 1)
+  if (effectiveRegionList.value.length === 0) {
+    effectiveRegionList.value.push({
+      region_code: 'all',
+      region_name: 'All Region',
+      checked: true
+    })
+  }
 }
 const editRegionHandle = (): void => {
   effectiveRegionDialog.value = true
@@ -273,9 +338,11 @@ const effectiveRegionDialogCancelHandle = (): void => {
   effectiveRegionDialog.value = false
 }
 
-const effectiveRegionDialogConfirmHandle = (regionData: any) => {
-  const regionChecked = regionData.value.filter((item: any) => item.checked)
-  effectiveRegionList.value = [...effectiveRegionList.value, ...regionChecked]
+const effectiveRegionDialogConfirmHandle = (regionList: UsRegionItem[]) => {
+  const regionChecked: UsRegionItem[] = regionList.filter(
+    (item: UsRegionItem) => item.checked
+  )
+  effectiveRegionList.value = regionChecked
   effectiveRegionDialog.value = false
 }
 const targetChange = (label: string) => {
@@ -313,13 +380,17 @@ const appliesLimitDialogConfirmHandle = (): void => {
    */
   applyLimitVisible.value = false
 }
+
 const saveHandle = async () => {
-  console.log(datePickerRangeRef.value.timeRef, 'kkkk')
-  datePickerRangeRef.value.timeRef.validate((valid: boolean) => {
-    console.log(valid)
-  })
-  const dateFormat = moment('2022-07-02').format('YYYY-MM-DD')
-  console.log(datePickerRangeRef.value.startDate, dateFormat)
+  const valid = await promoFormRef.value?.validate()
+  if (valid) {
+    console.log('pppp')
+    if (expirationType.value === 'setExpiration') {
+      const getDateParams: any =
+        await datePickerRangeRef.value.commitDateParams()
+      console.log(getDateParams)
+    }
+  }
 }
 </script>
 

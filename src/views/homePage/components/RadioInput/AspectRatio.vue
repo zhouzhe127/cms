@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import RadioInput from './index.vue'
-import { reactive, ref, defineExpose } from 'vue'
+import { reactive, ref } from 'vue'
 import { ARTICLE_REGULAR } from '../../type'
 const form = reactive({
   lf: '',
@@ -25,7 +25,7 @@ const type = ref(ARTICLE_REGULAR.FULL_WIDTH)
 defineExpose({
   type,
   width: type.value === ARTICLE_REGULAR.FULL_WIDTH ? 1 : form.lf,
-  height: type.value === ARTICLE_REGULAR.FULL_WIDTH ? 1 : form.rt,
+  height: type.value === ARTICLE_REGULAR.FULL_WIDTH ? 1 : form.rt
 })
 </script>
 

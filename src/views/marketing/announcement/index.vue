@@ -190,6 +190,7 @@
       :visible="effectiveRegionDialog"
       :width="dialogWidth"
       :region-list="effectiveRegionList"
+      :region-data="regionData"
       @update:visible="effectiveRegionDialog = $event"
       @cancelHandle="effectiveRegionDialogCancelHandle"
       @confirmHandle="effectiveRegionDialogConfirmHandle"
@@ -243,7 +244,9 @@ import {
   RegionItem,
   UsRegionItem,
   PagingBack,
-  AnnouncementUserListItem
+  AnnouncementUserListItem,
+  PromotionItem,
+  AnnouncementItem
 } from '@/api/marketing.type'
 import {
   reactive,
@@ -260,7 +263,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { appStore } from '@/store/modules/app'
 import { menuStore } from '@/store/modules/menu'
-import { PromotionItem, AnnouncementItem } from '@/api/marketing.type'
 import type { TargetParams } from '../types'
 
 interface Link {
@@ -391,6 +393,7 @@ const linkObject = ref<Link>()
 const saveLoading = ref(false)
 const duplicateLoading = ref(false)
 const isMounted = ref(true)
+const regionData = ref<RegionItem[]>()
 
 watch(
   () => route.params,
@@ -459,7 +462,9 @@ const setLegalName = (code: string) => {
 onMounted(async () => {
   isMounted.value = false
   const { list }: PagingBack<PromotionItem[]> = await getPromotionList()
+  const rd: RegionItem[] = await getRegionList()
   promoList.value = list
+  regionData.value = rd
   const id: string | string[] = route.params.id
   if (target === 'detail' && id) {
     const {
@@ -507,8 +512,7 @@ onMounted(async () => {
       setLegalName(legal)
     }
     if (region_range === 'multiple') {
-      const rList: RegionItem[] = await getRegionList()
-      regionList.value = [...rList]
+      regionList.value = [...regionData.value]
       effectiveRegionList.value = []
       regions?.forEach((item: string) => {
         effectiveRegionList.value.push({
