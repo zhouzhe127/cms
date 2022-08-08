@@ -6,7 +6,7 @@
       :side-arr="sideArr"
       @close="closeWin"
       @data-change="onChange"
-      :component-val="{[SETPAGETYPE.EMAIL]: { cc: '1111' }}"
+      :component-val="detail"
     />
   </div>
 </template>
@@ -18,9 +18,19 @@ import generalwin from '@/views/homePage/generalwin'
 import { EditLinkData, SETPAGETYPE } from '@/components/SiteBuilderMenu/components/footerNavigation/type';
 import { useRoute } from 'vue-router';
 import { UpdateRequest } from '@/api/siteBuilder/type/navigation.type'
-import { navigationUpdate } from '@/api/siteBuilder/navigation'
-const route = useRoute()
+import { getNavigationDetail, navigationUpdate } from '@/api/siteBuilder/navigation'
+import { onMounted, ref } from 'vue';
 const { showWin, closeWin } = generalwin()
+let detail = ref({})
+const route = useRoute()
+const code = route.params.code
+const getInfoData = async () => {
+  const data = await getNavigationDetail({
+    code
+  })
+  detail.value = data
+  console.log(data)
+}
 const onChange = async (data: EditLinkData) => {
   const queryData = route.query
   if (queryData) {
@@ -32,7 +42,8 @@ const onChange = async (data: EditLinkData) => {
       const { data: navigationRequest } =  await navigationUpdate(updateData)
       if (navigationRequest) closeWin()
   }
-  
 }
-
+onMounted(() => {
+  getInfoData()
+})
 </script>

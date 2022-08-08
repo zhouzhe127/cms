@@ -13,7 +13,8 @@ import { reactive } from 'vue'
 interface ReturnType {
   basic: IBasicItem,
   publishGetList: () => {},
-  setCheckList: (data: UpdateSideListItem[]) => void
+  setCheckList: (data: UpdateSideListItem[]) => void,
+  getPageContent: (code: string) => void
 }
 interface IBasicItem {
   publishedList: UpdateSideListItem[]
@@ -69,5 +70,5 @@ export const updatePageStore = defineStore('pageStore', (): ReturnType => {
     basic.checkCardList = data
   }
 
-  return { basic, publishGetList, setCheckList }
+  return { basic, publishGetList, setCheckList, getPageContent }
 })

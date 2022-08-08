@@ -13,7 +13,6 @@
 <script setup lang="ts">
 import HasSidebarWin from '@/components/TfrDialog/HasSidebarWin.vue'
 import sideArr from './setModules'
-import generalwin from '@/views/homePage/generalwin'
 import { onMounted, ref } from 'vue'
 import { pageContentDetail } from '@/api/siteBuilder/page'
 import { useRoute } from 'vue-router'
