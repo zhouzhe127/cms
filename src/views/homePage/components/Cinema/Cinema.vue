@@ -28,12 +28,23 @@ const props = withDefaults(defineProps<Props>(), {
   })
 })
 const edit = (index: number):void => {
-  if (index === 2) {
+  if (index === 1) {
     openedit()
+  }
+  if (index === 2) {
+    addCinema()
   }
 }
 const router = useRouter()
 const openedit = () => {
+  router.push({
+    path: '/siteBuilder/cinemaSettings',
+    query: {
+      site: `${props.site}-${props.childSite}`,
+    }
+  })
+}
+const addCinema = () => {
   appStore.setBuilder.pageState.addChildModle({
     componentName: 'Cinema',
   }, props.site, props.childSite)

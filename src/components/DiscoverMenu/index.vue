@@ -2,7 +2,7 @@
   <div>
     <second-side v-loading="loading">
       <div class="scroll-affix-con">
-        <Navigation />
+        <Discover />
       </div>
     </second-side>
     <div class="footbox">
@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import SecondSide from '@/components/SecondSide/index.vue'
-import Navigation from '@/components/DiscoverMenu/Navigation.vue'
+import Discover from '@/components/DiscoverMenu/Discover.vue'
 import { useRouter } from 'vue-router'
 import store from '@/store'
 const router = useRouter()

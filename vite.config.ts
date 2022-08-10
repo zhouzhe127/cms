@@ -40,6 +40,8 @@ export default defineConfig((mode: ConfigEnv) => {
       }
     },
     build: {
+      chunkSizeWarningLimit: true,
+      brotliSize: false,
       rollupOptions: {
         output: {
           manualChunks(id) {

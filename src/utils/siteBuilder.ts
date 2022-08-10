@@ -2,7 +2,6 @@ import { PAGE_ICONS, FILEPAGE, PAGE_SELECT } from '@/views/homePage/pageDialog/s
 import { DEVICE } from '@/config/constant'
 import { ARTICLE_REGULAR } from '@/views/homePage/type/index'
 import { useRoute } from 'vue-router'
-const route = useRoute()
 export function disposeSideData<T>(list:T[]) {
   const arr: Array<Object> = []
   if (Array.isArray(list)) {
@@ -51,7 +50,7 @@ export function disposeTemplateData<T>(data:any) {
 enum SENDMAPKEY {
   properties = 'items',
   componentName = 'component_type',
-  page_type = 'template'
+  template = 'page_type'
 }
 export function disposeSendData(data: any) {
   const dataKeys = Object.keys(data)
@@ -91,9 +90,11 @@ export function getStyle(style: any, device?: string) {
 }
 
 export function getSite() {
-  const { site, childSite } = route.query
+  const route = useRoute()
+  const site = route.query.site as string
+  const siteArr = site.split('-')
   return {
-    site: Number(site) || 0,
-    childSite: Number(childSite) || 0
+    site: Number(siteArr[0]) || 0,
+    childSite: Number(siteArr[1] || route.query.childSite) || 0
   }
 }

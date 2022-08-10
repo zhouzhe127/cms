@@ -130,6 +130,12 @@ export const asyncRoutes: Array<RouteRecordRaw> = [
               import('@/views/homePage/pageDialog/mediaSettings/index.vue')
           },
           {
+            path: 'cinemaSettings',
+            name: 'siteBuilder_cinemaSettings',
+            component: () =>
+              import('@/views/homePage/pageDialog/cinemaSettings/index.vue')
+          },
+          {
             path: 'footerSettings',
             name: 'siteBuilder_footerSettings',
             component: () =>
