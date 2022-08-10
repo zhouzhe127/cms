@@ -135,6 +135,7 @@ onMounted(async () => {
       line-height: 1.3;
       color: rgb(27, 43, 39);
       cursor: pointer;
+      white-space: nowrap;
       &:last-child {
         padding-right: initial;
       }

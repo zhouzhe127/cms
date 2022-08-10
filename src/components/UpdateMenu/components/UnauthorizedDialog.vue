@@ -7,7 +7,7 @@
     :header-less="false"
     :append-to-body="true"
   >
-    <template #header> CHOOSE CONTENT </template>
+    <template #header> UNAUTHORIZED </template>
     <div class="animate-svg">
        <lottie-player
           src="https://assets1.lottiefiles.com/packages/lf20_zw5fzhuo.json"
@@ -16,7 +16,7 @@
           autoplay
         ></lottie-player>
     </div>
-    <div class="text-tip">Check pending or individual page(s) to publish.</div>
+    <div class="text-tip">You do not have permission to publish to the live site. Please contoct you supervisor for approval.</div>
     <template #footer>
       <TfrButton type="normal" :board="false" @click="onOK">OK</TfrButton>
     </template>

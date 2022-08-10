@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, defineExpose, onMounted } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import RadioInput from './index.vue'
 import { ARTICLE_REGULAR } from '../../type'
 interface OptionItem {

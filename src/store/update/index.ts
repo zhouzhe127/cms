@@ -7,6 +7,7 @@ export const update = defineStore('update', () => {
   return {
     basic: allModule.basic,
     publishGetList: allModule.publishGetList,
-    setCheckList: allModule.setCheckList
+    setCheckList: allModule.setCheckList,
+    getPageContent: allModule.getPageContent
   }
 })

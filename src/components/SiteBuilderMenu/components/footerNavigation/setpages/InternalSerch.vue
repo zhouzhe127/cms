@@ -4,8 +4,8 @@
       <template #suffix> <span @click="onClear">CLEAR</span> </template>
     </el-input>
 
-    <div v-for="item in showList" class="search-list">
-      <div class="search-item">
+    <div v-for="item in showList" v-if="!isCheck || !inputVal" class="search-list">
+      <div class="search-item" @click="() => onListCheck(item)">
         <div class="icon">
           <svg-icon :icon-class="item.icon" class="svg_item" />
         </div>
@@ -29,6 +29,7 @@ interface SearchItem {
 }
 
 const inputVal = ref<string>('')
+const isCheck = ref<boolean>()
 const showList = computed(() =>
   uiList.filter((item: any) => {
     return (
@@ -70,9 +71,15 @@ const uiList: SearchItem[] = [
   }
 ]
 
+const onListCheck = (item: any) => {
+  inputVal.value = item.name
+  isCheck.value = true
+}
+
 onMounted(async () => {
   // TODO: 这里有一点需求需要被反馈，跟进完成后对接
-  const {data} = await getSlugList()
+  const data = await getSlugList()
+  console.log(data)
 })
 
 

@@ -1,22 +1,26 @@
 <template>
   <div v-loading="loading" class="filter">
     <TfrSelect
-      style="width: 100%"
       v-for="item in state.seq"
-      v-model="item.selected"
       :key="item.key"
+      v-model="item.selected"
+      style="width: 100%"
       :placeholder="item.option_prefix"
       :has-border="false"
       @change="condSelect(item)"
     >
-      <el-option v-for="option in state.cond[item.key]" :label="option.label" :value="option.key" />
+      <el-option
+        v-for="option in state.cond[item.key]"
+        :label="option.label"
+        :value="option.key"
+      />
     </TfrSelect>
     <div class="clear">CLEAR ALL</div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineExpose } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import TfrSelect from '@/components/TfrSelect/index.vue'
 import { productCondition } from '@/api/siteBuilder/page'
 interface SEQFACE {
@@ -31,16 +35,16 @@ const state = reactive<any>({
 })
 const getCondition = async () => {
   loading.value = true
-  const data:any = await productCondition()
+  const data: any = await productCondition()
   data.seq.forEach((v: any) => {
     const c = data.cond
     if (c[v.key] && Array.isArray(c[v.key])) {
       c[v.key].forEach((s: any) => {
-        s.label = `${ v.option_prefix }: ${ s.key }`
+        s.label = `${v.option_prefix}: ${s.key}`
       })
       c[v.key].unshift({
         key: 'All',
-        label: `All ${ v.key }`
+        label: `All ${v.key}`
       })
     }
   })

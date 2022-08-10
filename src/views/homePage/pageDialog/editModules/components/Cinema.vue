@@ -10,18 +10,17 @@
 
 <script setup lang="ts">
 import CmsEdit from '@/components/CmsEdit/index.vue'
-import { defineExpose } from 'vue'
 import appStore from '@/store'
 import { useRoute } from 'vue-router'
 import { SITE_MODULES } from '@/views/homePage/config/pageComponents'
 import CinemaUI from '@/views/homePage/components/Cinema/CinemaUI.vue'
 
 interface Props {
-  close?: Function,
+  close?: Function
   rightbtn: string
 }
 const props = withDefaults(defineProps<Props>(), {
-  close: () => {},
+  close: () => {}
 })
 const route = useRoute()
 const site = route.query.site
@@ -29,9 +28,11 @@ const confirm = () => {
   appStore.setBuilder.pageState.addPageModle(
     {
       componentName: SITE_MODULES.CINEMA,
-      properties: [{
-        componentName: SITE_MODULES.CINEMA,
-      }]
+      properties: [
+        {
+          componentName: SITE_MODULES.CINEMA
+        }
+      ]
     },
     Number(site)
   )

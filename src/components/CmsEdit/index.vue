@@ -18,9 +18,9 @@
 
 <script setup lang="ts">
 interface Props {
-  className?: string,
-  options?: Array<string>,
-  style?: Object
+  className?: string
+  options?: Array<string>
+  style?: () => {}
 }
 const props = withDefaults(defineProps<Props>(), {
   className: '',

@@ -63,6 +63,7 @@ const checkAllData = ref<string[]>([])
 const isCheckAll = ref<boolean>(false)
 
 const onAllClick = (item?: any) => {
+  store.upadte.getPageContent(item.code)
   if (!item || isBoolean(item)) {
     isCheckAll.value = isBoolean(item) ? item : !isCheckAll.value
 

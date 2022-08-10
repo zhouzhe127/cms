@@ -23,7 +23,6 @@
 
 <script setup lang="ts">
 import CmsEdit from '@/components/CmsEdit/index.vue'
-import { defineExpose } from 'vue'
 import appStore from '@/store'
 import { useRoute } from 'vue-router'
 import { SITE_MODULES } from '@/views/homePage/config/pageComponents'
@@ -40,9 +39,11 @@ const confirm = () => {
   appStore.setBuilder.pageState.addPageModle(
     {
       componentName: SITE_MODULES.SHELVE,
-      properties: [{
-        componentName: SITE_MODULES.SHELVE,
-      }]
+      properties: [
+        {
+          componentName: SITE_MODULES.SHELVE
+        }
+      ]
     },
     Number(site)
   )

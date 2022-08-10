@@ -98,6 +98,9 @@ if (settingData) {
       ? ARTICLE_REGULAR.FULL_WIDTH
       : ARTICLE_REGULAR.PADDING
   }
+  ruleForm.company_name = settingData.company_name
+  ruleForm.copyright = settingData.copyright
+  ruleForm.disclaimer = settingData.disclaimer
 }
 const widthOption = ref<any>(null)
 const saveLoading = ref(false)

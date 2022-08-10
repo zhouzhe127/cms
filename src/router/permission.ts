@@ -41,7 +41,7 @@ router.beforeEach(async (to, from, next) => {
       message: 'Please Sign In',
       type: 'error'
     })
-    next('/login')
+    next(`/login?redirect=${to.path}`)
   }
 })
 

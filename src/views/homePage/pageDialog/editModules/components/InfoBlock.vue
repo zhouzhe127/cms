@@ -11,7 +11,6 @@
 <script setup lang="ts">
 import InfoBlockItem from '@/views/homePage/components/InfoBlock/InfoBlockItem.vue'
 import appStore from '@/store'
-import { defineExpose } from 'vue'
 import { useRoute } from 'vue-router'
 import { SITE_MODULES } from '@/views/homePage/config/pageComponents'
 import CmsEdit from '@/components/CmsEdit/index.vue'
@@ -28,9 +27,11 @@ const confirm = () => {
   appStore.setBuilder.pageState.addPageModle(
     {
       componentName: SITE_MODULES.INFOBLOCK,
-      properties: [{
-        componentName: SITE_MODULES.INFOBLOCK,
-      }]
+      properties: [
+        {
+          componentName: SITE_MODULES.INFOBLOCK
+        }
+      ]
     },
     Number(site)
   )

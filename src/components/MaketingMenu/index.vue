@@ -220,7 +220,9 @@ const reviewHandle = (type: string, item: AnnouncementItem | PromotionItem) => {
     itemId = aItem.announcement_id
   }
   id.value = itemId
-  jumpTo(`/marketing/${type}/detail/${itemId}`)
+  type === 'promotion'
+    ? jumpTo(`/marketing/${type}/promo/detail/${itemId}`)
+    : jumpTo(`/marketing/${type}/detail/${itemId}`)
 }
 const dragStartHandle = (
   event: DragEvent,
