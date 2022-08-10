@@ -3,15 +3,15 @@
     <swiper :modules="[Pagination]" :pagination="pagination">
       <swiper-slide v-for="(item, index) in cinema_items" :key="index">
         <div class="slidebox">
+          <el-image v-if="item.medias?.content_type === 'image'" :src="item.medias?.path" fit="cover" class="showitem" />
           <video
-            v-if="item.medias?.type"
+            v-else
             :src="item.medias?.path"
             muted
             autoplay
             loop
             class="showitem"
           />
-          <el-image :src="item.medias?.path" fit="cover" class="showitem" />
           <div class="textdec">
             <div class="br">{{ item.title }}</div>
             <div class="tb">{{ item.content }}</div>

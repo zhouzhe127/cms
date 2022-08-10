@@ -36,6 +36,7 @@ import { ref } from "vue"
 import SettingDialog from '@/views/homePage/components/SettingDialog.vue'
 import TfrUpload from '@/components/TfrUpload/index.vue'
 import { getSite } from '@/utils/siteBuilder'
+import { cloneDeep } from "lodash"
 import store from '@/store'
 
 let nodeArr = [] as any
@@ -45,14 +46,14 @@ const mateValue = {
   medias: [] as any
 }
 const itemArr = ref([
-  { ...mateValue }
+  { ...cloneDeep(mateValue) }
 ])
 const ruleFormNode = (el: any) => {
   nodeArr.push(el)
 }
 const addForm= () => {
   nodeArr = []
-  itemArr.value.push({ ...mateValue })
+  itemArr.value.push({ ...cloneDeep(mateValue) })
 }
 const { site, childSite } = getSite()
 const confirm = () => {

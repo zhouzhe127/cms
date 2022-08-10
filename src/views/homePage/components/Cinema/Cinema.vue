@@ -1,6 +1,6 @@
 <template>
   <CmsEdit @optionClick="edit">
-    <CinemaUI :info="basic.cinema" />
+    <CinemaUI :info="basic.cinema_items" />
   </CmsEdit>
 </template>
 
@@ -23,7 +23,7 @@ const props = withDefaults(defineProps<Props>(), {
   childSite: 0,
   basic: () => ({
     componentName: '',
-    cinema: {},
+    cinema_items: {},
     properties: []
   })
 })
